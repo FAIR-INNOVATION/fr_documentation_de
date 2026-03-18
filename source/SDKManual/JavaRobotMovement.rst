@@ -1,0 +1,1720 @@
+Roboterbewegung
+======================
+
+.. toctree::
+    :maxdepth: 5
+
+
+Jog-Tippbetrieb
++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Jog-Tippbetrieb (Punkt-für-Punkt-Bewegung).
+    * @param [in] refType 0-Jog im Gelenkraum, 2-Jog im Basiskoordinatensystem, 4-Jog im Werkzeugkoordinatensystem, 8-Jog im Werkstückkoordinatensystem.
+    * @param [in] nb 1-Achse 1 (oder X-Achse), 2-Achse 2 (oder Y-Achse), 3-Achse 3 (oder Z-Achse), 4-Achse 4 (oder Rotation um X-Achse), 5-Achse 5 (oder Rotation um Y-Achse), 6-Achse 6 (oder Rotation um Z-Achse).
+    * @param [in] dir 0-negative Richtung, 1-positive Richtung.
+    * @param [in] vel Geschwindigkeitsprozentsatz, [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, [0~100].
+    * @param [in] max_dis Maximaler Winkel pro Tippbewegung [°] oder maximale Distanz [mm].
+    * @return Fehlercode.
+    */
+    int StartJOG(int refType, int nb, int dir, double vel, double acc, double max_dis);
+
+Jog-Tippbetrieb mit Verzögerung stoppen
++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Jog-Tippbetrieb mit Verzögerung stoppen.
+    * @param [in] stopType 1-Jog im Gelenkraum stoppen, 3-Jog im Basiskoordinatensystem stoppen, 5-Jog im Werkzeugkoordinatensystem stoppen, 9-Jog im Werkstückkoordinatensystem stoppen.
+    * @return Fehlercode.
+    */
+    int StopJOG(int stopType);
+
+Jog-Tippbetrieb sofort stoppen
+++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Jog-Tippbetrieb sofort stoppen.
+    * @return Fehlercode.
+    */
+    int ImmStopJOG();
+
+Codebeispiel für Roboter-Jog-Steuerung
++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static  int TestJOG(Robot robot)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            robot.StartJOG(0, i + 1, 0, 20.0, 20.0, 30.0);
+            robot.Sleep(1000);
+            robot.ImmStopJOG();
+            robot.Sleep(1000);
+        }
+
+        for (int i = 0; i < 6; i++)
+        {
+            robot.StartJOG(2, i + 1, 0, 20.0, 20.0, 30.0);
+            robot.Sleep(1000);
+            robot.ImmStopJOG();
+            robot.Sleep(1000);
+        }
+
+        for (int i = 0; i < 6; i++)
+        {
+            robot.StartJOG(4, i + 1, 0, 20.0, 20.0, 30.0);
+            robot.Sleep(1000);
+            robot.StopJOG(5);
+            robot.Sleep(1000);
+        }
+
+        for (int i = 0; i < 6; i++)
+        {
+            robot.StartJOG(8, i + 1, 0, 20.0, 20.0, 30.0);
+            robot.Sleep(1000);
+            robot.StopJOG(9);
+            robot.Sleep(1000);
+        }
+        return 0;
+    }
+
+Bewegung im Gelenkraum (MoveJ)
+++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Bewegung im Gelenkraum (MoveJ).
+    * @param [in] joint_pos Ziel-Gelenkposition, Einheit deg.
+    * @param [in] desc_pos Ziel-Kartesische Pose.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [0~14].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [0~14].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] epos Position der Erweiterungsachse, Einheit mm.
+    * @param [in] blendT [-1.0]-Bewegung abschließen (blockierend), [0~500.0]-Glättungszeit (nicht blockierend), Einheit ms.
+    * @param [in] offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param [in] offset_pos Posenversatz.
+    * @return Fehlercode.
+    */
+    int MoveJ(JointPos joint_pos, DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, ExaxisPos epos, double blendT, int offset_flag, DescPose offset_pos);
+
+Bewegung im Gelenkraum (automatische Vorwärtskinematik)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Bewegung im Gelenkraum (automatische Vorwärtskinematik).
+    * @param [in] joint_pos Ziel-Gelenkposition, Einheit deg.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [0~14].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [0~14].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] epos Position der Erweiterungsachse, Einheit mm.
+    * @param [in] blendT [-1.0]-Bewegung abschließen (blockierend), [0~500.0]-Glättungszeit (nicht blockierend), Einheit ms.
+    * @param [in] offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param [in] offset_pos Posenversatz.
+    * @return Fehlercode.
+    */
+    int MoveJ(JointPos joint_pos, int tool, int user, double vel, double acc, double ovl, ExaxisPos epos, double blendT, int offset_flag, DescPose offset_pos);
+
+Linearbewegung im kartesischen Raum (MoveL)
+++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Linearbewegung im kartesischen Raum (MoveL) (Überladung 1 mit blendMode).
+    * @param joint_pos Ziel-Gelenkposition, Einheit deg.
+    * @param desc_pos Ziel-Kartesische Pose.
+    * @param tool Werkzeugkoordinatennummer, Bereich [1~15].
+    * @param user Werkstückkoordinatennummer, Bereich [1~15].
+    * @param vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param ovl Geschwindigkeitsskalierungsfaktor [0~100] / physikalische Geschwindigkeit (mm/s).
+    * @param blendR [-1.0]-Bewegung abschließen (blockierend), [0~1000.0]-Glättungsradius (nicht blockierend), Einheit mm.
+    * @param blendMode Übergangsart; 0-Innenkreisübergang; 1-Eckpunktübergang.
+    * @param epos Position der Erweiterungsachse, Einheit mm.
+    * @param search 0-keine Schweißdraht-Positionssuche, 1-Schweißdraht-Positionssuche.
+    * @param offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param offset_pos Posenversatz.
+    * @param oacc Beschleunigungsskalierungsfaktor [0-100] / physikalische Beschleunigung (mm/s2).
+    * @param velAccParamMode Modus für Geschwindigkeits-/Beschleunigungsparameter; 0-Prozentsatz; 1-physikalische Geschwindigkeit (mm/s) und Beschleunigung (mm/s2).
+    * @param overSpeedStrategy Strategie bei Geschwindigkeitsüberschreitung, 1-Standard; 2-Fehler und Stopp bei Überschreitung; 3-adaptive Geschwindigkeitsreduzierung, Standard 0.
+    * @param speedPercent Zulässiger Geschwindigkeitsreduzierungsschwellwert in Prozent [0-100], Standard 10%.
+    * @return Fehlercode.
+    */
+    public int MoveL(JointPos joint_pos, DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendR, int blendMode, ExaxisPos epos, int search, int offset_flag, DescPose offset_pos, double oacc, int velAccParamMode, int overSpeedStrategy, int speedPercent);
+
+Linearbewegung im kartesischen Raum (automatische inverse Kinematik)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Linearbewegung im kartesischen Raum (automatische inverse Kinematik).
+    * @param [in] desc_pos Ziel-Kartesische Pose.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [1~15].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [1~15].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] blendR [-1.0]-Bewegung abschließen (blockierend), [0~1000.0]-Glättungsradius (nicht blockierend), Einheit mm.
+    * @param [in] blendMode Übergangsart; 0-Innenkreisübergang; 1-Eckpunktübergang.
+    * @param [in] epos Position der Erweiterungsachse, Einheit mm.
+    * @param [in] search 0-keine Schweißdraht-Positionssuche, 1-Schweißdraht-Positionssuche.
+    * @param [in] offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param [in] offset_pos Posenversatz.
+    * @param [in] config Konfiguration des inversen Gelenkraums, [-1]-basierend auf aktueller Gelenkposition berechnen, [0~7]-basierend auf spezifischer Konfiguration lösen.
+    * @param [in] overSpeedStrategy Strategie bei Geschwindigkeitsüberschreitung, 1-Standard; 2-Fehler und Stopp bei Überschreitung; 3-adaptive Geschwindigkeitsreduzierung, Standard 0.
+    * @param [in] speedPercent Zulässiger Geschwindigkeitsreduzierungsschwellwert in Prozent [0-100], Standard 10%.
+    * @return Fehlercode.
+    */
+    int MoveL(DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendR, int blendMode, ExaxisPos epos, int search, int offset_flag, DescPose offset_pos, int config, int overSpeedStrategy, int speedPercent);
+
+Linearbewegung im kartesischen Raum (mit velAccParamMode Parameter)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Linearbewegung im kartesischen Raum (mit velAccParamMode Parameter).
+    * @param [in] joint_pos Ziel-Gelenkposition, Einheit deg.
+    * @param [in] desc_pos Ziel-Kartesische Pose.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [1~15].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [1~15].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] blendR [-1.0]-Bewegung abschließen (blockierend), [0~1000.0]-Glättungsradius (nicht blockierend), Einheit mm.
+    * @param [in] epos Position der Erweiterungsachse, Einheit mm.
+    * @param [in] search 0-keine Schweißdraht-Positionssuche, 1-Schweißdraht-Positionssuche.
+    * @param [in] offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param [in] offset_pos Posenversatz.
+    * @param [in] velAccParamMode Modus für Geschwindigkeits-/Beschleunigungsparameter; 0-Prozentsatz; 1-physikalische Geschwindigkeit (mm/s) und Beschleunigung (mm/s2).
+    * @param [in] overSpeedStrategy Strategie bei Geschwindigkeitsüberschreitung, 1-Standard; 2-Fehler und Stopp bei Überschreitung; 3-adaptive Geschwindigkeitsreduzierung, Standard 0.
+    * @param [in] speedPercent Zulässiger Geschwindigkeitsreduzierungsschwellwert in Prozent [0-100], Standard 10%.
+    * @return Fehlercode.
+    */
+    public int MoveL(JointPos joint_pos, DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendR, ExaxisPos epos, int search, int offset_flag, DescPose offset_pos, int velAccParamMode, int overSpeedStrategy, int speedPercent);
+
+Linearbewegung im kartesischen Raum (Überladung 1 mit blendMode)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Linearbewegung im kartesischen Raum (Überladung 1 mit blendMode).
+    * @param [in] joint_pos Ziel-Gelenkposition, Einheit deg.
+    * @param [in] desc_pos Ziel-Kartesische Pose.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [1~15].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [1~15].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] blendR [-1.0]-Bewegung abschließen (blockierend), [0~1000.0]-Glättungsradius (nicht blockierend), Einheit mm.
+    * @param [in] blendMode Übergangsart; 0-Innenkreisübergang; 1-Eckpunktübergang.
+    * @param [in] epos Position der Erweiterungsachse, Einheit mm.
+    * @param [in] search 0-keine Schweißdraht-Positionssuche, 1-Schweißdraht-Positionssuche.
+    * @param [in] offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param [in] offset_pos Posenversatz.
+    * @param [in] velAccParamMode Modus für Geschwindigkeits-/Beschleunigungsparameter; 0-Prozentsatz; 1-physikalische Geschwindigkeit (mm/s) und Beschleunigung (mm/s2).
+    * @param [in] overSpeedStrategy Strategie bei Geschwindigkeitsüberschreitung, 1-Standard; 2-Fehler und Stopp bei Überschreitung; 3-adaptive Geschwindigkeitsreduzierung, Standard 0.
+    * @param [in] speedPercent Zulässiger Geschwindigkeitsreduzierungsschwellwert in Prozent [0-100], Standard 10%.
+    * @return Fehlercode.
+    */
+    public int MoveL(JointPos joint_pos, DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendR, int blendMode, ExaxisPos epos, int search, int offset_flag, DescPose offset_pos, int velAccParamMode, int overSpeedStrategy, int speedPercent);
+
+Linearbewegung im kartesischen Raum (Überladung 2 ohne Gelenkposition)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Linearbewegung im kartesischen Raum (Überladung 2 ohne Gelenkposition).
+    * @param [in] desc_pos Ziel-Kartesische Pose.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [1~15].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [1~15].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] blendR [-1.0]-Bewegung abschließen (blockierend), [0~1000.0]-Glättungsradius (nicht blockierend), Einheit mm.
+    * @param [in] blendMode Übergangsart; 0-Innenkreisübergang; 1-Eckpunktübergang.
+    * @param [in] epos Position der Erweiterungsachse, Einheit mm.
+    * @param [in] search 0-keine Schweißdraht-Positionssuche, 1-Schweißdraht-Positionssuche.
+    * @param [in] offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param [in] offset_pos Posenversatz.
+    * @param [in] config Konfiguration des inversen Gelenkraums, [-1]-basierend auf aktueller Gelenkposition berechnen, [0~7]-basierend auf spezifischer Konfiguration lösen.
+    * @param [in] velAccParamMode Modus für Geschwindigkeits-/Beschleunigungsparameter; 0-Prozentsatz; 1-physikalische Geschwindigkeit (mm/s) und Beschleunigung (mm/s2).
+    * @param [in] overSpeedStrategy Strategie bei Geschwindigkeitsüberschreitung, 1-Standard; 2-Fehler und Stopp bei Überschreitung; 3-adaptive Geschwindigkeitsreduzierung, Standard 0.
+    * @param [in] speedPercent Zulässiger Geschwindigkeitsreduzierungsschwellwert in Prozent [0-100], Standard 10%.
+    * @return Fehlercode.
+    */
+    public int MoveL(DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendR, int blendMode, ExaxisPos epos, int search, int offset_flag, DescPose offset_pos, int config, int velAccParamMode, int overSpeedStrategy, int speedPercent);
+
+Kreisbogenbewegung im kartesischen Raum (MoveC)
+++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Kreisbogenbewegung im kartesischen Raum (MoveC).
+    * @param joint_pos_p Gelenkposition des Zwischenpunkts, Einheit deg.
+    * @param desc_pos_p Kartesische Pose des Zwischenpunkts.
+    * @param ptool Werkzeugkoordinatennummer für Zwischenpunkt, Bereich [1~15].
+    * @param puser Werkstückkoordinatennummer für Zwischenpunkt, Bereich [1~15].
+    * @param pvel Geschwindigkeitsprozentsatz für Zwischenpunkt, Bereich [0~100].
+    * @param pacc Beschleunigungsprozentsatz für Zwischenpunkt, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param epos_p Position der Erweiterungsachse am Zwischenpunkt, Einheit mm.
+    * @param poffset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem für Zwischenpunkt.
+    * @param offset_pos_p Posenversatz für Zwischenpunkt.
+    * @param joint_pos_t Gelenkposition des Zielpunkts, Einheit deg.
+    * @param desc_pos_t Kartesische Pose des Zielpunkts.
+    * @param ttool Werkzeugkoordinatennummer für Zielpunkt, Bereich [1~15].
+    * @param tuser Werkstückkoordinatennummer für Zielpunkt, Bereich [1~15].
+    * @param tvel Geschwindigkeitsprozentsatz für Zielpunkt, Bereich [0~100].
+    * @param tacc Beschleunigungsprozentsatz für Zielpunkt, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param epos_t Position der Erweiterungsachse am Zielpunkt, Einheit mm.
+    * @param toffset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem für Zielpunkt.
+    * @param offset_pos_t Posenversatz für Zielpunkt.
+    * @param ovl Geschwindigkeitsskalierungsfaktor [0~100] / physikalische Geschwindigkeit (mm/s).
+    * @param blendR [-1.0]-Bewegung abschließen (blockierend), [0~1000.0]-Glättungsradius (nicht blockierend), Einheit mm.
+    * @param oacc Beschleunigungsskalierungsfaktor [0-100] / physikalische Beschleunigung (mm/s2).
+    * @param velAccParamMode Modus für Geschwindigkeits-/Beschleunigungsparameter; 0-Prozentsatz; 1-physikalische Geschwindigkeit (mm/s) und Beschleunigung (mm/s2).
+    * @return Fehlercode.
+    */
+    public int MoveC(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, int poffset_flag, DescPose offset_pos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, int toffset_flag, DescPose offset_pos_t, double ovl, double blendR, double oacc, int velAccParamMode);
+
+Kreisbogenbewegung im kartesischen Raum (automatische inverse Kinematik)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Kreisbogenbewegung im kartesischen Raum (automatische inverse Kinematik).
+    * @param [in] desc_pos_p Kartesische Pose des Zwischenpunkts.
+    * @param [in] ptool Werkzeugkoordinatennummer für Zwischenpunkt, Bereich [1~15].
+    * @param [in] puser Werkstückkoordinatennummer für Zwischenpunkt, Bereich [1~15].
+    * @param [in] pvel Geschwindigkeitsprozentsatz für Zwischenpunkt, Bereich [0~100].
+    * @param [in] pacc Beschleunigungsprozentsatz für Zwischenpunkt, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos_p Position der Erweiterungsachse am Zwischenpunkt, Einheit mm.
+    * @param [in] poffset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem für Zwischenpunkt.
+    * @param [in] offset_pos_p Posenversatz für Zwischenpunkt.
+    * @param [in] desc_pos_t Kartesische Pose des Zielpunkts.
+    * @param [in] ttool Werkzeugkoordinatennummer für Zielpunkt, Bereich [1~15].
+    * @param [in] tuser Werkstückkoordinatennummer für Zielpunkt, Bereich [1~15].
+    * @param [in] tvel Geschwindigkeitsprozentsatz für Zielpunkt, Bereich [0~100].
+    * @param [in] tacc Beschleunigungsprozentsatz für Zielpunkt, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos_t Position der Erweiterungsachse am Zielpunkt, Einheit mm.
+    * @param [in] toffset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem für Zielpunkt.
+    * @param [in] offset_pos_t Posenversatz für Zielpunkt.
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] blendR [-1.0]-Bewegung abschließen (blockierend), [0~1000.0]-Glättungsradius (nicht blockierend), Einheit mm.
+    * @param [in] config Konfiguration des inversen Gelenkraums, [-1]-basierend auf aktueller Gelenkposition berechnen, [0~7]-basierend auf spezifischer Konfiguration lösen.
+    * @return Fehlercode.
+    */
+    int MoveC(DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, int poffset_flag, DescPose offset_pos_p, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, int toffset_flag, DescPose offset_pos_t, double ovl, double blendR, int config);
+
+Kreisbogenbewegung im kartesischen Raum (mit velAccParamMode Parameter)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Kreisbogenbewegung im kartesischen Raum (mit velAccParamMode Parameter).
+    * @param [in] joint_pos_p Gelenkposition des Zwischenpunkts, Einheit deg.
+    * @param [in] desc_pos_p Kartesische Pose des Zwischenpunkts.
+    * @param [in] ptool Werkzeugkoordinatennummer für Zwischenpunkt, Bereich [1~15].
+    * @param [in] puser Werkstückkoordinatennummer für Zwischenpunkt, Bereich [1~15].
+    * @param [in] pvel Geschwindigkeitsprozentsatz für Zwischenpunkt, Bereich [0~100].
+    * @param [in] pacc Beschleunigungsprozentsatz für Zwischenpunkt, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos_p Position der Erweiterungsachse am Zwischenpunkt, Einheit mm.
+    * @param [in] poffset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem für Zwischenpunkt.
+    * @param [in] offset_pos_p Posenversatz für Zwischenpunkt.
+    * @param [in] joint_pos_t Gelenkposition des Zielpunkts, Einheit deg.
+    * @param [in] desc_pos_t Kartesische Pose des Zielpunkts.
+    * @param [in] ttool Werkzeugkoordinatennummer für Zielpunkt, Bereich [1~15].
+    * @param [in] tuser Werkstückkoordinatennummer für Zielpunkt, Bereich [1~15].
+    * @param [in] tvel Geschwindigkeitsprozentsatz für Zielpunkt, Bereich [0~100].
+    * @param [in] tacc Beschleunigungsprozentsatz für Zielpunkt, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos_t Position der Erweiterungsachse am Zielpunkt, Einheit mm.
+    * @param [in] toffset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem für Zielpunkt.
+    * @param [in] offset_pos_t Posenversatz für Zielpunkt.
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] blendR [-1.0]-Bewegung abschließen (blockierend), [0~1000.0]-Glättungsradius (nicht blockierend), Einheit mm.
+    * @param [in] velAccParamMode Modus für Geschwindigkeits-/Beschleunigungsparameter; 0-Prozentsatz; 1-physikalische Geschwindigkeit (mm/s) und Beschleunigung (mm/s2).
+    * @return Fehlercode.
+    */
+    public int MoveC(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, int poffset_flag, DescPose offset_pos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, int toffset_flag, DescPose offset_pos_t, double ovl, double blendR, int velAccParamMode);
+
+Kreisbogenbewegung im kartesischen Raum (Überladung 1 ohne Gelenkposition)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Kreisbogenbewegung im kartesischen Raum (Überladung 1 ohne Gelenkposition).
+    * @param [in] desc_pos_p Kartesische Pose des Zwischenpunkts.
+    * @param [in] ptool Werkzeugkoordinatennummer für Zwischenpunkt, Bereich [1~15].
+    * @param [in] puser Werkstückkoordinatennummer für Zwischenpunkt, Bereich [1~15].
+    * @param [in] pvel Geschwindigkeitsprozentsatz für Zwischenpunkt, Bereich [0~100].
+    * @param [in] pacc Beschleunigungsprozentsatz für Zwischenpunkt, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos_p Position der Erweiterungsachse am Zwischenpunkt, Einheit mm.
+    * @param [in] poffset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem für Zwischenpunkt.
+    * @param [in] offset_pos_p Posenversatz für Zwischenpunkt.
+    * @param [in] desc_pos_t Kartesische Pose des Zielpunkts.
+    * @param [in] ttool Werkzeugkoordinatennummer für Zielpunkt, Bereich [1~15].
+    * @param [in] tuser Werkstückkoordinatennummer für Zielpunkt, Bereich [1~15].
+    * @param [in] tvel Geschwindigkeitsprozentsatz für Zielpunkt, Bereich [0~100].
+    * @param [in] tacc Beschleunigungsprozentsatz für Zielpunkt, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos_t Position der Erweiterungsachse am Zielpunkt, Einheit mm.
+    * @param [in] toffset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem für Zielpunkt.
+    * @param [in] offset_pos_t Posenversatz für Zielpunkt.
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] blendR [-1.0]-Bewegung abschließen (blockierend), [0~1000.0]-Glättungsradius (nicht blockierend), Einheit mm.
+    * @param [in] config Konfiguration des inversen Gelenkraums, [-1]-basierend auf aktueller Gelenkposition berechnen, [0~7]-basierend auf spezifischer Konfiguration lösen.
+    * @param [in] velAccParamMode Modus für Geschwindigkeits-/Beschleunigungsparameter; 0-Prozentsatz; 1-physikalische Geschwindigkeit (mm/s) und Beschleunigung (mm/s2).
+    * @return Fehlercode.
+    */
+    public int MoveC(DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, int poffset_flag, DescPose offset_pos_p, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, int toffset_flag, DescPose offset_pos_t, double ovl, double blendR, int config, int velAccParamMode);
+
+Vollkreisbewegung im kartesischen Raum (Circle)
+++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.6-3.8.3
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Vollkreisbewegung im kartesischen Raum (Circle).
+    * @param joint_pos_p Gelenkposition von Zwischenpunkt 1, Einheit deg.
+    * @param desc_pos_p Kartesische Pose von Zwischenpunkt 1.
+    * @param ptool Werkzeugkoordinatennummer für Zwischenpunkt 1, Bereich [1~15].
+    * @param puser Werkstückkoordinatennummer für Zwischenpunkt 1, Bereich [1~15].
+    * @param pvel Geschwindigkeitsprozentsatz für Zwischenpunkt 1, Bereich [0~100].
+    * @param pacc Beschleunigungsprozentsatz für Zwischenpunkt 1, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param epos_p Position der Erweiterungsachse an Zwischenpunkt 1, Einheit mm.
+    * @param joint_pos_t Gelenkposition von Zwischenpunkt 2, Einheit deg.
+    * @param desc_pos_t Kartesische Pose von Zwischenpunkt 2.
+    * @param ttool Werkzeugkoordinatennummer für Zwischenpunkt 2, Bereich [1~15].
+    * @param tuser Werkstückkoordinatennummer für Zwischenpunkt 2, Bereich [1~15].
+    * @param tvel Geschwindigkeitsprozentsatz für Zwischenpunkt 2, Bereich [0~100].
+    * @param tacc Beschleunigungsprozentsatz für Zwischenpunkt 2, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param epos_t Position der Erweiterungsachse an Zwischenpunkt 2, Einheit mm.
+    * @param ovl Geschwindigkeitsskalierungsfaktor [0~100] / physikalische Geschwindigkeit (mm/s).
+    * @param offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param offset_pos Posenversatz.
+    * @param oacc Beschleunigungsskalierungsfaktor [0-100] / physikalische Beschleunigung (mm/s2).
+    * @param blendR -1: blockierend; 0~1000: Glättungsradius.
+    * @param velAccParamMode Modus für Geschwindigkeits-/Beschleunigungsparameter; 0-Prozentsatz; 1-physikalische Geschwindigkeit (mm/s) und Beschleunigung (mm/s2).
+    * @return Fehlercode.
+    */
+    public int Circle(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, double ovl, int offset_flag, DescPose offset_pos, double oacc, double blendR, int velAccParamMode);
+
+Vollkreisbewegung im kartesischen Raum (automatische inverse Kinematik)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+     * @brief Vollkreisbewegung im kartesischen Raum (automatische inverse Kinematik).
+     * @param [in] desc_pos_p Kartesische Pose von Zwischenpunkt 1.
+     * @param [in] ptool Werkzeugkoordinatennummer für Zwischenpunkt 1, Bereich [0~14].
+     * @param [in] puser Werkstückkoordinatennummer für Zwischenpunkt 1, Bereich [0~14].
+     * @param [in] pvel Geschwindigkeitsprozentsatz für Zwischenpunkt 1, Bereich [0~100].
+     * @param [in] pacc Beschleunigungsprozentsatz für Zwischenpunkt 1, Bereich [0~100] (vorerst nicht verfügbar).
+     * @param [in] epos_p Position der Erweiterungsachse an Zwischenpunkt 1, Einheit mm.
+     * @param [in] desc_pos_t Kartesische Pose von Zwischenpunkt 2.
+     * @param [in] ttool Werkzeugkoordinatennummer für Zwischenpunkt 2, Bereich [0~14].
+     * @param [in] tuser Werkstückkoordinatennummer für Zwischenpunkt 2, Bereich [0~14].
+     * @param [in] tvel Geschwindigkeitsprozentsatz für Zwischenpunkt 2, Bereich [0~100].
+     * @param [in] tacc Beschleunigungsprozentsatz für Zwischenpunkt 2, Bereich [0~100] (vorerst nicht verfügbar).
+     * @param [in] epos_t Position der Erweiterungsachse an Zwischenpunkt 2, Einheit mm.
+     * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+     * @param [in] offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+     * @param [in] offset_pos Posenversatz.
+     * @param [in] oacc Beschleunigungsprozentsatz.
+     * @param [in] blendR -1: blockierend; 0~1000: Glättungsradius.
+     * @param [in] config Konfiguration des inversen Gelenkraums, [-1]-basierend auf aktueller Gelenkposition berechnen, [0~7]-basierend auf spezifischer Konfiguration lösen.
+     * @return Fehlercode.
+     */
+    int Circle(DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, double ovl, int offset_flag, DescPose offset_pos, double oacc, double blendR, int config);
+
+Vollkreisbewegung im kartesischen Raum (mit velAccParamMode Parameter)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Vollkreisbewegung im kartesischen Raum (mit velAccParamMode Parameter).
+    * @param [in] joint_pos_p Gelenkposition von Zwischenpunkt 1, Einheit deg.
+    * @param [in] desc_pos_p Kartesische Pose von Zwischenpunkt 1.
+    * @param [in] ptool Werkzeugkoordinatennummer für Zwischenpunkt 1, Bereich [1~15].
+    * @param [in] puser Werkstückkoordinatennummer für Zwischenpunkt 1, Bereich [1~15].
+    * @param [in] pvel Geschwindigkeitsprozentsatz für Zwischenpunkt 1, Bereich [0~100].
+    * @param [in] pacc Beschleunigungsprozentsatz für Zwischenpunkt 1, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos_p Position der Erweiterungsachse an Zwischenpunkt 1, Einheit mm.
+    * @param [in] joint_pos_t Gelenkposition von Zwischenpunkt 2, Einheit deg.
+    * @param [in] desc_pos_t Kartesische Pose von Zwischenpunkt 2.
+    * @param [in] ttool Werkzeugkoordinatennummer für Zwischenpunkt 2, Bereich [1~15].
+    * @param [in] tuser Werkstückkoordinatennummer für Zwischenpunkt 2, Bereich [1~15].
+    * @param [in] tvel Geschwindigkeitsprozentsatz für Zwischenpunkt 2, Bereich [0~100].
+    * @param [in] tacc Beschleunigungsprozentsatz für Zwischenpunkt 2, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos_t Position der Erweiterungsachse an Zwischenpunkt 2, Einheit mm.
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param [in] offset_pos Posenversatz.
+    * @param [in] oacc Beschleunigungsprozentsatz.
+    * @param [in] blendR -1: blockierend; 0~1000: Glättungsradius.
+    * @param [in] velAccParamMode Modus für Geschwindigkeits-/Beschleunigungsparameter; 0-Prozentsatz; 1-physikalische Geschwindigkeit (mm/s) und Beschleunigung (mm/s2).
+    * @return Fehlercode.
+    */
+    public int Circle(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, double ovl, int offset_flag, DescPose offset_pos, double oacc, double blendR, int velAccParamMode);
+
+Vollkreisbewegung im kartesischen Raum (Überladung 1 ohne Gelenkposition)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Vollkreisbewegung im kartesischen Raum (Überladung 1 ohne Gelenkposition).
+    * @param [in] desc_pos_p Kartesische Pose von Zwischenpunkt 1.
+    * @param [in] ptool Werkzeugkoordinatennummer für Zwischenpunkt 1, Bereich [0~14].
+    * @param [in] puser Werkstückkoordinatennummer für Zwischenpunkt 1, Bereich [0~14].
+    * @param [in] pvel Geschwindigkeitsprozentsatz für Zwischenpunkt 1, Bereich [0~100].
+    * @param [in] pacc Beschleunigungsprozentsatz für Zwischenpunkt 1, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos_p Position der Erweiterungsachse an Zwischenpunkt 1, Einheit mm.
+    * @param [in] desc_pos_t Kartesische Pose von Zwischenpunkt 2.
+    * @param [in] ttool Werkzeugkoordinatennummer für Zwischenpunkt 2, Bereich [0~14].
+    * @param [in] tuser Werkstückkoordinatennummer für Zwischenpunkt 2, Bereich [0~14].
+    * @param [in] tvel Geschwindigkeitsprozentsatz für Zwischenpunkt 2, Bereich [0~100].
+    * @param [in] tacc Beschleunigungsprozentsatz für Zwischenpunkt 2, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos_t Position der Erweiterungsachse an Zwischenpunkt 2, Einheit mm.
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param [in] offset_pos Posenversatz.
+    * @param [in] oacc Beschleunigungsprozentsatz.
+    * @param [in] blendR -1: blockierend; 0~1000: Glättungsradius.
+    * @param [in] config Konfiguration des inversen Gelenkraums, [-1]-basierend auf aktueller Gelenkposition berechnen, [0~7]-basierend auf spezifischer Konfiguration lösen.
+    * @param [in] velAccParamMode Modus für Geschwindigkeits-/Beschleunigungsparameter; 0-Prozentsatz; 1-physikalische Geschwindigkeit (mm/s) und Beschleunigung (mm/s2).
+    * @return Fehlercode.
+    */
+    public int Circle(DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, double ovl, int offset_flag, DescPose offset_pos, double oacc, double blendR, int config, int velAccParamMode);
+
+Punkt-zu-Punkt-Bewegung im kartesischen Raum (MoveCart)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Punkt-zu-Punkt-Bewegung im kartesischen Raum (MoveCart).
+    * @param [in] desc_pos Ziel-Kartesische Pose oder Poseninkrement.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [0~14].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [0~14].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] blendT [-1.0]-Bewegung abschließen (blockierend), [0~500.0]-Glättungszeit (nicht blockierend), Einheit ms.
+    * @param [in] config Konfiguration des Gelenkraums, [-1]-basierend auf aktueller Gelenkposition berechnen, [0~7]-basierend auf spezifischer Konfiguration lösen, Standard -1.
+    * @return Fehlercode.
+    */
+    int MoveCart(DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendT, int config);
+
+Codebeispiel für grundlegende Roboter-Bewegungsbefehle
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestMove(Robot robot)
+    {
+        int rtn=-1;
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        JointPos j3=new JointPos(-29.777, -84.536, 109.275, -114.075, -86.655, 74.257);
+        JointPos j4=new JointPos(-31.154, -95.317, 94.276, -88.079, -89.740, 74.256);
+        DescPose desc_pos1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_pos3=new DescPose(-487.434, 154.362, 308.576, 176.600, 0.268, -14.061);
+        DescPose desc_pos4=new DescPose(-443.165, 147.881, 480.951, 179.511, -0.775, -15.409);
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double oacc = 100.0;
+        double blendT = 0.0;
+        double blendR = 0.0;
+        int flag = 0;
+        int search = 0;
+        int blendMode = 0;
+        int velAccMode = 0;
+        robot.SetSpeed(20);
+        rtn = robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        System.out.printf("movej errcode:%d\n", rtn);
+        rtn = robot.MoveL(j2, desc_pos2, tool, user, vel, acc, ovl, blendR, blendMode, epos, search, flag, offset_pos, oacc, velAccMode,0,10);
+        System.out.printf("movel errcode:%d\n", rtn);
+        rtn = robot.MoveC(j3, desc_pos3, tool, user, vel, acc, epos, flag, offset_pos, j4, desc_pos4, tool, user, vel, acc, epos, flag, offset_pos, ovl, blendR, oacc, velAccMode);
+        System.out.printf("movec errcode:%d\n", rtn);
+        rtn = robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        System.out.printf("movej errcode:%d\n", rtn);
+        rtn = robot.Circle(j3, desc_pos3, tool, user, vel, acc, epos, j1, desc_pos1, tool, user, vel, acc, epos, ovl, flag, offset_pos, oacc, -1, velAccMode);
+        System.out.printf("circle errcode:%d\n", rtn);
+        rtn = robot.MoveCart(desc_pos4, tool, user, vel, acc, ovl, blendT, -1);
+        System.out.printf("MoveCart errcode:%d\n", rtn);
+        rtn = robot.MoveJ(j1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        System.out.printf("movej errcode:%d\n", rtn);
+        rtn = robot.MoveL(desc_pos2, tool, user, vel, acc, ovl, blendR, blendMode, epos, search, flag, offset_pos, -1, velAccMode,0,10);
+        System.out.printf("movel errcode:%d\n", rtn);
+        rtn = robot.MoveC(desc_pos3, tool, user, vel, acc, epos, flag, offset_pos, desc_pos4, tool, user, vel, acc, epos, flag, offset_pos, ovl, blendR, -1, velAccMode);
+        System.out.printf("movec errcode:%d\n", rtn);
+        rtn = robot.MoveJ(j2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        System.out.printf("movej errcode:%d\n", rtn);
+        rtn = robot.Circle(desc_pos3, tool, user, vel, acc, epos, desc_pos1, tool, user, vel, acc, epos, ovl, flag, offset_pos, oacc, blendR, -1, velAccMode);
+        System.out.printf("circle errcode:%d\n", rtn);
+        return 0;
+    }
+
+Spiralbewegung im kartesischen Raum (NewSpiral)
+++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Spiralbewegung im kartesischen Raum (NewSpiral).
+    * @param [in] joint_pos Ziel-Gelenkposition, Einheit deg.
+    * @param [in] desc_pos Ziel-Kartesische Pose.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [0~14].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [0~14].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos Position der Erweiterungsachse, Einheit mm.
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param [in] offset_pos Posenversatz.
+    * @param [in] spiral_param Spiralparameter.
+    * @return Fehlercode.
+    */
+    int NewSpiral(JointPos joint_pos, DescPose desc_pos, int tool, int user, double vel, double acc, ExaxisPos epos, double ovl, int offset_flag, DescPose offset_pos, SpiralParam spiral_param);
+
+Spiralbewegung im kartesischen Raum (automatische inverse Kinematik)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Spiralbewegung im kartesischen Raum (automatische inverse Kinematik).
+    * @param [in] desc_pos Ziel-Kartesische Pose.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [0~14].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [0~14].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] epos Position der Erweiterungsachse, Einheit mm.
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] offset_flag 0-kein Versatz, 1-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param [in] offset_pos Posenversatz.
+    * @param [in] spiral_param Spiralparameter.
+    * @param [in] config Konfiguration des inversen Gelenkraums, [-1]-basierend auf aktueller Gelenkposition berechnen, [0~7]-basierend auf spezifischer Konfiguration lösen.
+    * @return Fehlercode.
+    */
+    int NewSpiral(DescPose desc_pos, int tool, int user, double vel, double acc, ExaxisPos epos, double ovl, int offset_flag, DescPose offset_pos, SpiralParam spiral_param, int config);
+
+Codebeispiel für Spiralbewegung
+++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestSpiral(Robot robot)
+    {
+        int rtn=-1;
+        JointPos j=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        DescPose desc_pos=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose offset_pos1=new DescPose(50, 0, 0, -30, 0, 0);
+        DescPose offset_pos2=new DescPose(50, 0, 0, -5, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+        SpiralParam sp=new SpiralParam(1,5.0,50.0,10.0,10.0,0);
+
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double blendT = 0.0;
+        int flag = 2;
+
+        rtn = robot.MoveJ(j, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos1);
+        System.out.println("movej errcode:"+ rtn);
+
+        rtn = robot.NewSpiral(desc_pos, tool, user, vel, acc, epos, ovl, flag, offset_pos2, sp,-1);
+        System.out.println("newspiral errcode:"+ rtn);
+
+        return 0;
+    }
+
+Servo-Modus Bewegung starten
++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Servo-Modus Bewegung starten (in Verbindung mit ServoJ, ServoCart).
+    * @return Fehlercode.
+    */
+    int ServoMoveStart();
+
+Servo-Modus Bewegung beenden
++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Servo-Modus Bewegung beenden (in Verbindung mit ServoJ, ServoCart).
+    * @return Fehlercode.
+    */
+    int ServoMoveEnd();
+
+Servo-Modus Bewegung im Gelenkraum (ServoJ)
+++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.6-3.8.3
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Servo-Modus Bewegung im Gelenkraum (ServoJ).
+    * @param [in] joint_pos Ziel-Gelenkposition, Einheit deg.
+    * @param [in] axisPos Position der externen Achse, Einheit mm.
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar), Standard 0.
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar), Standard 0.
+    * @param [in] cmdT Befehlsübermittlungszyklus, Einheit s, empfohlen [0.001~0.0016].
+    * @param [in] filterT Filterzeit, Einheit s (vorerst nicht verfügbar), Standard 0.
+    * @param [in] gain Proportionalverstärkung für Zielposition (vorerst nicht verfügbar), Standard 0.
+    * @param [in] id servoJ Befehls-ID, Standard 0.
+    * @return Fehlercode.
+    */
+    int ServoJ(JointPos joint_pos, ExaxisPos axisPos, double acc, double vel, double cmdT, double filterT, double gain, int id);
+
+Beispielprogramm für Servo-Modus Bewegung im Gelenkraum (ServoJ)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static void TestServoJ()
+    {
+        Robot robot = new Robot();
+        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
+        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
+        int rtn = robot.RPC("192.168.58.2");
+        if(rtn == 0)
+        {
+            System.out.println("rpc Verbindung erfolgreich");
+        }
+        else
+        {
+            System.out.println("rpc Verbindung fehlgeschlagen");
+            return;
+        }
+        JointPos j5 = new JointPos();
+        ExaxisPos ePos=new ExaxisPos();
+        int ret = robot.GetActualJointPosDegree(j5);
+        if (ret == 0)
+        {
+            int count = 200;
+            while (count > 0)
+            {
+                robot.ServoJ(j5, ePos, 100, 100, 0.008, 0, 0);
+                j5.J1 += 0.2; // 1. Gelenkposition erhöhen
+                count -= 1;
+                robot.WaitMs((int)(8));
+            }
+        }
+    }
+
+Gelenk-Drehmomentregelung starten (ServoJT)
+++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Gelenk-Drehmomentregelung starten (ServoJT).
+    * @return Fehlercode.
+    */
+    int ServoJTStart();
+
+Gelenk-Drehmomentregelung (ServoJT)
+++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Gelenk-Drehmomentregelung (ServoJT).
+    * @param torque j1~j6 Gelenkdrehmomente, Einheit Nm.
+    * @param interval Befehlszyklus, Einheit s, Bereich [0.001~0.008].
+    * @param checkFlag Erkennungsstrategie 0-keine Einschränkung; 1-Leistungsbegrenzung; 2-Geschwindigkeitsbegrenzung; 3-Leistungs- und Geschwindigkeitsbegrenzung gleichzeitig.
+    * @param jPowerLimit Maximale Gelenkleistungsbegrenzung (W).
+    * @param jVelLimit Maximale Gelenkgeschwindigkeit (°/s).
+    * @return Fehlercode.
+    */
+    public int ServoJT(double[] torque, double interval, int checkFlag, double[] jPowerLimit, double[] jVelLimit);
+
+Gelenk-Drehmomentregelung beenden (ServoJT)
+++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Gelenk-Drehmomentregelung beenden (ServoJT).
+    * @return Fehlercode.
+    */
+    int ServoJTEnd();
+
+Beispielprogramm für Gelenk-Drehmomentregelung (ServoJT)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestServoJT(Robot robot)
+    {
+
+        robot.DragTeachSwitch(1);
+        List<Number> joint_toq=new ArrayList<>();
+        joint_toq=robot.GetJointTorques(1);
+
+        int count = 100;
+        robot.ServoJTStart();
+        int error = 0;
+        while (count > 0)
+        {
+            error = robot.ServoJT(torques, 0.001);
+            count = count - 1;
+            robot.Sleep(1);
+        }
+        error = robot.ServoJTEnd();
+        robot.DragTeachSwitch(0);
+
+        robot.CloseRPC();
+        return 0;
+    }
+
+Codebeispiel für Gelenk-Drehmomentregelung mit Überdrehzahlschutz
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static void ServoJTWithSafety(Robot robot)
+    {
+        robot.ResetAllError();
+        robot.Sleep(500);
+        List<Number> torques;
+        torques = robot.GetJointTorques(1);
+        robot.ServoJTStart();
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+        robot.DragTeachSwitch(1);
+        int checkFlag = 3;//-1,3
+        //double[] jPowerLimit = {1.0,1.0,1.0,1.0,1.0,1.0};//5001
+        double[] jPowerLimit = { 10.0, 10.0, 10.0, 10.0, 10.0, 10.0 };
+        double[] jVelLimit = { 50, 50, 50, 50, 50, 50};//180.1,-1
+        int count = 800000;
+        int error = 0;
+        double[] tor=new double[]{(double)torques.get(1),(double)torques.get(2),(double)torques.get(3),(double)torques.get(4),(double)torques.get(5),(double)torques.get(6)};
+        while (count > 0)
+        {
+            tor[2] = tor[2] + 0.01;
+            error = robot.ServoJT(tor, 0.01, checkFlag, jPowerLimit, jVelLimit);
+            System.out.printf("ServoJT rtn is %d\n", error);
+            count = count - 1;
+            robot.Sleep(1);
+            pkg=robot.GetRobotRealTimeState();
+            System.out.printf("maincode %d, subcode %d\n", pkg.main_code, pkg.sub_code);
+        }
+        robot.DragTeachSwitch(0);
+        error = robot.ServoJTEnd();
+    }
+
+Servo-Modus Bewegung im kartesischen Raum (ServoCart)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Servo-Modus Bewegung im kartesischen Raum (ServoCart).
+    * @param mode 0-Absolutbewegung (Basiskoordinatensystem), 1-Inkrementalbewegung (Basiskoordinatensystem), 2-Inkrementalbewegung (Werkzeugkoordinatensystem).
+    * @param desc_pose Ziel-Kartesische Pose oder Poseninkrement.
+    * @param exaxis Position der Erweiterungsachse.
+    * @param pos_gain Proportionalbeiwert für Poseninkrement, nur bei inkrementaler Bewegung wirksam, Bereich [0~1].
+    * @param acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar), Standard 0.
+    * @param vel Geschwindigkeitsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar), Standard 0.
+    * @param cmdT Befehlsübermittlungszyklus, Einheit s, empfohlen [0.001~0.016].
+    * @param filterT Filterzeit, Einheit s (vorerst nicht verfügbar), Standard 0.
+    * @param gain Proportionalverstärkung für Zielposition (vorerst nicht verfügbar), Standard 0.
+    * @return Fehlercode.
+    */
+    public int ServoCart(int mode, DescPose desc_pose, ExaxisPos exaxis, double[] pos_gain, double acc, double vel, double cmdT, double filterT, double gain);
+
+Codebeispiel für Servo-Modus Bewegung im kartesischen Raum (ServoCart)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static void TestServoCart1(Robot robot)
+    {
+        DescPose desc_pos_dt = new DescPose(83.00800, 50.525000 , 29.246 , 179.629 , -7.138 , -166.975 );
+        ExaxisPos exaxis = new ExaxisPos( 100.0, 0.0, 0.0, 0.0 );
+        double[] pos_gain = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+        int mode = 0;
+        double vel = 0.0;
+        double acc = 0.0;
+        double cmdT = 0.001;
+        double filterT = 0.0;
+        double gain = 0.0;
+        int flag = 0;
+        int count = 5000;
+        robot.SetSpeed(20);
+        while (count>0)
+        {
+            int rtn = robot.ServoCart(mode, desc_pos_dt, exaxis, pos_gain, acc, vel, cmdT, filterT, gain);
+            System.out.printf("ServoCart rtn is %d\n", rtn);
+            count -= 1;
+            desc_pos_dt.tran.x += 0.01;
+            exaxis.axis1 += 0.01;
+        }
+        robot.CloseRPC();
+    }
+
+Spline-Bewegung starten
+++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Spline-Bewegung starten.
+    * @return Fehlercode.
+    */
+    int SplineStart();
+
+Spline-PTP-Bewegung
+++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Spline-PTP-Bewegung im Gelenkraum.
+    * @param [in] joint_pos Ziel-Gelenkposition, Einheit deg.
+    * @param [in] desc_pos Ziel-Kartesische Pose.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [0~14].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [0~14].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @return Fehlercode.
+    */
+    int SplinePTP(JointPos joint_pos, DescPose desc_pos, int tool, int user, double vel, double acc, double ovl);
+
+Spline-PTP-Bewegung (automatische Vorwärtskinematik)
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Spline-PTP-Bewegung im Gelenkraum (automatische Vorwärtskinematik).
+    * @param [in] joint_pos Ziel-Gelenkposition, Einheit deg.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [0~14].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [0~14].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @return Fehlercode.
+    */
+    int SplinePTP(JointPos joint_pos, int tool, int user, double vel, double acc, double ovl);
+
+Spline-Bewegung beenden
+++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Spline-Bewegung beenden.
+    * @return Fehlercode.
+    */
+    int SplineEnd();
+
+Codebeispiel für Spline-Bewegung
+++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestSpline(Robot robot)
+    {
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        JointPos j3=new JointPos(-61.954, -84.409, 108.153, -116.316, -91.283, 74.260);
+        JointPos j4=new JointPos(-89.575, -80.276, 102.713, -116.302, -91.284, 74.267);
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double blendT = -1.0;
+        int flag = 0;
+
+        int err1 = robot.MoveJ(j1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        System.out.println("movej errcode:"+ err1);
+        robot.SplineStart();
+        robot.SplinePTP(j1, tool, user, vel, acc, ovl);
+        robot.SplinePTP(j2, tool, user, vel, acc, ovl);
+        robot.SplinePTP(j3, tool, user, vel, acc, ovl);
+        robot.SplinePTP(j4, tool, user, vel, acc, ovl);
+        robot.SplineEnd();
+        return 0;
+    }
+
+Neue Spline-Bewegung starten (NewSpline)
+++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Neue Spline-Bewegung starten (NewSpline).
+    * @param [in] type 0-Kreisbogenübergang, 1-gegebene Punkte sind Bahnpunkte.
+    * @param [in] averageTime Globale durchschnittliche Übergangszeit (ms) (10 ~ ), Standard 2000.
+    * @return Fehlercode.
+    */
+    int NewSplineStart(int type, int averageTime);
+
+Neuer Spline-Befehlspunkt
+++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Einen Punkt zu einer neuen Spline-Bewegung hinzufügen.
+    * @param [in] joint_pos Ziel-Gelenkposition, Einheit deg.
+    * @param [in] desc_pos Ziel-Kartesische Pose.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [0~14].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [0~14].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] blendR [-1.0]-Bewegung abschließen (blockierend), [0~1000.0]-Glättungsradius (nicht blockierend), Einheit mm.
+    * @param [in] lastFlag Ist dies der letzte Punkt? 0-nein, 1-ja.
+    * @return Fehlercode.
+    */
+    int NewSplinePoint(JointPos joint_pos, DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendR, int lastFlag);
+
+Neuer Spline-Befehlspunkt (automatische inverse Kinematik)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Neuer Spline-Befehlspunkt (automatische inverse Kinematik).
+    * @param [in] desc_pos Ziel-Kartesische Pose.
+    * @param [in] tool Werkzeugkoordinatennummer, Bereich [0~14].
+    * @param [in] user Werkstückkoordinatennummer, Bereich [0~14].
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100].
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar).
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor, Bereich [0~100].
+    * @param [in] blendR [-1.0]-Bewegung abschließen (blockierend), [0~1000.0]-Glättungsradius (nicht blockierend), Einheit mm.
+    * @param [in] lastFlag Ist dies der letzte Punkt? 0-nein, 1-ja.
+    * @param [in] config Konfiguration des inversen Gelenkraums, [-1]-basierend auf aktueller Gelenkposition berechnen, [0~7]-basierend auf spezifischer Konfiguration lösen.
+    * @return Fehlercode.
+    */
+    int NewSplinePoint(DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendR, int lastFlag, int config);
+
+Neue Spline-Bewegung beenden
++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Neue Spline-Bewegung beenden.
+    * @return Fehlercode.
+    */
+    int NewSplineEnd();
+
+Codebeispiel für neue Spline-Bewegung
+++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestNewSpline(Robot robot)
+    {
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        DescPose desc_pos1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_pos3=new DescPose(-327.622, 402.230, 320.402, -178.067, 2.127, -46.207);
+        DescPose desc_pos4=new DescPose(-104.066, 544.321, 327.023, -177.715, 3.371, -73.818);
+        DescPose desc_pos5=new DescPose(-33.421, 732.572, 275.103, -177.907, 2.709, -79.482);
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+
+
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double blendT = -1.0;
+        int flag = 0;
+
+
+        int err1 = robot.MoveJ(j1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        System.out.println("movej errcode:"+ err1);
+        robot.NewSplineStart(1, 2000);
+        robot.NewSplinePoint(desc_pos1, tool, user, vel, acc, ovl, -1, 0,-1);
+        robot.NewSplinePoint(desc_pos2, tool, user, vel, acc, ovl, -1, 0,-1);
+        robot.NewSplinePoint(desc_pos3, tool, user, vel, acc, ovl, -1, 0,-1);
+        robot.NewSplinePoint(desc_pos4, tool, user, vel, acc, ovl, -1, 0,-1);
+        robot.NewSplinePoint(desc_pos5, tool, user, vel, acc, ovl, -1, 0,-1);
+        robot.NewSplineEnd();
+        return 0;
+    }
+
+Bewegung abbrechen (StopMotion)
+++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Bewegung abbrechen.
+    * @return Fehlercode.
+    */
+    int StopMotion();
+
+Bewegung pausieren (PauseMotion)
++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Bewegung pausieren.
+    * @return Fehlercode.
+    */
+    int PauseMotion();
+
+Bewegung fortsetzen (ResumeMotion)
++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Bewegung fortsetzen.
+    * @return Fehlercode.
+    */
+    int ResumeMotion();
+
+Codebeispiel für Bewegung pausieren, fortsetzen, abbrechen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestPause(Robot robot)
+    {
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j5=new JointPos(-95.228, -54.621, 73.691, -112.245, -91.280, 74.268);
+        DescPose desc_pos1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos5=new DescPose(-33.421, 732.572, 275.103, -177.907, 2.709, -79.482);
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double blendT = -1.0;
+        int flag = 0;
+
+        robot.SetSpeed(20);
+        int rtn=-1;
+        rtn = robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        rtn = robot.MoveJ(j5, desc_pos5, tool, user, vel, acc, ovl, epos, 1, flag, offset_pos);
+        robot.Sleep(1000);
+        robot.PauseMotion();
+
+        robot.Sleep(1000);
+        robot.ResumeMotion();
+
+        robot.Sleep(1000);
+        robot.StopMotion();
+
+        robot.Sleep(1000);
+
+        return 0;
+    }
+
+Globalen Punktversatz aktivieren
+++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Globalen Punktversatz aktivieren.
+    * @param [in] flag 0-Versatz im Basis-/Werkstückkoordinatensystem, 2-Versatz im Werkzeugkoordinatensystem.
+    * @param [in] offset_pos Posenversatz.
+    * @return Fehlercode.
+    */
+    int PointsOffsetEnable(int flag, DescPose offset_pos);
+
+Globalen Punktversatz deaktivieren
++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Globalen Punktversatz deaktivieren.
+    * @return Fehlercode.
+    */
+    int PointsOffsetDisable();
+
+Codebeispiel für Punktversatz
++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestOffset(Robot robot)
+    {
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+
+        DescPose desc_pos1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        DescPose offset_pos1=new DescPose(0, 0, 50, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double blendT = -1.0;
+        int flag = 0;
+
+        robot.SetSpeed(20);
+
+        robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.Sleep(1000);
+        robot.PointsOffsetEnable(0, offset_pos1);
+        robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.PointsOffsetDisable();
+
+        return 0;
+    }
+
+Steuerschrank AO High-Speed-Ausgabe starten (MoveAOStart)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Steuerschrank AO High-Speed-Ausgabe starten.
+    * @param [in] AONum Steuerschrank AO-Nummer.
+    * @param [in] maxTCPSpeed Maximaler TCP-Geschwindigkeitswert [1-5000 mm/s], Standard 1000.
+    * @param [in] maxAOPercent AO-Prozentsatz für maximale TCP-Geschwindigkeit, Standard 100%.
+    * @param [in] zeroZoneCmp AO-Prozentsatz für Totzonenkompensation, Ganzzahl, Standard 20%, Bereich [0-100].
+    * @return Fehlercode.
+    */
+    int MoveAOStart(int AONum, int maxTCPSpeed, int maxAOPercent, int zeroZoneCmp);
+
+Steuerschrank AO High-Speed-Ausgabe stoppen (MoveAOStop)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Steuerschrank AO High-Speed-Ausgabe stoppen.
+    * @return Fehlercode.
+    */
+    int MoveAOStop();
+
+Endeffektor AO High-Speed-Ausgabe starten (MoveToolAOStart)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Endeffektor AO High-Speed-Ausgabe starten.
+    * @param [in] AONum Endeffektor AO-Nummer.
+    * @param [in] maxTCPSpeed Maximaler TCP-Geschwindigkeitswert [1-5000 mm/s], Standard 1000.
+    * @param [in] maxAOPercent AO-Prozentsatz für maximale TCP-Geschwindigkeit, Standard 100%.
+    * @param [in] zeroZoneCmp AO-Prozentsatz für Totzonenkompensation, Ganzzahl, Standard 20%, Bereich [0-100].
+    * @return Fehlercode.
+    */
+    int MoveToolAOStart(int AONum, int maxTCPSpeed, int maxAOPercent, int zeroZoneCmp);
+
+Endeffektor AO High-Speed-Ausgabe stoppen (MoveToolAOStop)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Endeffektor AO High-Speed-Ausgabe stoppen.
+    * @return Fehlercode.
+    */
+    int MoveToolAOStop();
+
+Codebeispiel für AO High-Speed-Ausgabe (MoveAO)
+++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestMoveAO(Robot robot)
+    {
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+
+        DescPose desc_pos1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        DescPose offset_pos1=new DescPose(0, 0, 50, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+
+        int tool = 0;
+        int user = 0;
+        double vel = 20.0;
+        double acc = 20.0;
+        double ovl = 100.0;
+        double blendT = -1.0;
+        int flag = 0;
+
+        robot.SetSpeed(20);
+
+        robot.MoveAOStart(0, 100, 100, 20);
+        robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveAOStop();
+
+        robot.Sleep(1000);
+
+        robot.MoveToolAOStart(0, 100, 100, 20);
+        robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveToolAOStop();
+
+        return 0;
+    }
+
+PTP-Bewegung mit FIR-Filterung starten
+++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief PTP-Bewegung mit FIR-Filterung starten.
+    * @param [in] maxAcc Maximale Beschleunigung (deg/s²).
+    * @param [in] maxJek Maximale einheitliche Gelenkruck (deg/s³).
+    * @return Fehlercode.
+    */
+    int PtpFIRPlanningStart(double maxAcc, double maxJek);
+
+PTP-Bewegung mit FIR-Filterung beenden
+++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief PTP-Bewegung mit FIR-Filterung beenden.
+    * @return Fehlercode.
+    */
+    int PtpFIRPlanningEnd();
+
+LIN-/ARC-Bewegung mit FIR-Filterung starten
++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief LIN-/ARC-Bewegung mit FIR-Filterung starten.
+    * @param [in] maxAccLin Maximale Linearbeschleunigung (mm/s²).
+    * @param [in] maxAccDeg Maximale Winkelbeschleunigung (deg/s²).
+    * @param [in] maxJerkLin Maximaler Linearruck (mm/s³).
+    * @param [in] maxJerkDeg Maximaler Winkelruck (deg/s³).
+    * @return Fehlercode.
+    */
+    int LinArcFIRPlanningStart(double maxAccLin, double maxAccDeg, double maxJerkLin, double maxJerkDeg);
+
+LIN-/ARC-Bewegung mit FIR-Filterung beenden
++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief LIN-/ARC-Bewegung mit FIR-Filterung beenden.
+    * @return Fehlercode.
+    */
+    int LinArcFIRPlanningEnd();
+
+Codebeispiel für FIR-Filterung
+++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestFIR(Robot robot)
+    {
+        JointPos startjointPos=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos midjointPos=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        JointPos endjointPos=new JointPos(-29.777, -84.536, 109.275, -114.075, -86.655, 74.257);
+
+        DescPose startdescPose=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose middescPose=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose enddescPose=new DescPose(-487.434, 154.362, 308.576, 176.600, 0.268, -14.061);
+
+        ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese=new DescPose(0, 0, 0, 0, 0, 0);
+
+        int rtn = robot.PtpFIRPlanningStart(1000, 1000);
+        robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.PtpFIRPlanningEnd();
+
+        robot.LinArcFIRPlanningStart(1000, 1000, 1000, 1000);
+        robot.MoveL(startjointPos, startdescPose, 0, 0, 100, 100, 100, -1, 0,exaxisPos, 0, 0, offdese, 1, 1);
+        robot.MoveC(midjointPos, middescPose, 0, 0, 100, 100, exaxisPos, 0, offdese, endjointPos, enddescPose, 0, 0, 100, 100, exaxisPos, 0, offdese, 100, -1);
+        robot.LinArcFIRPlanningEnd();
+        return 0;
+    }
+
+Beschleunigungsglättung aktivieren
++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.4-3.8.1
+.. code-block:: java
+    :linenos:
+
+    /**
+     * @brief Beschleunigungsglättung aktivieren.
+     * @param [in] saveFlag Bei Stromausfall speichern? (0-nein, 1-ja).
+     * @return Fehlercode.
+     */
+    public int AccSmoothStart(boolean saveFlag);
+
+Beschleunigungsglättung deaktivieren
+++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.4-3.8.1
+.. code-block:: java
+    :linenos:
+
+    /**
+     * @brief Beschleunigungsglättung deaktivieren.
+     * @param [in] saveFlag Bei Stromausfall speichern? (0-nein, 1-ja).
+     * @return Fehlercode.
+     */
+    public int AccSmoothEnd(boolean saveFlag);
+
+Codebeispiel für Beschleunigungsglättung
+++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestAccSmooth(Robot robot)
+    {
+        JointPos startjointPos=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos endjointPos=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+
+        DescPose startdescPose=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose enddescPose=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+
+        ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese=new DescPose(0,0,0,0,0,0);
+        int rtn = robot.AccSmoothStart(false);
+        robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        rtn = robot.AccSmoothEnd(false);
+
+        robot.CloseRPC();
+        return 0;
+    }
+
+Spezifische Ausrichtungsgeschwindigkeit aktivieren
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+     * @brief Spezifische Ausrichtungsgeschwindigkeit aktivieren.
+     * @param [in] ratio Ausrichtungsgeschwindigkeitsprozentsatz [0-300].
+     * @return Fehlercode.
+     */
+    int AngularSpeedStart(int ratio);
+
+Spezifische Ausrichtungsgeschwindigkeit deaktivieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+     * @brief Spezifische Ausrichtungsgeschwindigkeit deaktivieren.
+     * @return Fehlercode.
+     */
+    int AngularSpeedEnd();
+
+Codebeispiel für spezifische Ausrichtungsgeschwindigkeit
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestAngularSpeed(Robot robot)
+    {
+        JointPos startjointPos=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos endjointPos=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+
+        DescPose startdescPose=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose enddescPose=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+
+        ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese=new DescPose(0, 0, 0, 0, 0, 0);
+        int rtn = robot.AngularSpeedStart(50);
+        robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        rtn = robot.AngularSpeedEnd();
+
+        return 0;
+    }
+
+Singularitätsschutz starten
+++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Singularitätsschutz starten.
+    * @param [in] protectMode Singularitätsschutzmodus, 0: Gelenkmodus; 1: Kartesischer Modus.
+    * @param [in] minShoulderPos Einstellbereich für Schulter-Singularität (mm), Standard 100.
+    * @param [in] minElbowPos Einstellbereich für Ellenbogen-Singularität (mm), Standard 50.
+    * @param [in] minWristPos Einstellbereich für Handgelenks-Singularität (°), Standard 10.
+    * @return Fehlercode.
+    */
+    int SingularAvoidStart(int protectMode, double minShoulderPos, double minElbowPos, double minWristPos);
+
+Singularitätsschutz stoppen
+++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Singularitätsschutz stoppen.
+    * @return Fehlercode.
+    */
+    int SingularAvoidEnd();
+
+Codebeispiel für Roboter-Singularitätsschutz
+++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static int TestAngularSpeed(Robot robot)
+    {
+        JointPos startjointPos=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos endjointPos=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+
+        DescPose startdescPose=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose enddescPose=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+
+        ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese=new DescPose(0, 0, 0, 0, 0, 0);
+        int rtn = robot.AngularSpeedStart(50);
+        robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        rtn = robot.AngularSpeedEnd();
+
+        return 0;
+    }
+
+Bewegungsbefehlswarteschlange leeren
++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Bewegungsbefehlswarteschlange leeren.
+    * @return Fehlercode.
+    */
+    public int MotionQueueClear();
+
+Zum Startpunkt einer Durchdringungskurve bewegen
++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Zum Startpunkt einer Durchdringungskurve bewegen.
+    * @param [in] mainPoint Kartesische Posen der 6 Teach-Punkte des Hauptrohrs.
+    * @param [in] mainExaxisPos Positionen der Erweiterungsachse für die 6 Teach-Punkte des Hauptrohrs.
+    * @param [in] piecePoint Kartesische Posen der 6 Teach-Punkte des Nebenrohrs.
+    * @param [in] pieceExaxisPos Positionen der Erweiterungsachse für die 6 Teach-Punkte des Nebenrohrs.
+    * @param [in] extAxisFlag Erweiterungsachse verwenden? 0-nein; 1-ja.
+    * @param [in] exaxisPos Startposition der Erweiterungsachse.
+    * @param [in] tool Werkzeugkoordinatensystem-Nummer.
+    * @param [in] wobj Werkstückkoordinatensystem-Nummer.
+    * @param [in] vel Geschwindigkeitsprozentsatz.
+    * @param [in] acc Beschleunigungsprozentsatz.
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor.
+    * @param [in] oacc Beschleunigungsskalierungsfaktor.
+    * @param [in] moveType Bewegungstyp; 0-PTP; 1-LIN.
+    * @param [in] moveDirection Bewegungsrichtung; 0-im Uhrzeigersinn; 1-gegen Uhrzeigersinn.
+    * @param [in] offset Versatz.
+    * @return Fehlercode.
+    */
+    public int MoveToIntersectLineStart(DescPose[] mainPoint, ExaxisPos[] mainExaxisPos, DescPose[] piecePoint, ExaxisPos[] pieceExaxisPos, int extAxisFlag, ExaxisPos exaxisPos, int tool, int wobj, double vel, double acc, double ovl, double oacc, int moveType, int moveDirection, DescPose offset);
+
+Bewegung entlang einer Durchdringungskurve
++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Bewegung entlang einer Durchdringungskurve.
+    * @param [in] mainPoint Kartesische Posen der 6 Teach-Punkte des Hauptrohrs.
+    * @param [in] mainExaxisPos Positionen der Erweiterungsachse für die 6 Teach-Punkte des Hauptrohrs.
+    * @param [in] piecePoint Kartesische Posen der 6 Teach-Punkte des Nebenrohrs.
+    * @param [in] pieceExaxisPos Positionen der Erweiterungsachse für die 6 Teach-Punkte des Nebenrohrs.
+    * @param [in] extAxisFlag Erweiterungsachse verwenden? 0-nein; 1-ja.
+    * @param [in] exaxisPos Positionen der Erweiterungsachse (Array der Länge 4).
+    * @param [in] tool Werkzeugkoordinatensystem-Nummer.
+    * @param [in] wobj Werkstückkoordinatensystem-Nummer.
+    * @param [in] vel Geschwindigkeitsprozentsatz.
+    * @param [in] acc Beschleunigungsprozentsatz.
+    * @param [in] ovl Geschwindigkeitsskalierungsfaktor.
+    * @param [in] oacc Beschleunigungsskalierungsfaktor.
+    * @param [in] moveDirection Bewegungsrichtung; 0-im Uhrzeigersinn; 1-gegen Uhrzeigersinn.
+    * @param [in] offset Versatz.
+    * @return Fehlercode.
+    */
+    public int MoveIntersectLine(DescPose[] mainPoint, ExaxisPos[] mainExaxisPos, DescPose[] piecePoint, ExaxisPos[] pieceExaxisPos, int extAxisFlag, ExaxisPos[] exaxisPos, int tool, int wobj, double vel, double acc, double ovl, double oacc, int moveDirection, DescPose offset);
+
+Codebeispiel für Bewegung entlang einer Durchdringungskurve
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static void TestIntersectLineMove(Robot robot)
+    {
+        DescPose[] mainPoint = new DescPose[6];
+        DescPose[] piecePoint = new DescPose[6];
+        ExaxisPos[] mainExaxisPos = new ExaxisPos[6];
+        ExaxisPos[] pieceExaxisPos = new ExaxisPos[6];
+        int extAxisFlag = 1;
+        ExaxisPos[] exaxisPos = new ExaxisPos[4];
+        DescPose offset =new DescPose(0.0, 2.0 ,30.0, -2.0, 0.0, 0.0 );
+        mainPoint[0] = new DescPose(490.004, -383.194, 402.735, -9.332, -1.528, 69.594);
+        mainPoint[1] = new DescPose(444.950, -407.117, 389.011, -5.546, -2.196, 65.279);
+        mainPoint[2] = new DescPose(445.168, -463.605, 355.759, -1.544, -10.886, 57.104);
+        mainPoint[3] = new DescPose(507.529, -485.385, 343.013, -0.786, -4.834, 61.799);
+        mainPoint[4] = new DescPose(554.390, -442.647, 367.701, -4.761, -10.181, 64.925);
+        mainPoint[5] = new DescPose(532.552, -394.003, 396.467, -13.732, -13.592, 67.411);
+        mainExaxisPos[0] = new ExaxisPos(-29.996, 0.000, 0.000, 0.000 );
+        mainExaxisPos[1] = new ExaxisPos(-29.996, 0.000, 0.000, 0.000 );
+        mainExaxisPos[2] = new ExaxisPos(-29.996, 0.000, 0.000, 0.000 );
+        mainExaxisPos[3] = new ExaxisPos(-29.996, 0.000, 0.000, 0.000 );
+        mainExaxisPos[4] = new ExaxisPos(-29.996, 0.000, 0.000, 0.000 );
+        mainExaxisPos[5] = new ExaxisPos(-29.996, 0.000, 0.000, 0.000 );
+        piecePoint[0] = new DescPose( 505.571, -192.408, 316.759, 38.098, 37.051, 139.447);
+        piecePoint[1] =new DescPose(533.837, -201.558, 332.340, 34.644, 42.339, 137.748);
+        piecePoint[2] =new DescPose(530.386, -225.085, 373.808, 35.431, 45.111, 137.560);
+        piecePoint[3] =new DescPose(485.646, -229.195, 383.778, 33.870, 45.173, 137.064);
+        piecePoint[4] =new DescPose(460.551, -212.161, 354.256, 28.856, 45.602, 135.930);
+        piecePoint[5] =new DescPose(474.217, -197.124, 324.611, 42.469, 41.133, 148.167);
+        pieceExaxisPos[0] = new ExaxisPos( -29.996, -0.000, 0.000, 0.000);
+        pieceExaxisPos[1] = new ExaxisPos( -29.996, -0.000, 0.000, 0.000);
+        pieceExaxisPos[2] = new ExaxisPos( -29.996, -0.000, 0.000, 0.000);
+        pieceExaxisPos[3] = new ExaxisPos( -29.996, -0.000, 0.000, 0.000);
+        pieceExaxisPos[4] = new ExaxisPos( -29.996, -0.000, 0.000, 0.000);
+        pieceExaxisPos[5] = new ExaxisPos( -29.996, -0.000, 0.000, 0.000);
+        exaxisPos[0] = new ExaxisPos(-29.996, -0.000, 0.000, 0.000);
+        exaxisPos[1] = new ExaxisPos(-44.994, 90.000, 0.000, 0.000);
+        exaxisPos[2] = new ExaxisPos(-59.992, 0.002, 0.000, 0.000);
+        exaxisPos[3] = new ExaxisPos(-44.994, -89.997, 0.000, 0.000);
+        int tool = 2;
+        int wobj = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 12.0;
+        double oacc = 12.0;
+        int moveType = 1;
+        int moveDirection = 1;
+        int  rtn = robot.MoveToIntersectLineStart(mainPoint, mainExaxisPos, piecePoint, pieceExaxisPos, extAxisFlag, exaxisPos[0], tool, wobj, vel, acc, ovl, oacc, moveType, moveDirection, offset);
+        System.out.printf("MoveToIntersectLineStart rtn is %d\n", rtn);
+        rtn = robot.MoveIntersectLine(mainPoint, mainExaxisPos, piecePoint, pieceExaxisPos, extAxisFlag, exaxisPos, tool, wobj, vel, acc, 5.0, 5.0, moveDirection, offset);
+        System.out.printf("MoveIntersectLine rtn is %d\n", rtn);
+        robot.CloseRPC();
+        return ;
+    }
+
+Bewegung auf der Stelle (ohne Positionsänderung)
+++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    /**
+    * @brief Bewegung auf der Stelle (ohne Positionsänderung).
+    * @return Fehlercode.
+    */
+    public int MoveStationary();
+
+Codebeispiel für Bewegung auf der Stelle
+++++++++++++++++++++++++++++++++++++++++
+.. code-block:: java
+    :linenos:
+
+    public static void test_RecordandReplay(Robot robot)
+    {
+        int rtn = robot.LaserSensorRecordandReplay(0, 10, 1, 0, 0.1, 1, 1, 10, 100);
+        System.out.printf("LaserSensorRecordandReplay rtn is %d\n", rtn);
+        rtn = robot.MoveStationary();
+        System.out.printf("MoveStationary rtn is %d\n", rtn);
+        rtn = robot.LaserSensorRecord1(0, 10);
+        System.out.printf("LaserSensorRecordandReplay rtn is %d\n", rtn);
+        robot.CloseRPC();
+        robot.Sleep(9999999);
+    }
