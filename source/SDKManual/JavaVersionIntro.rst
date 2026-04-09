@@ -13,6 +13,48 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V3.9.4
+     - 2026-03-25
+     - | 1.ServoJTStart()-Schnittstelle fügt Parameter für Kommunikationstypauswahl hinzu, unterstützt XMLRPC/UDP-Kommunikation;
+       | 2.ServoJTEnd()-Schnittstelle fügt Parameter für Kommunikationstypauswahl hinzu, unterstützt XMLRPC/UDP-Kommunikation;
+       | 3.ServoJT()-Schnittstelle fügt Parameter für Kommunikationstypauswahl hinzu, unterstützt XMLRPC/UDP-Kommunikation;
+       | 4.ServoMoveStart()-Schnittstelle fügt Parameter für Kommunikationstypauswahl hinzu, unterstützt XMLRPC/UDP-Kommunikation;
+       | 5.ServoMoveEnd()-Schnittstelle fügt Parameter für Kommunikationstypauswahl hinzu, unterstützt XMLRPC/UDP-Kommunikation;
+       | 6.ServoJ()-Schnittstelle fügt Parameter für Kommunikationstypauswahl hinzu, unterstützt XMLRPC/UDP-Kommunikation;
+       | 7.SetWeldMachineCtrlMode()-Schnittstelle fügt Parameter für Steuerungsmodusauswahl hinzu;
+       | 8.ExtDevGetUDPComParam()-Schnittstelle fügt Möglichkeit hinzu, UDP-Kommunikationsparameter abzurufen: ob nach Neustart des Steuerkastens automatisch neu verbunden wird;
+       | 9.Fügt SetAxleGenComEnable()-Schnittstelle hinzu, um die allgemeine Transparentübertragungsfunktion des Endeffektors zu aktivieren;
+       | 10.Fügt SndRcvAxleGenComCmdData()-Schnittstelle hinzu, um nichtperiodische Daten vom Endeffektor zu senden und auf Antwort zu warten;
+       | 11.Fügt SetRobotStopOnComDisc()-Schnittstelle hinzu, um Roboterbetrieb bei getrennter Port-Kommunikation zu stoppen;
+       | 12.Fügt GetRobotStopOnComDisc()-Schnittstelle hinzu, um Parameter für das Stoppen des Roboterbetriebs bei getrennter Port-Kommunikation abzurufen;
+       | 13.Fügt SetDIConfig()-Schnittstelle hinzu, um konfigurierbare CI-Portfunktionen des Steuerkastens einzustellen;
+       | 14.Fügt GetDIConfig()-Schnittstelle hinzu, um konfigurierbare CI-Portfunktionen des Steuerkastens abzurufen;
+       | 15.Fügt SetDOConfig()-Schnittstelle hinzu, um konfigurierbare CO-Portfunktionen des Steuerkastens einzustellen;
+       | 16.Fügt GetDOConfig()-Schnittstelle hinzu, um konfigurierbare CO-Portfunktionen des Steuerkastens abzurufen;
+       | 17.Fügt SetToolDIConfig()-Schnittstelle hinzu, um konfigurierbare End-CI-Portfunktionen des Endeffektors einzustellen;
+       | 18.Fügt GetToolDIConfig()-Schnittstelle hinzu, um konfigurierbare End-CI-Portfunktionen des Endeffektors abzurufen;
+       | 19.Fügt SetDIConfigLevel()-Schnittstelle hinzu, um den aktiven Zustand konfigurierbarer CI-Ports des Steuerkastens einzustellen;
+       | 20.Fügt GetDIConfigLevel()-Schnittstelle hinzu, um den aktiven Zustand konfigurierbarer CI-Ports des Steuerkastens abzurufen;
+       | 21.Fügt SetDOConfigLevel()-Schnittstelle hinzu, um den aktiven Zustand konfigurierbarer CO-Ports des Steuerkastens einzustellen;
+       | 22.Fügt GetDOConfigLevel()-Schnittstelle hinzu, um den aktiven Zustand konfigurierbarer CO-Ports des Steuerkastens abzurufen;
+       | 23.Fügt SetToolDIConfigLevel()-Schnittstelle hinzu, um den aktiven Zustand konfigurierbarer CI-Ports des Endeffektors einzustellen;
+       | 24.Fügt GetToolDIConfigLevel()-Schnittstelle hinzu, um den aktiven Zustand konfigurierbarer CI-Ports des Endeffektors abzurufen;
+       | 25.Fügt SetStandardDILevel()-Schnittstelle hinzu, um den aktiven Zustand standardmäßiger DI-Ports des Steuerkastens einzustellen;
+       | 26.Fügt GetStandardDILevel()-Schnittstelle hinzu, um den aktiven Zustand standardmäßiger DI-Ports des Steuerkastens abzurufen;
+       | 27.Fügt SetStandardDOLevel()-Schnittstelle hinzu, um den aktiven Zustand standardmäßiger DO-Ports des Steuerkastens einzustellen;
+       | 28.Fügt GetStandardDOLevel()-Schnittstelle hinzu, um den aktiven Zustand standardmäßiger DO-Ports des Steuerkastens abzurufen;
+       | 29.Fügt SetExAxisCmdDoneTimeUDP()-Schnittstelle hinzu, um die Positionierungsabschlusszeit für Erweiterungsachsen einzustellen;
+       | 30.Fügt OpenLuaDownload()-Schnittstelle hinzu, um Open-Protocol-Lua-Dateien herunterzuladen;
+       | 31.Fügt OpenLuaDelete()-Schnittstelle hinzu, um Open-Protocol-Lua-Dateien zu löschen;
+       | 32.Fügt AllOpenLuaDelete()-Schnittstelle hinzu, um Open-Protocol-Lua-Dateien zu löschen;
+       | 33.Fügt SendUDPFrameUDP()-Schnittstelle hinzu, um Befehlframes zu senden;
+       | 34.Fügt SetCmdRpyCallback()-Schnittstelle hinzu, um Callback-Funktion für Ausführungsergebnisse von über UDP gesendeten SDK-Befehlen einzustellen;
+       | 35.Fügt SetVelReducePara()-Schnittstelle hinzu, um Sicherheitsgeschwindigkeitsparameter einzustellen;
+       | 36.Fügt OriginPointWeaveStart()-Schnittstelle hinzu, um stationäres Pendeln zu starten;
+       | 37.Fügt OriginPointWeaveEnd()-Schnittstelle hinzu, um stationäres Pendeln zu beenden;
+       | 38.Fügt SetUserLEDColor()-Schnittstelle hinzu, um benutzerdefinierte LED-Farbe des Roboterendeffektors einzustellen;
+       | 39.Fügt MoveToTPDStart()-Schnittstelle hinzu, um zum Startpunkt der TPD-Bahnaufzeichnung zu bewegen;
+
    * - V3.9.3
      - 2026-02-11
      - | 1. Der Schnittstelle ServoCart() wurde ein Parameter für Erweiterungsachsen hinzugefügt.

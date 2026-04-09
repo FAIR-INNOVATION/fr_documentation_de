@@ -363,11 +363,13 @@ Schweißgerät-Steuermodus einstellen
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``SetWeldMachineCtrlMode(mode)``"
-    "Beschreibung", "Schweißgerät-Steuermodus einstellen"
-    "Erforderliche Parameter", "- ``mode``: Steuermodus, 0 = einheitlich (synergisch)"
+    "Prototyp", "``SetWeldMachineCtrlMode(mode, ioType)``"
+    "Beschreibung", "Schweißmaschinen-Steuerungsmodus einstellen"
+    "Erforderliche Parameter", "
+    - ``ioType``: Steuerungstyp; 0-Steuerkasten-IO; 1-Digitales Kommunikationsprotokoll (UDP); 2-Digitales Kommunikationsprotokoll (ModbusTCP)
+    - ``mode``: Schweißmaschinen-Steuerungsmodus; 0-Einknopf-Modus"
     "Standardparameter", "Keine"
-    "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
 
 Schweißstart
 ++++++++++++

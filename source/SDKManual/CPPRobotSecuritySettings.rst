@@ -288,3 +288,68 @@ Codebeispiel für Gelenk-Drehmoment-/Leistungserkennung
        robot.CloseRPC();
        return 0;
     }
+
+Sicherheitsgeschwindigkeitsparameter einstellen
+++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Sicherheitsgeschwindigkeitsparameter einstellen
+    * @param [in] enable 0-aus; 1-im manuellen Modus aktiviert; 2-in allen Modi aktiviert
+    * @param [in] maxTCPVel Maximale TCP-Geschwindigkeitsbegrenzung; [0-1000] mm/s
+    * @param [in] strategy Strategie nach Überschreitung; 0-Stopp mit Alarm; 1-automatische Geschwindigkeitsbegrenzung; 2-Stopp mit Alarm und Deaktivierung
+    * @return Fehlercode
+    */
+    errno_t SetVelReducePara(int enable, double maxTCPVel, int strategy);
+        
+SDK-Codebeispiel zum Einstellen der Sicherheitsgeschwindigkeitsparameter
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestSetVelReducePara()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        JointPos j1(0, -90, 90, 0, 0, 0);
+        JointPos j2(90, -90, 90, 0, 0, 0);
+        ExaxisPos epos(0, 0, 0, 0);
+        DescPose offset_pos(0, 0, 0, 0, 0, 0);
+        robot.SetSpeed(80);
+        rtn = robot.SetVelReducePara(2, 30, 1);
+        printf("SetVelReducePara param error rtn is %d\n", rtn);
+        rtn = robot.SetVelReducePara(0, 30, 1);
+        printf("SetVelReducePara disable reduce vel rtn is %d\n", rtn);
+        robot.MoveJ(&j1, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.MoveJ(&j2, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        rtn = robot.SetVelReducePara(1, 30, 1);
+        printf("SetVelReducePara reduce vel rtn is %d\n", rtn);
+        robot.MoveJ(&j1, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.MoveJ(&j2, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        rtn = robot.SetVelReducePara(2, 30, 2);
+        printf("SetVelReducePara disable robot rtn is %d\n", rtn);
+        robot.MoveJ(&j1, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.MoveJ(&j2, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.Sleep(2000);
+        robot.ResetAllError();
+        robot.RobotEnable(1);
+        robot.Sleep(1000);
+        rtn = robot.SetVelReducePara(2, 30, 0);
+        printf("SetVelReducePara report error rtn is %d\n", rtn);
+        robot.MoveJ(&j1, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.MoveJ(&j2, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }

@@ -489,3 +489,353 @@ Codebeispiel zum Festlegen des Ausgangs-Rücksetzverhaltens nach Stopp/Pause fü
     time.sleep(2)
     robot.CloseRPC()
     return 0
+
+Konfigurierbare CI-Portfunktionen einstellen
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetDIConfig(config)``"
+    "Beschreibung", "Konfigurierbare CI-Portfunktionen einstellen"
+    "Erforderliche Parameter", "
+    - ``config``: CI0-CI7 Funktionscode-Array, 0-Keine;1-Lichtbogenstart erfolgreich;2-Schweißgerät bereit;3-Förderbanderkennung;4-Pause;5-Fortsetzen;6-Start;7-Stopp;
+      8-Pause/Fortsetzen;9-Start/Stopp;10-Fußtaster-Ziehen;11-Zur Arbeitsposition bewegen;12-Manuell/Auto umschalten;
+      13-Drahtpositionssuche erfolgreich;14-Bewegungsunterbrechung;15-Hauptprogramm starten;16-Rückspulen starten;17-Startbestätigung;
+      18-Photoelektrisches Erkennungssignal X;19-Photoelektrisches Erkennungssignal Y;20-Externer Not-Halt-Eingangssignal 1;21-Externer Not-Halt-Eingangssignal 2;
+      22-Stufe 1 Reduzierungsmodus;23-Stufe 2 Reduzierungsmodus;24-Stufe 3 Reduzierungsmodus (Stopp);25-Schweißen fortsetzen;26-Schweißen beenden;
+      27-Hilfszug aktivieren;28-Hilfszug deaktivieren;29-Hilfszug aktivieren/deaktivieren;30-Alle Fehler löschen;
+      31-Manuell/Auto umschalten (High/Low-Pegel);32-Aktivieren;33-Deaktivieren;34-Aktivieren/Deaktivieren (steigende/fallende Flanke);35-Fixpunkt-Tracking starten/beenden"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Konfigurierbare CI-Portfunktionen des Steuerkastens abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetDIConfig()``"
+    "Beschreibung", "Konfigurierbare CI-Portfunktionen des Steuerkastens abrufen"
+    "Erforderliche Parameter", "
+    - ``config``: CI0-CI7 Funktionscode-Array, 0-Keine;1-Lichtbogenstart erfolgreich;2-Schweißgerät bereit;3-Förderbanderkennung;4-Pause;5-Fortsetzen;6-Start;7-Stopp;
+      8-Pause/Fortsetzen;9-Start/Stopp;10-Fußtaster-Ziehen;11-Zur Arbeitsposition bewegen;12-Manuell/Auto umschalten;
+      13-Drahtpositionssuche erfolgreich;14-Bewegungsunterbrechung;15-Hauptprogramm starten;16-Rückspulen starten;17-Startbestätigung;
+      18-Photoelektrisches Erkennungssignal X;19-Photoelektrisches Erkennungssignal Y;20-Externer Not-Halt-Eingangssignal 1;21-Externer Not-Halt-Eingangssignal 2;
+      22-Stufe 1 Reduzierungsmodus;23-Stufe 2 Reduzierungsmodus;24-Stufe 3 Reduzierungsmodus (Stopp);25-Schweißen fortsetzen;26-Schweißen beenden;
+      27-Hilfszug aktivieren;28-Hilfszug deaktivieren;29-Hilfszug aktivieren/deaktivieren;30-Alle Fehler löschen;
+      31-Manuell/Auto umschalten (High/Low-Pegel);32-Aktivieren;33-Deaktivieren;34-Aktivieren/Deaktivieren (steigende/fallende Flanke);35-Fixpunkt-Tracking starten/beenden"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Konfigurierbare CO-Portfunktionen einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetDOConfig(config)``"
+    "Beschreibung", "Konfigurierbare CO-Portfunktionen einstellen"
+    "Erforderliche Parameter", "
+    - ``config``: CO0-CO7 Funktionscode-Array, 0-Keine;1-Roboterfehler;2-Roboter in Bewegung;3-Spritzen start/stopp;4-Spritzpistolenreinigung;5-Gaszufuhrsignal;6-Lichtbogenstartsignal;7-Tippen Drahtvorschub;
+      8-Rückwärts Drahtvorschub;9-JOB-Eingang 1;10-JOB-Eingang 2;11-JOB-Eingang 3;12-Förderband start/stopp Steuerung;13-Roboter pausiert;14-Arbeitsposition erreicht;
+      15-Interferenzbereich erreicht;16-Drahtpositionssuche start/stopp Steuerung;17-Roboterstart abgeschlossen;18-Programm start/stopp;19-Auto/Manuell-Modus;20-Not-Halt-Ausgangssignal 1-Sicherheit;
+      21-Not-Halt-Ausgangssignal 2-Sicherheit;22-Lua-Skriptprogramm läuft/gestoppt;23-Sicherheitsstatusausgang-Sicherheit;24-Schutzstopp-Statusausgang-Sicherheit;
+      25-Roboter in Bewegung-Sicherheit;26-Roboter im Reduzierungsmodus-Sicherheit;27-Roboter nicht im Reduzierungsmodus-Sicherheit;28-Roboter nicht gestoppt;29-Roboterfehler-Befehlspunktfehler;
+      30-Roboterfehler-Antriebsfehler;31-Roboterfehler-Weichgrenze überschritten;32-Roboterfehler-Kollisionsfehler;33-Roboterfehler-Fehler bei Anzahl aktiver Slaves;
+      34-Roboterfehler-Slave-Fehler;35-Roboterfehler-IO-Fehler;36-Roboterfehler-Greiferfehler;37-Roboterfehler-Dateifehler;38-Roboterfehler-Singuläre Pose;
+      39-Roboterfehler-Antriebskommunikationsfehler;40-Roboterfehler-Parameterfehler;41-Roboterfehler-Externe Achse Weichgrenze überschritten;42-Roboterwarnung-Warnung;
+      43-Roboterwarnung-Sicherheitstürwarnung;44-Roboterwarnung-Bewegungswarnung;45-Roboterwarnung-Interferenzbereichswarnung;46-Roboterwarnung-Sicherheitswandwarnung;
+      47-Aktivierungsstatus;48-Automatisches Anheben bei Unterbrechung;49-Würfel 1 Interferenzwarnung;50-Würfel 2 Interferenzwarnung;51-Würfel 3 Interferenzwarnung;52-Würfel 4 Interferenzwarnung;"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Konfigurierbare CO-Portfunktionen abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetDOConfig()``"
+    "Beschreibung", "Konfigurierbare CO-Portfunktionen abrufen"
+    "Erforderliche Parameter", "
+    - ``config``: CO0-CO7 Funktionscode-Array, 0-Keine;1-Roboterfehler;2-Roboter in Bewegung;3-Spritzen start/stopp;4-Spritzpistolenreinigung;5-Gaszufuhrsignal;6-Lichtbogenstartsignal;7-Tippen Drahtvorschub;
+      8-Rückwärts Drahtvorschub;9-JOB-Eingang 1;10-JOB-Eingang 2;11-JOB-Eingang 3;12-Förderband start/stopp Steuerung;13-Roboter pausiert;14-Arbeitsposition erreicht;
+      15-Interferenzbereich erreicht;16-Drahtpositionssuche start/stopp Steuerung;17-Roboterstart abgeschlossen;18-Programm start/stopp;19-Auto/Manuell-Modus;20-Not-Halt-Ausgangssignal 1-Sicherheit;
+      21-Not-Halt-Ausgangssignal 2-Sicherheit;22-Lua-Skriptprogramm läuft/gestoppt;23-Sicherheitsstatusausgang-Sicherheit;24-Schutzstopp-Statusausgang-Sicherheit;
+      25-Roboter in Bewegung-Sicherheit;26-Roboter im Reduzierungsmodus-Sicherheit;27-Roboter nicht im Reduzierungsmodus-Sicherheit;28-Roboter nicht gestoppt;29-Roboterfehler-Befehlspunktfehler;
+      30-Roboterfehler-Antriebsfehler;31-Roboterfehler-Weichgrenze überschritten;32-Roboterfehler-Kollisionsfehler;33-Roboterfehler-Fehler bei Anzahl aktiver Slaves;
+      34-Roboterfehler-Slave-Fehler;35-Roboterfehler-IO-Fehler;36-Roboterfehler-Greiferfehler;37-Roboterfehler-Dateifehler;38-Roboterfehler-Singuläre Pose;
+      39-Roboterfehler-Antriebskommunikationsfehler;40-Roboterfehler-Parameterfehler;41-Roboterfehler-Externe Achse Weichgrenze überschritten;42-Roboterwarnung-Warnung;
+      43-Roboterwarnung-Sicherheitstürwarnung;44-Roboterwarnung-Bewegungswarnung;45-Roboterwarnung-Interferenzbereichswarnung;46-Roboterwarnung-Sicherheitswandwarnung;
+      47-Aktivierungsstatus;48-Automatisches Anheben bei Unterbrechung;49-Würfel 1 Interferenzwarnung;50-Würfel 2 Interferenzwarnung;51-Würfel 3 Interferenzwarnung;52-Würfel 4 Interferenzwarnung;"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Konfigurierbare End-CI-Portfunktionen des Endeffektors einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetToolDIConfig(config)``"
+    "Beschreibung", "Konfigurierbare End-CI-Portfunktionen des Endeffektors einstellen"
+    "Erforderliche Parameter", "
+    - ``config``: End CI0-CI1 Funktionscode-Array, 0-Keine;1-Zieh-Teaching-Werkzeugschalter;2-Punktaufzeichnungssignal;3-Manuell/Auto umschalten (Impulssignal);4-TPD-Aufzeichnung start/stopp;5-Bewegung pausieren;
+      6-Bewegung fortsetzen;7-Start;8-Stopp;9-Pause/Fortsetzen;10-Start/Stopp;11-Kraftsensor-Hilfszug aktivieren;12-Kraftsensor-Hilfszug deaktivieren;
+      13-Kraftsensor-Hilfszug aktivieren/deaktivieren;14-Lasererkennungssignal X;15-Lasererkennungssignal Y;16-PTP-Bewegung zur Arbeitsposition;17-Bewegungsunterbrechung, aktuelle Bewegung je nach Signal stoppen;
+      18-Hauptprogramm starten;19-Rückspulen starten;20-Startbestätigung;21-Schweißen fortsetzen;22-Schweißen beenden;23-Fehler löschen;24-Manuell/Auto umschalten (High/Low-Pegel);
+      25-Aktivieren;26-Deaktivieren;27-Aktivieren/Deaktivieren;28-Laser-Servo-Tracking start/stopp Signal;"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Konfigurierbare End-CI-Portfunktionen des Endeffektors abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetToolDIConfig()``"
+    "Beschreibung", "Konfigurierbare End-CI-Portfunktionen des Endeffektors abrufen"
+    "Erforderliche Parameter", "
+    - ``config``: End CI0-CI1 Funktionscode-Array, 0-Keine;1-Zieh-Teaching-Werkzeugschalter;2-Punktaufzeichnungssignal;3-Manuell/Auto umschalten (Impulssignal);4-TPD-Aufzeichnung start/stopp;5-Bewegung pausieren;
+      6-Bewegung fortsetzen;7-Start;8-Stopp;9-Pause/Fortsetzen;10-Start/Stopp;11-Kraftsensor-Hilfszug aktivieren;12-Kraftsensor-Hilfszug deaktivieren;
+      13-Kraftsensor-Hilfszug aktivieren/deaktivieren;14-Lasererkennungssignal X;15-Lasererkennungssignal Y;16-PTP-Bewegung zur Arbeitsposition;17-Bewegungsunterbrechung, aktuelle Bewegung je nach Signal stoppen;
+      18-Hauptprogramm starten;19-Rückspulen starten;20-Startbestätigung;21-Schweißen fortsetzen;22-Schweißen beenden;23-Fehler löschen;24-Manuell/Auto umschalten (High/Low-Pegel);
+      25-Aktivieren;26-Deaktivieren;27-Aktivieren/Deaktivieren;28-Laser-Servo-Tracking start/stopp Signal;"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Konfigurierbaren CI-Aktivzustand des Steuerkastens einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetDIConfigLevel(config)``"
+    "Beschreibung", "Konfigurierbaren CI-Aktivzustand des Steuerkastens einstellen"
+    "Erforderliche Parameter", "
+    - ``config``: CI0-CI7 Port-Aktivzustand-Array; 0-aktiv high; 1-aktiv low"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Konfigurierbaren CI-Aktivzustand des Steuerkastens abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetDIConfigLevel()``"
+    "Beschreibung", "Konfigurierbaren CI-Aktivzustand des Steuerkastens abrufen"
+    "Erforderliche Parameter", "
+    - ``config``: CI0-CI7 Port-Aktivzustand-Array; 0-aktiv high; 1-aktiv low"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Konfigurierbaren CO-Aktivzustand des Steuerkastens einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetDOConfigLevel(config)``"
+    "Beschreibung", "Konfigurierbaren CO-Aktivzustand des Steuerkastens einstellen"
+    "Erforderliche Parameter", "
+    - ``config``: CO0-CO7 Port-Aktivzustand-Array; 0-aktiv high; 1-aktiv low"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Konfigurierbaren CO-Aktivzustand des Steuerkastens abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetDOConfigLevel()``"
+    "Beschreibung", "Konfigurierbaren CO-Aktivzustand des Steuerkastens abrufen"
+    "Erforderliche Parameter", "
+    - ``config``: CO0-CO7 Port-Aktivzustand-Array; 0-aktiv high; 1-aktiv low"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Konfigurierbaren CI-Aktivzustand des Endeffektors einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetToolDIConfigLevel(config)``"
+    "Beschreibung", "Konfigurierbaren CI-Aktivzustand des Endeffektors einstellen"
+    "Erforderliche Parameter", "
+    - ``config``: CI0-CI7 Port-Aktivzustand-Array; 0-aktiv high; 1-aktiv low"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Konfigurierbaren CI-Aktivzustand des Endeffektors abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetToolDIConfigLevel()``"
+    "Beschreibung", "Konfigurierbaren CI-Aktivzustand des Endeffektors abrufen"
+    "Erforderliche Parameter", "
+    - ``config``: CI0-CI7 Port-Aktivzustand-Array; 0-aktiv high; 1-aktiv low"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Standard-DI-Aktivzustand des Steuerkastens einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetStandardDILevel(config)``"
+    "Beschreibung", "Standard-DI-Aktivzustand des Steuerkastens einstellen"
+    "Erforderliche Parameter", "
+    - ``config``: DI0-DI7 Port-Aktivzustand-Array; 0-aktiv high; 1-aktiv low"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Standard-DI-Aktivzustand des Steuerkastens abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetStandardDILevel()``"
+    "Beschreibung", "Standard-DI-Aktivzustand des Steuerkastens abrufen"
+    "Erforderliche Parameter", "
+    - ``config``: DI0-DI7 Port-Aktivzustand-Array; 0-aktiv high; 1-aktiv low"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Standard-DO-Aktivzustand des Steuerkastens einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetStandardDOLevel(config)``"
+    "Beschreibung", "Standard-DO-Aktivzustand des Steuerkastens einstellen"
+    "Erforderliche Parameter", "
+    - ``config``: DO0-DO7 Port-Aktivzustand-Array; 0-aktiv high; 1-aktiv low"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Standard-DO-Aktivzustand des Steuerkastens abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetStandardDOLevel()``"
+    "Beschreibung", "Standard-DO-Aktivzustand des Steuerkastens abrufen"
+    "Erforderliche Parameter", "
+    - ``config``: DO0-DO7 Port-Aktivzustand-Array; 0-aktiv high; 1-aktiv low"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+IO-Konfigurationsbezogenes SDK-Codebeispiel
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # Verbindung mit der Robotersteuerung herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+
+    def TestIOConfig(self):
+        # DI-Konfiguration einstellen und abrufen
+        setDIConfig = [1, 2, 3, 4, 5, 6, 7, 8]
+        getDIConfig = [0] * 8
+        rtn = robot.SetDIConfig(setDIConfig)
+        print(f"SetDIConfig rtn is {rtn}")
+        rtn, getDIConfig = robot.GetDIConfig()
+        print(f"GetDIConfig rtn is {rtn}, value is {getDIConfig[0]} {getDIConfig[1]} {getDIConfig[2]} {getDIConfig[3]} {getDIConfig[4]} {getDIConfig[5]} {getDIConfig[6]} {getDIConfig[7]}")
+
+        # DO-Konfiguration einstellen und abrufen
+        setDOConfig = [9, 10, 11, 12, 13, 14, 15, 16]
+        getDOConfig = [0] * 8
+        rtn = robot.SetDOConfig(setDOConfig)
+        print(f"SetDOConfig rtn is {rtn}")
+        rtn, getDOConfig = robot.GetDOConfig()
+        print(f"GetDOConfig rtn is {rtn}, value is {getDOConfig[0]} {getDOConfig[1]} {getDOConfig[2]} {getDOConfig[3]} {getDOConfig[4]} {getDOConfig[5]} {getDOConfig[6]} {getDOConfig[7]}")
+
+        # Tool-DI-Konfiguration einstellen und abrufen
+        setToolDIConfig = [17, 18]
+        getToolDIConfig = [0] * 2
+        rtn = robot.SetToolDIConfig(setToolDIConfig)
+        print(f"SetToolDIConfig rtn is {rtn}")
+        rtn, getToolDIConfig = robot.GetToolDIConfig()
+        print(f"GetToolDIConfig rtn is {rtn}, value is {getToolDIConfig[0]} {getToolDIConfig[1]}")
+
+        # DI-Pegelkonfiguration einstellen und abrufen (0: aktiv low, 1: aktiv high)
+        setDIConfigLevel = [1, 1, 1, 1, 0, 0, 0, 0]
+        getDIConfigLevel = [0] * 8
+        rtn = robot.SetDIConfigLevel(setDIConfigLevel)
+        print(f"SetDIConfigLevel rtn is {rtn}")
+        rtn, getDIConfigLevel = robot.GetDIConfigLevel()
+        print(f"GetDIConfigLevel rtn is {rtn}, value is {getDIConfigLevel[0]} {getDIConfigLevel[1]} {getDIConfigLevel[2]} {getDIConfigLevel[3]} {getDIConfigLevel[4]} {getDIConfigLevel[5]} {getDIConfigLevel[6]} {getDIConfigLevel[7]}")
+
+        # DO-Pegelkonfiguration einstellen und abrufen (0: aktiv low, 1: aktiv high)
+        setDOConfigLevel = [0, 0, 0, 0, 1, 1, 1, 1]
+        getDOConfigLevel = [0] * 8
+        rtn = robot.SetDOConfigLevel(setDOConfigLevel)
+        print(f"SetDOConfigLevel rtn is {rtn}")
+        rtn, getDOConfigLevel = robot.GetDOConfigLevel()
+        print(f"GetDOConfigLevel rtn is {rtn}, value is {getDOConfigLevel[0]} {getDOConfigLevel[1]} {getDOConfigLevel[2]} {getDOConfigLevel[3]} {getDOConfigLevel[4]} {getDOConfigLevel[5]} {getDOConfigLevel[6]} {getDOConfigLevel[7]}")
+
+        # Tool-DI-Pegelkonfiguration einstellen und abrufen
+        setToolDIConfigLevel = [1, 0]
+        getToolDIConfigLevel = [0] * 2
+        rtn = robot.SetToolDIConfigLevel(setToolDIConfigLevel)
+        print(f"SetToolDIConfigLevel rtn is {rtn}")
+        rtn, getToolDIConfigLevel = robot.GetToolDIConfigLevel()
+        print(f"GetToolDIConfigLevel rtn is {rtn}, value is {getToolDIConfigLevel[0]} {getToolDIConfigLevel[1]}")
+
+        # Standard-DI-Pegelkonfiguration einstellen und abrufen
+        setStandardDILevel = [1, 1, 1, 1, 0, 0, 0, 0]
+        getStandardDILevel = [0] * 8
+        rtn = robot.SetStandardDILevel(setStandardDILevel)
+        print(f"SetStandardDILevel rtn is {rtn}")
+        rtn, getStandardDILevel = robot.GetStandardDILevel()
+        print(f"GetStandardDILevel rtn is {rtn}, value is {getStandardDILevel[0]} {getStandardDILevel[1]} {getStandardDILevel[2]} {getStandardDILevel[3]} {getStandardDILevel[4]} {getStandardDILevel[5]} {getStandardDILevel[6]} {getStandardDILevel[7]}")
+
+        # Standard-DO-Pegelkonfiguration einstellen und abrufen
+        setStandardDOLevel = [0, 0, 0, 0, 1, 1, 1, 1]
+        getStandardDOLevel = [0] * 8
+        rtn = robot.SetStandardDOLevel(setStandardDOLevel)
+        print(f"SetStandardDOLevel rtn is {rtn}")
+        rtn, getStandardDOLevel = robot.GetStandardDOLevel()
+        print(f"GetStandsrdDOLevel rtn is {rtn}, value is {getStandardDOLevel[0]} {getStandardDOLevel[1]} {getStandardDOLevel[2]} {getStandardDOLevel[3]} {getStandardDOLevel[4]} {getStandardDOLevel[5]} {getStandardDOLevel[6]} {getStandardDOLevel[7]}")
+
+        # 2 Sekunden warten
+        time.sleep(2)
+
+        # Verbindung schließen
+        robot.CloseRPC()
+        time.sleep(1)
+
+    # Testfunktion aufrufen
+    TestIOConfig(robot)

@@ -468,3 +468,197 @@ Roboter-MCU-Protokoll generieren
     * @return Fehlercode
     */
     errno_t RobotMCULogCollect();
+
+Roboter bei getrennter Port-Kommunikation stoppen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Roboter bei getrennter Port-Kommunikation stoppen
+    * @param [in] portID Portnummer 0-8080; 1-8083; 2-20002; 3-20004
+    * @param [in] enable 0-deaktiviert; 1-aktiviert
+    * @param [in] confirmTime Bestätigungsdauer der Kommunikationsunterbrechung (ms)[0-5000]
+    * @return Fehlercode
+    */
+    errno_t SetRobotStopOnComDisc(int portID, bool enable, int confirmTime);
+        
+Parameter für Roboterstopp bei Kommunikationsunterbrechung abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Parameter für Roboterstopp bei Kommunikationsunterbrechung abrufen
+    * @param [in] portID Portnummer 0-8080; 1-8083; 2-20002; 3-20004
+    * @param [out] enable 0-deaktiviert; 1-aktiviert
+    * @param [out] confirmTime Bestätigungsdauer der Kommunikationsunterbrechung (ms)[0-5000]
+    * @return Fehlercode
+    */
+    errno_t GetRobotStopOnComDisc(int portID, bool &enable, int &confirmTime);
+
+Codebeispiel für Parameter Roboterstopp bei Kommunikationsunterbrechung
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestRobotStopOnComDisc()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        bool enable = false;
+        int confirmTime = 0;
+        rtn = robot.SetRobotStopOnComDisc(0, true, 330);
+        rtn = robot.SetRobotStopOnComDisc(1, true, 550);
+        rtn = robot.SetRobotStopOnComDisc(2, true, 110);
+        rtn = robot.SetRobotStopOnComDisc(3, true, 220);
+        printf("SetRobotStopOnComDisc %d\n", rtn);
+        robot.GetRobotStopOnComDisc(0, enable, confirmTime);
+        printf("GetRobotStopOnComDisc 8080 rtn %d; enable is %d; confirm time is %d\n", rtn, enable, confirmTime);
+        robot.GetRobotStopOnComDisc(1, enable, confirmTime);
+        printf("GetRobotStopOnComDisc 80803 rtn %d; enable is %d; confirm time is %d\n", rtn, enable, confirmTime);
+        robot.GetRobotStopOnComDisc(2, enable, confirmTime);
+        printf("GetRobotStopOnComDisc 20002 rtn %d; enable is %d; confirm time is %d\n", rtn, enable, confirmTime);
+        robot.GetRobotStopOnComDisc(3, enable, confirmTime);
+        printf("GetRobotStopOnComDisc 20004 rtn %d; enable is %d; confirm time is %d\n", rtn, enable, confirmTime);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }
+
+UDP-Befehlframe senden
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief UDP-Befehlframe senden
+    * @param [in] frame Datenframe-String zum Senden, z.B. /f/bIII20III303III7IIIMode(0)III/b/f
+    * @return Fehlercode
+    */
+    errno_t SendUDPFrame(std::string frame);
+
+Callback-Funktion für Ausführungsergebnisse von über UDP gesendeten SDK-Befehlen einstellen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Callback-Funktion für Ausführungsergebnisse von über UDP gesendeten SDK-Befehlen einstellen
+    * @param [in] CallBack Callback-Funktion; comType-Kommunikationsantworttyp des Befehlsergebnisses 0-TCP, 1-UDP; count-Antwortframe-Zählung des Befehls; cmdID-Befehls-ID; contentLen-Datenlänge; content-Dateninhalt
+    * @return Fehlercode
+    */
+    errno_t SetCmdRpyCallback(void (*CallBack)(int comType, int count, int cmdID, int contentLen, std::string content));
+
+Codebeispiel für UDP-Befehlssendung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestSendUDPFrame()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.SetCmdRpyCallback(UDPFrameCallBack);
+        printf("SetCmdRpyCallback rtn is %d\n", rtn);
+        rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        rtn = robot.SendUDPFrame("/f/bIII20III303III7IIIMode(0)III/b/f");
+        printf("SendUDPFrame Mode(0) rtn is %d\n", rtn);
+        robot.Sleep(1000);
+        rtn = robot.SendUDPFrame("/f/bIII21III303III7IIIMode(1)III/b/f");
+        printf("SendUDPFrame Mode(1) rtn is %d\n", rtn);
+        robot.Sleep(1000);
+        rtn = robot.SendUDPFrame("/f/bIII49III201III184IIIMoveJ(-15.625, -82.680, 101.654, -110.950, -88.290, 0.017, -383.012, -2.325, 242.655, -178.024, 1.710, 74.416, 0, 0, 100, 100, 100, 0.000, 0.000, 0.000, 0.000, -1, 0, 0, 0, 0, 0, 0, 0)III/b/f");
+        printf("SendUDPFrame MoveJ(-15.625 rtn is %d\n", rtn);
+        robot.Sleep(1000);
+        rtn = robot.SendUDPFrame("/f/bIII48III203III199IIIMoveL(-75.622, -82.680, 101.654, -110.950, -88.290, 0.017, -193.537, 330.525, 242.657, -178.024, 1.710, 14.420, 0, 0, 100, 100, 100, -1, 0, 0.000, 0.000, 0.000, 0.000, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0)III/b/f");
+        printf("SendUDPFrame MoveL(-75.622 rtn is %d\n", rtn);
+        robot.Sleep(1000);
+        rtn = robot.SendUDPFrame("/f/bIII4III905III20IIIGetSoftwareVersion()III/b/f");
+        printf("SendUDPFrame GetSoftwareVersion() rtn is %d\n", rtn);
+        robot.Sleep(1000);
+        rtn = robot.SendUDPFrame("/f/bIII20III303III7IIIMode(0)III/b/f");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        rtn = robot.SendUDPFrame("III20III303III7IIIMode(0)III/b/f");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        rtn = robot.SendUDPFrame("/f/bIII20III303III7IIIMode(0)");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        rtn = robot.SendUDPFrame("/f/bIII20III303III6IIIMode(0)III/b/f");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        rtn = robot.SendUDPFrame("/f/b|||20|||303|||7|||Mode(0)|||/b/f");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        rtn = robot.SendUDPFrame("/f/bII20II303II7IIMode(0)II/b/f");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }
+    
+Benutzerdefinierte LED-Farbe des Roboterendeffektors einstellen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Benutzerdefinierte LED-Farbe des Roboterendeffektors einstellen
+    * @param [in] r End-Rot-LED-Steuerung; 0-aus; 1-ein
+    * @param [in] g End-Grün-LED-Steuerung; 0-aus; 1-ein
+    * @param [in] b End-Blau-LED-Steuerung; 0-aus; 1-ein
+    * @return Fehlercode
+    */
+    errno_t SetUserLEDColor(bool r, bool g, bool b);
+        
+Codebeispiel zum Einstellen der benutzerdefinierten LED-Farbe des Roboterendeffektors
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestUserLedColor()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return 0;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        robot.SetUserLEDColor(true, true, true);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, false, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(true, false, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, true, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, false, true);
+        robot.Sleep(1000);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }

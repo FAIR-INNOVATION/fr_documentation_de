@@ -797,47 +797,131 @@ Codebeispiel für Spiralbewegung
         return 0;
     }
 
-Servobewegung starten
-+++++++++++++++++++++
+Servobewegung Start
++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief Servobewegung starten, zur Verwendung mit ServoJ, ServoCart Befehlen
+    * @brief Start der Servobewegung, wird mit ServoJ- und ServoCart-Befehlen verwendet
+    * @param[in] comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
     * @return Fehlercode
     */
-    int ServoMoveStart();
+    public int ServoMoveStart (int comType = 0)
 
-Servobewegung beenden
-+++++++++++++++++++++
+Servobewegung Ende
++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief Servobewegung beenden, zur Verwendung mit ServoJ, ServoCart Befehlen
+    * @brief Ende der Servobewegung, wird mit ServoJ- und ServoCart-Befehlen verwendet
+    * @param[in] comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
     * @return Fehlercode
     */
-    int ServoMoveEnd();
+    public int ServoMoveEnd (int comType = 0)
 
-Servobewegung im Gelenkraum
-+++++++++++++++++++++++++++
-.. versionadded:: C#SDK-V1.1.4 Web-3.8.3
-
+Gelenkraum-Servomodellbewegung
++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.4  Web-3.8.3
+    
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief Servobewegung im Gelenkraum
-    * @param [in] joint_pos Ziel-Gelenkposition [°]
-    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100], vorübergehend nicht freigegeben, Standard = 0
-    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100], vorübergehend nicht freigegeben, Standard = 0
-    * @param [in] cmdT Befehlszyklus [s], empfohlener Bereich [0.001~0.0016]
-    * @param [in] filterT Filterzeit [s], vorübergehend nicht freigegeben, Standard = 0
-    * @param [in] gain Proportionalverstärkung der Zielposition, vorübergehend nicht freigegeben, Standard = 0
-    * @param [in] id ServoJ Befehls-ID, Standard = 0
-    * @return Fehlercode
+    * @brief  Gelenkraum-Servomodellbewegung
+    * @param  [in] joint_pos  Zielgelenkposition, Einheit deg
+    * @param  [in] axisPos  Externe Achsenposition, Einheit mm
+    * @param  [in] acc  Beschleunigungsprozentsatz, Bereich [0~100], vorübergehend nicht geöffnet, Standard ist 0
+    * @param  [in] vel  Geschwindigkeitsprozentsatz, Bereich [0~100], vorübergehend nicht geöffnet, Standard ist 0
+    * @param  [in] cmdT  Befehlssendezyklus, Einheit s, empfohlener Bereich [0.001~0.0016]
+    * @param  [in] filterT Filterzeit, Einheit s, vorübergehend nicht geöffnet, Standard ist 0
+    * @param  [in] gain  Proportionalverstärker für Zielposition, vorübergehend nicht geöffnet, Standard ist 0
+    * @param  [in] id ServoJ-Befehls-ID, Standard ist 0
+    * @param  [in] comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    * @return  Fehlercode
     */
-    int ServoJ(JointPos joint_pos, float acc, float vel, float cmdT, float filterT, float gain, int id=0);
+    public int ServoJ(JointPos joint_pos, ExaxisPos axisPos, float acc, float vel, float cmdT, float filterT, float gain, int id = 0, int comType = 0)
+
+SDK-Codebeispiel für ServoJ, ServoMoveStart, ServoMoveEnd basierend auf UDP-Kommunikation
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.4  Web-3.8.3
+    
+.. code-block:: c#
+    :linenos:
+
+    public void TestServoJUDP()
+    {
+        // Callback abonnieren
+        robot.OnUdpFrameReceived += (comType, frameCount, frameCmdID, contentLen, content) =>
+        {
+            Console.WriteLine($"[] comType={comType}, count={frameCount}, cmdID={frameCmdID}, content={content}");
+        };
+
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+
+        float vel = 0.0f;
+        float acc = 0.0f;
+        float cmdT = 0.008f;
+        float filterT = 0.0f;
+        float gain = 0.0f;
+        byte flag = 0;
+        int count = 300;
+        float dt = 0.1f;
+        int cmdID = 0;
+
+        while (true)
+        {
+            JointPos j = new JointPos(0, -90, 90, 0, 0, 0);
+            ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+            DescPose offset_pos = new DescPose(0, -90, 90, 0, 0, 0);
+            robot.MoveJ(j, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+            int ret = robot.GetActualJointPosDegree(flag, ref j);
+            if (ret == 0)
+            {
+                count = 300;
+                cmdID += 1;
+                robot.ServoMoveStart(1);
+
+                while (count > 0)
+                {
+                    robot.ServoJ(j, epos, acc, vel, cmdT, filterT, gain, cmdID, 1);
+                    j.jPos[0] += dt;
+                    j.jPos[1] += dt;
+                    j.jPos[3] += dt;
+                    j.jPos[4] += dt;
+                    j.jPos[5] += dt;
+                    epos.ePos[0] += dt;
+                    count -= 1;
+                    Thread.Sleep(1);
+                    robot.GetRobotRealTimeState(ref pkg);
+                }
+                robot.ServoMoveEnd(1);
+
+                Thread.Sleep(1000);
+                count = 300;
+                robot.ServoMoveStart(1);
+                while (count > 0)
+                {
+                    robot.ServoJ(j, epos, acc, vel, cmdT, filterT, gain, cmdID, 1);
+                    j.jPos[0] -= dt;
+                    j.jPos[1] -= dt;
+                    j.jPos[3] -= dt;
+                    j.jPos[4] -= dt;
+                    j.jPos[5] -= dt;
+                    epos.ePos[0] -= dt;
+                    count -= 1;
+                    Thread.Sleep(1);
+                    robot.GetRobotRealTimeState(ref pkg);
+                }
+                robot.ServoMoveEnd(1);
+            }
+            else
+            {
+                Console.WriteLine($"GetActualJointPosDegree errcode:{ret}");
+            }
+        }
+    }
 
 Codebeispiel für Servobewegung im Gelenkraum
 ++++++++++++++++++++++++++++++++++++++++++++
@@ -890,43 +974,119 @@ Codebeispiel für Servobewegung im Gelenkraum
         }
     }
 
-Gelenkmomentsteuerung starten
-+++++++++++++++++++++++++++++
+Start der Gelenkmomentsteuerung
+++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief Gelenkmomentsteuerung starten
+    * @brief Start der Gelenkmomentsteuerung
+    * @param [in] comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
     * @return Fehlercode
     */
-    int ServoJTStart();
+    public int ServoJTStart (int comType = 0)
 
 Gelenkmomentsteuerung
-+++++++++++++++++++++
+++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
     * @brief Gelenkmomentsteuerung
-    * @param [in] torque Gelenkmomente j1~j6 [Nm]
-    * @param [in] interval Befehlszyklus [s], Bereich [0.001~0.008]
-    * @param [in] checkFlag Erkennungsstrategie 0-keine Einschränkung; 1-Leistungsbegrenzung; 2-Geschwindigkeitsbegrenzung; 3-Leistungs- und Geschwindigkeitsbegrenzung
-    * @param [in] jPowerLimit Maximale Gelenkleistungsbegrenzung [W]
-    * @param [in] jVelLimit Maximale Gelenkgeschwindigkeit [°/s]
+    * @param [in] torque j1~j6 Gelenkmoment, Einheit Nm
+    * @param [in] interval Befehlsperiode, Einheit s, Bereich [0.001~0.008]
+    * @param [in] checkFlag Erkennungsstrategie 0-keine Einschränkung; 1-Leistungsbegrenzung; 2-Geschwindigkeitsbegrenzung; 3-sowohl Leistungs- als auch Geschwindigkeitsbegrenzung
+    * @param [in] jPowerLimit Maximale Gelenkleistungsbegrenzung (W)
+    * @param [in] jVelLimit Maximale Gelenkgeschwindigkeit (°/s)
+    * @param [in]  comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
     * @return Fehlercode
     */
-    public int ServoJT(double[] torque, double interval, int checkFlag, double[] jPowerLimit, double[] jVelLimit)
+    public int ServoJT(double[] torque, double interval, int checkFlag, double[] jPowerLimit, double[] jVelLimit, int comType = 0)
 
-Gelenkmomentsteuerung beenden
-+++++++++++++++++++++++++++++
+Ende der Gelenkmomentsteuerung
+++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief Gelenkmomentsteuerung beenden
+    * @brief Ende der Gelenkmomentsteuerung
+    * @param[in] comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
     * @return Fehlercode
     */
-    int ServoJTEnd();
+    public int ServoJTEnd (int comType = 0)
+
+SDK-Codebeispiel für ServoJT, ServoJTStart, ServoJTEnd basierend auf UDP-Kommunikation
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public int ServoJTWithSafetyUDP()
+    {
+        // Callback abonnieren
+        robot.OnUdpFrameReceived += (comType, frameCount, frameCmdID, contentLen, content) =>
+        {
+            Console.WriteLine($"[UDP-Antwort] comType={comType}, count={frameCount}, cmdID={frameCmdID}, content={content}");
+        };
+        while (true)
+        {
+            robot.ResetAllError();
+            Thread.Sleep(500);
+
+            JointPos j = new JointPos(7.053, -89.699, 156.141, -72.751, 7.829, 1.889);
+            ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+            DescPose offset_pos = new DescPose(-151.288, -321.186, 221.989, 89.140, 4.361, -0.795);
+            robot.MoveJ(j, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+
+            double[] torques = new double[6] { 0, 0, 0, 0, 0, 0 };
+            robot.GetJointTorques(1, torques);
+
+            robot.ServoJTStart(1);
+            ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+            robot.DragTeachSwitch(1);
+
+            int checkFlag = 0;
+            double[] jPowerLimit = new double[6] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+            double[] jVelLimit = new double[6] { 50, 50, 50, 50, 50, 50 };
+            int error = 0;
+            while (true)
+            {
+
+                torques[0] = 0.1;
+                error = robot.ServoJT(torques, 0.008, checkFlag, jPowerLimit, jVelLimit, 1);
+
+                Console.WriteLine($"ServoJT rtn is {error}");
+                Thread.Sleep(1);
+
+                robot.GetRobotRealTimeState(ref pkg);
+                Console.WriteLine($"maincode {pkg.main_code}, subcode {pkg.sub_code}");
+                if (pkg.jt_cur_pos[0] > 30)
+                {
+                    break;
+                }
+            }
+
+            while (true)
+            {
+
+                torques[0] = -0.1;
+                error = robot.ServoJT(torques, 0.008, checkFlag, jPowerLimit, jVelLimit, 1);
+
+                Console.WriteLine($"ServoJT rtn is {error}");
+                Thread.Sleep(1);
+
+                robot.GetRobotRealTimeState(ref pkg);
+                Console.WriteLine($"maincode {pkg.main_code}, subcode {pkg.sub_code}");
+                if (pkg.jt_cur_pos[0] < 0)
+                {
+                    break;
+                }
+            }
+
+            robot.DragTeachSwitch(0);
+            error = robot.ServoJTEnd(1);
+        }
+        return 0;
+    }
 
 Codebeispiel für Gelenkmomentsteuerung
 ++++++++++++++++++++++++++++++++++++++
@@ -1915,4 +2075,125 @@ Codebeispiel für stillstehende Leerbewegung
         Console.WriteLine($"MoveStationary rtn is {rtn}");
         rtn = robot.LaserSensorRecord1(0, 10);
         Console.WriteLine($"LaserSensorRecord1 rtn is {rtn}"); 
+    }
+
+Stationäres Pendeln Start
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Start des stationären Pendelns
+    * @param [in] weaveNum Pendelnummer [0-7]
+    * @param [in] mode 0-Werkzeugkoordinatensystem; 1-Referenzpunkt
+    * @param [in] refPoint Referenzpunkt-Koordinaten im kartesischen Koordinatensystem [x,y,z,a,b,c]
+    * @param [in] weaveTime Pendelzeit [s]
+    * @return Fehlercode
+    */
+    public int OriginPointWeaveStart(int weaveNum, int mode, DescPose refPoint, double weaveTime);
+    
+Stationäres Pendeln Ende
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Ende des stationären Pendelns
+    * @return Fehlercode
+    */
+    public int OriginPointWeaveEnd();
+        
+SDK-Codebeispiel für stationäres Pendeln
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    void TestOriginPointWeave()
+    {
+        // Gelenkpositionsobjekt erstellen
+        JointPos j = new JointPos(39.886, -98.580, -124.032, -47.393, 90.000, 40.842);
+        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+
+        // Referenzpunkt-Koordinaten
+        DescPose refPoint = new DescPose(400.021, 300.022, 299.996, 179.997, -0.003, -90.956);
+
+        //// Erste Bewegung
+        robot.MoveJ(j, 1, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+
+        // Stationäres Pendeln starten (Modus 0)
+        robot.OriginPointWeaveStart(0, 0, refPoint, 3);
+        robot.MoveStationary();   // Stationäre Bewegung ausführen (vorausgesetzt, diese Methode existiert)
+        robot.OriginPointWeaveEnd();
+
+        Thread.Sleep(2000);         // 2 Sekunden warten
+
+        // Zweite Bewegung
+        robot.MoveJ(j, 1, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+
+        // Stationäres Pendeln starten (Modus 1)
+        robot.OriginPointWeaveStart(0, 1, refPoint, 3);
+        robot.MoveStationary();
+        robot.OriginPointWeaveEnd();
+    }
+
+SDK-Codebeispiel für stationäres Pendeln (mit Laser und Erweiterungsachse)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    void TestOriginPointWeave2()
+    {
+        // Gelenkpositionsobjekt erstellen
+        JointPos j = new JointPos(39.886, -98.580, -124.032, -47.393, 90.000, 40.842);
+        ExaxisPos epos1 = new ExaxisPos(0, 0, 0, 0);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos2 = new ExaxisPos(5, 0.000, 0.000, 0.000);
+
+        // Referenzpunkt-Koordinaten
+        DescPose refPoint = new DescPose(400.021, 300.022, 299.996, 179.997, -0.003, -90.956);
+
+        int rtn = 0;
+        robot.LaserTrackingSensorConfig("192.168.58.20", 5020);
+        robot.LaserTrackingSensorSamplePeriod(20);
+        robot.LoadPosSensorDriver(101);
+
+        // UDP-Treiber laden
+        robot.ExtDevLoadUDPDriver();
+
+        // Positionierungsabschlusszeit für Erweiterungsachse einstellen
+        rtn = robot.SetExAxisCmdDoneTime(5000.0);
+        Console.WriteLine("SetExAxisCmdDoneTime rtn is " + rtn);
+
+        // Erweiterungsachsen 1 und 2 aktivieren
+        rtn = robot.ExtAxisServoOn(1, 1);
+        Console.WriteLine("ExtAxisServoOn axis id 1 rtn is " + rtn);
+        rtn = robot.ExtAxisServoOn(2, 1);
+        Console.WriteLine("ExtAxisServoOn axis id 2 rtn is " + rtn);
+        Thread.Sleep(2000);
+
+        // Referenzfahrt für Erweiterungsachse einstellen
+        robot.ExtAxisSetHoming(1, 0, 10, 2);
+        robot.LaserTrackingLaserOnOff(1);
+
+
+        //// 1---Ohne Erweiterungsachse
+        robot.LaserTrackingTrackOnOff(1, 4);
+        robot.Sleep(200);
+        // Stationäres Pendeln starten
+        robot.OriginPointWeaveStart(0, 0, refPoint, 10);
+        robot.MoveStationary();   // Stationäre Bewegung ausführen
+        robot.OriginPointWeaveEnd();
+        robot.LaserTrackingTrackOnOff(0, 4);
+
+        Thread.Sleep(2000);         // 2 Sekunden warten
+
+        //// 2---Mit Erweiterungsachse
+        robot.ExtAxisMove(epos1, 100, -1);
+        robot.LaserTrackingTrackOnOff(1, 4);
+        // Stationäres Pendeln starten
+        robot.OriginPointWeaveStart(0, 0, refPoint, 20);
+        robot.ExtAxisMove(epos2, 100, -1);
+        robot.OriginPointWeaveEnd();
+        robot.LaserTrackingTrackOnOff(0, 4);
     }

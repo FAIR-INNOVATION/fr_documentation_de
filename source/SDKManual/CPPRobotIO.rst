@@ -521,3 +521,333 @@ Codebeispiel zum Zurücksetzen der Ausgänge nach LUA-Programmstopp/-pause
         robot.CloseRPC();
         return 0;
     }
+
+Konfigurierbare CI-Portfunktionen des Steuerkastens einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Einstellen der konfigurierbaren CI-Portfunktionen des Steuerkastens
+    * @param [in] config CI0-CI7 Funktionscodes;
+    * 0-Keine;1-Lichtbogenstart erfolgreich;2-Schweißgerät bereit;3-Förderbanderkennung;4-Pause;5-Fortsetzen;6-Start;7-Stopp;
+    8-Pause/Fortsetzen;9-Start/Stopp;10-Fußtaster-Ziehen;11-Zur Arbeitsposition bewegen;12-Manuell/Auto umschalten;
+    13-Drahtpositionssuche erfolgreich;14-Bewegungsunterbrechung;15-Hauptprogramm starten;16-Rückspulen starten;17-Startbestätigung;
+    18-Photoelektrisches Erkennungssignal X;19-Photoelektrisches Erkennungssignal Y;20-Externer Not-Halt-Eingangssignal 1;21-Externer Not-Halt-Eingangssignal 2;
+    22-Stufe 1 Reduzierungsmodus;23-Stufe 2 Reduzierungsmodus;24-Stufe 3 Reduzierungsmodus (Stopp);25-Schweißen fortsetzen;26-Schweißen beenden;
+    27-Hilfszug aktivieren;28-Hilfszug deaktivieren;29-Hilfszug aktivieren/deaktivieren;30-Alle Fehler löschen;
+    31-Manuell/Auto umschalten (High/Low-Pegel);32-Aktivieren;33-Deaktivieren;34-Aktivieren/Deaktivieren (steigende/fallende Flanke);35-Fixpunkt-Tracking starten/beenden
+    * @return Fehlercode
+    */
+    errno_t SetDIConfig(int config[8]);
+
+Konfigurierbare CI-Portfunktionen des Steuerkastens abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Abrufen der konfigurierbaren CI-Portfunktionen des Steuerkastens
+    * @param [in] config CI0-CI7 Funktionscodes;
+    * 0-Keine;1-Lichtbogenstart erfolgreich;2-Schweißgerät bereit;3-Förderbanderkennung;4-Pause;5-Fortsetzen;6-Start;7-Stopp;
+    8-Pause/Fortsetzen;9-Start/Stopp;10-Fußtaster-Ziehen;11-Zur Arbeitsposition bewegen;12-Manuell/Auto umschalten;
+    13-Drahtpositionssuche erfolgreich;14-Bewegungsunterbrechung;15-Hauptprogramm starten;16-Rückspulen starten;17-Startbestätigung;
+    18-Photoelektrisches Erkennungssignal X;19-Photoelektrisches Erkennungssignal Y;20-Externer Not-Halt-Eingangssignal 1;21-Externer Not-Halt-Eingangssignal 2;
+    22-Stufe 1 Reduzierungsmodus;23-Stufe 2 Reduzierungsmodus;24-Stufe 3 Reduzierungsmodus (Stopp);25-Schweißen fortsetzen;26-Schweißen beenden;
+    27-Hilfszug aktivieren;28-Hilfszug deaktivieren;29-Hilfszug aktivieren/deaktivieren;30-Alle Fehler löschen;
+    31-Manuell/Auto umschalten (High/Low-Pegel);32-Aktivieren;33-Deaktivieren;34-Aktivieren/Deaktivieren (steigende/fallende Flanke);35-Fixpunkt-Tracking starten/beenden
+    * @return Fehlercode
+    */
+    errno_t GetDIConfig(int config[8]);
+
+Konfigurierbare CO-Portfunktionen des Steuerkastens einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Einstellen der konfigurierbaren CO-Portfunktionen des Steuerkastens
+    * @param [out] config CO0-CO7 Funktionscodes;
+    * 0-Keine;1-Roboterfehler;2-Roboter in Bewegung;3-Spritzen start/stopp;4-Spritzpistolenreinigung;5-Gaszufuhrsignal;6-Lichtbogenstartsignal;7-Tippen Drahtvorschub;
+    8-Rückwärts Drahtvorschub;9-JOB-Eingang 1;10-JOB-Eingang 2;11-JOB-Eingang 3;12-Förderband start/stopp Steuerung;13-Roboter pausiert;14-Arbeitsposition erreicht;
+    15-Interferenzbereich erreicht;16-Drahtpositionssuche start/stopp Steuerung;17-Roboterstart abgeschlossen;18-Programm start/stopp;19-Auto/Manuell-Modus;20-Not-Halt-Ausgangssignal 1-Sicherheit;
+    21-Not-Halt-Ausgangssignal 2-Sicherheit;22-Lua-Skriptprogramm läuft/gestoppt;23-Sicherheitsstatusausgang-Sicherheit;24-Schutzstopp-Statusausgang-Sicherheit;
+    25-Roboter in Bewegung-Sicherheit;26-Roboter im Reduzierungsmodus-Sicherheit;27-Roboter nicht im Reduzierungsmodus-Sicherheit;28-Roboter nicht gestoppt;29-Roboterfehler-Befehlspunktfehler;
+    30-Roboterfehler-Antriebsfehler;31-Roboterfehler-Weichgrenze überschritten;32-Roboterfehler-Kollisionsfehler;33-Roboterfehler-Fehler bei Anzahl aktiver Slaves;
+    34-Roboterfehler-Slave-Fehler;35-Roboterfehler-IO-Fehler;36-Roboterfehler-Greiferfehler;37-Roboterfehler-Dateifehler;38-Roboterfehler-Singuläre Pose;
+    39-Roboterfehler-Antriebskommunikationsfehler;40-Roboterfehler-Parameterfehler;41-Roboterfehler-Externe Achse Weichgrenze überschritten;42-Roboterwarnung-Warnung;
+    43-Roboterwarnung-Sicherheitstürwarnung;44-Roboterwarnung-Bewegungswarnung;45-Roboterwarnung-Interferenzbereichswarnung;46-Roboterwarnung-Sicherheitswandwarnung;
+    47-Aktivierungsstatus;48-Automatisches Anheben bei Unterbrechung;49-Würfel 1 Interferenzwarnung;50-Würfel 2 Interferenzwarnung;51-Würfel 3 Interferenzwarnung;52-Würfel 4 Interferenzwarnung;
+    * @return Fehlercode
+    */
+    errno_t SetDOConfig(int config[8]);
+
+Konfigurierbare CO-Portfunktionen des Steuerkastens abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Abrufen der konfigurierbaren CO-Portfunktionen des Steuerkastens
+    * @param [out] config CO0-CO7 Funktionscodes;
+    * 0-Keine;1-Roboterfehler;2-Roboter in Bewegung;3-Spritzen start/stopp;4-Spritzpistolenreinigung;5-Gaszufuhrsignal;6-Lichtbogenstartsignal;7-Tippen Drahtvorschub;
+    8-Rückwärts Drahtvorschub;9-JOB-Eingang 1;10-JOB-Eingang 2;11-JOB-Eingang 3;12-Förderband start/stopp Steuerung;13-Roboter pausiert;14-Arbeitsposition erreicht;
+    15-Interferenzbereich erreicht;16-Drahtpositionssuche start/stopp Steuerung;17-Roboterstart abgeschlossen;18-Programm start/stopp;19-Auto/Manuell-Modus;20-Not-Halt-Ausgangssignal 1-Sicherheit;
+    21-Not-Halt-Ausgangssignal 2-Sicherheit;22-Lua-Skriptprogramm läuft/gestoppt;23-Sicherheitsstatusausgang-Sicherheit;24-Schutzstopp-Statusausgang-Sicherheit;
+    25-Roboter in Bewegung-Sicherheit;26-Roboter im Reduzierungsmodus-Sicherheit;27-Roboter nicht im Reduzierungsmodus-Sicherheit;28-Roboter nicht gestoppt;29-Roboterfehler-Befehlspunktfehler;
+    30-Roboterfehler-Antriebsfehler;31-Roboterfehler-Weichgrenze überschritten;32-Roboterfehler-Kollisionsfehler;33-Roboterfehler-Fehler bei Anzahl aktiver Slaves;
+    34-Roboterfehler-Slave-Fehler;35-Roboterfehler-IO-Fehler;36-Roboterfehler-Greiferfehler;37-Roboterfehler-Dateifehler;38-Roboterfehler-Singuläre Pose;
+    39-Roboterfehler-Antriebskommunikationsfehler;40-Roboterfehler-Parameterfehler;41-Roboterfehler-Externe Achse Weichgrenze überschritten;42-Roboterwarnung-Warnung;
+    43-Roboterwarnung-Sicherheitstürwarnung;44-Roboterwarnung-Bewegungswarnung;45-Roboterwarnung-Interferenzbereichswarnung;46-Roboterwarnung-Sicherheitswandwarnung;
+    47-Aktivierungsstatus;48-Automatisches Anheben bei Unterbrechung;49-Würfel 1 Interferenzwarnung;50-Würfel 2 Interferenzwarnung;51-Würfel 3 Interferenzwarnung;52-Würfel 4 Interferenzwarnung;
+    * @return Fehlercode
+    */
+    errno_t GetDOConfig(int config[8]);
+
+Konfigurierbare End-CI-Portfunktionen des Endeffektors einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Einstellen der konfigurierbaren End-CI-Portfunktionen des Endeffektors
+    * @param [in] config End CI0-CI1 Funktionscodes;
+    * 0-Keine;1-Zieh-Teaching-Werkzeugschalter;2-Punktaufzeichnungssignal;3-Manuell/Auto umschalten (Impulssignal);4-TPD-Aufzeichnung start/stopp;5-Bewegung pausieren;
+    6-Bewegung fortsetzen;7-Start;8-Stopp;9-Pause/Fortsetzen;10-Start/Stopp;11-Kraftsensor-Hilfszug aktivieren;12-Kraftsensor-Hilfszug deaktivieren;
+    13-Kraftsensor-Hilfszug aktivieren/deaktivieren;14-Lasererkennungssignal X;15-Lasererkennungssignal Y;16-PTP-Bewegung zur Arbeitsposition;17-Bewegungsunterbrechung, aktuelle Bewegung je nach Signal stoppen;
+    18-Hauptprogramm starten;19-Rückspulen starten;20-Startbestätigung;21-Schweißen fortsetzen;22-Schweißen beenden;23-Fehler löschen;24-Manuell/Auto umschalten (High/Low-Pegel);
+    25-Aktivieren;26-Deaktivieren;27-Aktivieren/Deaktivieren;28-Laser-Servo-Tracking start/stopp Signal;
+    * @return Fehlercode
+    */
+    errno_t SetToolDIConfig(int config[2]);
+
+Konfigurierbare End-CI-Portfunktionen des Endeffektors abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Abrufen der konfigurierbaren End-CI-Portfunktionen des Endeffektors
+    * @param [out] config End CI0-CI1 Funktionscodes;
+    * 0-Keine;1-Zieh-Teaching-Werkzeugschalter;2-Punktaufzeichnungssignal;3-Manuell/Auto umschalten (Impulssignal);4-TPD-Aufzeichnung start/stopp;5-Bewegung pausieren;
+    6-Bewegung fortsetzen;7-Start;8-Stopp;9-Pause/Fortsetzen;10-Start/Stopp;11-Kraftsensor-Hilfszug aktivieren;12-Kraftsensor-Hilfszug deaktivieren;
+    13-Kraftsensor-Hilfszug aktivieren/deaktivieren;14-Lasererkennungssignal X;15-Lasererkennungssignal Y;16-PTP-Bewegung zur Arbeitsposition;17-Bewegungsunterbrechung, aktuelle Bewegung je nach Signal stoppen;
+    18-Hauptprogramm starten;19-Rückspulen starten;20-Startbestätigung;21-Schweißen fortsetzen;22-Schweißen beenden;23-Fehler löschen;24-Manuell/Auto umschalten (High/Low-Pegel);
+    25-Aktivieren;26-Deaktivieren;27-Aktivieren/Deaktivieren;28-Laser-Servo-Tracking start/stopp Signal;
+    * @return Fehlercode
+    */
+    errno_t GetToolDIConfig(int config[2]);
+    
+Konfigurierbaren CI-Aktivzustand des Steuerkastens einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Einstellen des konfigurierbaren CI-Aktivzustands des Steuerkastens
+    * @param [in] config CI0-CI7 Port-Aktivzustand; 0-aktiv high; 1-aktiv low
+    * @return Fehlercode
+    */
+    errno_t SetDIConfigLevel(int config[8]);
+        
+Konfigurierbaren CI-Aktivzustand des Steuerkastens abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Abrufen des konfigurierbaren CI-Aktivzustands des Steuerkastens
+    * @param [out] config CI0-CI7 Port-Aktivzustand; 0-aktiv high; 1-aktiv low
+    * @return Fehlercode
+    */
+    errno_t GetDIConfigLevel(int config[8]);
+        
+Konfigurierbaren CO-Aktivzustand des Steuerkastens einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Einstellen des konfigurierbaren CO-Aktivzustands des Steuerkastens
+    * @param [in] config CO0-CO7 Port-Aktivzustand; 0-aktiv high; 1-aktiv low
+    * @return Fehlercode
+    */
+    errno_t SetDOConfigLevel(int config[8]);
+
+Konfigurierbaren CO-Aktivzustand des Steuerkastens abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Abrufen des konfigurierbaren CO-Aktivzustands des Steuerkastens
+    * @param [out] config CO0-CO7 Port-Aktivzustand; 0-aktiv high; 1-aktiv low
+    * @return Fehlercode
+    */
+    errno_t GetDOConfigLevel(int config[8]);
+    
+Konfigurierbaren CI-Aktivzustand des Endeffektors einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Einstellen des konfigurierbaren CI-Aktivzustands des Endeffektors
+    * @param [in] config CI0-CI1 Port-Aktivzustand; 0-aktiv high; 1-aktiv low
+    * @return Fehlercode
+    */
+    errno_t SetToolDIConfigLevel(int config[2]);
+    
+Konfigurierbaren CI-Aktivzustand des Endeffektors abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Abrufen des konfigurierbaren CI-Aktivzustands des Endeffektors
+    * @param [out] config CI0-CI1 Port-Aktivzustand; 0-aktiv high; 1-aktiv low
+    * @return Fehlercode
+    */
+    errno_t GetToolDIConfigLevel(int config[2]);
+    
+Standard-DI-Aktivzustand des Steuerkastens einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Einstellen des Standard-DI-Aktivzustands des Steuerkastens
+    * @param [in] config DI0-DI7 Port-Aktivzustand; 0-aktiv high; 1-aktiv low
+    * @return Fehlercode
+    */
+    errno_t SetStandardDILevel(int config[8]);
+    
+Standard-DI-Aktivzustand des Steuerkastens abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Abrufen des Standard-DI-Aktivzustands des Steuerkastens
+    * @param [out] config DI0-DI7 Port-Aktivzustand; 0-aktiv high; 1-aktiv low
+    * @return Fehlercode
+    */
+    errno_t GetStandardDILevel(int config[8]);
+
+Standard-DO-Aktivzustand des Steuerkastens einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Einstellen des Standard-DO-Aktivzustands des Steuerkastens
+    * @param [in] config DO0-DO7 Port-Aktivzustand; 0-aktiv high; 1-aktiv low
+    * @return Fehlercode
+    */
+    errno_t SetStandardDOLevel(int config[8]);
+    
+Standard-DO-Aktivzustand des Steuerkastens abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Abrufen des Standard-DO-Aktivzustands des Steuerkastens
+    * @param [out] config DO0-DO7 Port-Aktivzustand; 0-aktiv high; 1-aktiv low
+    * @return Fehlercode
+    */
+    errno_t GetStandardDOLevel(int config[8]);
+        
+Robot IO Konfigurationscodebeispiel
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestIOConfig()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        int setDIConfig[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
+        int getDIConfig[8] = { 0 };
+        rtn = robot.SetDIConfig(setDIConfig);
+        printf("SetDIConfig rtn is %d\n", rtn);
+        rtn = robot.GetDIConfig(getDIConfig);
+        printf("GetDIConfig rtn is %d, value is %d %d %d %d %d %d %d %d \n", rtn, 
+            getDIConfig[0], getDIConfig[1], getDIConfig[2], getDIConfig[3], getDIConfig[4], getDIConfig[5], getDIConfig[6], getDIConfig[7]);
+        int setDOConfig[8] = { 9, 10, 11, 12, 13, 14, 15, 16 };
+        int getDOConfig[8] = { 0 };
+        rtn = robot.SetDOConfig(setDOConfig);
+        printf("SetDOConfig rtn is %d\n", rtn);
+        rtn = robot.GetDOConfig(getDOConfig);
+        printf("GetDOConfig rtn is %d, value is %d %d %d %d %d %d %d %d \n", rtn,
+            getDOConfig[0], getDOConfig[1], getDOConfig[2], getDOConfig[3], getDOConfig[4], getDOConfig[5], getDOConfig[6], getDOConfig[7]);
+        int setToolDIConfig[2] = { 17, 18 };
+        int getToolDIConfig[2] = { 0 };
+        rtn = robot.SetToolDIConfig(setToolDIConfig);
+        printf("SetToolDIConfig rtn is %d\n", rtn);
+        rtn = robot.GetToolDIConfig(getToolDIConfig);
+        printf("GetToolDIConfig rtn is %d, value is %d %d \n", rtn, getToolDIConfig[0], getToolDIConfig[1]);
+        int setDIConfigLevel[8] = { 1, 1, 1, 1, 0, 0, 0, 0 };
+        int getDIConfigLevel[8] = { 0 };
+        rtn = robot.SetDIConfigLevel(setDIConfigLevel);
+        printf("SetDIConfigLevel rtn is %d\n", rtn);
+        rtn = robot.GetDIConfigLevel(getDIConfigLevel);
+        printf("GetDIConfigLevel rtn is %d, value is %d %d %d %d %d %d %d %d \n", rtn,
+            getDIConfigLevel[0], getDIConfigLevel[1], getDIConfigLevel[2], getDIConfigLevel[3], getDIConfigLevel[4], getDIConfigLevel[5], getDIConfigLevel[6], getDIConfigLevel[7]);
+        int setDOConfigLevel[8] = { 0, 0, 0, 0, 1, 1, 1, 1 };
+        int getDOConfigLevel[8] = { 0 };
+        rtn = robot.SetDOConfigLevel(setDOConfigLevel);
+        printf("SetDOConfigLevel rtn is %d\n", rtn);
+        rtn = robot.GetDOConfigLevel(getDOConfigLevel);
+        printf("GetDOConfigLevel rtn is %d, value is %d %d %d %d %d %d %d %d \n", rtn,
+            getDOConfigLevel[0], getDOConfigLevel[1], getDOConfigLevel[2], getDOConfigLevel[3], getDOConfigLevel[4], getDOConfigLevel[5], getDOConfigLevel[6], getDOConfigLevel[7]);
+        int setToolDIConfigLevel[2] = { 1, 0 };
+        int getToolDIConfigLevel[2] = { 0 };
+        rtn = robot.SetToolDIConfigLevel(setToolDIConfigLevel);
+        printf("SetToolDIConfigLevel rtn is %d\n", rtn);
+        rtn = robot.GetToolDIConfigLevel(getToolDIConfigLevel);
+        printf("GetToolDIConfigLevel rtn is %d, value is %d %d \n", rtn, getToolDIConfigLevel[0], getToolDIConfigLevel[1]);
+        int setStandardDILevel[8] = { 1, 1, 1, 1, 0, 0, 0, 0 };
+        int getStandardDILevel[8] = { 0 };
+        rtn = robot.SetStandardDILevel(setStandardDILevel);
+        printf("SetStandardDILevel rtn is %d\n", rtn);
+        rtn = robot.GetStandardDILevel(getStandardDILevel);
+        printf("GetStandardDILevel rtn is %d, value is %d %d %d %d %d %d %d %d \n", rtn,
+            getStandardDILevel[0], getStandardDILevel[1], getStandardDILevel[2], getStandardDILevel[3], getStandardDILevel[4], getStandardDILevel[5], getStandardDILevel[6], getStandardDILevel[7]);
+        int setStandardDOLevel[8] = { 0, 0, 0, 0, 1, 1, 1, 1 };
+        int getStandardDOLevel[8] = { 0 };
+        rtn = robot.SetStandardDOLevel(setStandardDOLevel);
+        printf("SetStandardDOLevel rtn is %d\n", rtn);
+        rtn = robot.GetStandardDOLevel(getStandardDOLevel);
+        printf("GetStandsrdDOLevel rtn is %d, value is %d %d %d %d %d %d %d %d \n", rtn,
+            getStandardDOLevel[0], getStandardDOLevel[1], getStandardDOLevel[2], getStandardDOLevel[3], getStandardDOLevel[4], getStandardDOLevel[5], getStandardDOLevel[6], getStandardDOLevel[7]);
+        robot.Sleep(2000);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }

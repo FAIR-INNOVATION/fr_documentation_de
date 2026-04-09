@@ -352,27 +352,28 @@ Konfiguration der UDP-Kommunikationsparameter für Erweiterungsachsen
     */
     int ExtDevSetUDPComParam(std::string ip, int port, int period, int lossPkgTime, int lossPkgNum, int disconnectTime, int reconnectEnable, int reconnectPeriod, int reconnectNum, int selfConnect);
 
-Konfiguration der UDP-Kommunikationsparameter für Erweiterungsachsen abrufen
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Abrufen der UDP-Kommunikationsparameterkonfiguration für Erweiterungsachsen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C#SDK-v1.0.7
 
 .. code-block:: C#
     :linenos:
 
     /**
-    * @brief Konfiguration der UDP-Kommunikationsparameter für Erweiterungsachsen abrufen
-    * @param [out] ip IP-Adresse der SPS
-    * @param [out] port Portnummer
-    * @param [out] period Kommunikationszyklus (ms, Standard ist 2, diesen Parameter nicht ändern)
-    * @param [out] lossPkgTime Paketverlust-Erkennungszeit (ms)
-    * @param [out] lossPkgNum Anzahl der Paketverluste
-    * @param [out] disconnectTime Zeitdauer zur Bestätigung einer Kommunikationsunterbrechung
-    * @param [out] reconnectEnable Automatische Wiederverbindung bei Kommunikationsunterbrechung aktivieren (0-deaktivieren, 1-aktivieren)
-    * @param [out] reconnectPeriod Intervall für Wiederverbindungsversuche (ms)
-    * @param [out] reconnectNum Anzahl der Wiederverbindungsversuche
+    * @brief Abrufen der UDP-Kommunikationsparameter für Erweiterungsachsen
+    * @param [out] ip PLC-IP-Adresse
+    * @param [out] port	Portnummer
+    * @param [out] period	Kommunikationszyklus (ms, Standard ist 2, diesen Parameter nicht ändern)
+    * @param [out] lossPkgTime	Paketverlust-Erkennungszeit (ms)
+    * @param [out] lossPkgNum	Anzahl der Paketverluste
+    * @param [out] disconnectTime	Bestätigungsdauer für Kommunikationsunterbrechung
+    * @param [out] reconnectEnable	Automatische Wiederverbindung bei Kommunikationsunterbrechung aktivieren 0-deaktiviert 1-aktiviert
+    * @param [out] reconnectPeriod	Wiederverbindungsintervall (ms)
+    * @param [out] reconnectNum	Anzahl der Wiederverbindungsversuche
+    * @param [out] selfConnect	Automatische Wiederverbindung nach Neustart des Steuerkastens; 0-keine Wiederverbindung; 1-Wiederverbindung
     * @return Fehlercode
     */
-    int ExtDevGetUDPComParam(std::string& ip, int& port, int& period, int& lossPkgTime, int& lossPkgNum, int& disconnectTime, int& reconnectEnable, int& reconnectPeriod, int& reconnectNum);
+    public int ExtDevGetUDPComParam(ref string ip, ref int port, ref int period, ref int lossPkgTime, ref int lossPkgNum, ref int disconnectTime, ref int reconnectEnable, ref int reconnectPeriod, ref int reconnectNum, ref int selfConnect)
 
 UDP-Kommunikation laden
 +++++++++++++++++++++++
@@ -1472,3 +1473,16 @@ Codebeispiel für das Einstellen der Synchronbewegungsstrategie von Erweiterungs
         Console.WriteLine($"ExtAxisSyncMoveL 3 rtn is {rtn}");
         Thread.Sleep(8000);
     }
+
+Einstellung der Positionierungsabschlusszeit für UDP-Erweiterungsachsen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Einstellung der Positionierungsabschlusszeit für UDP-Erweiterungsachsen
+    * @param [in] time Positionierungsabschlusszeit [ms]
+    * @return Fehlercode
+    */
+    public int SetExAxisCmdDoneTime(double time)

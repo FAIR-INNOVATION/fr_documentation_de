@@ -360,27 +360,28 @@ UDP-Kommunikationsparameter für Erweiterungsachse konfigurieren
     */
     errno_t ExtDevSetUDPComParam(std::string ip, int port, int period, int lossPkgTime, int lossPkgNum, int disconnectTime, int reconnectEnable, int reconnectPeriod, int reconnectNum, int selfConnect = 1);
 
-UDP-Kommunikationsparameter für Erweiterungsachse abrufen
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Abrufen der UDP-Kommunikationsparameterkonfiguration für Erweiterungsachsen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.4.0
 
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief Gibt die UDP-Kommunikationsparameter für die Erweiterungsachse zurück
-    * @param [out] ip IP-Adresse der SPS
-    * @param [out] port   Portnummer
-    * @param [out] period   Kommunikationszyklus (ms)
-    * @param [out] lossPkgTime   Paketverlust-Erkennungszeit (ms)
-    * @param [out] lossPkgNum   Anzahl der Paketverluste
-    * @param [out] disconnectTime   Bestätigungsdauer für Kommunikationsunterbrechung
-    * @param [out] reconnectEnable   Automatische Wiederverbindung bei Kommunikationsunterbrechung aktiviert? 0-deaktiviert, 1-aktiviert
-    * @param [out] reconnectPeriod   Wiederverbindungsintervall (ms)
-    * @param [out] reconnectNum   Anzahl der Wiederverbindungsversuche
+    * @brief Abrufen der UDP-Kommunikationsparameter für Erweiterungsachsen
+    * @param [out] ip PLC-IP-Adresse
+    * @param [out] port Portnummer
+    * @param [out] period Kommunikationszyklus (ms, Standard ist 2, diesen Parameter nicht ändern)
+    * @param [out] lossPkgTime Paketverlust-Erkennungszeit (ms)
+    * @param [out] lossPkgNum Anzahl der Paketverluste
+    * @param [out] disconnectTime Bestätigungsdauer für Kommunikationsunterbrechung
+    * @param [out] reconnectEnable Automatische Wiederverbindung bei Kommunikationsunterbrechung aktivieren 0-deaktiviert 1-aktiviert
+    * @param [out] reconnectPeriod Wiederverbindungsintervall (ms)
+    * @param [out] reconnectNum Anzahl der Wiederverbindungsversuche
+    * @param [out] selfStart Automatische Wiederverbindung nach Neustart des Steuerkastens; 0-keine Wiederverbindung; 1-Wiederverbindung
     * @return Fehlercode
     */
-    errno_t ExtDevGetUDPComParam(std::string& ip, int& port, int& period, int& lossPkgTime, int& lossPkgNum, int& disconnectTime, int& reconnectEnable, int& reconnectPeriod, int& reconnectNum);
+    errno_t ExtDevGetUDPComParam(std::string& ip, int& port, int& period, int& lossPkgTime, int& lossPkgNum, int& disconnectTime, int& reconnectEnable, int& reconnectPeriod, int& reconnectNum, int& selfConnect);
 
 UDP-Kommunikation laden
 ++++++++++++++++++++++++++++++++++++++++++++++
@@ -1586,3 +1587,16 @@ Codebeispiel für fahrbare Einheit
       robot.CloseRPC();
       return 0;
     }
+
+Einstellung der Positionierungsabschlusszeit für UDP-Erweiterungsachsen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Einstellung der Positionierungsabschlusszeit für UDP-Erweiterungsachsen
+    * @param [in] time Positionierungsabschlusszeit [ms]
+    * @return Fehlercode
+    */
+    errno_t SetExAxisCmdDoneTime(double time);

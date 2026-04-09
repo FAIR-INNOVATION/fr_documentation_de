@@ -428,3 +428,148 @@ Roboter-MCU-Protokoll generieren
     * @return Fehlercode.
     */
     public int RobotMCULogCollect();
+
+Roboter bei getrennter Port-Kommunikation stoppen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+    
+    /**
+    * @brief Roboter bei getrennter Port-Kommunikation stoppen
+    * @param [in] portID Portnummer 0-8080; 1-8083; 2-20002; 3-20004
+    * @param [in] enable 0-deaktiviert; 1-aktiviert
+    * @param [in] confirmTime Bestätigungsdauer der Kommunikationsunterbrechung (ms)[0-5000]
+    * @return  Fehlercode
+    */
+    public int SetRobotStopOnComDisc(int portID, bool enable, int confirmTime)
+
+Parameter für Roboterstopp bei Kommunikationsunterbrechung abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+    
+    /**
+    * @brief Parameter für Roboterstopp bei Kommunikationsunterbrechung abrufen
+    * @param [in] portID Portnummer 0-8080; 1-8083; 2-20002; 3-20004
+    * @param [out] enable 0-deaktiviert; 1-aktiviert
+    * @param [out] confirmTime Bestätigungsdauer der Kommunikationsunterbrechung (ms)[0-5000]
+    * @return  Fehlercode
+    */
+    public int GetRobotStopOnComDisc(int portID, ref bool enable, ref int confirmTime)
+    
+Codebeispiel für Parameter Roboterstopp bei Kommunikationsunterbrechung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+    
+    void TestRobotStopOnComDisc()
+    {
+        int rtn = 0;
+
+        // Parameter für vier Ports einstellen
+        rtn = robot.SetRobotStopOnComDisc(0, true, 330);
+        rtn = robot.SetRobotStopOnComDisc(1, true, 550);
+        rtn = robot.SetRobotStopOnComDisc(2, true, 110);
+        rtn = robot.SetRobotStopOnComDisc(3, true, 220);
+        Console.WriteLine($"SetRobotStopOnComDisc {rtn}");
+
+        bool enable = false;
+        int confirmTime = 0;
+
+        // Einstellungen für jeden Port abrufen und ausgeben
+        robot.GetRobotStopOnComDisc(0, ref enable, ref confirmTime);
+        Console.WriteLine($"GetRobotStopOnComDisc 8080 rtn {rtn}; enable is {(enable ? 1 : 0)}; confirm time is {confirmTime}");
+
+        robot.GetRobotStopOnComDisc(1, ref enable, ref confirmTime);
+        Console.WriteLine($"GetRobotStopOnComDisc 8083 rtn {rtn}; enable is {(enable ? 1 : 0)}; confirm time is {confirmTime}");
+
+        robot.GetRobotStopOnComDisc(2, ref enable, ref confirmTime);
+        Console.WriteLine($"GetRobotStopOnComDisc 20002 rtn {rtn}; enable is {(enable ? 1 : 0)}; confirm time is {confirmTime}");
+
+        robot.GetRobotStopOnComDisc(3, ref enable, ref confirmTime);
+        Console.WriteLine($"GetRobotStopOnComDisc 20004 rtn {rtn}; enable is {(enable ? 1 : 0)}; confirm time is {confirmTime}");
+
+    }
+
+UDP-Befehlframe senden
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief UDP-Befehlframe senden
+    * @param [in] Befehlframe
+    * @return Fehlercode
+    */
+    public int SendUDPFrame(string frame)
+        
+SDK-Codebeispiel basierend auf UDP-Kommunikation
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    void TestRobotUDP()
+    {
+        robot.OnUdpFrameReceived += (comType, frameCount, frameCmdID, contentLen, content) =>
+        {
+            Console.WriteLine($"[UDP-Antwort] comType={comType}, count={frameCount}, cmdID={frameCmdID}, content={content}");
+        };
+
+
+        //Frame senden
+        string frameToSend = "/f/bIII52III236III7IIIMode(1)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        Thread.Sleep(2000);
+        frameToSend = "/f/bIII52III236III7IIIMode(0)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        Thread.Sleep(2000);
+        frameToSend = "/f/bIII41III201III153IIIMoveJ(53.857,-89.441,119.453,-22.664,61.059,3.369,-54.249,-491.930,375.396,96.474,-6.896,-7.783,0,0,100,100,100,0.000,0.000,0.000,0.000,-1,0,0,0,0,0,0,0)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        Thread.Sleep(2000);
+        frameToSend = "/f/bIII42III203III163IIIMoveL(81.736,-85.284,114.974,-23.261,88.746,6.799,125.744,-506.570,375.396,96.474,-6.896,-7.783,0,0,100,100,100,-1,0,0.000,0.000,0.000,0.000,0,0,0,0,0,0,0,0,100,0)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        Thread.Sleep(2000);
+        frameToSend = "/f/bIII47III400III15IIIGetMCVersion(1)III/b/f/f/bIII48III424III21IIIGetSlaveFirmVersion()III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        Thread.Sleep(2000);
+
+    }
+        
+Benutzerdefinierte LED-Farbe des Roboterendeffektors einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Benutzerdefinierte LED-Farbe des Roboterendeffektors einstellen
+    * @param [in] r End-Rot-LED-Steuerung; 0-aus; 1-ein
+    * @param [in] g End-Grün-LED-Steuerung; 0-aus; 1-ein
+    * @param [in] b End-Blau-LED-Steuerung; 0-aus; 1-ein
+    * @return Fehlercode
+    */
+    public int SetUserLEDColor(bool r, bool g, bool b)
+            
+SDK-Codebeispiel zum Einstellen der benutzerdefinierten LED-Farbe des Roboterendeffektors
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    public void testled()
+    {
+        robot.SetUserLEDColor(true, true, true);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, false, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(true, false, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, true, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, false, true);
+    }

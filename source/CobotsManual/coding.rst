@@ -1072,6 +1072,65 @@ Bei der Programmerstellung wird zunächst mit einem PTP-Befehl der entsprechende
 
 .. centered:: Abbildung 9.5-27 TPD-Befehls-Oberfläche
 
+TPD-Funktion für das Einlernen und Abspielen von Roboterbahnen
+*******************************************************************************
+
+Überblick
+""""""""""""""""""""
+Die TPD-Funktion für das Einlernen und Abspielen von Roboterbahnen ermöglicht es dem Roboter, komplexe eingelernte Bahnen präzise zu speichern und zu wiederholen, wodurch eine qualitativ hochwertige und hocheffiziente automatisierte Produktion in der industriellen Fertigung erreicht wird und der Roboter in gefährlichen Umgebungen Menschen bei der Ausführung risikoreicher Aufgaben ersetzt.
+
+Ablauf
+""""""""""""""""""""""""""""""""""""""""""""""""""
+**Schritt 1**: Einstellung der TPD-Aufnahmeparameter. Klicken Sie auf "TPD" in der Statusleiste am unteren Rand der Benutzeroberfläche, um den TPD-Funktionspunkt aufzurufen und die Parameter für die Bahnaufzeichnung zu konfigurieren. Legen Sie den Namen der Bahndatei, den Pose-Typ und die Abtastperiode fest und konfigurieren Sie DI und DO. Während der Aufzeichnung der TPD-Bahn wird durch Auslösen von DI bei der Wiedergabe der TPD der entsprechende DO ausgegeben.
+
+.. image:: coding/549.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 9.5-27-1 TPD-Parametereinstellung
+
+**Schritt 2**: Wechsel in den Drag-Modus. Im manuellen Modus gibt es zwei Möglichkeiten, in den Drag-Teaching-Modus zu wechseln: das lange Drücken der Endtaste und die Umschalttaste für den Drag-Modus auf der Benutzeroberfläche. Bei der TPD-Aufzeichnungsfunktion wird empfohlen, den Roboter über die Benutzeroberfläche in den Drag-Teaching-Modus zu schalten.
+
+.. image:: coding/550.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 9.5-27-2 Einstellung des Drag-Modus für den Roboter
+
+**Schritt 3**: Aufzeichnung starten. Klicken Sie auf die Schaltfläche "Aufzeichnung starten", um die Bahnaufzeichnung zu starten, und ziehen Sie den Roboter, um die Bewegung einzulernen. Darüber hinaus gibt es im End-DI-Konfigurationspunkt einen Konfigurationspunkt für "TPD-Aufzeichnung starten/stoppen". Durch die Konfiguration dieser Funktion kann der Benutzer die Funktion "Aufzeichnung starten" über externe Signale auslösen. Es ist zu beachten, dass für das Starten der Bahnaufzeichnung über ein externes Signal zunächst die TPD-Bahninformationen auf der Seite konfiguriert werden müssen.
+
+**Schritt 4**: Aufzeichnung stoppen. Nach Abschluss des Bewegungsteachings klicken Sie auf die Schaltfläche "Aufzeichnung stoppen", um die Bahnaufzeichnung zu beenden, und verlassen Sie dann den Drag-Teaching-Modus über die Umschalttaste für das Drag-Teaching. Ähnlich wie in Schritt 3 kann nach der Konfiguration der Funktion "TPD-Aufzeichnung starten/stoppen" das Stoppen der Aufzeichnung über ein externes Signal ausgelöst werden.
+
+**Schritt 5**: TPD-Bahnbearbeitung. Klicken Sie auf "TPD" in der Statusleiste am unteren Rand der Benutzeroberfläche, um die TPD-Bahnbearbeitungsfunktion aufzurufen. Wählen Sie zunächst die zu bearbeitende Bahn aus, klicken Sie auf die Schaltfläche "Abrufen". Start-index und End-index zeigen die Start- und Endsequenznummern der Bahn an. Passen Sie diese durch Ziehen des Schiebereglers oder durch manuelle Eingabe an; klicken Sie dann auf die Schaltfläche "Wiedergabe". Der Roboter simuliert die Bewegung auf der Benutzeroberfläche (der eigentliche Roboter bewegt sich nicht); klicken Sie abschließend auf die Schaltfläche "Fertigstellen", um die Bearbeitung der TPD-Bahn abzuschließen.
+
+.. image:: coding/551.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 9.5-27-3 TPD-Bahnbearbeitung
+
+**Schritt 6**: Erstellen des TPD-Programms für das Einlernen und Abspielen von Bahnen. Klicken Sie auf "Teach-Programm" - "Bahnwiedergabe" - "Bahn laden", wählen Sie die wiederzugebende Bahn aus und klicken Sie dann auf die Schaltfläche "Hinzufügen". Klicken Sie auf "Bahnwiedergabe", wählen Sie dieselbe Bahn aus, stellen Sie die entsprechenden Parameter gemäß den Anweisungen auf der Benutzeroberfläche ein und klicken Sie dann auf die Schaltfläche "Hinzufügen".
+
+.. image:: coding/552.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.5-27-4 Einstellung für das Laden der TPD-Bahn
+
+.. image:: coding/553.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.5-27-5 Einstellung für die TPD-Bahnwiedergabe
+
+**Schritt 7**: Lua-Programm generieren und ausführen. Gemäß dem in Schritt 6 generierten typischen Lua-Programm führen Sie das Programm aus, um das Einlernen und Abspielen der Bahn durchzuführen.
+
+.. image:: coding/554.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.5-27-6 Typisches Programm für die TPD-Bahnwiedergabe
+
 Punktversatz-Befehl
 +++++++++++++++++++
 
@@ -6098,6 +6157,204 @@ Nachdem Sie die Parameter für die Befehle "Pendel-Änderung starten" und "Pende
 
 .. note:: Bei der Konfiguration der Parameter für die allmähliche Änderung von Schweißparametern auf der "Weld"-Befehlskonfigurationsoberfläche und der "Weave"-Befehlskonfigurationsoberfläche muss zunächst die Kommunikationsmethode zwischen Steuerpult und Schweißgerät festgelegt werden. Für analoge und digitale Kommunikation klicken Sie bitte auf "Controller I/O" bzw. "Digitales Kommunikationsprotokoll".
 
+Funktion für graduelle Änderung der Verweilzeit beim Pendeln
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Überblick
+***********************************
+
+Für das Pendeln mit Dreieckswellen, vertikalen L-förmigen Dreieckswellen, Sinuswellen und vertikalen L-förmigen Sinuswellen, bei denen die Pendelamplitude und die Verweilzeit zu Beginn und am Ende des Pendelvorgangs nicht übereinstimmen, ändert diese Funktion die Pendelamplitude und die Verweilzeit allmählich vom Startwert zum Endwert.
+
+Für das Pendeln mit Dreieckswellen und Sinuswellen, bei denen die Pendelamplitude, die Verweilzeit und die Vorschubgeschwindigkeit zu Beginn und am Ende des Pendelvorgangs nicht übereinstimmen, ändert diese Funktion die Pendelamplitude, die Verweilzeit und die Vorschubgeschwindigkeit allmählich vom Startwert zum Endwert.
+
+Ablauf
+***********************************
+
+**Schritt 1**: Einstellung der Pendelparameter. Klicken Sie auf "Teach-Programm" - "Programmierung" - "Pendeln" und wählen Sie die anfängliche Pendelnummer und stellen Sie die Pendelparameter ein. Wählen Sie dann die End-Pendelnummer und stellen Sie die Pendelparameter ein. Beachten Sie: Nur die Pendelamplitude, die linke Verweilzeit und die rechte Verweilzeit können zwischen den anfänglichen und endgültigen Pendelparametern unterschiedlich sein; alle anderen Parameter müssen übereinstimmen.
+   
+.. image:: coding/545.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.29-14 Einstellung der Pendelparameter
+
+**Schritt 2**: Einstellung des Gradientenmodus. Klicken Sie auf "Pendelgradient Start", um den entsprechenden Gradientenmodus einzustellen: Für Dreieckswellen-, vertikale L-förmige Dreieckswellen-, Sinuswellen- und vertikale L-förmige Sinuswellenpendel kann der Gradientenmodus auf "Pendeln" eingestellt werden; Für Dreieckswellen- und Sinuswellenpendel kann der Gradientenmodus auch auf "Pendeln + Vorschubgeschwindigkeit" eingestellt werden, und es müssen zusätzlich die Start- und Endgeschwindigkeiten beim Pendeln eingestellt werden.
+   
+.. image:: coding/546.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.29-15 Einstellung des Gradientenmodus "Pendeln"
+   
+.. image:: coding/547.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.29-16 Einstellung des Gradientenmodus "Pendeln + Vorschubgeschwindigkeit"
+
+**Schritt 3**: Erstellung des Pendelgradientenprogramms. Klicken Sie auf "Pendeln starten", wählen Sie die Start-Pendelnummer und fügen Sie sie hinzu. Klicken Sie dann auf "Pendelgradient Start", stellen Sie die End-Pendelnummer und den Gradientenmodus ein und fügen Sie sie hinzu. Klicken Sie nacheinander auf "Pendelgradient Ende" und "Pendeln stoppen" und fügen Sie sie hinzu. Fügen Sie schließlich manuell die Position des Pendelstartpunkts und des Endpunkts im Lua-Programm hinzu, um ein typisches Lua-Programm zu generieren.
+   
+.. image:: coding/548.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.29-17 Typisches Programm für graduelle Änderung der Verweilzeit beim Pendeln
+
+Funktion für stationäres Pendeln
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Überblick
+***********************************
+
+Für das Pendeln mit Dreieckswellen, vertikalen L-förmigen Dreieckswellen, kreisförmigem Pendeln - im Uhrzeigersinn, kreisförmigem Pendeln - gegen den Uhrzeigersinn, Sinuswellen, vertikalen L-förmigen Sinuswellen und vertikalen Schweiß-Dreieckspendeln wird eine Funktion für stationäres Pendeln hinzugefügt: Der Roboterendeffektor führt nur Pendelbewegungen ohne Vorwärtsbewegung aus. Hinweis: Diese Funktion erfordert, dass zuerst die Werkzeugmittelpunkt-Koordinate (TCP) kalibriert wird.
+
+Ablauf
+***********************************
+
+**Schritt 1**: Einstellung der Pendelparameter. Klicken Sie auf die Schaltfläche "Teach-Programm" - "Programmierung" - "Pendeln" und bearbeiten Sie die Pendelnummer, um die Pendelparameter einzustellen. Hinweis: Wenn die tatsächliche stationäre Pendelzeit mit der eingestellten stationären Pendelzeit übereinstimmen soll, darf keine Verweilzeit eingestellt werden.
+   
+.. image:: coding/558.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.29-18 Einstellung der Pendelparameter
+ 
+**Schritt 2**: Einstellung der Parameter für stationäres Pendeln. Klicken Sie auf "Teach-Programm" - "Programmierung" - "Pendeln" - "Stationäres Pendeln Start", stellen Sie die Pendelreferenz und die Pendelzeitparameter ein, klicken Sie auf "Hinzufügen", dann klicken Sie auf die Schaltfläche "Stationäres Pendeln Ende" und auf "Hinzufügen". Die Pendelreferenz kann zwischen zwei Typen gewählt werden: "Werkzeugkoordinatensystem" und "Referenzpunkt". Wenn "Werkzeugkoordinatensystem" als Pendelreferenz gewählt wird, wird die X-Richtung des Werkzeugkoordinatensystems des aktuellen Punkts als Vorwärtsrichtung und die Y-Richtung des Werkzeugkoordinatensystems des aktuellen Punkts als Pendelrichtung verwendet. Wenn "Referenzpunkt" als Pendelreferenz gewählt wird, wird die Verbindungslinie zwischen dem aktuellen Punkt und dem Referenzpunkt als Vorwärtsrichtung verwendet, und die Pendelrichtung wird durch den Pendelalgorithmus bestimmt. Hinweis: Der Referenzpunkt und die aktuelle Position müssen dasselbe Werkzeugkoordinatensystem und Werkstückkoordinatensystem haben. Die beiden Pendelreferenzen sind in den Abbildungen dargestellt.
+   
+.. image:: coding/559.png
+   :width: 2in
+   :align: center
+
+.. centered:: Abbildung 9.29-19 Pendelreferenz als "Werkzeugkoordinatensystem"
+   
+.. image:: coding/560.png
+   :width: 2in
+   :align: center
+
+.. centered:: Abbildung 9.29-20 Pendelreferenz als "Referenzpunkt"
+
+**Schritt 3**: Erstellung des Programms für stationäres Pendeln. Die für die beiden Pendelreferenzen generierten Lua-Programme sind in den Abbildungen dargestellt. Durch Ausführen des Lua-Programms wird die Funktion für stationäres Pendeln aktiviert.
+   
+.. image:: coding/561.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.29-21 Programm für stationäres Pendeln mit Pendelreferenz als "Werkzeugkoordinatensystem"
+   
+.. image:: coding/562.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.29-22 Programm für stationäres Pendeln mit Pendelreferenz als "Referenzpunkt"
+
+Laser-Stationärpendelfunktion
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Überblick
+***********************************
+
+Die Laser-Stationärpendelfunktion ist eine Kombination aus der Stationärpendelfunktion des Roboters und der Lasernachführungsfunktion: Basierend auf dem ursprünglichen Stationärpendeln des Roboters kann die Pendelposition durch die Lasernachführungsfunktion angepasst werden, und sie kann an Bewegungen von Erweiterungsachsen angepasst werden. Diese Funktion ist nur für die Typen "Dreieckwellenpendeln" und "Sinuswellenpendeln" wirksam.
+
+Bedienungsablauf für Laser + Stationärpendeln
+****************************************************************************
+
+**Schritt 1**: Konfigurieren Sie die Laserkommunikation. Die spezifischen Bedienschritte finden Sie im entsprechenden Kapitel des Benutzerhandbuchs.
+
+**Schritt 2**: Kalibrieren Sie das Roboter-Werkzeugkoordinatensystem und das Laserkoordinatensystem. Die spezifischen Bedienschritte finden Sie im entsprechenden Kapitel des Benutzerhandbuchs.
+
+**Schritt 3**: Passen Sie die Position des Werkstücks und des Laserstrahls an. Die schematische Darstellung ist in der folgenden Abbildung dargestellt, wobei das schwarze Rechteck das Werkstück und die rote Linie den Laserstrahl darstellt. Der Laserstrahl sollte senkrecht zur zu verfolgenden Werkstückkante stehen, um eine gute Nachführungsleistung zu gewährleisten.
+   
+.. image:: coding/563.png
+   :width: 2in
+   :align: center
+
+.. centered:: Abbildung 9.29-23 Schematische Darstellung von Werkstück und Laserstrahl
+
+**Schritt 4**: Einstellung der Pendelparameter. Klicken Sie auf die Schaltfläche "Teach-Programm" - "Programmierung" - "Pendeln", bearbeiten Sie die Pendelnummer, um die Pendelparameter einzustellen. Beachten Sie: (1) Die Laser + Stationärpendeln-Funktion ist nur für die Typen "Dreieckwellenpendeln" und "Sinuswellenpendeln" wirksam; (2) Wenn die tatsächliche Stationärpendelzeit mit der eingestellten Stationärpendelzeit übereinstimmen soll, dürfen die linken und rechten Verweilzeiten nicht eingestellt werden; (3) Um eine gute Lasernachführungsleistung zu gewährleisten, müssen die linken und rechten Verweilzeiten übereinstimmen.
+   
+.. image:: coding/564.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 9.29-24 Einstellung der Pendelparameter
+
+**Schritt 5**: Einstellung der Parameter für Stationärpendeln. Klicken Sie auf "Teach-Programm" - "Programmierung" - "Pendeln" - "Stationärpendeln Start", stellen Sie die Pendelreferenz und die Pendelzeitparameter ein, klicken Sie auf "Hinzufügen", dann klicken Sie auf die Schaltfläche "Stationärpendeln Ende" und auf "Hinzufügen". Die Pendelreferenz kann zwischen zwei Typen gewählt werden: "Werkzeugkoordinatensystem" und "Referenzpunkt". Wenn "Werkzeugkoordinatensystem" als Pendelreferenz gewählt wird, wird die X-Richtung des Werkzeugkoordinatensystems des aktuellen Punkts als Vorwärtsrichtung und die Y-Richtung des Werkzeugkoordinatensystems des aktuellen Punkts als Pendelrichtung verwendet. Wenn "Referenzpunkt" als Pendelreferenz gewählt wird, wird die Verbindungslinie zwischen dem aktuellen Punkt und dem Referenzpunkt als Vorwärtsrichtung verwendet, und die Pendelrichtung wird durch den Pendelalgorithmus bestimmt. Beachten Sie: Der Referenzpunkt und die aktuelle Position müssen dasselbe Werkzeugkoordinatensystem und Werkstückkoordinatensystem haben.
+   
+.. image:: coding/559.png
+   :width: 2in
+   :align: center
+
+.. centered:: Abbildung 9.29-25 Pendelreferenz als "Werkzeugkoordinatensystem"
+   
+.. image:: coding/560.png
+   :width: 2in
+   :align: center
+
+.. centered:: Abbildung 9.29-26 Pendelreferenz als "Referenzpunkt"
+
+**Schritt 6**: Fügen Sie den Lasernachführungsbefehl hinzu. Klicken Sie nacheinander auf "Teach-Programm" - "Programmierung" - "Lasernachführung", dann auf "Nachführung starten" und wählen Sie das in Schritt 2 kalibrierte Laserkoordinatensystem aus (diese Anleitung verwendet toolcoord5 als Beispiel), und klicken Sie schließlich auf "Nachführung stoppen".
+   
+.. image:: coding/565.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 9.29-27 Lasernachführungseinstellung
+
+**Schritt 7**: Erstellen Sie das Lua-Programm für Laser + Stationärpendeln. Passen Sie die in Schritt 5 und Schritt 6 erzeugte Befehlssortierung an. Die für die beiden Pendelreferenzen generierten Lua-Programme sind in den folgenden Abbildungen dargestellt. Die Programmlaufzeit hängt nur von der eingestellten Zeit des Stationärpendelns ab und ist unabhängig von der Schnittstellengeschwindigkeit. Führen Sie das Lua-Programm aus, um die Laser + Stationärpendeln-Funktion zu realisieren.
+   
+.. image:: coding/566.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.29-28 Laser + Stationärpendeln Programm 1
+   
+.. image:: coding/567.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.29-29 Laser + Stationärpendeln Programm 2
+
+Bedienungsablauf für Laser + Erweiterungsachse + Stationärpendeln
+****************************************************************************************
+
+**Schritt 1**: Konfigurieren Sie die Laserkommunikation. Die spezifischen Bedienschritte finden Sie im entsprechenden Kapitel des Benutzerhandbuchs.
+
+**Schritt 2**: Konfigurieren Sie die Kommunikation der Erweiterungsachse. Die spezifischen Bedienschritte finden Sie im entsprechenden Kapitel des Benutzerhandbuchs.
+
+**Schritt 3**: Kalibrieren Sie das Roboter-Werkzeugkoordinatensystem und das Laserkoordinatensystem. Die spezifischen Bedienschritte finden Sie im entsprechenden Kapitel des Benutzerhandbuchs.
+
+**Schritt 4**: Passen Sie die Position des Werkstücks und des Laserstrahls an. Die schematische Darstellung ist in der folgenden Abbildung dargestellt, wobei das schwarze Rechteck das Werkstück und die rote Linie den Laserstrahl darstellt. Der Laserstrahl sollte senkrecht zur zu verfolgenden Werkstückkante stehen, um eine gute Nachführungsleistung zu gewährleisten.
+   
+.. image:: coding/563.png
+   :width: 2in
+   :align: center
+
+.. centered:: Abbildung 9.29-30 Schematische Darstellung der relativen Position von Werkstück und Laserstrahl
+
+**Schritt 5**: Einstellung der Pendelparameter. Klicken Sie auf die Schaltfläche "Teach-Programm" - "Programmierung" - "Pendeln", bearbeiten Sie die Pendelnummer, um die Pendelparameter einzustellen. Beachten Sie: (1) Die Laser + Erweiterungsachse + Stationärpendeln-Funktion ist nur für die Typen "Dreieckwellenpendeln" und "Sinuswellenpendeln" wirksam; (2) Wenn die tatsächliche Stationärpendelzeit mit der eingestellten Stationärpendelzeit übereinstimmen soll, dürfen die linken und rechten Verweilzeiten nicht eingestellt werden; (3) Um eine gute Lasernachführungsleistung zu gewährleisten, müssen die linken und rechten Verweilzeiten übereinstimmen.
+   
+.. image:: coding/564.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 9.29-31 Einstellung der Pendelparameter
+
+**Schritt 6**: Einstellung der Parameter für Stationärpendeln. Klicken Sie auf "Teach-Programm" - "Programmierung" - "Pendeln" - "Stationärpendeln Start", stellen Sie die Pendelreferenz und die Pendelzeitparameter ein, klicken Sie auf "Hinzufügen", dann klicken Sie auf die Schaltfläche "Stationärpendeln Ende" und auf "Hinzufügen". Die Pendelreferenz kann zwischen zwei Typen gewählt werden: "Werkzeugkoordinatensystem" und "Referenzpunkt". Wenn "Werkzeugkoordinatensystem" als Pendelreferenz gewählt wird, wird die X-Richtung des Werkzeugkoordinatensystems des aktuellen Punkts als Vorwärtsrichtung und die Y-Richtung des Werkzeugkoordinatensystems des aktuellen Punkts als Pendelrichtung verwendet. Wenn "Referenzpunkt" als Pendelreferenz gewählt wird, wird die Verbindungslinie zwischen dem aktuellen Punkt und dem Referenzpunkt als Vorwärtsrichtung verwendet, und die Pendelrichtung wird durch den Pendelalgorithmus bestimmt. Beachten Sie: Der Referenzpunkt und die aktuelle Position müssen dasselbe Werkzeugkoordinatensystem und Werkstückkoordinatensystem haben.
+   
+.. image:: coding/559.png
+   :width: 2in
+   :align: center
+
+.. centered:: Abbildung 9.29-32 Pendelreferenz als "Werkzeugkoordinatensystem"
+   
+.. image:: coding/560.png
+   :width: 2in
+   :align: center
+
+.. centered:: Abbildung 9.29-33 Pendelreferenz als "Referenzpunkt"
+
+**Schritt 7**: Fügen Sie den Bewegung
+
 Roboter ModbusRTU Kommunikation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -7868,6 +8125,43 @@ Spezifische Rolle der Parameter und empfohlene Werte:
 - Maximale Linearbeschleunigung: Begrenzt die Beschleunigung der translatorischen Bewegung, die durch externe Kräfte verursacht wird. Empfohlen 500 mm/s².
 - Maximale Winkelgeschwindigkeit: Begrenzt die Winkelgeschwindigkeit der rotatorischen Bewegung, die durch externe Kräfte verursacht wird. Empfohlen 90°/s.
 - Maximale Winkelbeschleunigung: Begrenzt die Winkelbeschleunigung der rotatorischen Bewegung, die durch externe Kräfte verursacht wird. Empfohlen 180°/s².
+
+Einstellung der Impedanzregelung im Gelenkraum und Start/Stopp der Funktion
+*****************************************************************************************
+
+**Schritt 1**: Melden Sie sich an der Weboberfläche an und klicken Sie nacheinander auf "Grundeinstellungen" → "Basis" → "Gelenke" → "Kollisionsstufe", um das Modul zur Einstellung der Roboter-Kollisionsstufe aufzurufen, und stellen Sie einen angemessenen Kollisionskoeffizienten ein.
+
+.. image:: coding/555.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.34-6 Modul zur Einstellung des Roboter-Kollisionskoeffizienten
+
+**Schritt 2**: Klicken Sie nacheinander auf "Teach-Programm" → "Programmierung" → "Kraftregelungssatz" und fügen Sie den Befehl "Impedance" hinzu. Der Befehl "Impedance" ermöglicht es dem Roboter, eine Impedanzregelung entlang der verfahrten Bahn zu realisieren.
+
+.. image:: coding/556.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.34-7 Hinzufügen eines Kraftregelungsbefehls
+
+**Schritt 3**: Wählen Sie im Modul für die Kraftregelungsbefehle im Dropdown-Menü "Raumauswahl" die Option "Gelenkraum" aus. Stellen Sie in den Textfeldern geeignete Werte für Kraftschwelle, Massenkoeffizient, Dämpfungskoeffizient, Steifigkeitskoeffizient, Maximalgeschwindigkeit und Maximalbeschleunigung ein. Klicken Sie im Befehlstyp auf "Einschalten" und dann auf "Hinzufügen", um den Einschaltbefehl für die Impedanzregelung hinzuzufügen. Klicken Sie im Befehlstyp auf "Ausschalten" und dann auf "Hinzufügen", um den Ausschaltbefehl für die Impedanzregelung hinzuzufügen.
+
+.. image:: coding/557.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.34-8 Impedanzregelungsbefehl
+
+Funktionen der Parameter und empfohlene Werte:
+
+- Raumauswahl: Legt den Betriebsraum für die Impedanzregelung auf Gelenkraum fest;
+- Kraftschwelle: Die minimale Auslösekraft für die Impedanzregelung. Der Schwellenbereich für J1-J3 beträgt 10–50 Nm, für Drehrichtungen beträgt der Schwellenbereich 1–10 Nm;
+- Massenkoeffizient: Ein höherer Massenkoeffizient führt zu einer langsameren Verschiebung, ein niedrigerer führt zu einer zu schnellen Verschiebung des Roboters. Der Einstellbereich für J1-J3 ist [0,01-1], empfohlener Wert 0,04; für J4-J6 ist der Einstellbereich [0,001-1], empfohlener Wert 0,01;
+- Dämpfungskoeffizient: Ein höherer Dämpfungskoeffizient führt zu einer langsameren Verschiebung, ein niedrigerer führt zu einer zu schnellen Verschiebung und kann Schwingungen verursachen. Der Einstellbereich für J1-J3 ist [0,1-2], empfohlener Wert 0,1; für J4-J6 ist der Einstellbereich [0,008-1,5], empfohlener Wert 0,08;
+- Steifigkeitskoeffizient: Ein höherer Steifigkeitskoeffizient führt zu einer langsameren Verschiebung. Empfohlener Wert ist 0;
+- Maximalgeschwindigkeit: Begrenzt die durch äußere Kräfte erzeugte Gelenkrotationsgeschwindigkeit. Empfohlener Wert ist 50°/s;
+- Maximalbeschleunigung: Begrenzt die durch äußere Kräfte erzeugte Gelenkrotationsbeschleunigung. Empfohlener Wert ist 50°/s².
 
 Benutzerdefinierte Pendelschweißfunktion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

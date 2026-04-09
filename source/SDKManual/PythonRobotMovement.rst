@@ -329,50 +329,127 @@ Codebeispiel für Spiralbewegung
     robot.CloseRPC()
     return 0
 
-Servo-Modus Bewegung starten
-++++++++++++++++++++++++++++
+Servobewegung Start
+++++++++++++++++++++++
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``ServoMoveStart()``"
-    "Beschreibung", "Servo-Modus Bewegung starten (in Verbindung mit ServoJ, ServoCart)"
-    "Erforderliche Parameter", "Keine"
-    "Optionale Parameter", "Keine"
-    "Rückgabewerte", "Fehlercode: 0 bei Erfolg, sonst Fehlercode"
+    "Prototyp", "``ServoMoveStart(cmdType=0)``"
+    "Beschreibung", "Start der Servobewegung, wird mit ServoJ- und ServoCart-Befehlen verwendet"
+    "Erforderliche Parameter", "- ``cmdType``: Befehlssendetyp, 0=XML-RPC, 1=UDP-Transparentübertragung"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
 
-Servo-Modus Bewegung beenden
-++++++++++++++++++++++++++++
+Servobewegung Ende
+++++++++++++++++++++++
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``ServoMoveEnd()``"
-    "Beschreibung", "Servo-Modus Bewegung beenden (in Verbindung mit ServoJ, ServoCart)"
-    "Erforderliche Parameter", "Keine"
-    "Optionale Parameter", "Keine"
-    "Rückgabewerte", "Fehlercode: 0 bei Erfolg, sonst Fehlercode"
+    "Prototyp", "``ServoMoveEnd(cmdType=0)``"
+    "Beschreibung", "Ende der Servobewegung, wird mit ServoJ- und ServoCart-Befehlen verwendet"
+    "Erforderliche Parameter", "- ``cmdType``: Befehlssendetyp, 0=XML-RPC, 1=UDP-Transparentübertragung"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
 
-Servo-Modus Bewegung im Gelenkraum (ServoJ)
-++++++++++++++++++++++++++++++++++++++++++++
+Gelenkraum-Servomodellbewegung
++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``ServoJ(joint_pos, axisPos, acc=0.0, vel=0.0, cmdT=0.008, filterT=0.0, gain=0.0, id=0)``"
-    "Beschreibung", "Servo-Modus Bewegung im Gelenkraum (ServoJ)"
-    "Erforderliche Parameter", "- ``joint_pos``: Ziel-Gelenkposition, Einheit [°]
-    - ``axisPos``: Position der externen Achse, Einheit mm"
-    "Optionale Parameter", "- ``acc``: Beschleunigungsprozentsatz, [0~100] (vorerst nicht verfügbar), Standard 0.0
-    - ``vel``: Geschwindigkeitsprozentsatz, [0~100] (vorerst nicht verfügbar), Standard 0.0
-    - ``cmdT``: Befehlsübermittlungszyklus, Einheit s, empfohlen [0.001~0.0016], Standard 0.008
-    - ``filterT``: Filterzeit, Einheit s (vorerst nicht verfügbar), Standard 0.0
-    - ``gain``: Proportionalverstärkung für Zielposition (vorerst nicht verfügbar), Standard 0.0
-    - ``id``: servoJ Befehls-ID, Standard 0"
-    "Rückgabewerte", "Fehlercode: 0 bei Erfolg, sonst Fehlercode"
+    "Prototyp", "``ServoJ(joint_pos, axisPos, acc = 0.0, vel = 0.0, cmdT = 0.008, filterT = 0.0, gain = 0.0, id=0, cmdType=0)``"
+    "Beschreibung", "Gelenkraum-Servomodellbewegung"
+    "Erforderliche Parameter", "- ``joint_pos``: Zielgelenkposition, Einheit [°];
+    - ``axisPos``: Externe Achsenposition, Einheit mm;"
+    "Standardparameter", "- ``acc``: Beschleunigung, Bereich [0~100], vorübergehend nicht geöffnet, Standard ist 0.0;
+    - ``vel``: Geschwindigkeit, Bereich [0~100], vorübergehend nicht geöffnet, Standard ist 0.0;
+    - ``cmdT``: Befehlssendezyklus, Einheit s, empfohlener Bereich [0.001~0.0016], Standard ist 0.008;
+    - ``filterT``: Filterzeit, Einheit [s], vorübergehend nicht geöffnet, Standard ist 0.0;
+    - ``gain``: Proportionalverstärker für Zielposition, vorübergehend nicht geöffnet, Standard ist 0.0;
+    - ``id``: ServoJ-Befehls-ID, Standard ist 0;
+    - ``cmdType``: Befehlssendetyp, 0=XML-RPC, 1=UDP-Transparentübertragung;"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+SDK-Codebeispiel für ServoJ, ServoMoveStart, ServoMoveEnd basierend auf UDP-Kommunikation
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # Verbindung mit der Robotersteuerung herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+    def TestServoJUDP(self):
+        # Callback einstellen
+        def callback(src_type, count, cmd_id, data_len, content):
+            print("Callback-Funktion: cmd_id={} count={} data_len={} content={}".format(cmd_id, count, data_len, content))
+            return 0
+
+        robot.SetUDPCmdRpyCallback(callback)
+        # # Gelenkposition und externe Achsenposition initialisieren
+        j= [105, -108, 74, -66, -88.893, -1.621]
+        offset_pos = [0, 0, 0, 0, 0, 0]
+        epos = [0, 0, 0, 0]
+        # # In die Ausgangsposition bewegen
+        result=robot.MoveJ(joint_pos=j, tool=0, user=0, vel=100, acc=100, ovl=100,exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+        print("MoveJ Rückgabe: {}".format(result))
+        vel = 0.0
+        acc = 0.0
+        cmdT = 0.016
+        filterT = 0.0
+        gain = 0.0
+        flag = 0
+        dt = 0.1
+        cmdID = 0
+
+        # Aktuelle Gelenkposition abrufen
+        ret, j = robot.GetActualJointPosDegree(flag)
+        if ret != 0:
+            print(f"GetActualJointPosDegree errcode:{ret}")
+        while 1:
+            count = 300
+            result = robot.ServoMoveStart(cmdType=1)
+            print("ServoMoveStart Rückgabe: {}".format(result))
+            while count > 0:
+                result = robot.ServoJ(joint_pos=j, axisPos=epos, acc=acc, vel=vel, cmdT=cmdT,filterT=filterT, gain=gain, id=cmdID, cmdType=1)
+                j[0] += dt
+                j[1] += dt
+                j[2] += dt
+                j[3] += dt
+                j[4] += dt
+                j[5] += dt
+                count -= 1
+                time.sleep(0.01)
+            result = robot.ServoMoveEnd(cmdType=1)
+            print("ServoMoveEnd Rückgabe: {}".format(result))
+
+            count = 300
+            result = robot.ServoMoveStart(cmdType=1)
+            print("ServoMoveStart Rückgabe: {}".format(result))
+            while count > 0:
+                result = robot.ServoJ(joint_pos=j, axisPos=epos, acc=acc, vel=vel, cmdT=cmdT,filterT=filterT, gain=gain, id=cmdID, cmdType=1)
+                j[0] -= dt
+                j[1] -= dt
+                j[2] -= dt
+                j[3] -= dt
+                j[4] -= dt
+                j[5] -= dt
+                count -= 1
+                time.sleep(0.01)
+            result = robot.ServoMoveEnd(cmdType=1)
+            print("ServoMoveEnd Rückgabe: {}".format(result))
+        robot.CloseRPC()
+        return 0
+    TestServoJUDP(robot)
 
 Codebeispiel für Servo-Modus Bewegung im Gelenkraum (ServoJ)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -415,49 +492,138 @@ Codebeispiel für Servo-Modus Bewegung im Gelenkraum (ServoJ)
         print(f"GetActualJointPosDegree errcode:{ret}")
     robot.CloseRPC()
 
-Gelenk-Drehmomentregelung starten (ServoJT)
-++++++++++++++++++++++++++++++++++++++++++++
+Start der Gelenkmomentsteuerung
++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``ServoJTStart()``"
-    "Beschreibung", "Gelenk-Drehmomentregelung starten (ServoJT)"
-    "Erforderliche Parameter", "Keine"
-    "Optionale Parameter", "Keine"
-    "Rückgabewerte", "Fehlercode: 0 bei Erfolg, sonst Fehlercode"
+    "Prototyp", "``ServoJTStart(cmdType=0)``"
+    "Beschreibung", "Start der Gelenkmomentsteuerung"
+    "Erforderliche Parameter", "- ``cmdType``: Befehlssendetyp, 0=XML-RPC, 1=UDP-Transparentübertragung"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
 
-Gelenk-Drehmomentregelung (ServoJT)
-++++++++++++++++++++++++++++++++++++
+Gelenkmomentsteuerung
++++++++++++++++++++++++++
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``ServoJT(torque, interval, checkFlag=0, jPowerLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], jVelLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])``"
-    "Beschreibung", "Gelenk-Drehmomentregelung (ServoJT)"
-    "Erforderliche Parameter", "
-    - ``torque``: j1~j6 Gelenkdrehmomente, Einheit Nm
-    - ``interval``: Befehlszyklus, Einheit s, Bereich [0.001~0.008]
-    - ``checkFlag``: Erkennungsstrategie 0-keine Einschränkung; 1-Leistungsbegrenzung; 2-Geschwindigkeitsbegrenzung; 3-Leistungs- und Geschwindigkeitsbegrenzung gleichzeitig, Standard 0
-    - ``jPowerLimit``: Maximale Gelenkleistungsbegrenzung (W), Standard [0.0,0.0,0.0,0.0,0.0,0.0]
-    - ``jVelLimit``: Maximale Gelenkgeschwindigkeit (°/s), Standard [0.0,0.0,0.0,0.0,0.0,0.0]"
-    "Optionale Parameter", "Keine"
-    "Rückgabewerte", "Fehlercode: 0 bei Erfolg, sonst Fehlercode"
+    "Prototyp", "``ServoJT(torque, interval, checkFlag=0, jPowerLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],jVelLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], cmdType=0)``"
+    "Beschreibung", "Gelenkmomentsteuerung"
+    "Erforderliche Parameter", "- ``torque``: j1~j6 Gelenkmoment, Einheit Nm
+                - ``interval``: Befehlsperiode, Einheit s, Bereich [0.001~0.008]
+                - ``checkFlag``: Erkennungsstrategie 0-keine Einschränkung; 1-Leistungsbegrenzung; 2-Geschwindigkeitsbegrenzung; 3-sowohl Leistungs- als auch Geschwindigkeitsbegrenzung, Standard 0
+                - ``jPowerLimit``: Maximale Gelenkleistungsbegrenzung (W), Standard [0.0,0.0,0.0,0.0,0.0,0.0]
+                - ``jVelLimit``: Maximale Gelenkgeschwindigkeit (°/s), Standard [0.0,0.0,0.0,0.0,0.0,0.0]
+                - ``cmdType``: Befehlssendetyp, 0=XML-RPC, 1=UDP-Transparentübertragung"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
 
-Gelenk-Drehmomentregelung beenden (ServoJT)
-++++++++++++++++++++++++++++++++++++++++++++
+Ende der Gelenkmomentsteuerung
++++++++++++++++++++++++++++++++++++++
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``ServoJTEnd()``"
-    "Beschreibung", "Gelenk-Drehmomentregelung beenden (ServoJT)"
-    "Erforderliche Parameter", "Keine"
-    "Optionale Parameter", "Keine"
-    "Rückgabewerte", "Fehlercode: 0 bei Erfolg, sonst Fehlercode"
+    "Prototyp", "``ServoJTEnd(cmdType=0)``"
+    "Beschreibung", "Ende der Gelenkmomentsteuerung"
+    "Erforderliche Parameter", "- ``cmdType``: Befehlssendetyp, 0=XML-RPC, 1=UDP-Transparentübertragung"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+SDK-Codebeispiel für ServoJT, ServoJTStart, ServoJTEnd basierend auf UDP-Kommunikation
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # Verbindung mit der Robotersteuerung herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+    def TestServoJTUDP(self):
+        # Callback einstellen
+        def callback(src_type, count, cmd_id, data_len, content):
+            print("Callback-Funktion: cmd_id={} count={} data_len={} content={}".format(cmd_id, count, data_len, content))
+            return 0
+
+        robot.SetUDPCmdRpyCallback(callback)
+        while True:
+            # Gelenkposition und externe Achsenposition initialisieren
+            j = [0, -90, 90, 0, 0, 0]
+            epos = [0, 0, 0, 0]
+            offset_pos = [0, 0, 0, 0, 0, 0]
+
+            # In die Ausgangsposition bewegen
+            robot.MoveJ(joint_pos=j, tool=0, user=0, vel=100, acc=100, ovl=100,
+                        exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+            time.sleep(3)
+            # Zieh-Teaching aktivieren
+            result=robot.DragTeachSwitch(1)
+            print("DragTeachSwitch Rückgabe: {}".format(result))
+            torques = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+            # Gelenkmomente abrufen
+            ret, torques = robot.GetJointTorques(flag=1)
+            if ret != 0:
+                print(f"GetJointTorques errcode:{ret}")
+
+            count = 100
+            result = robot.ServoJTStart(cmdType=1)
+            print("ServoJTStart Rückgabe: {}".format(result))
+            # Vorwärtsmomentsteuerung
+            while True:
+                torques[0] = 0.03
+                result = robot.ServoJT(
+                    torque=torques,
+                    interval=0.001,
+                    checkFlag=0,
+                    jPowerLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                    jVelLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                    cmdType=1
+                )
+                print("Rückgabe: {}".format(result))
+                time.sleep(1)
+
+                ret, pkg = robot.GetRobotRealTimeState()
+                if pkg.jt_cur_pos[0] > 30:
+                    break
+
+            # Rückwärtsmomentsteuerung
+            while True:
+                torques[0] = -0.03
+                result = robot.ServoJT(
+                        torque=torques,
+                        interval=0.001,
+                        checkFlag=0,
+                        jPowerLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                        jVelLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                        cmdType=1
+                    )
+                print("Rückgabe: {}".format(result))
+                time.sleep(1)
+
+                ret, pkg = robot.GetRobotRealTimeState()
+                if pkg.jt_cur_pos[0] < 0:
+                    break
+
+            # Momentsteuerung beenden und Zieh-Teaching deaktivieren
+            result = robot.ServoJTEnd(cmdType=1)
+            print("ServoJTEnd Rückgabe: {}".format(result))
+            result = robot.DragTeachSwitch(0)
+            print("DragTeachSwitch Rückgabe: {}".format(result))
+
+        robot.CloseRPC()
+        return 0
+    TestServoJTUDP(robot)
 
 Codebeispiel für Gelenk-Drehmomentregelung (ServoJT)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1336,3 +1502,154 @@ Codebeispiel für Bewegung auf der Stelle
     robot.CloseRPC()
     return 0
 
+Stationäres Pendeln Start
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``OriginPointWeaveStart(weaveNum, mode, refPoint, weaveTime)``"
+    "Beschreibung", "Start des stationären Pendelns"
+    "Erforderliche Parameter", "
+    - ``weaveNum``: Pendelnummer [0-7]
+    - ``mode``: 0-Werkzeugkoordinatensystem; 1-Referenzpunkt
+    - ``refPoint``: Referenzpunkt-Koordinaten im kartesischen Koordinatensystem [x,y,z,a,b,c]
+    - ``weaveTime``: Pendelzeit [s]
+    - "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Stationäres Pendeln Ende
++++++++++++++++++++++++++++++++++
+    
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``OriginPointWeaveEnd()``"
+    "Beschreibung", "Ende des stationären Pendelns"
+    "Erforderliche Parameter", "Keine"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "- Fehlercode Erfolg-0 Fehler-errcode"
+
+SDK-Codebeispiel für stationäres Pendeln
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # Verbindung mit der Robotersteuerung herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+    def TestOriginPointWeave(self):
+        time.sleep(2)
+        # Gelenkposition, externe Achse und Offset initialisieren
+        j = [39.886, -98.580, -124.032, -47.393, 90.000, 40.842]
+        epos = [0, 0, 0, 0]
+        offset_pos = [0, 0, 0, 0, 0, 0]
+
+        # Referenzpunktposition [x, y, z, rx, ry, rz]
+        refPoint = [400.021, 300.022, 299.996, 179.997, -0.003, -90.956]
+
+        # In die Startposition bewegen
+        robot.MoveJ(joint_pos=j, tool=1, user=0, vel=100, acc=100, ovl=100,
+                    exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+
+        # Erstes Pendeln: Absolutes Koordinatensystem (tool=0), Modus 0
+        robot.OriginPointWeaveStart(0, 0, refPoint, 3)
+        robot.MoveStationary()
+        robot.OriginPointWeaveEnd()
+
+        time.sleep(2)
+
+        # Erneut in die Startposition bewegen
+        robot.MoveJ(joint_pos=j, tool=1, user=0, vel=100, acc=100, ovl=100,
+                    exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+
+        # Zweites Pendeln: Absolutes Koordinatensystem (tool=0), Modus 1
+        robot.OriginPointWeaveStart(0, 1, refPoint, 3)
+        robot.MoveStationary()
+        robot.OriginPointWeaveEnd()
+
+        # Verbindung schließen
+        robot.CloseRPC()
+        time.sleep(1)
+
+    TestOriginPointWeave(robot)
+
+SDK-Codebeispiel für stationäres Pendeln (mit Laser und Erweiterungsachse)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # Verbindung mit der Robotersteuerung herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+    def TestOriginPointWeave(self):
+        time.sleep(2)
+        # Gelenkposition, externe Achse und Offset initialisieren
+        j = [39.886, -98.580, -124.032, -47.393, 90.000, 40.842]
+        epos1 = [0, 0, 0, 0]
+        offset_pos = [0, 0, 0, 0, 0, 0]
+        epos2 = [5, 0.000, 0.000, 0.000]
+        # Referenzpunktposition [x, y, z, rx, ry, rz]
+        refPoint = [400.021, 300.022, 299.996, 179.997, -0.003, -90.956]
+
+        rtn = 0
+        robot.LaserTrackingSensorConfig("192.168.58.20", 5020)
+        robot.LaserTrackingSensorSamplePeriod(20)
+        robot.LoadPosSensorDriver(101)
+
+        # UDP-Treiber laden
+        robot.ExtDevLoadUDPDriver()
+
+        # Positionierungsabschlusszeit für Erweiterungsachse einstellen
+        rtn = robot.SetExAxisCmdDoneTime(5000.0)
+        print(f"SetExAxisCmdDoneTime rtn is {rtn}")
+
+        # Erweiterungsachsen 1 und 2 aktivieren
+        rtn = robot.ExtAxisServoOn(1, 1)
+        print(f"ExtAxisServoOn axis id 1 rtn is {rtn}")
+        rtn = robot.ExtAxisServoOn(2, 1)
+        print(f"ExtAxisServoOn axis id 2 rtn is {rtn}")
+        time.sleep(2)
+
+        # Referenzfahrt für Erweiterungsachse einstellen
+        robot.ExtAxisSetHoming(1, 0, 10, 2)
+        robot.LaserTrackingLaserOnOff(1)
+
+        # 1---Ohne Erweiterungsachse
+        robot.LaserTrackingTrackOnOff(1, 4)
+        time.sleep(0.2)
+        # Stationäres Pendeln starten
+        robot.OriginPointWeaveStart(0, 0, refPoint, 10)
+        robot.MoveStationary()  # Stationäre Bewegung ausführen (vorausgesetzt, diese Methode existiert)
+        robot.OriginPointWeaveEnd()
+        robot.LaserTrackingTrackOnOff(0, 4)
+
+        time.sleep(2)  # 2 Sekunden warten
+
+        # 2----Mit Erweiterungsachse
+        robot.ExtAxisMove(epos1, 100, -1)
+        robot.LaserTrackingTrackOnOff(1, 4)
+        # Stationäres Pendeln starten
+        robot.OriginPointWeaveStart(0, 0, refPoint, 20)
+        robot.ExtAxisMove(epos2, 100, -1)
+        robot.OriginPointWeaveEnd()
+        robot.LaserTrackingTrackOnOff(0, 4)
+
+        # Verbindung schließen
+        robot.CloseRPC()
+        time.sleep(1)
+
+    TestOriginPointWeave(robot)

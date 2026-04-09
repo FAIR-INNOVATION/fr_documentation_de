@@ -346,17 +346,18 @@ Erweiterten DO-Port für Schweißgerät-Steuermodus einstellen
     */
     int SetWeldMachineCtrlModeExtDoNum(int DONum);
 
-Schweißgerät-Steuermodus einstellen
-++++++++++++++++++++++++++++++++++++
+Schweißmaschinen-Steuerungsmodus einstellen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief Schweißgerät-Steuermodus einstellen
-    * @param mode Steuermodus: 0-einheitlich (synergisch); 1-zweiteilig
+    * @brief Schweißmaschinen-Steuerungsmodus einstellen
+    * @param [in] mode Schweißmaschinen-Steuerungsmodus; 0-Gleichstrom-Einknopf-Modus; 1-Impuls-Einknopf-Modus; 2-JOB-Modus; 3-Nahsteuerungs-Modus; 4-Separat-Modus; 5-CC/CV-Modus; 6-TIG; 7-CMT
+    * @param [in] ioType Steuerungstyp; 0-Steuerkasten-IO; 1-Digitales Kommunikationsprotokoll (UDP); 2-Digitales Kommunikationsprotokoll (ModbusTCP)
     * @return Fehlercode
     */
-    int SetWeldMachineCtrlMode(int mode);
+    public int SetWeldMachineCtrlMode(int mode,int ioType = 1)
 
 Schweißstart
 ++++++++++++

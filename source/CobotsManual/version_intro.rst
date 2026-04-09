@@ -1,3 +1,52 @@
+Version V3.9.4
+-----------------
+
+Datum: 2026-04-08
+
+- **Optimierte TPD-Funktion für das Einlernen und Abspielen von Roboterbahnen**: 
+    Pfad: Teach-Programm -> Programmierung -> TPD-Befehl.
+  
+    Beschreibung: 1. Automatische Generierung von Lua-Befehlen für den Startpunkt 2. Fehlersichere Ausführung des Startknopfs.
+
+- **Optimierte Webapp-Datensicherungsfunktion**: 
+  
+    Beschreibung: Die Datensicherungsfunktion wurde verbessert und optimiert.
+
+- **Optimierte FR3WML-Weichgrenzen und Verpackungspose**: 
+  
+    Beschreibung: Weichgrenzbereich für Gelenk 3 auf ±163° eingestellt.
+
+- **Optimierte DH-Vollparameterkompensationsfunktion und schnelle Verifizierung**: 
+  
+    Beschreibung: Kompensation des Vollparametermodells.
+ 
+- **Hinzugefügte PTP-Bewegungs-Impedanzregelungsfunktion**: 
+  
+    Beschreibung: Verbesserte Sicherheit während der Mensch-Roboter-Interaktion.
+
+- **Hinzugefügte Kommunikationsprotokollfunktion für Moxibustion-Kopf-Endeffektors**: 
+    Pfad: Grundeinstellungen -> Peripheriegeräte -> Endeffektor-Transparentübertragung.
+  
+    Beschreibung: Neue Anpassung des Kommunikationsprotokolls für Endeffektors.
+
+- **Hinzugefügte Anpassung des deutschen Sprachpakets für die Softwareversion**: 
+  
+    Beschreibung: Deutsche Sprachumschaltung hinzugefügt.
+
+- **Hinzugefügte Funktion, dass Sicherheitsgeschwindigkeitseinstellungen auf Servo-Bewegungsbefehle wirken**: 
+    Pfad: Grundeinstellungen -> Sicherheit -> Sicherheitsgeschwindigkeit.
+  
+    Beschreibung: Sicherheitsstrategieoption hinzugefügt: Stopp mit Fehlermeldung und Deaktivierung nach Überschreitung.
+
+- **Hinzugefügte LA-Anpassung für TP-LINK AX3000 WLAN-Router**: 
+  
+    Beschreibung: Behebung des Problems, dass nach einem Stromausfall und Neustart kein direkter drahtloser Zugriff auf das webApp möglich war.
+    
+- **Hinzugefügte Funktion für stationäres Pendeln**: 
+    Pfad: Teach-Programm -> Programmierung -> Weave-Befehl.
+  
+    Beschreibung: Durchführung der Funktion für stationäres Pendeln in Verbindung mit einem externen Lasersensor.
+
 Version V3.9.3
 -----------------
 

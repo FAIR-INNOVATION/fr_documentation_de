@@ -55,6 +55,31 @@ Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Kli
 
 .. centered:: Abbildung 7.2-1 Konfiguration der sicheren Handgeschwindigkeit
 
+Sicherheitsgeschwindigkeitsfunktion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Überblick
++++++++++++++++++++++++++++++
+
+Die Sicherheitsgeschwindigkeitsfunktion des Roboters dient der Mensch-Roboter-Kollaboration oder dynamischen Umgebungen. Sie begrenzt aktiv die Betriebsgeschwindigkeit des Roboters, um kinetische Energie und Aufprallkräfte innerhalb sicherer Schwellenwerte zu halten, wodurch Verletzungen von Personen bei versehentlichem Kontakt verhindert und Geräte sowie Werkstücke wirksam vor Kollisionsschäden geschützt werden.
+
+Ablauf
++++++++++++++++++++++++++++++
+
+**Schritt 1**: Klicken Sie auf die Schaltfläche "Grundeinstellungen" - "Sicherheit" - "Sicherheitsgeschwindigkeit", um die Parameter für die Sicherheitsgeschwindigkeit einzustellen. Die Konfiguration umfasst hauptsächlich drei Teile: "Funktionsaktivierung", "Geschwindigkeitsbegrenzung" und "Modus nach Überschreitung".
+
+Bei der "Funktionsaktivierung" können drei Optionen ausgewählt werden: "Deaktiviert", "Im manuellen Modus aktiviert" und "In allen Modi aktiviert";
+
+Stellen Sie die Geschwindigkeitsbegrenzung im Feld "Geschwindigkeitsbegrenzung" ein. Wenn die Lineargeschwindigkeit des Roboters diese Grenze erreicht, wird sie gemäß den in "Modus nach Überschreitung" eingestellten Parametern behandelt. "Modus nach Überschreitung" bietet drei Modi: "Stopp mit Alarm", "Automatische Geschwindigkeitsbegrenzung" und "Deaktivieren nach Stopp mit Alarm". Die automatische Geschwindigkeitsbegrenzung ist nur verfügbar, wenn "Im manuellen Modus aktiviert" ausgewählt ist.
+
+Nachdem die erforderlichen Parameter eingestellt wurden, sind keine weiteren Aktionen erforderlich. Die Bewegung des Roboters wird gemäß den eingestellten Parametern behandelt. Die Parametereinstellungen sind in der Abbildung dargestellt.
+
+.. image:: safety/056.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.2-2 Sicherheitsgeschwindigkeits-Parametereinstellung
+
 I/O-Sicherheit
 ----------------
 

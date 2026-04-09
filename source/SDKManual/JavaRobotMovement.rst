@@ -689,48 +689,124 @@ Codebeispiel für Spiralbewegung
         return 0;
     }
 
-Servo-Modus Bewegung starten
+Servobewegung Start
 +++++++++++++++++++++++++++++
-.. code-block:: java
+.. code-block:: Java
     :linenos:
 
     /**
-    * @brief Servo-Modus Bewegung starten (in Verbindung mit ServoJ, ServoCart).
-    * @return Fehlercode.
+    * @brief Start der Servobewegung, wird mit ServoJ- und ServoCart-Befehlen verwendet
+    * @param comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    * @return Fehlercode
     */
-    int ServoMoveStart();
+    public int ServoMoveStart (int comType)
 
-Servo-Modus Bewegung beenden
+Servobewegung Ende
 +++++++++++++++++++++++++++++
-.. code-block:: java
+.. code-block:: Java
     :linenos:
 
     /**
-    * @brief Servo-Modus Bewegung beenden (in Verbindung mit ServoJ, ServoCart).
-    * @return Fehlercode.
+    * @brief Ende der Servobewegung, wird mit ServoJ- und ServoCart-Befehlen verwendet
+    * @param comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    * @return Fehlercode
     */
-    int ServoMoveEnd();
+    public int ServoMoveEnd (int comType)
 
-Servo-Modus Bewegung im Gelenkraum (ServoJ)
-++++++++++++++++++++++++++++++++++++++++++++
+Gelenkraum-Servomodellbewegung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionchanged:: Java SDK-v1.0.6-3.8.3
 
-.. code-block:: java
+.. code-block:: Java
     :linenos:
 
     /**
-    * @brief Servo-Modus Bewegung im Gelenkraum (ServoJ).
-    * @param [in] joint_pos Ziel-Gelenkposition, Einheit deg.
-    * @param [in] axisPos Position der externen Achse, Einheit mm.
-    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar), Standard 0.
-    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100] (vorerst nicht verfügbar), Standard 0.
-    * @param [in] cmdT Befehlsübermittlungszyklus, Einheit s, empfohlen [0.001~0.0016].
-    * @param [in] filterT Filterzeit, Einheit s (vorerst nicht verfügbar), Standard 0.
-    * @param [in] gain Proportionalverstärkung für Zielposition (vorerst nicht verfügbar), Standard 0.
-    * @param [in] id servoJ Befehls-ID, Standard 0.
-    * @return Fehlercode.
+    * @brief Gelenkraum-Servomodellbewegung
+    * @param joint_pos Zielgelenkposition, Einheit deg
+    * @param axisPos Externe Achsenposition, Einheit mm
+    * @param acc Beschleunigungsprozentsatz, Bereich [0~100], vorübergehend nicht geöffnet, Standard ist 0
+    * @param vel Geschwindigkeitsprozentsatz, Bereich [0~100], vorübergehend nicht geöffnet, Standard ist 0
+    * @param cmdT Befehlssendezyklus, Einheit s, empfohlener Bereich [0.001~0.0016]
+    * @param filterT Filterzeit, Einheit s, vorübergehend nicht geöffnet, Standard ist 0
+    * @param gain Proportionalverstärker für Zielposition, vorübergehend nicht geöffnet, Standard ist 0
+    * @param id ServoJ-Befehls-ID, Standard ist 0
+    * @param comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    * @return Fehlercode
     */
-    int ServoJ(JointPos joint_pos, ExaxisPos axisPos, double acc, double vel, double cmdT, double filterT, double gain, int id);
+    public int ServoJ(JointPos joint_pos, ExaxisPos axisPos, float acc, float vel, float cmdT, float filterT, float gain, int id, int comType)
+
+SDK-Codebeispiel für ServoJ, ServoMoveStart, ServoMoveEnd basierend auf UDP-Kommunikation
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestServoJ(Robot robot)
+    {
+        robot.udpCmdClient.SetUDPCmdRpyCallback((srcType, count, cmdID, dataLen, content) -> {
+            System.out.println("\n[UDP-Antwort vom Roboter empfangen]");
+            System.out.println("srcType: " + srcType);
+            System.out.println("count: " + count);
+            System.out.println("cmdID: " + cmdID);
+            System.out.println("dataLen: " + dataLen);
+            System.out.println("Inhalt: " + content);
+            return 0;
+        });
+        int rtn=-1;
+
+        JointPos j=new JointPos(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+
+        double vel = 0.0;
+        double acc = 0.0;
+        double cmdT = 0.016;
+        double filterT = 0.0;
+        double gain = 0.0;
+        int flag = 0;
+        int count = 300;
+        double dt = 0.1;
+        int cmdID = 0;
+        int comType = 1;
+        int ret = robot.GetActualJointPosDegree(j);
+        if (ret == 0)
+        {
+            robot.ServoMoveStart(comType);
+            count = 300;
+            while (count>0)
+            {
+                robot.ServoJ(j, epos, acc, vel, cmdT, filterT, gain, cmdID, comType);
+                j.J1 += dt;
+                j.J2 += dt;
+                j.J4 += dt;
+                j.J5 += dt;
+                j.J6 += dt;
+                epos.axis1 += dt;
+                count -= 1;
+                robot.Sleep(10);
+            }
+            robot.ServoMoveEnd(comType);
+
+            robot.Sleep(1000);
+            robot.ServoMoveStart(comType);
+            count = 300;
+            while (count>0)
+            {
+                robot.ServoJ(j, epos, acc, vel, cmdT, filterT, gain, cmdID, comType);
+                j.J1 -= dt;
+                j.J2 -= dt;
+                j.J4 -= dt;
+                j.J5 -= dt;
+                j.J6 -= dt;
+                epos.axis1 -= dt;
+                count -= 1;
+                robot.Sleep(10);
+            }
+            robot.ServoMoveEnd(comType);
+        }
+        else
+        {
+            System.out.println("GetActualJointPosDegree errcode:"+ ret);
+        }
+    }
 
 Beispielprogramm für Servo-Modus Bewegung im Gelenkraum (ServoJ)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -768,43 +844,46 @@ Beispielprogramm für Servo-Modus Bewegung im Gelenkraum (ServoJ)
         }
     }
 
-Gelenk-Drehmomentregelung starten (ServoJT)
-++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: java
+Start der Gelenkmomentsteuerung
+++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
     :linenos:
 
     /**
-    * @brief Gelenk-Drehmomentregelung starten (ServoJT).
-    * @return Fehlercode.
+    * @brief Start der Gelenkmomentsteuerung
+    * @param comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    * @return Fehlercode
     */
-    int ServoJTStart();
+    public int ServoJTStart (int comType)
 
-Gelenk-Drehmomentregelung (ServoJT)
-++++++++++++++++++++++++++++++++++++
-.. code-block:: java
+Gelenkmomentsteuerung
++++++++++++++++++++++++++++++
+.. code-block:: Java
     :linenos:
 
     /**
-    * @brief Gelenk-Drehmomentregelung (ServoJT).
-    * @param torque j1~j6 Gelenkdrehmomente, Einheit Nm.
-    * @param interval Befehlszyklus, Einheit s, Bereich [0.001~0.008].
-    * @param checkFlag Erkennungsstrategie 0-keine Einschränkung; 1-Leistungsbegrenzung; 2-Geschwindigkeitsbegrenzung; 3-Leistungs- und Geschwindigkeitsbegrenzung gleichzeitig.
-    * @param jPowerLimit Maximale Gelenkleistungsbegrenzung (W).
-    * @param jVelLimit Maximale Gelenkgeschwindigkeit (°/s).
-    * @return Fehlercode.
+    * @brief Gelenkmomentsteuerung
+    * @param torque j1~j6 Gelenkmoment, Einheit Nm
+    * @param interval Befehlsperiode, Einheit s, Bereich [0.001~0.008]
+    * @param checkFlag Erkennungsstrategie 0-keine Einschränkung; 1-Leistungsbegrenzung; 2-Geschwindigkeitsbegrenzung; 3-sowohl Leistungs- als auch Geschwindigkeitsbegrenzung
+    * @param jPowerLimit Maximale Gelenkleistungsbegrenzung (W)
+    * @param jVelLimit Maximale Gelenkgeschwindigkeit (°/s)
+    * @param comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    * @return Fehlercode
     */
-    public int ServoJT(double[] torque, double interval, int checkFlag, double[] jPowerLimit, double[] jVelLimit);
+    public int ServoJT(double[] torque, double interval, int checkFlag, double[] jPowerLimit, double[] jVelLimit, int comType)
 
-Gelenk-Drehmomentregelung beenden (ServoJT)
-++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: java
+Ende der Gelenkmomentsteuerung
+++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
     :linenos:
 
     /**
-    * @brief Gelenk-Drehmomentregelung beenden (ServoJT).
-    * @return Fehlercode.
+    * @brief Ende der Gelenkmomentsteuerung
+    * @param comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    * @return Fehlercode
     */
-    int ServoJTEnd();
+    public int ServoJTEnd (int comType)
 
 Beispielprogramm für Gelenk-Drehmomentregelung (ServoJT)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -832,6 +911,70 @@ Beispielprogramm für Gelenk-Drehmomentregelung (ServoJT)
 
         robot.CloseRPC();
         return 0;
+    }
+
+SDK-Codebeispiel für ServoJT, ServoJTStart, ServoJTEnd basierend auf UDP-Kommunikation
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void ServoJTWithSafety(Robot robot)
+    {
+        robot.udpCmdClient.SetUDPCmdRpyCallback((srcType, count, cmdID, dataLen, content) -> {
+            System.out.println("\n[UDP-Antwort vom Roboter empfangen]");
+            System.out.println("srcType: " + srcType);
+            System.out.println("count: " + count);
+            System.out.println("cmdID: " + cmdID);
+            System.out.println("dataLen: " + dataLen);
+            System.out.println("Inhalt: " + content);
+            return 0;
+        });
+        while (true) {
+            robot.ResetAllError();
+            robot.Sleep(500);
+            List<Number> torques;
+            torques=robot.GetJointTorques(1);
+            robot.ServoJTStart(1); //   #ServoJT Start
+            ROBOT_STATE_PKG pkg=new ROBOT_STATE_PKG();
+            robot.DragTeachSwitch(1);
+            int checkFlag = 3;//-1,3
+            double[] jPowerLimit = { 10.0, 10.0, 10.0, 10.0, 10.0, 10.0 };
+            double[] jVelLimit = { 50, 50, 50, 50, 50, 50};//180.1,-1
+            int count = 800000;
+            int error = 0;
+            int comType = 1;
+
+            double[] tor=new double[]{(double)torques.get(1),(double)torques.get(2),(double)torques.get(3),(double)torques.get(4),(double)torques.get(5),(double)torques.get(6)};
+
+            while (true) {
+                tor[0] = 0.08;//  #Erhöhung des Drehmoments von Achse 1 um 0,01 Nm pro Vorgang, 100 Bewegungen
+                error = robot.ServoJT(tor, 0.01, checkFlag, jPowerLimit, jVelLimit, comType);  //# Gelenkraum-Servomodellbewegung
+                System.out.printf("ServoJT rtn is %d\n", error);
+                count = count - 1;
+                robot.Sleep(1);
+                pkg = robot.GetRobotRealTimeState();
+                System.out.printf("maincode %d, subcode %d\n", pkg.main_code, pkg.sub_code);
+                if (pkg.jt_cur_pos[0] > 30)
+                    break;
+            }
+
+            tor = new double[]{(double) torques.get(1), (double) torques.get(2), (double) torques.get(3), (double) torques.get(4), (double) torques.get(5), (double) torques.get(6)};
+            while (true) {
+                tor[0] = -0.08;//  #Verringerung des Drehmoments von Achse 1 um 0,01 Nm pro Vorgang, 100 Bewegungen
+                error = robot.ServoJT(tor, 0.01, checkFlag, jPowerLimit, jVelLimit, 1);  //# Gelenkraum-Servomodellbewegung
+                System.out.printf("ServoJT rtn is %d\n", error);
+                count = count - 1;
+                robot.Sleep(1);
+                pkg = robot.GetRobotRealTimeState();
+                System.out.printf("maincode %d, subcode %d\n", pkg.main_code, pkg.sub_code);
+                if (pkg.jt_cur_pos[0] < 0)
+                    break;
+            }
+
+            robot.DragTeachSwitch(0);
+
+            error = robot.ServoJTEnd(1);  //#Servobewegung Ende
+        }
     }
 
 Codebeispiel für Gelenk-Drehmomentregelung mit Überdrehzahlschutz
@@ -1717,4 +1860,117 @@ Codebeispiel für Bewegung auf der Stelle
         System.out.printf("LaserSensorRecordandReplay rtn is %d\n", rtn);
         robot.CloseRPC();
         robot.Sleep(9999999);
+    }
+
+Stationäres Pendeln Start
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Start des stationären Pendelns
+    * @param [in] weaveNum Pendelnummer [0-7]
+    * @param [in] mode 0-Werkzeugkoordinatensystem; 1-Referenzpunkt
+    * @param [in] refPoint Referenzpunkt-Koordinaten im kartesischen Koordinatensystem [x,y,z,a,b,c]
+    * @param [in] weaveTime Pendelzeit [s]
+    * @return Fehlercode
+    */
+    public int OriginPointWeaveStart(int weaveNum, int mode, DescPose refPoint, double weaveTime)
+    
+Stationäres Pendeln Ende
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Ende des stationären Pendelns
+    * @return Fehlercode
+    */
+    public int OriginPointWeaveEnd();
+        
+SDK-Codebeispiel für stationäres Pendeln
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestOriginPointWeave(Robot robot) {
+        JointPos j = new JointPos(39.886, -98.580, -124.032, -47.393, 90.000, 40.842);
+        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+
+        DescPose refPoint = new DescPose(400.021, 300.022, 299.996, 179.997, -0.003, -90.956);
+        robot.MoveJ(j, 1, 0, 100, 100, 100.0, epos, -1.0, 0, offset_pos);
+        
+        robot.OriginPointWeaveStart(0, 0, refPoint, 3);
+        robot.MoveStationary();
+        robot.OriginPointWeaveEnd();
+
+        robot.Sleep(2000);
+
+        robot.MoveJ(j, 1, 0, 100, 100, 100.0, epos, -1.0, 0, offset_pos);
+        robot.OriginPointWeaveStart(0, 1, refPoint, 3);
+        robot.MoveStationary();
+        robot.OriginPointWeaveEnd();
+
+        robot.Sleep(1000);
+        return 0;
+    }
+
+SDK-Codebeispiel für stationäres Pendeln (mit Laser und Erweiterungsachse)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestOriginPointWeave(Robot robot) {
+        JointPos j = new JointPos(39.886, -98.580, -124.032, -47.393, 90.000, 40.842);
+        ExaxisPos epos1 = new ExaxisPos(0, 0, 0, 0);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos2 = new ExaxisPos(5, 0, 0, 0);
+        DescPose refPoint = new DescPose(400.021, 300.022, 299.996, 179.997, -0.003, -90.956);
+
+        int rtn = 0;
+        robot.LaserTrackingSensorConfig("192.168.58.20", 5020);
+        robot.LaserTrackingSensorSamplePeriod(20);
+        robot.LoadPosSensorDriver(101);
+
+        // UDP-Treiber laden
+        robot.ExtDevLoadUDPDriver();
+
+        // Positionierungsabschlusszeit für Erweiterungsachse einstellen
+        rtn = robot.SetExAxisCmdDoneTime(5000.0);
+        System.out.println("SetExAxisCmdDoneTime rtn is " + rtn);
+        // Erweiterungsachsen 1 und 2 aktivieren
+        rtn = robot.ExtAxisServoOn(1, 1);
+        System.out.println("ExtAxisServoOn axis id 1 rtn is " + rtn);
+        rtn = robot.ExtAxisServoOn(2, 1);
+        System.out.println("ExtAxisServoOn axis id 2 rtn is " + rtn);
+        robot.Sleep(2000);
+
+        // Referenzfahrt für Erweiterungsachse einstellen
+        robot.ExtAxisSetHoming(1, 0, 10, 2);
+        robot.LaserTrackingLaserOnOff(1,0);
+
+
+        // 1---Ohne Erweiterungsachse
+        robot.LaserTrackingTrackOnOff(1, 4);
+        robot.Sleep(200);
+        // Stationäres Pendeln starten
+        robot.OriginPointWeaveStart(0, 0, refPoint, 10);
+        robot.MoveStationary();   // Stationäre Bewegung ausführen (vorausgesetzt, diese Methode existiert)
+        robot.OriginPointWeaveEnd();
+        robot.LaserTrackingTrackOnOff(0, 4);
+
+        robot.Sleep(2000);         // 2 Sekunden warten
+
+        // 2----Mit Erweiterungsachse
+        robot.ExtAxisMove(epos1, 100, -1);
+        robot.LaserTrackingTrackOnOff(1, 4);
+        // Stationäres Pendeln starten
+        robot.OriginPointWeaveStart(0, 0, refPoint, 20);
+        robot.ExtAxisMove(epos2, 100, -1);
+        robot.OriginPointWeaveEnd();
+        robot.LaserTrackingTrackOnOff(0, 4);
+
+        robot.Sleep(1000);
+        return 0;
     }

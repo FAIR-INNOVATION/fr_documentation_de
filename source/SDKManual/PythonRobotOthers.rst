@@ -439,3 +439,221 @@ Roboter-MCU-Protokoll generieren
     "Erforderliche Parameter", "Keine"
     "Standardparameter", "Keine"
     "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
+
+Roboter bei getrennter Port-Kommunikation stoppen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetRobotStopOnComDisc(portID, enable, confirmTime)``"
+    "Beschreibung", "Roboter bei getrennter Port-Kommunikation stoppen"
+    "Erforderliche Parameter", "
+    - ``portID``: Portnummer 0-8080; 1-8083; 2-20002; 3-20004
+    - ``enable``: 0-deaktiviert; 1-aktiviert
+    - ``confirmTime``: Bestätigungsdauer der Kommunikationsunterbrechung (ms)[0-5000]"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+           
+Parameter für Roboterstopp bei Kommunikationsunterbrechung abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetRobotStopOnComDisc(portID)``"
+    "Beschreibung", "Parameter für Roboterstopp bei Kommunikationsunterbrechung abrufen"
+    "Erforderliche Parameter", "
+    - ``portID``: Portnummer 0-8080; 1-8083; 2-20002; 3-20004
+    - ``enable``: 0-deaktiviert; 1-aktiviert
+    - ``confirmTime``: Bestätigungsdauer der Kommunikationsunterbrechung (ms)[0-5000]"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Codebeispiel für Parameter Roboterstopp bei Kommunikationsunterbrechung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from time import sleep
+    import time
+    from fairino import Robot
+    # Verbindung mit der Robotersteuerung herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+    def test_robot_stop_on_com_disc(self):
+        # Parameter initialisieren
+        enable = False
+        confirm_time = 0
+
+        # Roboterstopp bei Kommunikationsunterbrechung einstellen
+        rtn = robot.SetRobotStopOnComDisc(0, True, 330)
+        print(f"SetRobotStopOnComDisc index0: {rtn}")
+
+        rtn = robot.SetRobotStopOnComDisc(1, True, 550)
+        print(f"SetRobotStopOnComDisc index1: {rtn}")
+
+        rtn = robot.SetRobotStopOnComDisc(2, True, 110)
+        print(f"SetRobotStopOnComDisc index2: {rtn}")
+
+        rtn = robot.SetRobotStopOnComDisc(3, True, 220)
+        print(f"SetRobotStopOnComDisc index3: {rtn}")
+
+        # Roboterstopp bei Kommunikationsunterbrechung abrufen
+        rtn, enable, confirm_time = robot.GetRobotStopOnComDisc(0)
+        print(f"GetRobotStopOnComDisc 8080 rtn {rtn}; enable is {enable}; confirm time is {confirm_time}")
+
+        rtn, enable, confirm_time = robot.GetRobotStopOnComDisc(1)
+        print(f"GetRobotStopOnComDisc 80803 rtn {rtn}; enable is {enable}; confirm time is {confirm_time}")
+
+        rtn, enable, confirm_time = robot.GetRobotStopOnComDisc(2)
+        print(f"GetRobotStopOnComDisc 20002 rtn {rtn}; enable is {enable}; confirm time is {confirm_time}")
+
+        rtn, enable, confirm_time = robot.GetRobotStopOnComDisc(3)
+        print(f"GetRobotStopOnComDisc 20004 rtn {rtn}; enable is {enable}; confirm time is {confirm_time}")
+
+        # RPC-Verbindung schließen
+        robot.CloseRPC()
+        return 0
+
+    test_robot_stop_on_com_disc(robot)
+
+UDP-Befehlframe senden
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SendUDPFrame(frame)``"
+    "Beschreibung", "UDP-Befehlframe senden"
+    "Erforderliche Parameter", "
+    - ``frame``: UDP-Daten zum Senden, transparente Übertragung, keine Kapselung"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+SDK-Codebeispiel für UDP-Kommunikation
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # Verbindung mit der Robotersteuerung herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+    def TestSendUDPFrame(self):
+        # Callback einstellen
+        def callback(src_type, count, cmd_id, data_len, content):
+            print("Antwort erhalten: cmd_id={} count={} data_len={} content={}".format(cmd_id, count, data_len, content))
+            return 0
+        robot.SetUDPCmdRpyCallback(callback)
+
+        rtn = robot.SendUDPFrame("/f/bIII20III303III7IIIMode(0)III/b/f")
+        print(f"SendUDPFrame Mode(0) rtn is {rtn}")
+        time.sleep(1)
+
+        rtn = robot.SendUDPFrame("/f/bIII21III303III7IIIMode(1)III/b/f")
+        print(f"SendUDPFrame Mode(1) rtn is {rtn}")
+        time.sleep(1)
+
+        rtn = robot.SendUDPFrame(
+            "/f/bIII49III201III184IIIMoveJ(-15.625, -82.680, 101.654, -110.950, -88.290, 0.017, -383.012, -2.325, 242.655, -178.024, 1.710, 74.416, 0, 0, 100, 100, 100, 0.000, 0.000, 0.000, 0.000, -1, 0, 0, 0, 0, 0, 0, 0)III/b/f")
+        print(f"SendUDPFrame MoveJ(-15.625) rtn is {rtn}")
+        time.sleep(1)
+
+        rtn = robot.SendUDPFrame(
+            "/f/bIII48III203III199IIIMoveL(-75.622, -82.680, 101.654, -110.950, -88.290, 0.017, -193.537, 330.525, 242.657, -178.024, 1.710, 14.420, 0, 0, 100, 100, 100, -1, 0, 0.000, 0.000, 0.000, 0.000, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0)III/b/f")
+        print(f"SendUDPFrame MoveL(-75.622) rtn is {rtn}")
+        time.sleep(1)
+
+        rtn = robot.SendUDPFrame("/f/bIII4III905III20IIIGetSoftwareVersion()III/b/f")
+        print(f"SendUDPFrame GetSoftwareVersion() rtn is {rtn}")
+
+        time.sleep(1)
+
+        # UDP-Frame-Datenvalidierungstest
+        rtn = robot.SendUDPFrame("/f/bIII20III303III7IIIMode(0)III/b/f")
+        print(f"SendUDPFrame rtn is {rtn}")
+
+        rtn = robot.SendUDPFrame("III20III303III7IIIMode(0)III/b/f")
+        print(f"SendUDPFrame rtn is {rtn}")
+
+        rtn = robot.SendUDPFrame("/f/bIII20III303III7IIIMode(0)")
+        print(f"SendUDPFrame rtn is {rtn}")
+
+        rtn = robot.SendUDPFrame("/f/bIII20III303III6IIIMode(0)III/b/f")
+        print(f"SendUDPFrame rtn is {rtn}")
+
+        rtn = robot.SendUDPFrame("/f/b|||20|||303|||7|||Mode(0)|||/b/f")
+        print(f"SendUDPFrame rtn is {rtn}")
+
+        rtn = robot.SendUDPFrame("/f/bII20II303II7IIMode(0)II/b/f")
+        print(f"SendUDPFrame rtn is {rtn}")
+
+        robot.CloseRPC()
+        time.sleep(1)
+
+    TestSendUDPFrame(robot)
+    
+Benutzerdefinierte LED-Farbe des Roboterendeffektors einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetUserLEDColor(r, g, b)``"
+    "Beschreibung", "Benutzerdefinierte LED-Farbe des Roboterendeffektors einstellen"
+    "Erforderliche Parameter", "
+    - ``r``: End-Rot-LED-Steuerung; 0-aus; 1-ein
+    - ``g``: End-Grün-LED-Steuerung; 0-aus; 1-ein
+    - ``b``: End-Blau-LED-Steuerung; 0-aus; 1-ein
+    - "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+SDK-Codebeispiel zum Einstellen der benutzerdefinierten LED-Farbe des Roboterendeffektors
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # Verbindung mit der Robotersteuerung herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+
+    def testled(self):
+        # Benutzerdefinierte LED-Farbe einstellen
+        # Parameterreihenfolge: R, G, B (Rot, Grün, Blau)
+
+        # Weiß (alle Lichter an)
+        robot.SetUserLEDColor(True, True, True)
+        time.sleep(1)
+
+        # Alle Lichter ausschalten
+        robot.SetUserLEDColor(False, False, False)
+        time.sleep(1)
+
+        # Rot (nur rotes Licht)
+        robot.SetUserLEDColor(True, False, False)
+        time.sleep(1)
+
+        # Grün (nur grünes Licht)
+        robot.SetUserLEDColor(False, True, False)
+        time.sleep(1)
+
+        # Blau (nur blaues Licht)
+        robot.SetUserLEDColor(False, False, True)
+
+        # Verbindung schließen
+        robot.CloseRPC()
+
+    testled(robot)

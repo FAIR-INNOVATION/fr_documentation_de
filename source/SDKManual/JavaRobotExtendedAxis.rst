@@ -310,11 +310,20 @@ UDP-Kommunikationsparameter für Erweiterungsachse abrufen
     :linenos:
 
     /**
-    * @brief Gibt die UDP-Kommunikationsparameter für die Erweiterungsachse zurück.
-    * @param [out] param Kommunikationsparameter.
-    * @return Fehlercode.
+    * @brief Abrufen der UDP-Kommunikationsparameter für Erweiterungsachsen
+    * @param [out] ip PLC-IP-Adresse
+    * @param [out] port Portnummer
+    * @param [out] period Kommunikationszyklus (ms, Standard ist 2, diesen Parameter nicht ändern)
+    * @param [out] lossPkgTime Paketverlust-Erkennungszeit (ms)
+    * @param [out] lossPkgNum Anzahl der Paketverluste
+    * @param [out] disconnectTime Bestätigungsdauer für Kommunikationsunterbrechung
+    * @param [out] reconnectEnable Automatische Wiederverbindung bei Kommunikationsunterbrechung aktivieren 0-deaktiviert 1-aktiviert
+    * @param [out] reconnectPeriod Wiederverbindungsintervall (ms)
+    * @param [out] reconnectNum Anzahl der Wiederverbindungsversuche
+    * @param [out] selfConnect Automatische Wiederverbindung nach Neustart des Steuerkastens; 0-keine Wiederverbindung; 1-Wiederverbindung
+    * @return Fehlercode
     */
-    int ExtDevGetUDPComParam(UDPComParam param);
+    public int ExtDevGetUDPComParam(ref string ip, ref int port, ref int period, ref int lossPkgTime, ref int lossPkgNum, ref int disconnectTime, ref int reconnectEnable, ref int reconnectPeriod, ref int reconnectNum, ref int selfConnect)
 
 UDP-Kommunikation laden
 +++++++++++++++++++++++++++++++++++++++++
@@ -1312,3 +1321,15 @@ Codebeispiel für fahrbare Einheit
         robot.TractorStop(); // Fahrbare Einheit stoppen
         robot.TractorMoveC(300, -90, 20);
     }
+
+Einstellung der Positionierungsabschlusszeit für UDP-Erweiterungsachsen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Einstellung der Positionierungsabschlusszeit für UDP-Erweiterungsachsen
+    * @param time Positionierungsabschlusszeit [ms]
+    * @return Fehlercode
+    */
+    public int SetExAxisCmdDoneTime(double time)

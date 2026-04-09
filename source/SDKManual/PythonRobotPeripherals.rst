@@ -1391,3 +1391,452 @@ Codebeispiel für synchrones Laser-Tracking mit Erweiterungsachse und Roboter
         i = i+1
         print(i)
     robot.CloseRPC()
+
+Array-Saugnapf steuern
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetSuckerCtrl(slaveID, len, ctrlValue)``"
+    "Beschreibung", "Array-Saugnapf steuern"
+    "Erforderliche Parameter", "- ``slaveID``: Slave-Stationsnummer
+    - ``len``: Länge
+    - ``ctrlValue``: Steuerwert 1-Saugen mit maximalem Vakuum 2-Saugen mit eingestelltem Vakuum 3-Saugen stoppen"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Array-Saugnapf-Status abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetSuckerState(slaveID)``"
+    "Beschreibung", "Array-Saugnapf-Status abrufen"
+    "Erforderliche Parameter", "- ``slaveID``: Slave-Stationsnummer"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "- Fehlercode Erfolg-0 Fehler-errcode
+    - ``state``: Saugstatus 0-Objekt freigegeben 1-Werkstück erfolgreich angesaugt 2-Kein Objekt angesaugt 3-Objekt abgelöst
+    - ``pressValue``: Aktueller Vakuumdruck Einheit kPa
+    - ``error``: Aktueller Fehlercode des Saugnapfs"
+
+Auf Saugnapf-Status warten
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``WaitSuckerState(slaveID, state, ms)``"
+    "Beschreibung", "Auf Saugnapf-Status warten"
+    "Erforderliche Parameter", "- ``slaveID``: Slave-Stationsnummer
+    - ``state``: Saugstatus 0-Objekt freigegeben 1-Werkstück erfolgreich angesaugt 2-Kein Objekt angesaugt 3-Objekt abgelöst
+    - ``ms``: Maximale Wartezeit"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Codebeispiel für Array-Saugnapf-Steuerbefehle
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # Verbindung mit der Robotersteuerung herstellen, bei Erfolg wird ein Roboter-Objekt zurückgegeben
+    robot = Robot.RPC('192.168.58.2')
+    robot.OpenLuaUpload("C://Projekt/PeripherieSDK/CtrlDev_sucker.lua")
+    time.sleep(2)
+    robot.UnloadCtrlOpenLUA(1)
+    robot.LoadCtrlOpenLUA(1)
+    time.sleep(1)
+    ctrl = bytearray(20)
+    ctrl[0] = 1
+    robot.SetSuckerCtrl(0, 1, ctrl)
+    for i in range(100):
+        rtn, state, press_value, error = robot.GetSuckerState(1)
+        print(f"sucker1 state is {state}, pressValue is {press_value}, error num is {error}")
+        rtn, state, press_value, error = robot.GetSuckerState(12)
+        print(f"sucker12 state is {state}, pressValue is {press_value}, error num is {error}")
+        time.sleep(0.1)
+    ret = robot.WaitSuckerState(1, 1, 100)
+    print(f"WaitSuckerState result is {ret}")
+    ctrl[0] = 3
+    robot.SetSuckerCtrl(1, 1, ctrl)
+    robot.SetSuckerCtrl(12, 1, ctrl)
+    robot.CloseRPC()
+
+Open-Protocol-Lua-Datei hochladen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``OpenLuaUpload(filePath)``"
+    "Beschreibung", "Open-Protocol-Lua-Datei hochladen"
+    "Erforderliche Parameter", "- ``filePath``: Lokaler Pfad der Open-Protocol-Lua-Datei"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Slave-Stationskartenparameter abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetFieldBusConfig()``"
+    "Beschreibung", "Slave-Stationskartenparameter abrufen"
+    "Erforderliche Parameter", "Keine"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "- Fehlercode Erfolg-0 Fehler-errcode
+    - ``type``: 0-Ethercat, 1-CClink, 3-Ethercat, 4-EIP
+    - ``version``: Protokollversion
+    - ``connState``: 0-Nicht verbunden 1-Verbunden"
+
+Slave-Station DO schreiben
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``FieldBusSlaveWriteDO(DOIndex, writeNum, status)``"
+    "Beschreibung", "Slave-Station DO schreiben"
+    "Erforderliche Parameter", "- ``DOIndex``: DO-Nummer
+    - ``writeNum``: Anzahl zu schreibender Werte
+    - ``status``: Zu schreibende Werte, maximal 8"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Slave-Station AO schreiben
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``FieldBusSlaveWriteAO(AOIndex, writeNum, status)``"
+    "Beschreibung", "Slave-Station AO schreiben"
+    "Erforderliche Parameter", "- ``AOIndex``: AO-Nummer
+    - ``writeNum``: Anzahl zu schreibender Werte
+    - ``status``: Zu schreibende Werte, maximal 8"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Slave-Station DI lesen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``FieldBusSlaveReadDI(DIIndex, readNum)``"
+    "Beschreibung", "Slave-Station DI lesen"
+    "Erforderliche Parameter", "- ``DIIndex``: DI-Nummer
+    - ``readNum``: Anzahl zu lesender Werte"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "- Fehlercode Erfolg-0 Fehler-errcode
+    - ``status[8]``: Gelesene Werte, maximal 8"
+
+Slave-Station AI lesen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``FieldBusSlaveReadAI(AIIndex, readNum)``"
+    "Beschreibung", "Slave-Station AI lesen"
+    "Erforderliche Parameter", "- ``AIIndex``: AI-Nummer
+    - ``readNum``: Anzahl zu lesender Werte"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "- Fehlercode Erfolg-0 Fehler-errcode
+    - ``status[8]``: Gelesene Werte, maximal 8"
+
+Auf erweiterten DI-Eingang warten
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``FieldBusSlaveWaitDI(DIIndex, status, waitMs)``"
+    "Beschreibung", "Auf erweiterten DI-Eingang warten"
+    "Erforderliche Parameter", "- ``DIIndex``: DI-Nummer
+    - ``status``: 0-Low-Pegel; 1-High-Pegel
+    - ``waitMs``: Maximale Wartezeit (ms)"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Auf erweiterten AI-Eingang warten
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``FieldBusSlaveWaitAI(AIIndex, waitType, value, waitMs)``"
+    "Beschreibung", "Auf erweiterten AI-Eingang warten"
+    "Erforderliche Parameter", "- ``AIIndex``: AI-Nummer
+    - ``waitType``: 0-Größer als; 1-Kleiner als
+    - ``value``: AI-Wert
+    - ``waitMs``: Maximale Wartezeit (ms)"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Codebeispiel für Slave-Stationsmodus-bezogene Schnittstellenbefehle
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # Verbindung mit der Robotersteuerung herstellen, bei Erfolg wird ein Roboter-Objekt zurückgegeben
+    robot = Robot.RPC('192.168.58.2')
+    robot.OpenLuaUpload("D://zUP/Peripherie/CtrlDev_field.lua")
+    time.sleep(2)
+    robot.SetCtrlOpenLUAName(3,"CtrlDev_field.lua")
+    robot.UnloadCtrlOpenLUA(3)
+    robot.LoadCtrlOpenLUA(3)
+    time.sleep(8)
+    rtn,type, version, conn_state = robot.GetFieldBusConfig()
+    print(f"type is {type}, version is {version}, connState is {conn_state}")
+    # Write digital outputs
+    ctrl = [1, 0, 1]  # DO0=1, DO1=0, DO2=1
+    robot.FieldBusSlaveWriteDO(0, 3, ctrl)
+    # Write analog output
+    ctrl_ao = [0x1000]  # AO2 = 0x1000
+    robot.FieldBusSlaveWriteAO(2, 1, ctrl_ao)
+    for i in range(100):
+        rtn,di = robot.FieldBusSlaveReadDI(0, 4)
+        print(f"DI0 is {di[0]}, DI1 is {di[1]}, DI2 is {di[2]}, DI3 is {di[3]}")
+        rtn, ai = robot.FieldBusSlaveReadAI(0, 3)
+        print(f"AI0 is {ai[0]}, AI1 is {ai[1]}, AI2 is {ai[2]}")
+        time.sleep(0.01)
+    ret = robot.FieldBusSlaveWaitDI(0, 1, 100)
+    print(f"FieldBusSlaveWaitDI result is {ret}")
+    ret = robot.FieldBusSlaveWaitAI(0, 0, 400.00, 100)
+    print(f"FieldBusSlaveWaitAI result is {ret}")
+    robot.CloseRPC()
+
+Endeffektor-Transparentübertragungsfunktion ein-/ausschalten SDK-Schnittstelle
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetAxleGenComEnable(mode)``"
+    "Beschreibung", "Allgemeine Transparentübertragungsfunktion des Endeffektors aktivieren"
+    "Erforderliche Parameter", "- ``mode``: Aktivierung, 0-deaktiviert, 1-aktiviert"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Endeffektor-Transparentübertragungsfunktion für azyklische Datenübertragung und -empfang SDK-Schnittstelle
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SndRcvAxleGenComCmdData(len_snd, sndBuff, len_rcv)``"
+    "Beschreibung", "Endeffektor sendet azyklische Daten und wartet auf Antwort"
+    "Erforderliche Parameter", "
+    - ``len_snd``: Länge der zu sendenden Daten;
+    - ``sndBuff[]``: Zu sendende Daten;
+    - ``len_rcv``: Länge der zu empfangenden Daten;
+    - ``rcvBuff[]``: Antwortdaten;"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Codebeispiel für azyklische Datenkommunikation des DIO Health Care Moxibustion-Kopfs basierend auf der Endeffektor-Transparentübertragungsfunktion
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos: 
+
+    from time import sleep
+    from fairino import Robot
+    from ctypes import sizeof
+    # Verbindung mit der Robotersteuerung herstellen, bei Erfolg wird ein Roboter-Objekt zurückgegeben
+    robot = Robot.RPC('192.168.58.2')
+
+    import time
+
+
+    def testAxleGenCom(self):
+
+        led_on = [0xAB, 0xBA, 0x12, 0x01, 0x01, 0x79]
+        led_off = [0xAB, 0xBA, 0x12, 0x01, 0x00, 0x78]
+        version = [0xAB, 0xBA, 0x11, 0x00, 0x76]
+        state = [0xAB, 0xBA, 0x1B, 0x01, 0xAA, 0x2B]
+        cycleState = [0xAB, 0xBA, 0x12, 0x01, 0x00, 0x78]
+        cnt = 1
+
+        p1Joint = [88.708, -86.178, 140.989, -141.825, -89.162, -49.879]
+        p1Desc = [188.007, -377.850, 260.207, 178.715, 2.823, -131.466]
+        p2Joint = [112.131, -75.554, 126.989, -139.027, -88.044, -26.477]
+        p2Desc = [368.003, -377.848, 260.211, 178.715, 2.823, -131.465]
+
+        exaxisPos = [0, 0, 0, 0]
+        offdese = [0, 0, 0, 0, 0, 0]
+
+        #Endeffektor-Transparentübertragungsfunktion aktivieren
+        robot.SetAxleGenComEnable(1)
+        robot.SetAxleLuaEnable(1)
+
+        while cnt <= 10000:
+            #Versionsnummer auslesen
+            ret,rcvdata = robot.SndRcvAxleGenComCmdData(len_snd=5, sndBuff=version, len_rcv=10)
+            print(ret)
+            print(rcvdata)
+            print(f"hard version : {rcvdata[4]},hard code:{rcvdata[5]}, soft version:{rcvdata[6]} {rcvdata[7]}, soft code:{rcvdata[8]}")
+            if ret != 0:
+                break
+            time.sleep(1)
+            # Präsenzstatus des Moxibustion-Kopfs auslesen
+            ret,rcvdata = robot.SndRcvAxleGenComCmdData(6, state, 6)
+            print(f"state : {rcvdata[4]} ")
+            time.sleep(1)
+            # Laser des Moxibustion-Kopfs einschalten
+            ret,rcvdata = robot.SndRcvAxleGenComCmdData(6, led_on, 6)
+            print(f"led on rcv data is: {rcvdata[0]}, {rcvdata[1]}, {rcvdata[2]}, {rcvdata[3]}, {rcvdata[4]}, {rcvdata[5]}")
+            robot.MoveJ(joint_pos=p1Joint, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=exaxisPos, blendT=-1,
+                            offset_flag=0, offset_pos=offdese)
+            time.sleep(4)
+            # Laser des Moxibustion-Kopfs ausschalten
+            ret, rcvdata = robot.SndRcvAxleGenComCmdData(6, led_off, 6)
+            print(f"led off rcv data is: {rcvdata[0]}, {rcvdata[1]}, {rcvdata[2]}, {rcvdata[3]}, {rcvdata[4]}, {rcvdata[5]}")
+            robot.MoveJ(joint_pos=p2Joint, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=exaxisPos, blendT=-1,offset_flag=0, offset_pos=offdese)
+            time.sleep(1)
+            print(f"***********************complate No. {cnt} SDK test*****************************")
+            cnt = cnt + 1
+
+        robot.CloseRPC()
+        return 0
+
+    testAxleGenCom(robot)
+    
+Open-Protocol-Lua-Datei herunterladen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``OpenLuaDownload(fileName, savePath)``"
+    "Beschreibung", "Open-Protocol-Lua-Datei herunterladen"
+    "Erforderliche Parameter", "
+    - ``fileName``: Name der Open-Protocol-Datei `CtrlDev_XXX.lua`;
+    - ``savePath``: Pfad zum Speichern der Open-Protocol-Datei;
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Bestimmte Open-Protocol-Lua-Datei löschen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``OpenLuaDelete(fileName)``"
+    "Beschreibung", "Bestimmte Open-Protocol-Lua-Datei löschen"
+    "Erforderliche Parameter", "
+    - ``fileName``: Name der zu löschenden Open-Protocol-Lua-Datei `CtrlDev_XXX.lua`
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+    
+Alle Open-Protocol-Lua-Dateien löschen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``AllOpenLuaDelete()``"
+    "Beschreibung", "Alle Open-Protocol-Lua-Dateien löschen"
+    "Erforderliche Parameter", "Keine"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+SDK-Codebeispiel für Open-Protocol-Lua-Dateioperationen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos: 
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # Verbindung mit der Robotersteuerung herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+
+    def TestCtrlOpenLuaOperate(self):
+        # Lua-Datei auf Roboter hochladen
+        rtn = robot.OpenLuaUpload("D://zUP/openlua/CtrlDev_WELDING_A.lua")
+        print(f"OpenLuaUpload rtn is {rtn}")
+        
+        rtn = robot.OpenLuaUpload("D://zUP/openlua/CtrlDev_SWDPOLISH.lua")
+        print(f"OpenLuaUpload rtn is {rtn}")
+        
+        # Lua-Datei von Roboter herunterladen
+        rtn = robot.OpenLuaDownload("CtrlDev_WELDING_A.lua", "D://zDOWN/")
+        print(f"OpenLuaDownload rtn is {rtn}")
+        
+        rtn = robot.OpenLuaDownload("CtrlDev_SWDPOLISH.lua", "D://zDOWN/")
+        print(f"OpenLuaDownload rtn is {rtn}")
+        
+        # Steuerungs-Open-Protocol-Lua-Name festlegen
+        rtn = robot.SetCtrlOpenLUAName(0, "CtrlDev_WELDING_A.lua")
+        print(f"SetCtrlOpenLUAName rtn is {rtn}")
+        
+        rtn = robot.SetCtrlOpenLUAName(1, "CtrlDev_SWDPOLISH.lua")
+        print(f"SetCtrlOpenLUAName rtn is {rtn}")
+        
+        # Steuerungs-Open-Protocol-Lua-Name abrufen
+        rtn, name = robot.GetCtrlOpenLUAName()
+        print(f"ctrl open lua names : {name[0]}, {name[1]}, {name[2]}, {name[3]}")
+        
+        # Steuerungs-Open-Protocol-Lua laden
+        rtn = robot.LoadCtrlOpenLUA(1)
+        print(f"LoadCtrlOpenLUA rtn is {rtn}")
+        time.sleep(2)
+        
+        # Steuerungs-Open-Protocol-Lua entladen
+        rtn = robot.UnloadCtrlOpenLUA(1)
+        print(f"UnloadCtrlOpenLUA rtn is {rtn}")
+        
+        # Bestimmte Lua-Datei löschen
+        rtn = robot.OpenLuaDelete("CtrlDev_WELDING_A.lua")
+        print(f"OpenLuaDelete rtn is {rtn}")
+        
+        # Alle Lua-Dateien löschen
+        rtn = robot.AllOpenLuaDelete()
+        print(f"AllOpenLuaDelete rtn is {rtn}")
+        
+        # Verbindung schließen
+        robot.CloseRPC()
+        time.sleep(1)
+
+
+    # Testfunktion aufrufen
+    TestCtrlOpenLuaOperate(robot)

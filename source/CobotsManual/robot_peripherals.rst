@@ -6691,3 +6691,175 @@ Das Folgende ist ein Beispiel für ein LUA-Programm zur Steuerung und Überwachu
         end
         SetDO(0,0,0,0)
     end
+
+Endeffektor-Transparentübertragungsfunktion
+----------------------------------------------------------
+
+Überblick
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Benutzer können die Endeffektor-Transparentübertragungsfunktion konfigurieren, um auf Basis des offenen Protokolls für Endeffektor-Peripheriegeräte + CNDE + SDK-Schnittstelle eine azyklische Datenübertragung und den Empfang sowie die zyklische Datenerfassung für beliebige Endeffektor-Peripheriegeräte zu ermöglichen. Für zyklische Daten muss ein Endeffektor-Lua-Open-Protokoll geschrieben und die Anwendung auf den Endeffektor hochgeladen werden, um eine zyklische Interaktion und Auslesung mit dem Peripheriegerät zu erreichen. Die zyklischen Rückmeldedaten des Peripheriegeräts werden über die CNDE-Konfiguration abgerufen, während azyklische Daten über die SDK-Schnittstelle als Datenrahmen gesendet und empfangen werden.
+
+Anwendungshinweise
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Schritt 1**: Öffnen Sie die Roboterseite und wählen Sie "Grundeinstellungen" -> "Peripheriegeräte" -> "Endeffektor-Transparentübertragung". Laden Sie das Endeffektor-Lua-Open-Protokoll hoch, das an das Peripheriegerät angepasst werden soll, und wenden Sie es an.
+
+.. figure:: robot_peripherals/289.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.18‑1 Hochladen des Endeffektor-Transparentübertragungsprotokolls
+
+**Schritt 2**: Aktivieren Sie nach dem Neustart des Roboters die Schaltfläche "Endeffektor-Protokoll aktivieren", um diese Funktion zu aktivieren. Es ist zu beachten, dass nach der Aktivierung dieser Funktion andere angepasste Endeffektor-Geräte nicht gleichzeitig verwendet werden können.
+
+.. figure:: robot_peripherals/290.png
+   :align: center
+   :width: 4in
+
+.. centered:: Abbildung 8.18‑2 Aktivierung des Endeffektor-Transparentübertragungsprotokolls
+
+**Schritt 3**: Öffnen Sie die Roboterseite und wählen Sie "Teach-Programm" -> "Peripheriegeräte-Befehle" -> "Endeffektor-Transparentübertragung". Nach der Aktivierung der Endeffektor-Transparentübertragung können Sie über die Lua-Schnittstelle Debugging-Tests für den Empfang und die Übertragung von azyklischen Daten sowie die Erfassung von zyklischen Daten durchführen. Die tatsächliche Verwendung erfordert die Kombination mit der CNDE-Funktion des Roboters und dem SDK. Die Länge der gesendeten und empfangenen azyklischen Befehlsdaten beträgt maximal 16 Byte, zyklische Daten maximal 128 Byte.
+
+.. figure:: robot_peripherals/291.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.18‑3 Lua-Schnittstelle für azyklische Daten der Endeffektor-Transparentübertragung
+
+.. figure:: robot_peripherals/292.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.18‑4 Lua-Schnittstelle für zyklische Daten der Endeffektor-Transparentübertragung
+
+Lua-Skript für die Endeffektor-Transparentübertragungsfunktion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Überblick
+++++++++++++++++++++++++
+
+Die Lua-Open-Protokollfunktion wurde um eine allgemeine Daten-Transparentübertragungsschnittstelle erweitert. Lua-Skripte werden gemäß der vereinbarten Lua C-Schnittstelle geschrieben und zusammen mit CNDE verwendet, um die Datenübertragung und den Datenempfang für Endeffektor-montierte Geräte zu ermöglichen.
+
+Hinweise zum Schreiben von Endeffektor-Lua-Skripten
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Lua C-registrierte Funktionen für Rs485-Senden und -Empfangen
+*********************************************************************
+(1) Lua C-registrierte Funktion für Rs485-Senden: EndTxCustomData(). Diese Funktion sendet Befehle über Rs485 an das montierte Gerät.
+
+.. code-block:: 
+    :linenos:
+
+    Tcmd={0}
+    EndTxCustomData(Tcmd)
+
+.. centered:: Code 8.18-1 Lua-Skript-Beschreibung
+
+(2) Lua C-registrierte Funktion für Rs485-Empfangen: EndRxCustomData(). Diese Funktion empfängt Antwortbefehle vom montierten Gerät über Rs485-Rückmeldung.
+
+.. code-block:: 
+    :linenos:
+
+    Rcmd={0}
+    EndRxCustomData(Rcmd)
+
+.. centered:: Code 8.18-2 Lua-Skript-Beschreibung
+
+Lua C-registrierte Funktionen für azyklische Datenübertragung und -rückmeldung
+***********************************************************************************
+
+(1) Lua C-registrierte Funktion für azyklische Datenübertragung: GetHostTransparentCmd(). Diese Funktion prüft, ob der Controller einen azyklischen Datenbefehl ausgegeben hat. Wenn ein Befehl ausgegeben wurde, ruft sie den azyklischen Datenbefehl ab. Die Länge der azyklischen Datenbefehlsübertragung beträgt maximal 16 Byte.
+
+.. code-block:: 
+    :linenos:
+
+    Tcmd={0}
+    RxFlag=0
+    RxFlag = GetHostTransparentCmd(Tcmd)
+    if(RxFlag == 1)then
+    EndTxCustomData(Tcmd)
+
+.. centered:: Code 8.18-3 Lua-Skript-Beschreibung
+
+(2) Lua C-registrierte Funktion für azyklische Datenbefehlsrückmeldung: BackHostTransparentCmd(). Diese Funktion überträgt den vom montierten Gerät zurückgemeldeten azyklischen Datenbefehl transparent an den Controller. Die Länge des azyklischen Datenbefehlsempfangs beträgt maximal 16 Byte.
+
+.. code-block:: 
+    :linenos:
+
+    Rcmd={0}
+    EndRxCustomData(Rcmd)
+    BackHostTransparentCmd(Rcmd)
+
+.. centered:: Code 8.18-4 Lua-Skript-Beschreibung
+
+Lua C-registrierte Funktion für zyklische Datenrückmeldung
+*********************************************************************
+
+(1) Lua C-registrierte Funktion für zyklische Datenrückmeldung: SetDWrodInputBack(). Diese Funktion überträgt die vom montierten Gerät ausgelesenen zyklischen Daten transparent an den Controller. Die zyklische Datenrückmeldung umfasst maximal 128 Byte.
+
+.. code-block:: 
+    :linenos:
+
+    R = {0}
+    TotalNum =0
+    PacketNum=0
+    TotalNum,PacketNum=SetDWrodInputBack(R)
+
+.. centered:: Code 8.18-5 Lua-Skript-Beschreibung
+
+Lua-Skript, geschrieben am Beispiel des DIO Health Care Moxibustion-Kopfes
+***********************************************************************************
+
+.. code-block:: 
+    :linenos:
+
+    --***
+    --Aufrechterhaltung des normalen Betriebs anderer Endfunktionen
+    while(1)
+    do
+    IwdgTaskHandle()
+    MainLoop()
+    UpDownLoadHandle()
+    SdoRwPara()
+    EndErrClear()
+    local BFlag=LuaBreak()
+    if(BFlag==1)then
+    break
+    end
+    --***
+    --***
+    --Beispiel für azyklische Datenübertragung
+    Rcmd = {0}       --Speichert die vom montierten Gerät zurückgemeldeten azyklischen Daten
+    Tcmd = {0}       --Speichert die vom Controller ausgegebenen azyklischen Daten
+    RxFlag=0         --Flag, ob der Controller einen Befehl ausgegeben hat
+    RxFlag = GetHostTransparentCmd(Tcmd)
+    if(RxFlag == 1)then
+    EndTxCustomData(Tcmd)
+    DelayMs(35)
+    EndRxCustomData(Rcmd)
+    if((#Rcmd) > 1))and(R[1]==0xAB)and(R[2]==0xBA)) then
+    BackHostTransparentCmd(Rcmd)
+    end
+    end
+    --***
+    --***
+    --Beispiel für zyklische Datenübertragung
+    R = {0}          --Speichert die vom montierten Gerät zurückgemeldeten zyklischen Daten
+    T = {0xAB,0xBA,0x14,0x01,0xAA,0x24}     --Befehl zum Abfragen zyklischer Daten vom montierten Gerät
+    if TotalNum==0 then
+    EndTxCustomData(T)
+    DelayMs(35)
+    EndRxCustomData(R)
+    end
+    TotalNum =0      --Bei zyklischen Daten, die eine Paketaufteilung erfordern, Gesamtanzahl der Pakete
+    PacketNum=0     --Aktuelle Paketsequenznummer
+    if((#R==19)and(R[1]==0xAB)and(R[2]==0xBA)and(R[3]==0x14)and(R[4]==0x0E))then
+    TotalNum,PacketNum=SetDWrodInputBack(R)
+    if PacketNum>TotalNum then
+    PacketNum=0
+    TotalNum=0
+    end
+    end
+    --***
+    LuaGc()
+    end

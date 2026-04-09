@@ -366,12 +366,13 @@ Schweißgeräte-Steuermodus einstellen
     :linenos:
 
     /**
-    * @brief Stellt den Schweißgeräte-Steuermodus ein.
-    * @param mode Schweißgeräte-Steuermodus; 0-Einheitlich.
-    * @return Fehlercode.
+    * @brief Schweißmaschinen-Steuerungsmodus einstellen
+    * @param [in] mode Schweißmaschinen-Steuerungsmodus; 0-Gleichstrom-Einknopf-Modus; 1-Impuls-Einknopf-Modus; 2-JOB-Modus; 3-Nahsteuerungs-Modus; 4-Separat-Modus; 5-CC/CV-Modus; 6-TIG; 7-CMT
+    * @param [in] ioType Steuerungstyp; 0-Steuerkasten-IO; 1-Digitales Kommunikationsprotokoll (UDP); 2-Digitales Kommunikationsprotokoll (ModbusTCP)
+    * @return Fehlercode
     */
-    errno_t SetWeldMachineCtrlMode(int mode);
-
+    errno_t SetWeldMachineCtrlMode(int mode, int ioType = 1);
+    
 Schweißen starten (Lichtbogen zünden)
 +++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.1.0
