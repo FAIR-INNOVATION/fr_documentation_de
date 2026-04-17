@@ -16,6 +16,8 @@ Sprachauswahl
     \ `日本語 <https://fairino-doc-ja.readthedocs.io/latest/>`__\ 
 
     \ `Italiano <https://fairino-doc-it.readthedocs.io/latest/>`__\ 
+    
+    \ `protugues <https://fairino-doc-pt.readthedocs.io/latest/>`__\ 
 
 .. toctree::
    :maxdepth: 6
