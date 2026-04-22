@@ -91,41 +91,47 @@ Typenschildinformationen
 
 .. centered:: Abbildung 3.1-5 FR5 kollaborativer Roboter
 
+.. figure:: installation/128.png
+	:align: center
+	:width: 6in
+
+.. centered:: Abbildung 3.1-6 FR5-C Modell Kollaborativer Roboter
+
 .. figure:: installation/126.png
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.1-6 FR5-WML kollaborativer Roboter
+.. centered:: Abbildung 3.1-7 FR5-WML kollaborativer Roboter
 
 .. figure:: installation/004.png
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.1-7 FR10 kollaborativer Roboter
+.. centered:: Abbildung 3.1-8 FR10 kollaborativer Roboter
 
 .. figure:: installation/005.png
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.1-8 FR16 kollaborativer Roboter
+.. centered:: Abbildung 3.1-9 FR16 kollaborativer Roboter
 
 .. figure:: installation/006.png
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.1-9 FR20 kollaborativer Roboter
+.. centered:: Abbildung 3.1-10 FR20 kollaborativer Roboter
 
 .. figure:: installation/007.png
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.1-10 FR30 kollaborativer Roboter
+.. centered:: Abbildung 3.1-11 FR30 kollaborativer Roboter
 
 .. figure:: installation/125.png
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.1-11 FR30L kollaborativer Roboter
+.. centered:: Abbildung 3.1-12 FR30L kollaborativer Roboter
 
 Gültigkeit und Verantwortung
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -268,6 +274,14 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 0.16
      - 0.10
 
+   * - **FR5-C**
+     - 0.51
+     - 0.63
+     - 0.60
+     - 0.33
+     - 0.16
+     - 0.10
+
    * - **FR10**
      - 0.64
      - 0.70
@@ -347,6 +361,14 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 90
 
    * - **FR5**
+     - 420
+     - 500
+     - 480
+     - 310
+     - 150
+     - 120
+
+   * - **FR5-C**
      - 420
      - 500
      - 480
@@ -452,6 +474,14 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 0.19
      - 0.12
 
+   * - **FR5-C**
+     - 0.54
+     - 0.65
+     - 0.63
+     - 0.35
+     - 0.19
+     - 0.12
+
    * - **FR10**
      - 0.66
      - 0.73
@@ -531,6 +561,14 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 110
 
    * - **FR5**
+     - 450
+     - 520
+     - 510
+     - 330
+     - 180
+     - 140
+
+   * - **FR5-C**
      - 450
      - 520
      - 510
@@ -624,6 +662,14 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 0.21
      - 0.15
 
+   * - **FR5-C**
+     - 0.56
+     - 0.68
+     - 0.65
+     - 0.38
+     - 0.21
+     - 0.15
+
    * - **FR10**
      - 0.69
      - 0.75
@@ -703,6 +749,14 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 120
 
    * - **FR5**
+     - 460
+     - 540
+     - 520
+     - 350
+     - 190
+     - 160
+
+   * - **FR5-C**
      - 460
      - 540
      - 520
@@ -1761,7 +1815,7 @@ Montage des Roboterarms
 .. note::
 	Es können präzise Basishalterungen als Zubehör erworben werden. Die Abbildungen 3.4-2, 3.4-5, 3.4-8, 3.4-11 zeigen die Positionen der Passbohrungen und Schraubenlöcher.
 
-Montageanforderungen für Roboterarm FR3/FR3-WMS/FR3-WML/FR3-C
+Montageanforderungen für Roboterarm FR3/FR3-WMS/FR3-WML/FR3-C/FR5-C
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Bei der Montage des Roboters auf einer Montagehalterung verwenden Sie 4 M6-Schrauben der Festigkeitsklasse nicht unter 8.8, um den Roboter auf der Halterung zu befestigen. Die Schrauben müssen mit einem Drehmoment von mindestens 10 Nm angezogen werden. Es wird empfohlen, auf der Montagehalterung zwei φ5 mm Passbohrungen in Verbindung mit Passstiften zur Positionierung des Roboters zu verwenden. Dies verbessert die Montagegenauigkeit des Roboters und verhindert, dass sich der Roboter durch Stöße oder ähnliches bewegt. Wenn hohe Anforderungen an die Laufgenauigkeit des Roboters gestellt werden, müssen auf jeden Fall Passstifte zur Positionierung des Roboters verwendet werden.
@@ -1770,7 +1824,7 @@ Bei der Montage des Roboters auf einer Montagehalterung verwenden Sie 4 M6-Schra
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.4-2 Einbaumaße für kollaborative Roboter FR3/FR3-WMS/FR3-WML/FR3-C
+.. centered:: Abbildung 3.4-2 Einbaumaße für kollaborative Roboter FR3/FR3-WMS/FR3-WML/FR3-C/FR5-C
 
 .. important::
 	Je nach Anwendungsszenario werden folgende Roboter-Montagehalterungen empfohlen:
@@ -1781,7 +1835,7 @@ Bei der Montage des Roboters auf einer Montagehalterung verwenden Sie 4 M6-Schra
 		:align: center
 		:width: 3in
 
-	.. centered:: Abbildung 3.4-3 Montagehalterung für niedrige Anforderungen (FR3/FR3-WMS/FR3-WML/FR3-C)
+	.. centered:: Abbildung 3.4-3 Montagehalterung für niedrige Anforderungen (FR3/FR3-WMS/FR3-WML/FR3-C/FR5-C)
 
 	(II) Für Anwendungen mit höherer Bewegungsgeschwindigkeit, höherer Laufgeschwindigkeit und höheren Genauigkeitsanforderungen wird folgende Roboter-Montagehalterung empfohlen. Der Roboter sollte auf einem festen Boden montiert werden:
 
@@ -1789,7 +1843,7 @@ Bei der Montage des Roboters auf einer Montagehalterung verwenden Sie 4 M6-Schra
 		:align: center
 		:width: 3in
 
-	.. centered:: Abbildung 3.4-4 Montagehalterung für hohe Anforderungen (FR3/FR3-WMS/FR3-WML/FR3-C)
+	.. centered:: Abbildung 3.4-4 Montagehalterung für hohe Anforderungen (FR3/FR3-WMS/FR3-WML/FR3-C/FR5-C)
 
 Montageanforderungen für Roboterarm FR5
 ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1881,7 +1935,7 @@ Der Werkzeugflansch des Roboters verfügt über vier M6-Gewindebohrungen, die zu
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.4-13 Zeichnung des Roboter-Werkzeugflansches (FR3/FR3-WMS/FR3-WML/FR3-C/FR5/FR10/FR16)
+.. centered:: Abbildung 3.4-13 Zeichnung des Roboter-Werkzeugflansches (FR3/FR3-WMS/FR3-WML/FR3-C/FR5/FR5-C/FR10/FR16)
 
 .. figure:: installation/031.png
 	:align: center
@@ -2045,6 +2099,17 @@ Der kollaborative Roboter FR5-WML kann eine maximale Nutzlast von 7 kg tragen, d
 
 .. centered:: Abbildung 3.4-20 Lastkurve für kollaborativen Roboter FR5-WML
 
+FR5-C Modell Kollaborativer Roboter Lastkurve
+*******************************
+
+Der FR5-C Modell kollaborative Roboter hat eine maximale Nutzlast von 5 kg und eine Nennnutzlast von 4 kg. Die Lastkurve ist in der Abbildung als "Volle Leistung" dargestellt.
+
+.. figure:: installation/130.png
+	:align: center
+	:width: 5in
+
+.. centered:: Abbildung 3.4-21 FR5-C Modell Kollaborativer Roboter Lastkurve
+
 Lastkurve für kollaborativen Roboter FR10
 ***********************************************
 
@@ -2061,7 +2126,7 @@ Der kollaborative Roboter FR10 kann eine maximale Nutzlast von 14 kg tragen, die
 	:align: center
 	:width: 5in
 
-.. centered:: Abbildung 3.4-21 Lastkurve für kollaborativen Roboter FR10
+.. centered:: Abbildung 3.4-22 Lastkurve für kollaborativen Roboter FR10
 
 Lastkurve für kollaborativen Roboter FR16
 ***********************************************
@@ -2079,7 +2144,7 @@ Der kollaborative Roboter FR16 kann eine maximale Nutzlast von 20 kg tragen, die
 	:align: center
 	:width: 5in
 
-.. centered:: Abbildung 3.4-22 Lastkurve für kollaborativen Roboter FR16
+.. centered:: Abbildung 3.4-23 Lastkurve für kollaborativen Roboter FR16
 
 Lastkurve für kollaborativen Roboter FR20
 ***********************************************
@@ -2097,7 +2162,7 @@ Der kollaborative Roboter FR20 kann eine maximale Nutzlast von 25 kg tragen, die
 	:align: center
 	:width: 5in
 
-.. centered:: Abbildung 3.4-23 Lastkurve für kollaborativen Roboter FR20
+.. centered:: Abbildung 3.4-24 Lastkurve für kollaborativen Roboter FR20
 
 Lastkurve für kollaborativen Roboter FR30
 ***********************************************
@@ -2115,7 +2180,7 @@ Der kollaborative Roboter FR30 kann eine maximale Nutzlast von 35 kg tragen, die
 	:align: center
 	:width: 5in
 
-.. centered:: Abbildung 3.4-24 Lastkurve für kollaborativen Roboter FR30
+.. centered:: Abbildung 3.4-25 Lastkurve für kollaborativen Roboter FR30
 
 Steuerungsanschluss
 ------------------------------
@@ -2893,84 +2958,71 @@ Steckverbinder: M12-A-12-polig Buchse [Anschlussseitig M12-A-12-polig Stecker], 
 	:width: 2in
 
 .. list-table::
-   :widths: 10 15 15 20 40
+   :widths: 10 15 20 40
    :header-rows: 0
    :align: center
 
    * - **Pin**
-     - **Farbe**
      - **Definition**
      - **Beschreibung**
      - **Bemerkung**
 
    * - 1
-     - Blau
      - AGND
      - Analogmasse
      - Bezugspotential für Analogsignale
 
    * - 2
-     - Braun
      - 0V
      - 24V Spg. Masse
      - Steuerspannung Masse
 
    * - 3
-     - Rot
      - 485-A
      - 485 Kommunikation A
      - 485-Kommunikation für Erweiterung/Reserve
 
    * - 4
-     - Grau
      - 485-B
      - 485 Kommunikation B
      - 485-Kommunikation für Erweiterung/Reserve
 
    * - 5
-     - Schwarz
      - DI0/DO0
      - Digitaleingang/-ausgang 0
      - 5,6,7 teilen sich eine Schnittstelle. Konfigurierbar als Ein- oder Ausgang per Software. Nur eine Funktion gleichzeitig.
 
    * - 6
-     - Gelb
      - DI1/DO1
      - Digitaleingang/-ausgang 1
      - 5,6,7 teilen sich eine Schnittstelle. Konfigurierbar als Ein- oder Ausgang per Software. Nur eine Funktion gleichzeitig.
 
    * - 7
-     - Rosa
      - DI2/DO2
      - Digitaleingang/-ausgang 2
      - 5,6,7 teilen sich eine Schnittstelle. Konfigurierbar als Ein- oder Ausgang per Software. Nur eine Funktion gleichzeitig.
 
    * - 8
-     - Dunkelgrün
      - AI0/AO0
      - Analogeingang/-ausgang 0
      - 8,9 teilen sich eine Schnittstelle. Konfigurierbar als Ein- oder Ausgang per Software. Nur eine Funktion gleichzeitig.
 
    * - 9
-     - Weiß
      - AI1/AO1
      - Analogeingang/-ausgang 1
      - 8,9 teilen sich eine Schnittstelle. Konfigurierbar als Ein- oder Ausgang per Software. Nur eine Funktion gleichzeitig.
 
    * - 10
-     - Lila
      - 24V
      - 24V Spg. Plus
      - Steuerspannung Plus
 
    * - 11
-     - Orange
      - DI3/DO3
      - Digitaleingang/-ausgang 3
      - 11,12 teilen sich eine Schnittstelle. Konfigurierbar als Ein- oder Ausgang per Software. Nur eine Funktion gleichzeitig.
 
    * - 12
-     - Hellgrün
      - DI4/DO4
      - Digitaleingang/-ausgang 4
      - 11,12 teilen sich eine Schnittstelle. Konfigurierbar als Ein- oder Ausgang per Software. Nur eine Funktion gleichzeitig.

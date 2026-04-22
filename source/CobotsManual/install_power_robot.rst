@@ -41,6 +41,11 @@ Bei der Montage des kollaborativen Roboters auf einer Montagehalterung verwenden
      - ≥10 Nm
      - φ5 mm
 
+   * - FR5-C
+     - 4 Stück M6
+     - ≥10Nm
+     - φ5mm
+   
    * - FR5
      - 4 Stück M8
      - ≥20 Nm

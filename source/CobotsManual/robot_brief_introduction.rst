@@ -68,35 +68,41 @@ Installationsraum des Steuerpults:
 
 .. centered:: Abbildung 2.2-5 Bewegungsbereich des kollaborativen Roboters FR5
 
+.. figure:: installation/129.png
+	:align: center
+	:width: 6in
+
+.. centered:: Abbildung 2.2-6 FR5-C Modell Kollaborativer Roboter Bewegungsbereich
+
 .. figure:: installation/020.png
     :align: center
     :width: 6in
 
-.. centered:: Abbildung 2.2-6 Bewegungsbereich des kollaborativen Roboters FR10
+.. centered:: Abbildung 2.2-7 Bewegungsbereich des kollaborativen Roboters FR10
 
 .. figure:: installation/021.png
     :align: center
     :width: 6in
 
-.. centered:: Abbildung 2.2-7 Bewegungsbereich des kollaborativen Roboters FR16
+.. centered:: Abbildung 2.2-8 Bewegungsbereich des kollaborativen Roboters FR16
 
 .. figure:: installation/022.png
     :align: center
     :width: 6in
 
-.. centered:: Abbildung 2.2-8 Bewegungsbereich des kollaborativen Roboters FR20
+.. centered:: Abbildung 2.2-9 Bewegungsbereich des kollaborativen Roboters FR20
 
 .. figure:: installation/068.png
     :align: center
     :width: 6in
 
-.. centered:: Abbildung 2.2-9 Bewegungsbereich des kollaborativen Roboters FR30
+.. centered:: Abbildung 2.2-10 Bewegungsbereich des kollaborativen Roboters FR30
 
 .. figure:: installation/124.png
     :align: center
     :width: 6in
 
-.. centered:: Abbildung 2.2-10 Bewegungsbereich des kollaborativen Roboters FR30L
+.. centered:: Abbildung 2.2-11 Bewegungsbereich des kollaborativen Roboters FR30L
 
 Roboter-Koordinatensysteme
 ---------------------------
@@ -481,7 +487,78 @@ Die DH-Parameter der kollaborativen Roboter der FR-Serie sind wie folgt dargeste
      - 0.36
      - [0.93, 0.81, -20.05]
 
-.. centered:: Tabelle 2.4-6 DH-Parameter des kollaborativen Roboters FR5-WML
+.. centered:: Tabelle 2.4-6 DH-Parameter des kollaborativen Roboters FR5-C
+
+.. list-table::
+   :widths: 70 50 50 50 50 70 50 120
+   :header-rows: 0
+   :align: center
+   :class: no-padding sheet-center
+
+   * - **Kinematik**
+     - **theta[rad]**
+     - **a[mm]**
+     - **d[mm]**
+     - **alpha[rad]**
+     - **Dynamik**
+     - **Masse[kg]**
+     - **Massenmittelpunkt[mm]**
+
+   * - Gelenk1
+     - 0
+     - 0
+     - 140
+     - π/2
+     - Verbindung1
+     - 1.76
+     - [-0.09, -15.66, 1.53]
+
+   * - Gelenk2
+     - 0
+     - -280
+     - 0
+     - 0
+     - Verbindung2
+     - 3.98
+     - [211.32, 0, 101.13]
+
+   * - Gelenk3
+     - 0
+     - -240
+     - 0
+     - 0
+     - Verbindung3
+     - 2.08
+     - [102.62, 0.12, 11.26]
+
+   * - Gelenk4
+     - 0
+     - 0
+     - 102
+     - π/2
+     - Verbindung4
+     - 1.33
+     - [0.09, -1.86, 13.76]
+
+   * - Gelenk5
+     - 0
+     - 0
+     - 102
+     - -π/2
+     - Verbindung5
+     - 1.33
+     - [-0.09, 1.86, 13.76]
+
+   * - Gelenk6
+     - 0
+     - 0
+     - 100
+     - 0
+     - Verbindung6
+     - 0.28
+     - [-0.26, 1.75, -20.50]
+
+.. centered:: Tabelle 2.4-7 DH-Parameter des kollaborativen Roboters FR5-WML
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -552,7 +629,7 @@ Die DH-Parameter der kollaborativen Roboter der FR-Serie sind wie folgt dargeste
      - 0.36
      - [1.45, 1.09, -19.98]
 
-.. centered:: Tabelle 2.4-7 DH-Parameter des kollaborativen Roboters FR10
+.. centered:: Tabelle 2.4-8 DH-Parameter des kollaborativen Roboters FR10
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -623,7 +700,7 @@ Die DH-Parameter der kollaborativen Roboter der FR-Serie sind wie folgt dargeste
      - 0.35
      - [1.24, 0.85, -20.34]
 
-.. centered:: Tabelle 2.4-8 DH-Parameter des kollaborativen Roboters FR16
+.. centered:: Tabelle 2.4-9 DH-Parameter des kollaborativen Roboters FR16
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -694,7 +771,7 @@ Die DH-Parameter der kollaborativen Roboter der FR-Serie sind wie folgt dargeste
      - 0.35
      - [1.24, 0.85, -20.34]
 
-.. centered:: Tabelle 2.4-9 DH-Parameter des kollaborativen Roboters FR20
+.. centered:: Tabelle 2.4-10 DH-Parameter des kollaborativen Roboters FR20
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -765,7 +842,7 @@ Die DH-Parameter der kollaborativen Roboter der FR-Serie sind wie folgt dargeste
      - 0.6
      - [-2.11, -1.96, -20.38]
 
-.. centered:: Tabelle 2.4-10 DH-Parameter des kollaborativen Roboters FR30
+.. centered:: Tabelle 2.4-11 DH-Parameter des kollaborativen Roboters FR30
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -836,7 +913,7 @@ Die DH-Parameter der kollaborativen Roboter der FR-Serie sind wie folgt dargeste
      - 0.6
      - [-2.11, -1.96, -20.38]
 
-.. centered:: Tabelle 2.4-11 DH-Parameter des kollaborativen Roboters FR30L
+.. centered:: Tabelle 2.4-12 DH-Parameter des kollaborativen Roboters FR30L
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
