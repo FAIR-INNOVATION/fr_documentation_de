@@ -13,6 +13,22 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V3.9.5
+     - 2026-04-24
+     - | 1.GetRobotRealTimeState()-Schnittstelle ändert internen Mechanismus zum Abrufen der neuesten Echtzeit-Roboterstatusdaten, keine Änderung der externen Eigenschaften;
+       | 2.SetTrajectoryJSpeed()-Schnittstelle fügt die Modi Geschwindigkeitsreduzierung und direkte Umschaltung hinzu;
+       | 3.GetSystemClock()-Schnittstelle fügt Fehlercode-Rückmeldung und Funktionsbeschreibung hinzu;
+       | 4.FieldBusSlaveWriteAO()-Schnittstelle ändert den Schreibwerttyp in double, wobei AO0~AO15 ganzzahlig und AO16~AO31 Gleitkommazahlen sind;
+       | 5.Roboterstatus-Rückmeldungsstrukturtyp aktualisiert, ROBOT_STATE_PKG von struct in class geändert;
+       | 6.Aufzählungstyp für Roboterstatus-Rückmeldungskonfiguration hinzugefügt;
+       | 7.Codebeispiel zum Einstellen der Robotergeschwindigkeit während der Trajektorienausführung hinzugefügt;
+       | 8.SetRobotRealtimeStateConfig()-Schnittstelle zur Konfiguration der CNDE-Statusrückmeldung des Roboters hinzugefügt;
+       | 9.AddRobotRealtimeState()-Schnittstelle zum Hinzufügen eines Roboterstatus zur CNDE-Statuskonfiguration hinzugefügt;
+       | 10.DeleteRobotRealtimeState()-Schnittstelle zum Löschen eines Roboterstatus aus der CNDE-Statuskonfiguration hinzugefügt;
+       | 11.SetRobotRealtimeStatePeriod()-Schnittstelle zum Festlegen der CNDE-Statusrückmeldeperiode hinzugefügt;
+       | 12.GetRobotRealtimeStateConfig()-Schnittstelle zum Abrufen aller aktuellen CNDE-Statusrückmelde-Zustandssätze und der Periode hinzugefügt;
+       | 13.Die folgenden Schnittstellen fügen Blockierungslogik im Zustand der Trennungs- und Wiederherstellungsverbindung hinzu: GetSafetyCode, GetAI, GetToolAI, GetAxlePointRecordBtnState, GetToolDO, GetDO, GetActualJointPosDegree, GetActualJointSpeedsDegree, GetActualJointAccDegree, GetTargetTCPCompositeSpeed, GetActualTCPCompositeSpeed, GetTargetTCPSpeed, GetActualTCPSpeed, GetActualTCPPose, GetActualTCPNum, GetActualWObjNum, GetActualToolFlangePose, GetJointTorques, GetRobotMotionDone, GetRobotErrorCode, GetError, GetMotionQueueLength, GetProgramState, GetGripperActivateStatus, GetGripperCurPosition, GetGripperCurSpeed, GetGripperCurCurrent, GetGripperVoltage, GetGripperTemp, FT_GetForceTorqueRCS, FT_GetForceTorqueOrigin, FT_Control, GetRobotEmergencyStopState, GetSDKComState, GetSafetyStopState, LuaUpload, LuaDownLoad, ForceSensorAutoComputeLoad, AxleLuaUpload, GetGripperRotNum, GetGripperRotSpeed, GetGripperRotTorque.
+
    * - V3.9.4
      - 2026-03-25
      - | 1.ServoJTStart()-Schnittstelle fügt Parameter für Kommunikationstypauswahl hinzu, unterstützt XMLRPC/UDP-Kommunikation;

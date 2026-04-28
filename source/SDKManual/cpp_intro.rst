@@ -35,5 +35,6 @@ Dieses Dokument ist die Schnittstellenbeschreibung für die sekundäre Entwicklu
     CPPRobotForceControl
     CPPRobotExtendedAxis
     CPPRobotWelding
+    CPPRobotCnde
     CPPRobotOthers
     CPPAppendix

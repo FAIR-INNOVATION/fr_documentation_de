@@ -2100,7 +2100,7 @@ Der kollaborative Roboter FR5-WML kann eine maximale Nutzlast von 7 kg tragen, d
 .. centered:: Abbildung 3.4-20 Lastkurve für kollaborativen Roboter FR5-WML
 
 FR5-C Modell Kollaborativer Roboter Lastkurve
-*******************************
+*******************************************************
 
 Der FR5-C Modell kollaborative Roboter hat eine maximale Nutzlast von 5 kg und eine Nennnutzlast von 4 kg. Die Lastkurve ist in der Abbildung als "Volle Leistung" dargestellt.
 

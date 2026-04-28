@@ -433,7 +433,7 @@ Sie können den zu erreichenden Punkt auswählen. Durch die Einstellung der Glä
 
 Punkt-zu-Punkt Relativbewegung
 ********************************
-Der Roboter bewegt sich von seiner aktuellen Position aus um eine bestimmte Strecke relativ. Wählen Sie auf der Seite zum Hinzufügen von PTP-Befehlen als Punktnamen "CurrentPos". Wählen Sie je nach Situation das Versatzkoordinatensystem (Basiskoordinatensystem oder Werkzeugkoordinatensystem) und geben Sie den Versatz ein. Der Roboter führt dann basierend auf seiner aktuellen Position eine Versatzbewegung entlang des eingestellten Koordinatensystems durch. ("CurrentPos" ist ein Systempunkt und muss nicht angefahren werden.)
+Der Roboter bewegt sich relativ vom aktuellen Punkt. Wählen Sie auf der PTP-Befehlshinzufügungsseite den Punktnamen "CurrentPos", wählen Sie je nach Situation das Offset-Koordinatensystem als Basiskoordinatensystem, Werkzeugkoordinatensystem oder Werkstückkoordinatensystem und geben Sie den Offset-Wert ein. Der Roboter führt dann auf der Grundlage seiner aktuellen Position eine Offset-Bewegung entlang des eingestellten Koordinatensystems durch. ("CurrentPos" ist ein Systempunkt, der nicht gelehrt werden muss)
 
 .. image:: coding/515.png
    :width: 6in
@@ -464,7 +464,7 @@ Die Funktion dieses Befehls ähnelt der des "PTP"-Befehls, jedoch ist der Pfad z
 
 Linie Relativbewegung
 ********************************
-Der Roboter bewegt sich von seiner aktuellen Position aus geradlinig um eine bestimmte Strecke relativ. Wählen Sie auf der Seite zum Hinzufügen von LIN-Befehlen als Punktnamen "CurrentPos". Wählen Sie je nach Situation das Versatzkoordinatensystem (Basiskoordinatensystem oder Werkzeugkoordinatensystem) und geben Sie den Versatz ein. Der Roboter führt dann basierend auf seiner aktuellen Position eine Versatzbewegung entlang des eingestellten Koordinatensystems durch. ("CurrentPos" ist ein Systempunkt und muss nicht angefahren werden.)
+Der Roboter bewegt sich linear relativ vom aktuellen Punkt. Wählen Sie auf der LIN-Befehlshinzufügungsseite den Punktnamen "CurrentPos", wählen Sie je nach Situation das Offset-Koordinatensystem als Basiskoordinatensystem, Werkzeugkoordinatensystem oder Werkstückkoordinatensystem und geben Sie den Offset-Wert ein. Der Roboter führt dann auf der Grundlage seiner aktuellen Position eine Offset-Bewegung entlang des eingestellten Koordinatensystems durch. ("CurrentPos" ist ein Systempunkt, der nicht gelehrt werden muss)
 
 .. image:: coding/517.png
    :width: 6in
@@ -652,7 +652,7 @@ Klicken Sie auf das Symbol "Kreisbogen", um die Bearbeitungsoberfläche für den
 
 Der "Arc"-Befehl ist eine Kreisbogenbewegung, die drei Punkte umfasst: Der erste Punkt ist der Startpunkt des Kreisbogens, der zweite Punkt ist der Zwischenpunkt des Kreisbogens und der dritte Punkt ist der Endpunkt.
 
-Für sowohl den Zwischenpunkt als auch den Endpunkt kann eingestellt werden, ob ein Versatz erfolgen soll. Es kann ein Versatz basierend auf dem Basiskoordinatensystem oder dem Werkzeugkoordinatensystem ausgewählt werden. Es öffnen sich dann Eingabefelder für den Versatz in x, y, z, rx, ry, rz. Für den Endpunkt kann ein Glättungsübergangsradius eingestellt werden, um einen kontinuierlichen Bewegungseffekt zu erzielen.
+Sowohl Übergangspunkte als auch Endpunkte können mit oder ohne Offset eingestellt werden. Es kann zwischen Offset basierend auf dem Basiskoordinatensystem, dem Werkzeugkoordinatensystem oder dem Werkstückkoordinatensystem gewählt werden. Die Offset-Werte für x, y, z, rx, ry, rz können eingestellt werden. Für den Endpunkt kann ein sanfter Übergangsradius eingestellt werden, um eine kontinuierliche Bewegung zu erreichen.
 
 .. important::
    Für eine Kreisbogenbewegung muss zuerst ein PTP- oder Lin-Befehl hinzugefügt werden, um zum Startpunkt zu gelangen.
@@ -793,7 +793,7 @@ Im Folgenden wird die Verwendung von "gleichem Versatz" und "unterschiedlichem V
 
 Wählen Sie für Kreis-Zwischenpunkt 2 "P3" und für "Ob Versatz" die Option "Basiskoordinaten-Versatz".
 
-.. note:: Sie können je nach tatsächlicher Arbeitssituation auch "Werkzeugkoordinaten-Versatz" wählen.
+.. note:: Sie können je nach Ihren tatsächlichen Arbeitsbedingungen "Werkzeugkoordinaten-Offset" oder "Werkstückkoordinaten-Offset" wählen.
 
 Geben Sie den Versatzbetrag dx = 10 mm ein und klicken Sie nacheinander auf die Schaltflächen "Hinzufügen" und "Übernehmen" am unteren Ende der Seite.
 
@@ -819,12 +819,11 @@ Schalten Sie den Roboter in den Automatikmodus und starten Sie das Programm unte
 
 .. centered:: Abbildung 9.5-15 Bahn bei gleichem Versatz X10mm
 
-2. Unterschiedlicher Versatz
+1. Unterschiedlicher Versatz
 
 Öffnen Sie die Seite zum Hinzufügen von Kreisbefehlen, wählen Sie als "Versatztyp" die Option "Unterschiedlicher Versatz". Wählen Sie ebenfalls die Bewegungsart für den Startpunkt und den Startpunkt "P1". Wählen Sie für Kreis-Zwischenpunkt 1 "P2" und als "Ob Versatz" die Option "Basiskoordinaten-Versatz".
 
-.. note::
-   Sie können je nach tatsächlicher Arbeitssituation auch "Werkzeugkoordinaten-Versatz" wählen.
+.. note:: Sie können je nach Ihren tatsächlichen Arbeitsbedingungen "Werkzeugkoordinaten-Offset" oder "Werkstückkoordinaten-Offset" wählen.
 
 Geben Sie den Versatzbetrag dy = 10 mm ein.
 
@@ -836,7 +835,7 @@ Geben Sie den Versatzbetrag dy = 10 mm ein.
 
 Wählen Sie für Kreis-Zwischenpunkt 2 "P3" und als "Ob Versatz" die Option "Basiskoordinaten-Versatz".
 
-.. note:: Sie können je nach tatsächlicher Arbeitssituation auch "Werkzeugkoordinaten-Versatz" wählen.
+.. note:: Sie können je nach Ihren tatsächlichen Arbeitsbedingungen "Werkzeugkoordinaten-Offset" oder "Werkstückkoordinaten-Offset" wählen.
 
 Geben Sie den Versatzbetrag dx = 10 mm ein und klicken Sie nacheinander auf die Schaltflächen "Hinzufügen" und "Übernehmen" am unteren Ende der Seite.
 
@@ -868,6 +867,8 @@ Spiral-Befehl
 Klicken Sie auf das Symbol "Spirale", um die Bearbeitungsoberfläche für den Spiral-Befehl zu öffnen.
 
 Der "Spiral"-Befehl ist eine Spiralbewegung, die drei Punkte umfasst. Diese drei Punkte bilden einen Kreis. Auf der Einstellungsseite für den dritten Punkt gibt es Parameter für die Anzahl der Windungen, den Pose-Korrekturwinkel, die Radiusinkrement und die Achsrichtungsinkrement. Die Anzahl der Windungen ist die Anzahl der Bewegungen der Spirale. Der Pose-Korrekturwinkel korrigiert die Pose am Ende der Spirale im Verhältnis zur Pose des ersten Punkts der Spirale. Die Radiusinkrement ist die Zunahme des Radius pro Windung. Die Achsrichtungsinkrement ist die Zunahme in Richtung der Spiralachse. Bei der Einstellung "Ob Versatz" wirkt sich dieser Versatz auf die gesamte Spirale aus.
+
+Ob ein Offset verwendet wird, kann mit "Offset basierend auf Basiskoordinaten", "Offset basierend auf Werkzeugkoordinaten" oder "Offset basierend auf Werkstückkoordinaten" gewählt werden. Dieses Offset gilt für die gesamte Spiralbahn.
 
 .. image:: coding/059.png
    :width: 6in
@@ -1454,7 +1455,7 @@ Digital-IO-Befehl
 
 Klicken Sie auf das Symbol "Digital-IO", um die Bearbeitungsoberfläche für den IO-Befehl zu öffnen.
 
-Der "IO"-Befehl ist in zwei Teile gegliedert: Setzen von IO (SetDO/SPLCSetDO) und Abrufen von IO (GetDI/SPLCGetDI).
+Der "IO"-Befehl ist in drei Teile unterteilt: IO setzen (SetDO/SPLCSetDO), DI erhalten (GetDI/SPLCGetDI) und DO erhalten (GetDO).
 
 Mit dem Befehl "SetDO/SPLCSetDO" kann der Status des angegebenen DO-Ausgangs eingestellt werden. Dies umfasst 16 Steuerpult-Digitalausgänge und 2 Werkzeug-Digitalausgänge. Die Statusoption "False" bedeutet Aus, "True" bedeutet Ein. Die Option "Ob blockieren": Bei Auswahl von "Blockieren" wird der DO-Status gesetzt, nachdem die Bewegung gestoppt wurde. Bei Auswahl von "Nicht blockieren" wird der DO-Status während der vorherigen Bewegung gesetzt. Die Option "Glatte Bahn": Bei Auswahl von "Break" wird der DO-Status nach dem Ende des Glättungsübergangsradius gesetzt. Bei Auswahl von "Serious" wird der DO-Status während der Bewegung über den Glättungsübergangsradius gesetzt. Wenn dieser Befehl in einem Hilfsthread hinzugefügt wird, muss "Ob Thread anwenden" auf Ja gesetzt werden. An anderen Stellen verwenden Sie für diesen Befehl Nein. Klicken Sie auf "Hinzufügen" und dann auf "Übernehmen".
 
@@ -1472,12 +1473,20 @@ Wählen Sie im "GetDI/SPLCGetDI"-Befehl den Wert der gewünschten Portnummer aus
 
 .. centered:: Abbildung 9.6-2 GetDI-Befehls-Oberfläche
 
+Wählen Sie im "GetDO"-Befehl den gewünschten Portnummernwert. Die Blockierungsoption wählt "Blockierend", um den DO-Status nach dem Bewegungsstopp zu erhalten, und "Nicht blockierend", um den DO-Status während der vorherigen Bewegung zu erhalten. Klicken Sie nach der Auswahl auf die Schaltflächen "Hinzufügen" und "Übernehmen".
+
+.. image:: coding/571.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.6-2-2 GetDO-Befehlsschnittstelle
+
 Analog-AI-Befehl
 ++++++++++++++++
 
 Klicken Sie auf das Symbol "Analog-AI", um die Bearbeitungsoberfläche für den AI-Befehl zu öffnen.
 
-Dieser Befehl umfasst zwei Funktionen: Setzen des analogen Ausgangs (SetAO/SPLCSetAO) und Abrufen des analogen Eingangs (GetAI/SPLCGetAI).
+Dieser Befehl ist in drei Funktionsteile unterteilt: Analogausgang setzen (SetAO/SPLCSetAO), Analogeingang erhalten (GetAI/SPLCGetAI) und Analogausgang erhalten (GetAO).
 
 Wählen Sie bei "SetAO/SPLCSetAO" den einzustellenden analogen Ausgang aus und geben Sie den einzustellenden Wert ein (Bereich 0-10). Bei der Option "Ob blockieren": Bei Auswahl von "Blockieren" wird der AO-Status gesetzt, nachdem die Bewegung gestoppt wurde. Bei Auswahl von "Nicht blockieren" wird der AO-Status während der vorherigen Bewegung gesetzt. Wenn dieser Befehl in einem Hilfsthread hinzugefügt wird, muss "Ob Thread anwenden" auf Ja gesetzt werden. An anderen Stellen verwenden Sie für diesen Befehl Nein. Klicken Sie auf "Hinzufügen" und dann auf "Übernehmen".
 
@@ -1494,6 +1503,14 @@ Wählen Sie bei "GetAI/SPLCGetAI" den abzurufenden analogen Eingang aus. Bei der
    :align: center
 
 .. centered:: Abbildung 9.6-4 GetAI-Befehls-Oberfläche
+
+"GetAO" wählt den zu erhaltenden Analogeingang aus. Die Blockierungsoption wählt "Blockierend", um den AI-Status nach dem Bewegungsstopp zu erhalten, und "Nicht blockierend", um den AI-Status während der vorherigen Bewegung zu erhalten. Klicken Sie auf "Hinzufügen" und "Übernehmen".
+
+.. image:: coding/572.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.6-4-2 GetAO-Befehlsschnittstelle
 
 Virtueller-IO-Befehl
 ++++++++++++++++++++
@@ -6258,7 +6275,10 @@ Die Laser-Stationärpendelfunktion ist eine Kombination aus der Stationärpendel
 Bedienungsablauf für Laser + Stationärpendeln
 ****************************************************************************
 
-**Schritt 1**: Konfigurieren Sie die Laserkommunikation. Die spezifischen Bedienschritte finden Sie im entsprechenden Kapitel des Benutzerhandbuchs.
+**Schritt 1**: Konfigurieren Sie die Laserkommunikation. Die spezifischen Bedienschritte finden Sie im entsprechenden Kapitel des Benutzerhandbuchs. Bei der Anwendung in Szenarien wie dem eigentlichen Schweißen ist Folgendes zu beachten:
+
+   - (1) Der Linienlasersensor muss mit Schutzvorrichtungen ausgestattet werden, um den Einfluss von starkem Licht und Schweißspritzern zu vermeiden;
+   - (2) Der Erfassungspunkt der Linienlaserdaten sollte einen gewissen Abstand zum Schweißpunkt einhalten, um die Auswirkungen von starkem Licht auf die Qualität der Laserdatenerfassung während des Schweißens zu verringern.
 
 **Schritt 2**: Kalibrieren Sie das Roboter-Werkzeugkoordinatensystem und das Laserkoordinatensystem. Die spezifischen Bedienschritte finden Sie im entsprechenden Kapitel des Benutzerhandbuchs.
 
@@ -6317,7 +6337,10 @@ Bedienungsablauf für Laser + Stationärpendeln
 Bedienungsablauf für Laser + Erweiterungsachse + Stationärpendeln
 ****************************************************************************************
 
-**Schritt 1**: Konfigurieren Sie die Laserkommunikation. Die spezifischen Bedienschritte finden Sie im entsprechenden Kapitel des Benutzerhandbuchs.
+**Schritt 1**: Konfigurieren Sie die Laserkommunikation. Die spezifischen Bedienschritte finden Sie im entsprechenden Kapitel des Benutzerhandbuchs. Bei der Anwendung in Szenarien wie dem eigentlichen Schweißen ist Folgendes zu beachten:
+
+   - (1) Der Linienlasersensor muss mit Schutzvorrichtungen ausgestattet werden, um den Einfluss von starkem Licht und Schweißspritzern zu vermeiden;
+   - (2) Der Erfassungspunkt der Linienlaserdaten sollte einen gewissen Abstand zum Schweißpunkt einhalten, um die Auswirkungen von starkem Licht auf die Qualität der Laserdatenerfassung während des Schweißens zu verringern.
 
 **Schritt 2**: Konfigurieren Sie die Kommunikation der Erweiterungsachse. Die spezifischen Bedienschritte finden Sie im entsprechenden Kapitel des Benutzerhandbuchs.
 

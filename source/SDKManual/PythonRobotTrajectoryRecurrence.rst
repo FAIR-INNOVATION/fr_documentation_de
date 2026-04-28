@@ -203,16 +203,90 @@ Nummer des aktuellen Trajektorienpunkts abrufen
     - ``pnum``: Aktuelle Trajektorienpunktnummer"
 
 Geschwindigkeit während der Trajektorienausführung einstellen
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. csv-table::
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``SetTrajectoryJSpeed(ovl)``"
+    "Prototyp", "``SetTrajectoryJSpeed(ovl, mode)``"
     "Beschreibung", "Geschwindigkeit während der Trajektorienausführung einstellen"
-    "Erforderliche Parameter", "- ``ovl``: Geschwindigkeitsskalierungsprozentsatz, Bereich [0~100]"
+    "Erforderliche Parameter", "
+    - ``ovl``: Geschwindigkeitsskalierungsprozentsatz, Bereich [0~100]
+    - ``mode``: 0-Geschwindigkeitsreduzierungsmodus; 1-direkte Umschaltung"
     "Standardparameter", "Keine"
-    "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
+
+Codebeispiel zum Einstellen der Geschwindigkeit während der Trajektorienausführung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # Verbindung mit der Robotersteuerung herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+
+    def TestSetTrajectoryJSpeed(self):
+        # Trajektoriendatei hochladen
+        rtn = robot.TrajectoryJUpLoad("C://Users/lenovo/Desktop/trajHelix_aima_1.txt")
+        print(f"Upload TrajectoryJ A {rtn}")
+
+        traj_file_name = "/fruser/traj/trajHelix_aima_1.txt"
+        # Trajektoriendatei laden, Parameter: Dateiname, Geschwindigkeitsprozentsatz, Schleife (1: Schleife)
+        rtn = robot.LoadTrajectoryJ(name=traj_file_name, ovl=100, opt=1)
+        print(f"LoadTrajectoryJ {traj_file_name}, rtn is: {rtn}")
+
+        # Startpose der Trajektorie abrufen
+        rtn, traj_start_pose = robot.GetTrajectoryStartPose(name=traj_file_name)
+        print(f"GetTrajectoryStartPose is: {rtn}")
+        print(
+            f"desc_pos:{traj_start_pose[0]},{traj_start_pose[1]},{traj_start_pose[2]},{traj_start_pose[3]},{traj_start_pose[4]},{traj_start_pose[5]}")
+
+        time.sleep(1)
+
+        # Basisgeschwindigkeit einstellen und zum Trajektorienstartpunkt bewegen
+        robot.SetSpeed(50)
+        robot.MoveCart(desc_pos=traj_start_pose, tool=0, user=0, vel=100, acc=100, ovl=100, blendT=-1, config=-1)
+
+        # Anzahl der Trajektorienpunkte abrufen
+        rtn, traj_num = robot.GetTrajectoryPointNum()
+        print(f"GetTrajectoryStartPose rtn is: {rtn}, traj num is: {traj_num}")
+
+        # Trajektorienbewegung starten
+        rtn = robot.MoveTrajectoryJ()
+        print(f"MoveTrajectoryJ rtn is: {rtn}")
+
+        time.sleep(1)
+
+        # Roboter-Echtzeitstatus abrufen
+        trajspeedMode = 0
+        while True:
+            rtn, pkg = robot.GetRobotRealTimeState()
+            if pkg.motion_done != 0:
+                break
+
+            # Trajektoriengeschwindigkeit auf 10% einstellen
+            rtn = robot.SetTrajectoryJSpeed(ovl=10.0, mode=trajspeedMode)
+            print(f"SetTrajectoryJSpeed is: {rtn}")
+
+            time.sleep(1)
+
+            # Trajektoriengeschwindigkeit auf 80% einstellen
+            rtn = robot.SetTrajectoryJSpeed(ovl=80.0, mode=trajspeedMode)
+            print(f"SetTrajectoryJSpeed is: {rtn}")
+
+            time.sleep(1)
+
+        # Verbindung schließen
+        robot.CloseRPC()
+        time.sleep(1)
+
+
+    # Testfunktion aufrufen
+    TestSetTrajectoryJSpeed(robot)
 
 Kraft und Drehmoment während der Trajektorienausführung einstellen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

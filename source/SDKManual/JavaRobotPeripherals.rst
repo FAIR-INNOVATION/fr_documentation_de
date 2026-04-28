@@ -987,14 +987,14 @@ In Slave-AO schreiben
 .. code-block:: java
     :linenos:
 
-    /**
-    * @brief Schreibt in die analogen Ausgänge des Slaves.
-    * @param AOIndex AO-Index.
-    * @param writeNum Anzahl der zu schreibenden Werte.
-    * @param status Array der zu schreibenden Werte (max. 8).
-    * @return Fehlercode.
+    /*
+    * @brief  In Slave-AO schreiben
+    * @param  AOIndex AO-Nummer
+    * @param  writeNum Anzahl der zu schreibenden Werte
+    * @param  status Array der zu schreibenden Werte (maximal 8), AO0~AO15 sind ganzzahlig, AO16~AO31 sind Gleitkommawerte
+    * @return  Fehlercode
     */
-    public int FieldBusSlaveWriteAO(int AOIndex, int writeNum, int[] status);
+    public int FieldBusSlaveWriteAO(int AOIndex, int writeNum, double[] status)
 
 Slave-DI lesen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -1220,7 +1220,7 @@ In Slave-AO schreiben (Feldbus)
     * @param [in] status[8] Array mit den zu schreibenden Werten (int), max. 8
     * @return Fehlercode
     */
-    errno_t FieldBusSlaveWriteAO(uint8_t AOIndex, uint8_t writeNum, int status[8]);
+    errno_t FieldBusSlaveWriteAO(uint8_t AOIndex, uint8_t writeNum, double status[8]);
 
 Slave-DI lesen (Feldbus)
 +++++++++++++++++++++++++
@@ -1248,7 +1248,7 @@ Slave-AI lesen (Feldbus)
     * @param [out] status[8] Array mit den gelesenen Werten (int), max. 8
     * @return Fehlercode
     */
-    errno_t FieldBusSlaveReadAI(uint8_t AIIndex, uint8_t readNum, int status[8]);
+    errno_t FieldBusSlaveReadAI(uint8_t AIIndex, uint8_t readNum, double status[8]);
 
 Auf erweiterten DI-Eingang warten (Feldbus)
 ++++++++++++++++++++++++++++++++++++++++++++
@@ -1290,9 +1290,9 @@ Codebeispiel für Slave-Modus-Befehle (Feldbus-Karte)
         FRRobot robot;
         uint8_t type = 0, version = 0, connState = 0;
         uint8_t ctrl[8];
-        int ctrlAO[8];
+        double ctrlAO[8];
         static uint8_t DI[8];
-        static int AI[8];
+        static double AI[8];
 
         robot.LoggerInit();
         robot.SetLoggerLevel(1);

@@ -36,5 +36,6 @@ Dieses Dokument beschreibt die Schnittstellen für die sekundäre Entwicklung in
     JavaRobotForceControl
     JavaRobotExtendedAxis
     JavaRobotWeld
+    JavaRobotCnde
     JavaRobotOthers
     JavaAppendix

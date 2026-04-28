@@ -42,6 +42,64 @@ Vorgehen
 
 .. centered:: Abbildung 7.1-3 Manuelles Löschen nach Sicherheitsstopp-Auslösung
 
+Sicherheitsgeschwindigkeitsbewegung
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Nachdem der Roboter einen Sicherheitsstopp ausgelöst hat, kann der Benutzer in der Webapp auf eine Schaltfläche klicken, einen konfigurierbaren CI-Eingang des Steuerkastens oder einen konfigurierbaren End-DI-Eingang des Endeffektorwerkzeugs konfigurieren, um den Roboter in den Zustand der Sicherheitsgeschwindigkeitsbewegung zu versetzen. Im Zustand der Sicherheitsgeschwindigkeitsbewegung kann der Roboter mit sicherer Geschwindigkeit getastet oder in den Ziehemodus versetzt werden, um dem Benutzer die Fehlerbehebung zu erleichtern.
+
+Klicken Sie in der Roboter-Webapp nacheinander auf "Grundeinstellungen", "Sicherheit", "Sicherheitsstopp", suchen Sie auf dieser Seite "Sicherheitsgeschwindigkeitsbewegung" und aktivieren Sie es.
+
+.. image:: safety/057.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.1-4 Sicherheitsgeschwindigkeitsbewegung aktivieren
+
+Wenn zu diesem Zeitpunkt ein Sicherheitsstopp ausgelöst wird, zeigt die obere rechte Ecke der Roboter-Webapp eine Warnung "Sicherheitsstopp ausgelöst" an und zeigt die Schaltfläche "Sicherheitsgeschwindigkeitsbewegung starten".
+
+.. image:: safety/058.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.1-5 Popup zum Starten der Sicherheitsgeschwindigkeitsbewegung
+
+Klicken Sie auf die Schaltfläche "Starten", und der Roboter stoppt automatisch das Lua-Programm und wechselt in den manuellen Modus. Gleichzeitig wird die Schaltfläche "Sicherheitsgeschwindigkeitsbewegung starten" zu "Gestartet" aktualisiert. Zu diesem Zeitpunkt kann der Roboter über den Endeffektor-Knopf, das Tastenfeld, die Webapp usw. gesteuert werden, um in den Ziehemodus zu wechseln und den Roboter zu ziehen, oder er kann über die Webapp oder das Teach-Pendant getastet werden.
+
+.. image:: safety/059.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.1-6 Sicherheitsgeschwindigkeitsbewegung starten
+
+Wenn sich der Roboter in der Sicherheitsgeschwindigkeitsbewegung befindet und im kartesischen Raum getastet wird, ist die maximale Bewegungsgeschwindigkeit des Roboters die eingestellte Sicherheitsgeschwindigkeit. Wenn die aktuelle globale Geschwindigkeitseinstellung des Roboters höher ist als die Sicherheitsgeschwindigkeit, wird die Tastgeschwindigkeit des Roboters automatisch auf die Sicherheitsgeschwindigkeit reduziert. Die Sicherheitsgeschwindigkeit wird unter "Grundeinstellungen", "Sicherheit", "Sicherheitsgeschwindigkeit" eingestellt.
+
+Nachdem der Roboter sicher gestoppt wurde, kann der Roboter zusätzlich zur Steuerung über die obere rechte Ecke der Webapp auch über CI-Eingänge des Steuerkastens oder CI-Eingänge des Endeffektors in den Sicherheitsgeschwindigkeitsmodus versetzt werden. Klicken Sie in der Webapp nacheinander auf "Grundeinstellungen", "Basis", "I/O-Einstellungen", "DI". Konfigurieren Sie einen bestimmten CI-Port des Steuerkastens oder den End-DI des Endeffektorwerkzeugs als "Sicherheitsgeschwindigkeitsbewegung starten". Nachdem ein Sicherheitsstopp ausgelöst wurde, genügt es, das Eingangssignal des konfigurierten Ports zu aktivieren, um in die Sicherheitsgeschwindigkeitsbewegung zu gelangen.
+
+.. image:: safety/060.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.1-7 Starten der Sicherheitsgeschwindigkeitsbewegung über eine Schaltfläche
+
+Sicherheitsstopp nur im Automatikmodus
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Wenn der Roboter den Sicherheitsstoppmodus aktiviert hat (CR-Zertifizierung, funktionale Sicherheit) und mit einem Teach-Pendant mit Drei-Stellungen-Zustimmungsschalter verwendet wird, kann "Sicherheitsstopp nur im Automatikmodus" aktiviert werden. Wenn das Sicherheitsstoppsignal des Roboters ausgelöst wird, kann der Roboter auf dem Teach-Pendant in den manuellen Modus geschaltet und dann im manuellen Modus getastet oder in den Ziehemodus versetzt werden, um dem Benutzer die Fehlerbehebung zu erleichtern.
+
+Klicken Sie in der Roboter-Webapp nacheinander auf "Grundeinstellungen", "Sicherheit", "Sicherheitsstopp", suchen Sie auf dieser Seite "Sicherheitsstopp nur im Automatikmodus" und aktivieren Sie es.
+
+.. image:: safety/061.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.1-8 Sicherheitsstopp nur im Automatikmodus aktivieren
+
+Wenn der Roboter den Sicherheitsstoppmodus nicht aktiviert hat (CR-Zertifizierung, funktionale Sicherheit) oder kein Teach-Pendant verwendet wird, kann die Funktion "Sicherheitsstopp nur im Automatikmodus" nicht aktiviert werden. In diesem Fall zeigt die Webapp eine Fehlermeldung an: "Sicherheitsstopp nur im Automatikmodus erfordert den Drei-Stellungen-Zustimmungsschalter am Teach-Pendant". Wenn der Sicherheitsstoppmodus oder das Teach-Pendant deaktiviert wird, wird die Funktion "Sicherheitsstopp nur im Automatikmodus" ebenfalls automatisch deaktiviert.
+
+.. image:: safety/062.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 7.1-9 Fehler beim Aktivieren des Sicherheitsstopps nur im Automatikmodus
+
 Sicherheitsgeschwindigkeit
 ---------------------------------
 

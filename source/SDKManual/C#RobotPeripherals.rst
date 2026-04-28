@@ -1112,13 +1112,13 @@ In Slave-AO schreiben
     :linenos:
 
     /**
-    * @brief In Slave-AO schreiben
-    * @param AOIndex AO-Nummer
-    * @param writeNum Anzahl der zu schreibenden Werte
-    * @param status Zu schreibende Werte (max. 8)
+    * @brief  AO der Slave-Station schreiben
+    * @param [in] AOIndex AO-Nummer
+    * @param [in] writeNum Anzahl der zu schreibenden Werte
+    * @param [in] status Array der zu schreibenden Werte (maximal 8), AO0~AO15 sind ganzzahlig, AO16~AO31 sind Gleitkommazahlen
     * @return Fehlercode
     */
-    int FieldBusSlaveWriteAO(int AOIndex, int writeNum, int[] status)
+    public int FieldBusSlaveWriteAO(int AOIndex, int writeNum, double[] status)
 
 Slave-DI lesen
 +++++++++++++++
@@ -1196,7 +1196,7 @@ Codebeispiel für Slave-Modus-Befehle
 
         int type = 0, version = 0, connState = 0;
         int[] ctrl = new int[8];
-        int[] ctrlAO = new int[8];
+        double[] ctrlAO = new double[8];
         int[] DI = new int[8];
         double[] AI = new double[8];
         // if (rtn != 0) // Ursprünglicher Code, wahrscheinlich überflüssig
@@ -1204,7 +1204,7 @@ Codebeispiel für Slave-Modus-Befehle
         //     return;
         // }
         // Open-Protocol-Datei hochladen und laden
-        robot.OpenLuaUpload("E://zup/CtrlDev_field.lua");
+        robot.OpenLuaUpload("E://temp/CtrlDev_field.lua");
         Thread.Sleep(2000);
         robot.SetCtrlOpenLUAName(3, "CtrlDev_field.lua");
         robot.UnloadCtrlOpenLUA(3);

@@ -177,15 +177,15 @@ Aktuelles Gelenkdrehmoment abrufen
 
 Systemzeit abrufen
 ++++++++++++++++++++++++++++++++++++
-.. code-block:: csharp
+.. code-block:: c#
     :linenos:
 
     /**
-    * @brief  Gibt die Systemzeit zurück.
-    * @param  [out] t_ms Zeit in Millisekunden.
-    * @return  Fehlercode.
+    * @brief  Systemzeit abrufen
+    * @param  [out] t_ms Einheit ms, kann gemäß UTC-Zeit konvertiert werden. Im Fehlerzustand des Roboters gibt GetSystemClock 0 zurück und einen Fehlercode.
+    * @return  Fehlercode
     */
-    int GetSystemClock(ref double t_ms);
+    public int GetSystemClock(ref double t_ms)
 
 Abfragen, ob die Roboterbewegung abgeschlossen ist
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -270,17 +270,17 @@ Drehmoment der Roboter-Gelenkantriebe (Nm) abrufen
     */
     int GetJointDriverTorque(double[] torque);
 
-Roboter-Echtzeitstatus-Struktur abrufen
-++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: csharp
+Die neuesten Echtzeit-Roboterstatusdaten abrufen (Interne Mechanismusänderung)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
     :linenos:
 
     /**
-    * @brief Gibt die Roboter-Echtzeitstatus-Struktur zurück.
-    * @param [out] pkg Roboter-Echtzeitstatus-Struktur.
-    * @return Fehlercode.
+    * @brief Die neuesten Echtzeit-Roboterstatusdaten abrufen (interner Thread aktualisiert kontinuierlich, diese Schnittstelle gibt direkt zwischengespeicherte Daten zurück)
+    * @param [out] pkg Referenzparameter zum Empfangen der Roboterstatusdaten (ROBOT_STATE_PKG-Struktur)
+    * @return Gibt bei Erfolg 0 zurück; bei Fehler einen negativen Fehlercode (z. B. Netzwerkkommunikationsfehler)
     */
-    int GetRobotRealTimeState(ref ROBOT_STATE_PKG pkg);
+    public int GetRobotRealTimeState(ref ROBOT_STATE_PKG pkg)
 
 Codebeispiel für Roboter-Statusabfragen
 ++++++++++++++++++++++++++++++++++++++++++++

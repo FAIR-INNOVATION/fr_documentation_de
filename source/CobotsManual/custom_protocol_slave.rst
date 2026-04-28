@@ -14,30 +14,42 @@ Umgebungskonfiguration
 
 Die Kartenmodelle und Softwareversionen werden wie folgt beschrieben:
 
-.. list-table::
+.. list-table:: 
    :widths: 20 50 30
    :header-rows: 1
    :align: center
 
    * - **Protokolltyp**
      - **Kartenmodell**
-     - **Roboter-Softwareversion**
+     - **Robotersoftwareversion**
 
    * - CC-Link IEF Basic
-     - FRH-PCIeN-EC/EIP/CC/PN-RJ-V10 Karte, FRJ-PCIeN-EIP/CC/PN-RJ-V10 Karte
-     - V3.8.0 und höher
+     - FRJ-PCIeN-EIP/CC/PN-RJ-V10-Karte
+     - V3.8.4 und höher
+
+   * - CC-Link IEF Basic
+     - FRJ-PCIeN-EC-RJ-V10-Karte
+     - V3.9.5 und höher
 
    * - Profinet
-     - FRH-PCIeN-EC/EIP/CC/PN-RJ-V10 Karte, FRJ-PCIeN-EIP/CC/PN-RJ-V10 Karte
-     - V3.8.0 und höher
+     - FRJ-PCIeN-EIP/CC/PN-RJ-V10-Karte
+     - V3.8.4 und höher
+
+   * - Profinet
+     - FRJ-PCIeN-EC-RJ-V10-Karte
+     - V3.9.5 und höher
 
    * - Ethernet/IP
-     - FRH-PCIeN-EC/EIP/CC/PN-RJ-V10 Karte, FRJ-PCIeN-EIP/CC/PN-RJ-V10 Karte
-     - V3.8.0 und höher
+     - FRJ-PCIeN-EIP/CC/PN-RJ-V10-Karte
+     - V3.8.4 und höher
+
+   * - Ethernet/IP
+     - FRJ-PCIeN-EC-RJ-V10-Karte
+     - V3.9.5 und höher
 
    * - EtherCAT
-     - FRH-PCIeN-EC/EIP/CC/PN-RJ-V10 Karte, FRJ-PCIeN-EC-RJ-V10 Karte
-     - V3.8.4.1 und höher
+     - FRJ-PCIeN-EC-RJ-V10-Karte
+     - V3.9.5 und höher
 
 Einrichtung der Hardware-Umgebung für die FRH-PCIeN-EC/EIP/CC/PN-RJ-V10 Karte
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -132,7 +144,10 @@ Einrichtung der Hardware-Umgebung für die FRJ-PCIeN Karte
     5: Siemens SPS (Profinet Anschluss);
     6: Inovance SPS (Ethernet/IP);
 
-3. Beim Wechsel des Protokolls für die FRJ-PCIeN Karte ist ein Firmware-Upgrade erforderlich. Während des Firmware-Upgrades muss die IP-Adresse des mit der Karte verbundenen PCs auf "192.168.0.xxx" geändert werden. Öffnen Sie dann die Software "Gateway Toolset" -> wählen Sie das PC-Netzwerkgerät für die Verbindung aus -> klicken Sie unten rechts auf die Schaltfläche "Start" -> klicken Sie oben rechts auf die Schaltfläche "Suchen", um nach dem Kartengerät zu suchen.
+FRJ-PCIeN-EIP/CC/PN-RJ-V10 Board Firmware-Upgrade
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Beim Wechsel des Protokolls auf der Karte ist ein Firmware-Upgrade erforderlich. Während des Firmware-Upgrades müssen die IP-Adresse der Karte und die IP-Adresse des Laptop-PCs im selben Netzwerksegment konfiguriert werden. Öffnen Sie dann die Software "Gateway Tool Set" -> wählen Sie die PC-Netzwerkkarte aus, die verbunden werden soll -> klicken Sie auf die Schaltfläche "Start" in der unteren rechten Ecke -> klicken Sie auf die Schaltfläche "Suchen" in der oberen rechten Ecke, um nach dem Karten-Gerät zu suchen.
 
 .. image:: custom_protocol_slave/045.png
    :width: 6in
@@ -140,7 +155,7 @@ Einrichtung der Hardware-Umgebung für die FRJ-PCIeN Karte
 
 .. centered:: Abbildung 17.2-11 Verbindung zum Kartengerät herstellen
 
-4. Klicken Sie unten links auf die Schaltfläche "Upgrade" -> wählen Sie das Kartengerät aus -> klicken Sie oben rechts auf die Schaltfläche "..." und wählen Sie die gewünschte Protokoll-Firmware aus -> klicken Sie auf die Schaltfläche "Upgrade" und warten Sie, bis das Firmware-Upgrade abgeschlossen ist.
+Klicken Sie unten links auf die Schaltfläche "Upgrade" -> wählen Sie das Kartengerät aus -> klicken Sie oben rechts auf die Schaltfläche "..." und wählen Sie die gewünschte Protokoll-Firmware aus -> klicken Sie auf die Schaltfläche "Upgrade" und warten Sie, bis das Firmware-Upgrade abgeschlossen ist.
 
 .. image:: custom_protocol_slave/046.png
    :width: 6in
@@ -175,17 +190,18 @@ Wenn das Protokoll als Ethernet/IP konfiguriert ist, ändert die Steuerung die K
 
 Bei Umstellung auf Profinet und Übereinstimmung des Slave-Gerätenamens mit dem Master vergibt der Master automatisch die IP-Adresse des Slaves.
 
-5. Firmware-Upgrade für die FRJ-PCIeN-EC-RJ-V10 Karte
+FRJ-PCIeN-EC-RJ-V10 Board Firmware-Upgrade
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Geben Sie die URL 192.169.58.2 in einem Webbrowser ein, um auf die Roboteroberfläche zuzugreifen. Klicken Sie auf "Initiale Einstellungen" -> "Peripherie" -> "Kartenkommunikation", um die Firmware-Versionsnummer der FRJ-PCIeN-EC-RJ-V10 Karte zu ermitteln. Wählen Sie die zu aktualisierende Binärdatei aus, klicken Sie auf "Hochladen", warten Sie, bis das Firmware-Upgrade erfolgreich war, und starten Sie dann den Steuerschrank neu.
+Geben Sie die URL 192.169.58.2 ein, um die Roboterschnittstelle aufzurufen. Klicken Sie dann auf "Grundeinstellungen" -> "Peripheriegeräte" -> "Board-Kommunikation", um die Firmware-Versionsnummer des FRJ-PCIeN-EC-RJ-V10-Boards zu erhalten. Wählen Sie die zu upgradende Bin-Datei aus, klicken Sie auf "Hochladen", warten Sie, bis das Firmware-Upgrade abgeschlossen ist, und starten Sie dann das Steuergehäuse neu.
 
 .. image:: custom_protocol_slave/064.png
    :width: 6in
    :align: center
 
-.. centered:: Abbildung 17.2-13 Firmware-Upgrade der Karte
+.. centered:: Abbildung 17.2-13 Board-Firmware-Upgrade
 
-.. note:: 1. Nur Version V3.9.2 und höher unterstützen das Firmware-Upgrade für das Ethercat-Protokoll. 2. Vor dem Upgrade der Ethercat-Protokoll-Firmware müssen eventuell laufende offene Protokolle entladen werden.
+.. note:: Für das Firmware-Upgrade des FRJ-PCIeN-EC-RJ-V10-Boards muss das laufende Open Protocol entladen werden.
 
 Einrichtung der Software-Umgebung
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -699,6 +715,9 @@ Ein Beispiel für das generierte Programm ist wie folgt:
 Konfiguration des Karten-Kommunikationszyklus
 ---------------------------------------------------------
 
+FRJ-PCIeN-EIP/CC/PN-RJ-V10 Board
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Über den Host-Computer kann der Kommunikationszyklus der Karte konfiguriert werden. Derzeit wird nur die Firmware für das PN-Protokoll bereitgestellt. Die Protokolle EIP, CCLink IE Basic und ECAT werden in Zukunft unterstützt.
 
 (1) Verbinden Sie den PC-Netzwerkanschluss (Win11-System) direkt mit dem Karten-Netzwerkanschluss. Öffnen Sie Device Assistant v1.1.0, doppelklicken Sie auf "Ethernet", klicken Sie oben links auf die Schaltfläche "Aktualisieren", um nach dem aktuell angeschlossenen Kartengerät zu suchen.
@@ -722,6 +741,17 @@ Konfiguration des Karten-Kommunikationszyklus
 .. image:: custom_protocol_slave/063.png
    :width: 6in
    :align: center
+
+FRJ-PCIeN-EC-RJ-V10 Board
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Geben Sie die URL 192.169.58.2 ein, um die Roboterschnittstelle aufzurufen. Klicken Sie dann auf "Grundeinstellungen" -> "Peripheriegeräte" -> "Board-Kommunikation", um den Kommunikationszyklus des Boards zu erhalten. Geben Sie den gewünschten Kommunikationszyklus (1~100 ms) ein, klicken Sie auf die Schaltfläche "Konfigurieren", warten Sie, bis die Konfiguration abgeschlossen ist, und starten Sie dann das Steuergehäuse neu.
+
+.. image:: custom_protocol_slave/064.png
+   :width: 6in
+   :align: center
+
+.. note:: Um den Kommunikationszyklus des FRJ-PCIeN-EC-RJ-V10-Boards zu konfigurieren, muss das laufende Open Protocol entladen werden.
 
 Anhang
 -------------------

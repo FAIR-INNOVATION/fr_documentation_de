@@ -13,6 +13,18 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V3.9.5
+     - 2026-04-24
+     - | 1.SetTrajectoryJSpeed()-Schnittstelle fügt die Modi Geschwindigkeitsreduzierung und direkte Umschaltung hinzu;
+       | 2.FieldBusSlaveWriteAO()-Schnittstelle ändert den Schreibwerttyp in double, wobei AO0~AO15 ganzzahlig und AO16~AO31 Gleitkommazahlen sind;
+       | 3.FieldBusSlaveReadAI()-Schnittstelle ändert den Lesewerttyp in double, wobei AI0~AI15 ganzzahlig und AI16~AI31 Gleitkommazahlen sind;
+       | 4.Roboterstatus-Rückmeldungsstrukturtyp aktualisiert;
+       | 5.Aufzählungstyp für Roboterstatus-Rückmeldungskonfiguration hinzugefügt; SetRobotRealtimeStateConfig()-Schnittstelle zur Konfiguration der CNDE-Statusrückmeldung des Roboters hinzugefügt;
+       | 6.AddRobotRealtimeState()-Schnittstelle zum Hinzufügen eines Roboterstatus zur CNDE-Statuskonfiguration hinzugefügt;
+       | 7.DeleteRobotRealtimeState()-Schnittstelle zum Löschen eines Roboterstatus aus der CNDE-Statuskonfiguration hinzugefügt;
+       | 8.SetRobotRealtimeStatePeriod()-Schnittstelle zum Festlegen der CNDE-Statusrückmeldeperiode hinzugefügt;
+       | 9.GetRobotRealtimeStateConfig()-Schnittstelle zum Abrufen aller aktuellen CNDE-Statusrückmelde-Zustandssätze und der Periode hinzugefügt.
+
    * - V3.9.4
      - 2026-03-25
      - | 1.ServoJTStart()-Schnittstelle fügt Parameter für Kommunikationstypauswahl hinzu, unterstützt XMLRPC/UDP-Kommunikation;

@@ -1,3 +1,50 @@
+Version V3.9.5
+-----------------
+
+Datum: 2026-04-24
+
+- **Optimierte Controller-Funktionen**: 
+    Pfad: Allgemeine Einstellungen -> Netzwerkeinstellungen; Teach-Programm -> Programmierung.
+  
+    Beschreibung: 1. Validierungsfehler hinzugefügt, wenn ETH0 und ETH1 mit derselben IP-Adresse konfiguriert werden; 2. Farbanzeige der aktuell ausgeführten Programmzeile optimiert.
+
+- **Optimierte FR30-Geschwindigkeit**: 
+  
+    Beschreibung: Betriebsgeschwindigkeit verbessert.
+
+- **Optimierte Bogenschwenkfunktion**: 
+    Pfad: Teach-Programm -> Programmierung -> Bogenbefehl.
+  
+    Beschreibung: Ermöglicht Schwenkbewegungen.
+
+- **Optimierte SetTrajectoryJSpeed-Debugging für flüssigen Betrieb**: 
+  
+    Beschreibung: Während der Befehl-Geschwindigkeitsanpassung fällt die Robotergeschwindigkeit beim Geschwindigkeitswechsel nicht auf Null.
+
+- **Optimierte Bearbeitungsmodus-Operation von Lua-Programmbefehlen im Programmiermodul**: 
+    Pfad: Teach-Programm -> Programmierung.
+  
+    Beschreibung: Optimiert, so dass Befehlsinhalte präzise abgeglichen und angezeigt werden können.
+
+- **Hinzugefügte FRJ-PCIeN-EC-RJ-V20 Board-Protokolladaption (PN/Ecat/EIP/cclink)**: 
+    Pfad: Grundeinstellungen -> Peripheriegeräte -> Board-Kommunikation.
+  
+    Beschreibung: 1. Unterstützt Online-Firmware-Upgrade/-Abruf; 2. Unterstützt konfigurierbaren Kommunikationszyklus; 3. Unterstützt Abruf des Busverbindungsstatus.
+
+- **Hinzugefügte Controller-Befehle**: 
+    Pfad: Teach-Programm -> Programmierung; Grundeinstellungen -> Sicherheit -> Sicherheitsstopp.
+  
+    Beschreibung: 1. Option für Werkstückkoordinatensystem-Offset zu Bewegungsbefehlen hinzugefügt; 2. Sicherheitsstopp-Funktion hinzugefügt; 3. DO- und AO-Lesebefehle für Steuerkasten, Endeffektor und erweiterte E/A hinzugefügt.
+
+- **Hinzugefügte DO-Signalkonfigurationsfunktion nach Not-Halt des Steuerkastens**: 
+    Pfad: Grundeinstellungen -> Basis -> DO.
+  
+    Beschreibung: DO-Signalkonfigurationsfunktion nach Not-Halt des Steuerkastens hinzugefügt.
+
+- **Hinzugefügte Anpassung des portugiesischen Sprachpakets für die Softwareversion**: 
+  
+    Beschreibung: Portugiesische Sprachumschaltung hinzugefügt.
+
 Version V3.9.4
 -----------------
 

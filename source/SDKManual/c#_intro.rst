@@ -32,5 +32,6 @@ Dieses Dokument ist die Schnittstellenbeschreibung für die sekundäre Entwicklu
     C#RobotForceControl
     C#RobotExtendedAxis
     C#RobotWelding
+    C#RobotCnde
     C#RobotOther
     C#Appendix

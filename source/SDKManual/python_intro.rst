@@ -36,5 +36,6 @@ Dieses Dokument beschreibt die Schnittstellen für die sekundäre Entwicklung in
     PythonRobotForceControl
     PythonRoboExtendedAxis
     PythonRobotWeld
+    PythonRobotCnde
     PythonRobotOthers
     PythonAppendix
