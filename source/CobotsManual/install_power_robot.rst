@@ -273,3 +273,123 @@ Ausschalten der Spannungsversorgung
    :align: center
 
 .. centered:: Abbildung 1.5-1 Ausschalten der Spannungsversorgung
+
+Steuerkasten-Knopfzelle
+----------------------------------------------------------------
+
+Häufige Ursachen für Zeitverlust
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Dieses Gerät verwendet eine externe Knopfzelle als Backup-Stromquelle für die Echtzeituhr (RTC), um die Zeitzählung bei Unterbrechung der Hauptstromversorgung aufrechtzuerhalten.
+
+Wenn ein Zeitverlust auftritt (d.h. nach dem erneuten Einschalten ein falsches Datum angezeigt wird), wird dies in der Regel durch eine oder mehrere der folgenden Ursachen verursacht:
+
+.. list-table::
+   :widths: 40 40 60
+   :header-rows: 0
+   :align: center
+
+   * - **Ursachenkategorie**
+     - **Spezifische Beschreibung**
+     - **Fehlerbehebungsvorschläge**
+
+   * - Knopfzelle entladen
+     - Das Gerät wurde länger als 3 Monate nicht eingeschaltet, wodurch die Batterieenergie auf natürliche Weise verbraucht wurde.
+     - Messen Sie die Batteriespannung mit einem Multimeter (ausbauen zum Messen). Wenn die Spannung unter 2,5 V liegt, muss die Batterie aufgeladen werden.
+
+   * - Batterie beschädigt
+     - Die Batterie hat das Ende ihrer Lebensdauer erreicht.
+     - Überprüfen Sie, ob die Batterie ausläuft oder sich wölbt. Die Batterie muss ersetzt werden. Batteriemodell: MS621FE-FL11E, 3V/5,5mAH, wiederaufladbar.
+
+   * - Schlechter Batterieanschlusskontakt
+     - Batterieanschlüsse sind oxidiert, verformt, oder das Gerät wurde erschüttert, wodurch die Batterie kurzzeitig von den Kontakten abgehoben wurde.
+     - Überprüfen Sie, ob die Batterie fest in den Anschlüssen sitzt, reinigen Sie die Kontakte, setzen Sie die Batterie neu ein und stellen Sie sicher, dass sie fest sitzt.
+
+   * - Batterie nicht eingelegt oder falsch herum eingelegt
+     - Der Benutzer hat die Backup-Batterie nicht eingelegt oder beim Einlegen die Polarität verwechselt.
+     - | Bestätigen Sie, dass die Batterie mit der richtigen Polarität eingelegt ist (Pluspol nach oben).
+       .. image:: installation/131.png
+          :width: 2in
+          :align: center
+
+   * - Fehler der Batterieladeschaltung
+     - Die wiederaufladbare Knopfzelle kann keine Ladung mehr speichern.
+     - Die Ladeschaltung muss von qualifiziertem Wartungspersonal überprüft werden.
+
+.. warning:: Die in diesem Gerät verwendete Knopfzelle ist das Modell [MS621FE-FL11E, 3V/5,5mAH, wiederaufladbar]. Bitte stellen Sie sicher, dass Sie die richtige Handhabungsmethode entsprechend dem Modell wählen. Es ist strengstens verboten, nicht wiederaufladbare Batterien einzusetzen.
+
+Zeitanomalieerkennung und manuelle Kalibrierung
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1) Methode zur Erkennung von Anomalien
+   
+Überprüfen Sie nach dem erneuten Einschalten des Roboters zunächst die aktuell auf der Geräteseite angezeigte Zeit. Vergleichen Sie diese mit der Systemzeit des Computers:
+
+- Wenn sie übereinstimmen, ist die Zeit normal, und es sind keine weiteren Maßnahmen erforderlich.
+
+.. image:: installation/132.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 1.6-1 Systemzeitanomalie
+
+- Wenn sie nicht übereinstimmen (z.B. falsches Datum, erhebliche Abweichungen bei Stunden/Minuten/Sekunden), wird eine Zeitanomalie festgestellt. Fahren Sie bitte mit den folgenden Kalibrierungsschritten fort.
+  
+2) Kalibrierungsschritte
+
+Wenn eine Zeitanomalie bestätigt wurde, befolgen Sie die folgenden Schritte, um die Systemzeit zu synchronisieren:
+
+- Öffnen Sie einen Browser, um die WebApp aufzurufen, und navigieren Sie zu: "Systemeinstellungen -> Allgemeine Einstellungen -> Zeit" Oberfläche.
+
+.. image:: installation/133.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 1.6-2 Systemzeitaktualisierungsoberfläche
+
+- Klicken Sie auf die Schaltfläche "Aktualisieren" auf der Oberfläche. Das System führt die Zeitsynchronisation automatisch durch. Kehren Sie nach der Synchronisation zur Roboterseite zurück, und die Zeit sollte wieder normal sein.
+
+Hinweise zum Laden und zur Wartung der Knopfzelle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1) Ladebedingungen
+
+- Nachdem die Hauptstromversorgung des Geräts angeschlossen ist (220V AC), wird die Ladeschaltung automatisch aktiviert.
+- Die Umgebungstemperatur sollte im Bereich von 0℃ bis 45℃ liegen. Hohe Temperaturen verringern die Ladeeffizienz und verkürzen die Batterielebensdauer.
+
+2) Ladezeit
+
+- Eine vollständig entladene Batterie benötigt etwa [5 Stunden], um vollständig aufgeladen zu werden. Die Zeitmessfunktion funktioniert während dieser Zeit normal.
+
+3) Verbotene Handlungen
+
+- Verwenden Sie kein externes Ladegerät, um die Knopfzelle im Gerät direkt aufzuladen.
+- Setzen Sie keine nicht wiederaufladbare Batterie in das Gerät ein, da dies gefährlich sein kann.
+
+Batteriewechsel und Entsorgung
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1) Wechselintervall
+
+- In der Regel mehr als [5 Jahre] verwendbar. Wechseln Sie die Batterie aus, wenn häufig Zeitverlust auftritt.
+
+2) Wechselschritte
+
+- Trennen Sie die Hauptstromversorgung des Geräts.
+- Öffnen Sie die obere Abdeckung.
+- Entnehmen Sie die alte Batterie und beachten Sie dabei die Polarität.
+- Löten Sie eine neue, qualifizierte Batterie desselben Modells ein (Pluspol nach oben).
+- Schließen Sie die Abdeckung, schalten Sie das Gerät wieder ein und kalibrieren Sie die aktuelle Zeit.
+
+3) Entsorgung
+
+- Werfen Sie die Batterie nicht ins Feuer und setzen Sie sie keinem Wasser aus.
+- Entsorgen Sie verbrauchte Batterien gemäß den örtlichen Vorschriften (Knopfzellen enthalten typischerweise Lithium oder Schwermetalle).
+
+Technischer Support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Wenn das Problem nach Befolgung der oben genannten Schritte weiterhin besteht, wenden Sie sich bitte an unser technisches Support-Team und geben Sie die folgenden Informationen an:
+
+- Gerätemodell und Seriennummer.
+- Das verwendete Batteriemodell (bitte überprüfen Sie die Gravur auf der Batterieoberfläche).
+- Fehlerphänomen (z.B., Zeitverlust sofort nach Stromausfall / Verlust nach einer Nacht im Standby).
