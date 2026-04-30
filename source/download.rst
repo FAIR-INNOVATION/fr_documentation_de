@@ -189,7 +189,7 @@ Roboter-Zertifikate:
      - ✅
      - ✅
      - ✅
-     - :download:`Herunterladen <_static/_doc/Collaborative Robot RCM Registration Certificate.pdf>`
+     - :download:`Download <_static/_doc/Collaborative Robot RCM Registration Certificate.pdf>`
 
    * - **Reinraumroboter KLASSE 3 Zertifikat**
      - ✅
