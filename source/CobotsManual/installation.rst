@@ -2241,19 +2241,19 @@ Alle externen Verbindungen des Steuerungssystems des Manipulators dieser Serie w
 I/O-Panel des Steuerschranks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Sie können die I/Os im Steuerschrank verwenden, um verschiedene Geräte zu steuern, darunter pneumatische Relais, SPSen und Endschalter. Abbildung 3.5-2 zeigt die elektrischen Schnittstellengruppen des Steuerschranks, Abbildung 3.5-3 zeigt die elektrischen Schnittstellengruppen des "Easy-Made" Steuerschranks.
+Sie können die I/O im Steuerkasten verwenden, um verschiedene Geräte zu steuern, darunter pneumatische Relais, SPS sowie Endlagenschalter und Stopptasten. Abbildung 3.5-2 zeigt die elektrische Schnittstellengruppe des Steuerkastens, und Abbildung 3.5-3 zeigt die elektrische Schnittstellengruppe des integrierten Mini-Steuerkastens (mini BOX).
 
 .. figure:: installation/038.png
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.5-2 Elektrische Schnittstellen des Steuerschranks (Schema)
+.. centered:: Abbildung 3.5-2 Schematische Darstellung der elektrischen Schnittstelle des Steuerkastens
 
 .. figure:: installation/039.png
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.5-3 Elektrische Schnittstellen des "Easy-Made" Steuerschranks (Schema)
+.. centered:: Abbildung 3.5-3 Schematische Darstellung der elektrischen Schnittstelle des integrierten Mini-Steuerkastens (mini BOX)
 
 RJ45-Netzwerkschnittstellengruppe
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2314,21 +2314,35 @@ Dieser Abschnitt legt die elektrischen Spezifikationen für die folgenden 24-V-D
 
 Der Roboter muss gemäß den elektrischen Spezifikationen installiert werden.
 
-Über die Konfiguration der Schnittstelle "Stromversorgung/Kommunikation" kann die interne oder eine externe 24-V-Spannungsversorgung für die digitalen I/Os gewählt werden. Die beiden oberen Klemmen dieser Schnittstelle (ex24V und exGND) sind für die externe Spannungsversorgung (24V und Masse), die beiden unteren Klemmen (24V und GND) für die interne Spannungsversorgung (24V und Masse). Die Standardkonfiguration verwendet die interne Spannungsversorgung, wie in der folgenden Abbildung dargestellt.
+Durch die Konfiguration der "Stromversorgungskommunikations"-Schnittstelle können Sie eine interne oder externe 24V-Stromversorgung zur Versorgung der digitalen E/A verwenden. In dieser Schnittstelle sind die oberen beiden Anschlüsse (ex24V und exon) die 24V und Masse der externen Stromversorgung, die unteren beiden Anschlüsse (24V und GND) sind die 24V und Masse der internen Stromversorgung. Die Standardkonfiguration verwendet die interne Stromversorgung, wie in den folgenden Abbildungen des Steuerkastens und des integrierten Mini-Steuerkastens (mini BOX) dargestellt.
 
 .. figure:: installation/044.png
 	:align: center
 	:width: 3in
 
-.. centered:: Abbildung 3.5-8 Stromversorgung/Kommunikation Schema 01
+.. centered:: Steuerkasten
 
-Wenn die Last einen höheren Strom benötigt, kann eine externe Spannungsversorgung angeschlossen werden, wie in der folgenden Abbildung dargestellt.
+.. figure:: installation/134.png
+	:align: center
+	:width: 3in
+
+.. centered:: Integrierter Mini-Steuerkasten (mini BOX)
+.. centered:: Abbildung 3.5-8 Stromversorgungskommunikationsschema 01
+
+Wenn die Lastleistung hoch ist, schließen Sie eine externe Stromversorgung wie in der folgenden Abbildung dargestellt an. Beim AC-Weitspannungs-Integrierten-Mini-Steuerkasten (mini BOX) werden die externe Stromversorgung und die interne Stromversorgung mit einer gemeinsamen 0V-Verbindung betrieben.
 
 .. figure:: installation/045.png
 	:align: center
 	:width: 3in
 
-.. centered:: Abbildung 3.5-9 Stromversorgung/Kommunikation Schema 02
+.. centered:: Steuerkasten
+
+.. figure:: installation/135.png
+	:align: center
+	:width: 3in
+
+.. centered:: Integrierter Mini-Steuerkasten (mini BOX)
+.. centered:: Abbildung 3.5-9 Stromversorgungskommunikationsschema 02
 
 Die elektrischen Spezifikationen der internen und externen Spannungsversorgung sind in der folgenden Tabelle aufgeführt:
 
@@ -2558,6 +2572,13 @@ Der Roboter wird mit einer Standardkonfiguration ausgeliefert, die einen Betrieb
 	:align: center
 	:width: 3in
 
+.. centered:: Steuerkasten
+
+.. figure:: installation/136.png
+	:align: center
+	:width: 3in
+
+.. centered:: Integrierter Mini-Steuerkasten (mini BOX)
 .. centered:: Abbildung 3.5-10 Sicherheitsschaltung Schema 01
 
 **Anschluss eines zusätzlichen Not-Halt-Tasters**
@@ -2567,6 +2588,13 @@ In den meisten Anwendungen ist die Verwendung eines oder mehrerer zusätzlicher 
 	:align: center
 	:width: 3in
 
+.. centered:: Steuerkasten
+
+.. figure:: installation/137.png
+	:align: center
+	:width: 3in
+
+.. centered:: Integrierter Mini-Steuerkasten (mini BOX)
 .. centered:: Abbildung 3.5-11 Sicherheitsschaltung Schema 02
 
 **Anschluss von Sicherheitsstopp-Einrichtungen**
@@ -2576,6 +2604,13 @@ Ein Beispiel für eine Sicherheitsstopp-Einrichtung ist ein Türschalter, der de
 	:align: center
 	:width: 3in
 
+.. centered:: Steuerkasten
+
+.. figure:: installation/139.png
+	:align: center
+	:width: 3in
+
+.. centered:: Integrierter Mini-Steuerkasten (mini BOX)
 .. centered:: Abbildung 3.5-12 Sicherheitsschaltung Schema 03
 
 Allgemeine digitale I/O
@@ -2593,6 +2628,13 @@ Dieses Beispiel zeigt, wie ein Digitalausgang zur Ansteuerung einer Last angesch
 	:align: center
 	:width: 3in
 
+.. centered:: Steuerkasten
+
+.. figure:: installation/139.png
+	:align: center
+	:width: 6in
+
+.. centered:: Integrierter Mini-Steuerkasten (mini BOX)
 .. centered:: Abbildung 3.5-13 Allgemeiner Digitalausgang Schema 01
 
 Digitaler Eingang über Taster
@@ -2604,6 +2646,13 @@ Das folgende Beispiel zeigt, wie ein einfacher Taster an einen Digitaleingang an
 	:align: center
 	:width: 3in
 
+.. centered:: Steuerkasten
+
+.. figure:: installation/140.png
+	:align: center
+	:width: 6in
+
+.. centered:: Integrierter Mini-Steuerkasten (mini BOX)
 .. centered:: Abbildung 3.5-14 Allgemeiner Digitalausgang Schema 02
 
 Interaktion mit anderen Geräten oder SPSen
@@ -2615,6 +2664,13 @@ Das folgende Beispiel zeigt die Interaktion der digitalen Ein- und Ausgänge mit
 	:align: center
 	:width: 6in
 
+.. centered:: Steuerkasten
+
+.. figure:: installation/141.png
+	:align: center
+	:width: 6in
+
+.. centered:: Integrierter Mini-Steuerkasten (mini BOX)
 .. centered:: Abbildung 3.5-15 Interaktion mit anderen Geräten oder SPSen (Schema)
 
 Analoge I/O
@@ -2748,6 +2804,13 @@ Das folgende Beispiel zeigt die Verwendung eines Analogausgangs zur Steuerung ei
 	:align: center
 	:width: 3in
 
+.. centered:: Steuerkasten
+
+.. figure:: installation/142.png
+	:align: center
+	:width: 6in
+
+.. centered:: Integrierter Mini-Steuerkasten (mini BOX)
 .. centered:: Abbildung 3.5-16 Analogausgang (Schema)
 
 **Verwendung eines Analogeingangs**
@@ -2758,6 +2821,13 @@ Das folgende Beispiel zeigt die Verwendung eines Analogeingangs zum Anschluss ei
 	:align: center
 	:width: 3in
 
+.. centered:: Steuerkasten
+
+.. figure:: installation/143.png
+	:align: center
+	:width: 6in
+
+.. centered:: Integrierter Mini-Steuerkasten (mini BOX)
 .. centered:: Abbildung 3.5-17 Analogeingang (Schema)
 
 Optionale Module für FR3MT & 3C

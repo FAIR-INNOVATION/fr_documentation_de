@@ -286,6 +286,8 @@ Roboter & Maßzeichnungen
 
     :download:`Tasterfeld STEP-Modell <_static/_doc/Button Box.zip>`
 
+    :download:`CNC-Workstation STEP-Modell <_static/_doc/CNC Workstation.zip>`
+
     :download:`Palettierarbeitsplatz STEP-Modell <_static/_doc/Palletizing.zip>`
 
     :download:`Sortierarbeitsplatz STEP-Modell <_static/_doc/Sorting.zip>`
