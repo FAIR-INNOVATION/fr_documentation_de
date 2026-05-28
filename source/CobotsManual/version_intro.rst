@@ -1,3 +1,28 @@
+Version V3.9.6
+-----------------
+
+Datum: 2026-05-26
+
+- **Optimierte Matrixbewegungsfunktion**: 
+    Pfad: Hilfsanwendungen -> Prozesspaket -> Matrixbewegung.
+  
+    Beschreibung: Optimierte die Funktion des Matrixbewegungs-Befehlssatzes.
+
+- **Optimierte DI-Verzögerungsfunktion**: 
+    Pfad: Anfangseinstellungen -> Basis -> I/O-Einstellungen.
+  
+    Beschreibung: 1. Bei Auslösung des DI-Signals ist der Geschwindigkeitsregelungsprozess sanft ohne Ruckeln oder Stocken; 2. Der Roboter-Endpfad ändert sich vor und nach der Geschwindigkeitsregelung nicht; 3. Kein Fehler oder Stillstand bei DI-ausgelöster Geschwindigkeitsregelung; 4. Sofortige Ausführung ohne Fehler bei DI-ausgelöstem Stopp.
+
+- **Hinzugefügte Kommunikationsanpassungsfunktion für Roboter-Laserschweißgerät**: 
+    Pfad: Anfangseinstellungen -> Peripheriegeräte -> Schweißgerät.
+  
+    Beschreibung: 1. WebAPP fügt laserschweißgerätebezogene Einstellungen, Debugging und Lua-Programmgenerierungsbefehle hinzu; 2. Laserschweißgerätebezogene Parameter hinzugefügt; 3. SPS entwickelt Anpassungsprogramme.
+    
+- **Hinzugefügte FRJ-PCIeN-EIP/CC/PN-RJ-V10-Karten-EIP/CClink-IE-Protokollanpassung**: 
+    Pfad: Anfangseinstellungen -> Peripheriegeräte -> Kartenkommunikation.
+  
+    Beschreibung: 1. Unterstützt konfigurierbaren Kommunikationszyklus; 2. Unterstützt Abruf des Busverbindungsstatus; 3. Kompatibel mit EIP- und CC-Protokollen.
+
 Version V3.9.5
 -----------------
 

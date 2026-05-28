@@ -369,7 +369,7 @@ Roboterstatus-Feedback-Strukturtyp
         public byte socketConnTimeout;     // Socket-Verbindungszeitüberschreitungs-Flag
         public byte socketReadTimeout;     // Socket-Lesezeitüberschreitungs-Flag
         public byte tsWebStateComErr;      // ts_web_state_com_err
-
+        public byte exaxisCoordID;         // Nummer des Erweiterungsachsen-Koordinatensystems
         public UInt16 check_sum;         /* Checksumme */
 
         // Konstruktor: Initialisiert alle Array-Felder
@@ -420,17 +420,20 @@ Roboterstatus-Feedback-Strukturtyp
         }
     }
 
-Roboter-Konfigurierbarer Status-Enum
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+Aufzählungstyp der Roboterstatus-Rückmeldungskonfiguration
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief  Roboter-Konfigurierbarer Status-Enum, Bereich 3~131
+    * @brief  Roboter konfigurierbare Statusaufzählung, Bereich 0~132
     */
     public enum RobotState
     {
+        FrameHead = 0,
+        FrameCnt = 1,
+        DataLen = 2,
         ProgramState = 3,
         RobotState = 4,
         MainCode = 5,
@@ -557,7 +560,8 @@ Roboter-Konfigurierbarer Status-Enum
         DriverError = 126,
         OutSoftLimitError = 127,
         AxleGenComData = 128,
-        SocketConnTimeout = 129,     // Socket-Verbindungszeitüberschreitung, Bits 0-4: SocketID 1-4
-        SocketReadTimeout = 130,     // Socket-Lesezeitüberschreitung, Bits 0-4: SocketID 1-4
-        TsWebStateComErr = 131     // Web-Drehmoment-Kommunikationsfehler; 0-normal; 1-Fehler
+        SocketConnTimeout = 129,     // Socket-Verbindungszeitüberschreitung, bit0-bit4: socketID 1-4
+        SocketReadTimeout = 130,     // Socket-Lesezeitüberschreitung, bit0-bit4: socketID 1-4
+        TsWebStateComErr = 131,     // Web-Drehmoment-Kommunikationsfehler; 0-normal; 1-fehlgeschlagen
+        ExaxisCoordID = 132          // Nummer des Erweiterungsachsen-Koordinatensystems
     }

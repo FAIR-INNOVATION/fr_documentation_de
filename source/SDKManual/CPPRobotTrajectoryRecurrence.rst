@@ -259,7 +259,7 @@ Nummer des Trajektorienpunkts abrufen
     errno_t GetTrajectoryPointNum(int *pnum);
 
 Geschwindigkeit während der Trajektorienausführung einstellen
-++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
@@ -272,7 +272,7 @@ Geschwindigkeit während der Trajektorienausführung einstellen
     errno_t SetTrajectoryJSpeed(float ovl, int mode = 0);
 
 Codebeispiel zum Einstellen der Robotergeschwindigkeit während der Trajektorienausführung
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 

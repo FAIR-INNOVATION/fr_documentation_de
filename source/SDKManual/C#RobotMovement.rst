@@ -2197,3 +2197,166 @@ SDK-Codebeispiel für stationäres Pendeln (mit Laser und Erweiterungsachse)
         robot.OriginPointWeaveEnd();
         robot.LaserTrackingTrackOnOff(0, 4);
     }
+
+Gelenkraum-Geschwindigkeitsservomodellbewegung
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  Gelenkraum-Geschwindigkeitsservomodellbewegung
+    * @param  [in] joint_pos  6 Zielgelenkgeschwindigkeiten, Einheit deg/s
+    * @param  [in] axisPos  4 externe Achsengeschwindigkeiten, Einheit deg/s
+    * @param  [in] acc  Beschleunigungsprozentsatz, Bereich [0~100], vorübergehend nicht geöffnet, Standard ist 0
+    * @param  [in] vel  Geschwindigkeitsprozentsatz, Bereich [0~100], vorübergehend nicht geöffnet, Standard ist 0
+    * @param  [in] cmdT  Befehlssendezyklus, Einheit s, empfohlener Bereich [0.001~0.0016]
+    * @param  [in] filterT Filterzeit, Einheit s, vorübergehend nicht geöffnet, Standard ist 0
+    * @param  [in] gain  Proportionalverstärker für Zielposition, vorübergehend nicht geöffnet, Standard ist 0
+    * @param  [in] id ServoJ-Befehls-ID, Standard ist 0
+    * @param[in] comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    * @return  Fehlercode
+    */
+    public int ServoJV(double[] joint_vel, double[] exis_vel, float acc, float vel, float cmdT, float filterT, float gain, int id = 0, int comType = 0)
+
+Codebeispiel für Gelenkraum-Geschwindigkeitsservomodellbewegung
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public int ServoJVtest()
+    {
+        double[] joint_vel = new double[6] { 10, 0, 0, 0, 0, 0 };
+        double[] exis_vel = new double[4] { 0, 0, 0, 0 };
+        float acc = 0.0f; 
+        float vel = 0.0f;
+        float cmdT = 0.01f; 
+        float filterT = 0.0f; 
+        float gain = 0.0f;
+        int cnt = 0;
+        while (cnt < 200)
+        {
+            int error = robot.ServoJV(joint_vel, exis_vel, acc, vel, cmdT, filterT, gain);
+            Console.WriteLine($"ServoJV rtn is {error}");
+            cnt++;
+        }
+        return 0;
+    }
+
+Gelenk-MIT-Steuerung Start
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Gelenk-MIT-Steuerung Start
+    * @param [in] comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    * @return Fehlercode
+    */
+    public int ServoMITStart(int comType = 0)
+
+Gelenk-MIT-Steuerung Ende
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Gelenk-MIT-Steuerung Ende
+    * @param [in] comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    * @return Fehlercode
+    */
+    public int ServoMITEnd(int comType = 0)
+
+Gelenk-MIT-Steuerung
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Gelenk-MIT-Steuerung
+    * @param [in] posGain j1~j6 Gelenkpositionsverstärkung
+    * @param [in] desPos j1~j6 Gelenkpositionssollwert, Einheit: deg
+    * @param [in] velGain j1~j6 Gelenkgeschwindigkeitsverstärkung
+    * @param [in] desVel j1~j6 Gelenkgeschwindigkeitssollwert, Einheit: deg/s
+    * @param [in] torque_ff j1~j6 Vorsteuerungsdrehmoment, Einheit: Nm
+    * @param [in] interval Befehlsperiode, Einheit s, Bereich [0.001~0.008]
+    * @param [in] comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    * @return Fehlercode
+    */
+    public int ServoMIT(double[] posGain, double[] desPos, double[] velGain, double[] desVel, double[] torque_ff, double interval, int comType = 0)
+
+Codebeispiel für Gelenk-MIT-Steuerungsbewegung
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public int ServoMITtest()
+    {
+        // Callback abonnieren
+        robot.OnUdpFrameReceived += (comType, frameCount, frameCmdID, contentLen, content) =>
+        {
+            Console.WriteLine($"[UDP-Antwort] comType={comType}, count={frameCount}, cmdID={frameCmdID}, content={content}");
+        };
+        while (true)
+        {
+            robot.ResetAllError();
+            Thread.Sleep(500);
+
+            double[] posGain = new double[6] { 0, 0, 0, 0, 0, 0 };
+            double[] desPos = new double[6] { 0, 0, 0, 0, 0, 0 };
+            double[] velGain = new double[6] { 0, 0, 0, 0, 0, 0 };
+            double[] desVel = new double[6] { 0, 0, 0, 0, 0, 0 };
+            double[] torques = new double[6] { 0, 0, 0, 0, 0, 0 };
+            robot.GetJointTorques(1, torques);
+            Console.WriteLine($"111111");
+            //robot.ServoMITEnd(0);
+            robot.ServoMITStart(0);
+            Console.WriteLine($"ServoMITStart");
+            ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+            robot.DragTeachSwitch(1);
+            Console.WriteLine($"DragTeachSwitch");
+            double intev = 0.008;
+            double[] jPowerLimit = new double[6] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+            double[] jVelLimit = new double[6] { 50, 50, 50, 50, 50, 50 };
+            int error = 0;
+            while (true)
+            {
+
+                torques[5] = 0.03;
+                Console.WriteLine($"ServoMIT call ");
+                error = robot.ServoMIT(posGain, desPos, velGain, desVel, torques, intev, 0);
+
+                Console.WriteLine($"ServoMIT111111 rtn is {error}");
+                Thread.Sleep(1);
+
+                robot.GetRobotRealTimeState(ref pkg);
+                //Console.WriteLine($"maincode {pkg.main_code}, subcode {pkg.sub_code}");
+                Console.WriteLine($"pkg.jt_cur_pos[5]:{pkg.jt_cur_pos[5]}");
+                if (pkg.jt_cur_pos[5] > 30)
+                {
+                    break;
+                }
+            }
+
+            while (true)
+            {
+
+                torques[5] = -0.03;
+                error = robot.ServoMIT(posGain, desPos, velGain, desVel, torques, intev, 0);
+
+                Console.WriteLine($"ServoJT222222 rtn is {error}");
+                Thread.Sleep(1);
+
+                robot.GetRobotRealTimeState(ref pkg);
+                //Console.WriteLine($"maincode {pkg.main_code}, subcode {pkg.sub_code}");
+                Console.WriteLine($"pkg.jt_cur_pos[5]:{pkg.jt_cur_pos[5]}");
+                if (pkg.jt_cur_pos[5] < 0)
+                {
+                    break;
+                }
+            }
+
+            robot.DragTeachSwitch(0);
+            error = robot.ServoMITEnd(0);
+        }
+        return 0;
+    }

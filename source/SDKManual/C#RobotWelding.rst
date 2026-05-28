@@ -1501,3 +1501,299 @@ Codebeispiel für benutzerdefinierte Pendelparameter
         robot.MoveL(j2, desc_p2, 3, 0, 100, 100, 10, -1, epos, 0, 0, offset_pos, 0, 0, 10);
         robot.WeaveEnd(0);
     }
+
+Konfiguration der Laserschweißgerät-Parameter
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Schreibt die Konfigurationsparameter für eine der 10 Prozessgruppen des Laserschweißgeräts und konfiguriert das Schweißgerät
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[in] num Gruppennummer, die eingestellt werden soll (1~10)
+    * @param[in] scanSpeed Scangeschwindigkeit
+    * @param[in] scanWidth Scanbreite
+    * @param[in] peakPower Spitzenleistung
+    * @param[in] dutyCycle Tastverhältnis
+    * @param[in] freq Frequenz
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingParam(int io_type, int num, int scanSpeed, int scanWidth, int peakPower, int dutyCycle, int freq)
+
+Laserschweißen Start/Stopp einstellen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Laserschweißgerät ein-/ausschalten
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[in] status Steuerwort 0-Laser aus 1-Laser an
+    * @param[in] max_waittime Maximale Wartezeit
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingStartEnd(int io_type, int status, int max_waittime)
+
+Laserschweißgerät aktivieren/deaktivieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Laserschweißgerät aktivieren/deaktivieren
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[in] status 0-deaktivieren 1-aktivieren
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingEnable(int io_type, int status)
+
+Laserschweißgerät-Fehler zurücksetzen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Fehler des Laserschweißgeräts zurücksetzen
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[in] status Steuerwort 0-ungültig 1-Fehler zurücksetzen
+    * @return Fehlercode
+    */
+    public int ResetLaserWeldingErr(int io_type, int status)
+
+Laserschweißgerät-Betriebsstatus abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Betriebsstatus des Laserschweißgeräts abrufen
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[out] status Steuerwort 0-gestoppt 1-läuft
+    * @return Fehlercode
+    */
+    public int GetLaserWeldingRunningState(int io_type, ref int status)
+
+Laserschweißgerät-Fehlerstatus abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Fehlerstatus des Laserschweißgeräts abrufen
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[out] status 0-kein Fehler 1-Fehler vorhanden
+    * @return Fehlercode
+    */
+    public int GetLaserWeldingErrState(int io_type, ref int status)
+
+Konfigurierte Parameter des Laserschweißgeräts abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Konfigurationsparameter für eine der 10 Prozessgruppen des Laserschweißgeräts abrufen
+    * @param[in] num Gruppennummer, die eingestellt werden soll (1~10)
+    * @param[out] scanSpeed Scangeschwindigkeit
+    * @param[out] scanWidth Scanbreite
+    * @param[out] peakPower Spitzenleistung
+    * @param[out] dutyCycle Tastverhältnis
+    * @param[out] freq Frequenz
+    * @return Fehlercode
+    */
+    public int GetLaserWeldingParamTarget(int num, ref int scanSpeed, ref int scanWidth, ref int peakPower, ref int dutyCycle, ref int freq)
+
+Aktuell aktive Konfigurationsparameter des Laserschweißgeräts abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Die aktuell aktiven Konfigurationsparameter des Laserschweißgeräts abrufen
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[out] scanSpeed Scangeschwindigkeit
+    * @param[out] scanWidth Scanbreite
+    * @param[out] peakPower Spitzenleistung
+    * @param[out] dutyCycle Tastverhältnis
+    * @param[out] freq Frequenz
+    * @return Fehlercode
+    */
+    public int GetLaserWeldingParamActual(int io_type, ref int scanSpeed, ref int scanWidth, ref int peakPower, ref int dutyCycle, ref int freq)
+    
+Erweiterte IO-Aktivierungs-DO-Port des Laserschweißgeräts konfigurieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Erweiterte IO der Laserschweißgeräts einstellen, Aktivierungs-DO-Port
+    * @param[in] ctrlModeDONum Erweiterte DO-Portnummer für die Aktivierung des Laserschweißgeräts
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingEnableExtDoNum(int ctrlModeDONum)
+
+Erweiterte IO-Start-DO-Port des Laserschweißgeräts konfigurieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Erweiterte IO der Laserschweißgeräts einstellen, Start-DO-Port
+    * @param[in] ctrlModeDONum Erweiterte DO-Portnummer für den Start (Laser an/aus) des Laserschweißgeräts
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingStartExtDoNum(int ctrlModeDONum)
+
+Erweiterte IO-Fehlerrücksetzungs-DO-Port des Laserschweißgeräts konfigurieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Erweiterte IO der Laserschweißgeräts einstellen, Fehlerrücksetzungs-DO-Port
+    * @param[in] ctrlModeDONum Erweiterte DO-Portnummer für die Fehlerrücksetzung des Laserschweißgeräts
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingErrResetExtDoNum(int ctrlModeDONum)
+
+Erweiterte DI für Betriebsstatus (Laser an-Status) des Laserschweißgeräts konfigurieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Erweiterte DI für den Betriebsstatus (Laser an-Status) des Laserschweißgeräts konfigurieren
+    * @param[in] diNum Erweiterte DI-Portnummer für den Betriebsstatus (Laser an-Status) des Laserschweißgeräts
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingRunningStateExtDiNum(int diNum)
+    
+Erweiterte IO-Fehlerstatus-DI-Port des Laserschweißgeräts konfigurieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Erweiterte DI für den Fehlerstatus des Laserschweißgeräts konfigurieren
+    * @param[in] diNum Erweiterte DI-Portnummer für den Fehlerstatus des Laserschweißgeräts
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingErrStateExtDiNum(int diNum)
+        
+Laserschweiß-Codebeispiel
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    private void btnLaserWeld_Click(object sender, EventArgs e)
+    {
+
+        int rtn = -1;
+        // UDP-Treiber laden
+        rtn = robot.ExtDevLoadUDPDriver();
+        if (rtn != 0)
+        {
+            Console.WriteLine("Failed to load UDP driver, error code: " + rtn);
+        }
+        Thread.Sleep(1000);
+
+        // Laserschweißparameter einstellen: io_type=1, num=3, scanSpeed=2000, scanWidth=3, peakPower=1500, dutyCycle=100, freq=1000
+        rtn = robot.SetLaserWeldingParam(1, 3, 2000, 3, 1500, 100, 1000);
+        if (rtn != 0)
+        {
+            Console.WriteLine("SetLaserWeldingParam failed, error code: " + rtn);
+        }
+        else
+        {
+            Console.WriteLine("SetLaserWeldingParam success");
+        }
+
+        // Start-DO-Portnummer einstellen
+        rtn = robot.SetLaserWeldingStartExtDoNum(1);
+        if (rtn != 0)
+        {
+            Console.WriteLine("SetLaserWeldingStartExtDoNum failed, error code: " + rtn);
+        }
+
+        // Auf Modus 0 (Teach-Modus) einstellen
+        rtn = robot.Mode(0);
+        if (rtn != 0)
+        {
+            Console.WriteLine("Set mode 0 failed, error code: " + rtn);
+        }
+        Thread.Sleep(1000);
+
+
+        DescPose desc_pos1 = new DescPose(-303.721, -206.960, 297.105, 152.209, 19.857, 109.166);
+        DescPose desc_pos2 = new DescPose(-301.575, -254.888, 284.786, 155.919, 26.946, 111.629);
+        DescPose desc_safe = new DescPose(-344.386, -280.830, 435.073, 173.835, 15.333, 124.931);
+
+
+        ExaxisPos exaxis = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+        DescPose offset = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+        // Zum ersten Schweißpunkt bewegen
+        int error = robot.MoveL(desc_pos1, 0, 0, 100, 100, 100, -1, 0, exaxis, 0, 0, offset, -1, 0);
+        Console.WriteLine("MoveL to pos1 return: " + error);
+
+        // Laser starten (Laser an)
+        rtn = robot.SetLaserWeldingStartEnd(1, 1, 10000);
+        if (rtn != 0)
+        {
+            Console.WriteLine("SetLaserWeldingStartEnd (start) failed, error code: " + rtn);
+        }
+        else
+        {
+            Console.WriteLine("Laser started");
+        }
+
+        // Zum zweiten Schweißpunkt bewegen (während des Schweißens)
+        rtn = robot.MoveL(desc_pos2, 0, 0, 30, 100, 100, -1, 0, exaxis, 0, 0, offset, -1, 0);
+        Console.WriteLine("MoveL to pos2 return: " + rtn);
+
+        Thread.Sleep(500);
+        // Laser stoppen (Laser aus)
+        rtn = robot.SetLaserWeldingStartEnd(1, 0, 10000);
+        if (rtn != 0)
+        {
+            Console.WriteLine("SetLaserWeldingStartEnd (stop) failed, error code: " + rtn);
+        }
+        else
+        {
+            Console.WriteLine("Laser stopped");
+        }
+
+        // Zum Sicherheitspunkt bewegen
+        rtn = robot.MoveL(desc_safe, 0, 0, 100, 100, 100, -1, 0, exaxis, 0, 0, offset, -1, 0);
+        Console.WriteLine("MoveL to safe_pos return: " + rtn);
+
+        // Auf Modus 1 (Fernmodus) einstellen
+        rtn = robot.Mode(1);
+        if (rtn != 0)
+        {
+            Console.WriteLine("Set mode 1 failed, error code: " + rtn);
+        }
+        Thread.Sleep(1000);
+
+        // Verbindung schließen
+        robot.CloseRPC();
+        Thread.Sleep(1000);
+
+        Console.WriteLine("Test completed");
+
+        return ;
+    }

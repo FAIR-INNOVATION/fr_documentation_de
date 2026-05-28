@@ -497,6 +497,7 @@ Strukturtyp für Roboterstatus-Rückmeldung
         public int socketConnTimeout;                // Socket-Verbindungszeitüberschreitung
         public int socketReadTimeout;                // Socket-Lesezeitüberschreitung
         public int tsWebStateComErr;                 // TS-Web-Zustandskommunikationsfehler
+        public int exaxisCoordID;                  // Kennung des erweiterten Achskoordinatensystems
     }
 
 Roboterstatus-Feedback-Konfigurationsergebnisklasse
@@ -521,134 +522,136 @@ Roboterstatus-Feedback-Konfigurationsaufzählungstyp
     * Roboterstatus-Aufzählungstyp
     * Wird für die Echtzeitstatus-Feedback-Konfiguration verwendet
     */
-    public enum RobotState {
-        ProgramState,
-        RobotState,
-        MainCode,
-        SubCode,
-        RobotMode,
-        JointCurPos,
-        ToolCurPos,
-        FlangeCurPos,
-        ActualJointVel,
-        ActualJointAcc,
-        TargetTCPCmpSpeed,
-        TargetTCPSpeed,
-        ActualTCPCmpSpeed,
-        ActualTCPSpeed,
-        ActualJointTorque,
-        Tool,
-        User,
-        ClDgtOutputH,
-        ClDgtOutputL,
-        TlDgtOutputL,
-        ClDgtInputH,
-        ClDgtInputL,
-        TlDgtInputL,
-        ClAnalogInput,
-        TlAnglogInput,
-        FtSensorRawData,
-        FtSensorData,
-        FtSensorActive,
-        EmergencyStop,
-        MotionDone,
-        GripperMotiondone,
-        McQueueLen,
-        CollisionState,
-        TrajectoryPnum,
-        SafetyStop0State,
-        SafetyStop1State,
-        GripperFaultId,
-        GripperFault,
-        GripperActive,
-        GripperPosition,
-        GripperSpeed,
-        GripperCurrent,
-        GripperTemp,
-        GripperVoltage,
-        AuxState,
-        ExtAxisStatus,
-        ExtDIState,
-        ExtDOState,
-        ExtAIState,
-        ExtAOState,
-        RbtEnableState,
-        JointDriverTorque,
-        JointDriverTemperature,
-        RobotTime,
-        SoftwareUpgradeState,
-        EndLuaErrCode,
-        ClAnalogOutput,
-        TlAnalogOutput,
-        GripperRotNum,
-        GripperRotSpeed,
-        GripperRotTorque,
-        WeldingBreakOffState,
-        TargetJointTorque,
-        SmartToolState,
-        WideVoltageCtrlBoxTemp,
-        WideVoltageCtrlBoxFanCurrent,
-        ToolCoord,
-        WobjCoord,
-        ExtoolCoord,
-        ExAxisCoord,
-        Load,
-        LoadCog,
-        LastServoTarget,
-        ServoJCmdNum,
-        TargetJointPos,
-        TargetJointVel,
-        TargetJointAcc,
-        TargetJointCurrent,
-        ActualJointCurrent,
-        ActualTCPForce,
-        TargetTCPPos,
-        CollisionLevel,
-        SpeedScaleManual,
-        SpeedScaleAuto,
-        LuaLineNum,
-        AbnomalStop,
-        CurrentLuaFileName,
-        ProgramTotalLine,
-        SafetyBoxSingal,
-        WeldVoltage,
-        WeldCurrent,
-        WeldTrackVel,
-        TpdException,
-        AlarmRebootRobot,
-        ModbusMasterConnect,
-        ModbusSlaveConnect,
-        BtnBoxStopSignal,
-        DragAlarm,
-        SafetyDoorAlarm,
-        SafetyPlaneAlarm,
-        MotonAlarm,
-        InterfaceAlarm,
-        UdpCmdState,
-        WeldReadyState,
-        AlarmCheckEmergStopBtn,
-        TsTmCmdComError,
-        TsTmStateComError,
-        SocketConnTimeout,
-        SocketReadTimeout,
-        TsWebStateComErr,
-        CtrlBoxError,
-        SafetyDataState,
-        ForceSensorErrState,
-        CtrlOpenLuaErrCode,
-        StrangePosFlag,
-        Alarm,
-        DriverAlarm,
-        AliveSlaveNumError,
-        SlaveComError,
-        CmdPointError,
-        IOError,
-        GripperError,
-        FileError,
-        ParaError,
-        ExaxisOutLimitError,
-        DriverComError,
-        DriverError,
-        OutSoftLimitError,
-        AxleGenComData;
-    }
+    enum class RobotState
+    {
+        ProgramState,           // Programmstatus, 1-gestoppt; 2-läuft; 3-pausiert
+        RobotState,             // Roboterbewegungsstatus, 1-gestoppt; 2-läuft; 3-pausiert; 4-Ziehen
+        MainCode,               // Hauptfehlercode
+        SubCode,                // Unterfehlercode
+        RobotMode,              // Robotermodus, 1-Manualmodus; 0-Automatikmodus
+        JointCurPos,            // Aktuelle Gelenkpositionen von 6 Achsen, Einheit deg
+        ToolCurPos,             // Aktuelle Werkzeugposition: [0]Position entlang x-Achse(mm), [1]entlang y-Achse(mm), [2]entlang z-Achse(mm), [3]Rotation um festes X(deg), [4]um festes Y(deg), [5]um festes Z(deg)
+        FlangeCurPos,           // Aktuelle Endflanschposition: [0]entlang x-Achse(mm), [1]entlang y-Achse(mm), [2]entlang z-Achse(mm), [3]Rotation um festes X(deg), [4]um festes Y(deg), [5]um festes Z(deg)
+        ActualJointVel,         // Aktuelle 6 Gelenkgeschwindigkeiten, Einheit deg/s
+        ActualJointAcc,         // Aktuelle 6 Gelenkbeschleunigungen, Einheit deg/s²
+        TargetTCPCmpSpeed,      // TCP-Zusammengesetzte Befehlgeschwindigkeit: [0]Position(mm/s), [1]Orientierung(deg/s)
+        TargetTCPSpeed,         // TCP-Befehlgeschwindigkeit: [0]entlang x-Achse(mm/s), [1]entlang y-Achse(mm/s), [2]entlang z-Achse(mm/s), [3]Winkelgeschwindigkeit um X(deg/s), [4]um Y(deg/s), [5]um Z(deg/s)
+        ActualTCPCmpSpeed,      // TCP-Zusammengesetzte Istgeschwindigkeit: [0]Position(mm/s), [1]Orientierung(deg/s)
+        ActualTCPSpeed,         // TCP-Istgeschwindigkeit: [0]entlang x-Achse(mm/s), [1]entlang y-Achse(mm/s), [2]entlang z-Achse(mm/s), [3]Winkelgeschwindigkeit um X(deg/s), [4]um Y(deg/s), [5]um Z(deg/s)
+        ActualJointTorque,      // Aktuelle 6 Gelenkdrehmomente, Einheit N·m
+        Tool,                   // Angewandte Werkzeugkoordinatensystemnummer
+        User,                   // Angewandte Werkstückkoordinatensystemnummer
+        ClDgtOutputH,           // Digitaler IO-Ausgang des Steuerschranks 15-8
+        ClDgtOutputL,           // Digitaler IO-Ausgang des Steuerschranks 7-0
+        TlDgtOutputL,           // Digitaler Werkzeug-IO-Ausgang 7-0, nur bit0-bit1 gültig
+        ClDgtInputH,            // Digitaler IO-Eingang des Steuerschranks 15-8
+        ClDgtInputL,            // Digitaler IO-Eingang des Steuerschranks 7-0
+        TlDgtInputL,            // Digitaler Werkzeug-IO-Eingang 7-0, nur bit0-bit1 gültig
+        ClAnalogInput,          // Analoger Eingang des Steuerschranks: [0]Kanal 0, [1]Kanal 1
+        TlAnalogInput,          // Analoger Werkzeugeingang
+        FtSensorRawData,        // Rohdaten des Kraft-Drehmoment-Sensors: [0]Kraft entlang x-Achse(N), [1]entlang y-Achse(N), [2]entlang z-Achse(N), [3]Drehmoment um x-Achse(Nm), [4]um y-Achse(Nm), [5]um z-Achse(Nm)
+        FtSensorData,           // Daten des Kraft-Drehmoment-Sensors (verarbeitet): [0]Kraft entlang x-Achse(N), [1]entlang y-Achse(N), [2]entlang z-Achse(N), [3]Drehmoment um x-Achse(Nm), [4]um y-Achse(Nm), [5]um z-Achse(Nm)
+        FtSensorActive,         // Aktivierungsstatus des Kraft-Drehmoment-Sensors, 0-Reset, 1-aktiv
+        EmergencyStop,          // Not-Halt-Flag, 0-Not-Halt nicht gedrückt, 1-Not-Halt gedrückt
+        MotionDone,             // Bewegungs-abgeschlossen-Signal, 1-abgeschlossen, 0-nicht abgeschlossen
+        GripperMotiondone,      // Greiferbewegung-abgeschlossen-Signal, 1-abgeschlossen, 0-nicht abgeschlossen
+        McQueueLen,             // Länge der Bewegungskommandowarteschlange
+        CollisionState,         // Kollisionserkennung, 1-Kollision, 0-keine Kollision
+        TrajectoryPnum,         // Trajektorienpunktnummer
+        SafetyStop0State,       // Sicherheitsstoppsignal SI0
+        SafetyStop1State,       // Sicherheitsstoppsignal SI1
+        GripperFaultId,         // Fehlerhafte Greifernummer
+        GripperFault,           // Greiferfehler
+        GripperActive,          // Greiferaktivierungsstatus
+        GripperPosition,        // Greiferposition
+        GripperSpeed,           // Greifergeschwindigkeit
+        GripperCurrent,         // Greiferstrom
+        GripperTemp,            // Greifertemperatur
+        GripperVoltage,         // Greiferspannung
+        AuxState,               // 485 Erweiterter Achsenstatus
+        ExtAxisStatus,          // UDP-Erweiterte Achsenstatus (4 Achsen)
+        ExtDIState,             // Erweiterter DI-Eingang (8)
+        ExtDOState,             // Erweiterter DO-Ausgang (8)
+        ExtAIState,             // Erweiterter AI-Eingang (4)
+        ExtAOState,             // Erweiterter AO-Ausgang (4)
+        RbtEnableState,         // Roboter-Freigabestatus
+        JointDriverTorque,      // Roboter-Gelenktreiber-Drehmoment (6 Gelenke)
+        JointDriverTemperature, // Roboter-Gelenktreiber-Temperatur (6 Gelenke)
+        RobotTime,              // Roboter-Systemzeit
+        SoftwareUpgradeState,   // Roboter-Software-Upgrade-Status
+        EndLuaErrCode,          // End-LUA-Ausführungsstatus
+        ClAnalogOutput,         // Analoger Ausgang des Steuerschranks (2)
+        TlAnalogOutput,         // Analoger Werkzeugausgang
+        GripperRotNum,          // Aktuelle Rotationsumdrehungen des Drehgreifers
+        GripperRotSpeed,        // Aktuelle Rotationsgeschwindigkeitsprozent des Drehgreifers
+        GripperRotTorque,       // Aktuelles Rotationsdrehmomentprozent des Drehgreifers
+        WeldingBreakOffState,   // Schweißunterbrechungsstatus
+        TargetJointTorque,      // Gelenkbefehlsdrehmoment (6 Gelenke)
+        SmartToolState,         // SmartTool-Griffknopfstatus
+        WideVoltageCtrlBoxTemp, // Temperatur des Weitspannungs-Steuerschranks
+        WideVoltageCtrlBoxFanCurrent, // Lüfterstrom des Weitspannungs-Steuerschranks (mA)
+        ToolCoord,              // Aktuelle Werkzeugkoordinatenwerte: x,y,z,rx,ry,rz
+        WobjCoord,              // Aktuelle Werkstückkoordinatenwerte: x,y,z,rx,ry,rz
+        ExtoolCoord,            // Aktuelle externe Werkzeugkoordinatenwerte: x,y,z,rx,ry,rz
+        ExAxisCoord,            // Aktuelle erweiterte Achsenkoordinatenwerte: x,y,z,rx,ry,rz
+        Load,                   // Lastmasse
+        LoadCog,                // Lastschwerpunkt: x,y,z
+        LastServoTarget,        // Letzte ServoJ-Zielposition in Warteschlange (6 Gelenke)
+        ServoJCmdNum,           // servoJ-Befehlszähler
+        TargetJointPos,         // 6 Gelenkbefehlspositionen, Einheit °
+        TargetJointVel,         // 6 Gelenkbefehlsgeschwindigkeiten, Einheit °/s
+        TargetJointAcc,         // 6 Gelenkbefehlsbeschleunigungen, Einheit °/s²
+        TargetJointCurrent,     // 6 Gelenkbefehlsströme, Einheit A
+        ActualJointCurrent,     // 6 Gelenkistströme, Einheit A
+        ActualTCPForce,         // Roboter-Enddrehmoment: x,y,z,rx,ry,rz, Einheit Nm
+        TargetTCPPos,           // Roboter-TCP-Befehlsposition: x,y,z,rx,ry,rz, Einheit mm
+        CollisionLevel,         // Roboter-Kollisionsstufe (6)
+        SpeedScaleManual,       // Globale Geschwindigkeitsprozent im Handmodus
+        SpeedScaleAuto,         // Globale Geschwindigkeitsprozent im Automatikmodus
+        LuaLineNum,             // Aktuelle laufende Zeilennummer des Lua-Programms
+        AbnomalStop,            // 0-keine Anomalie; 1-Anomalie vorhanden
+        CurrentLuaFileName,     // Aktueller laufender Lua-Programmname
+        ProgramTotalLine,       // Lua-Programm-Gesamtzeilen
+        SafetyBoxSingal,        // Roboter-Tastenfeld-Tastenstatus (6)
+        WeldVoltage,            // Schweißspannung V
+        WeldCurrent,            // Schweißstrom
+        WeldTrackVel,           // Nahtverfolgungsgeschwindigkeit mm/s
+        TpdException,           // TPD-Trajektorien-Ladeanzahl überschritten, 0-nicht überschritten, 1-überschritten
+        AlarmRebootRobot,       // Warnung: 1-Stromzyklus nach Loslassen des Not-Halts erforderlich, 2-Gelenkkommunikationsanomalie erfordert Stromzyklus
+        ModbusMasterConnect,    // bit0-7 entsprechen ModbusTCP-Master 0-7 Verbindungsstatus, 0-nicht verbunden, 1-verbunden
+        ModbusSlaveConnect,     // ModbusTCP-Slave-Verbindungsstatus, 0-nicht verbunden, 1-verbunden
+        BtnBoxStopSignal,       // Not-Halt-Signal des Tastenfelds, 0-Not-Halt losgelassen, 1-Not-Halt gedrückt
+        DragAlarm,              // Ziehwarnung: 0-kein Alarm, 1-Alarm, 2-Positionsrückmeldungsanomalie kein Wechsel
+        SafetyDoorAlarm,        // Sicherheitstürwarnung: 0-geschlossen, 1-geöffnet
+        SafetyPlaneAlarm,       // Sicherheitswandwarnung: 0-nicht betreten, 1-betreten
+        MotonAlarm,             // Bewegungswarnung
+        InterfaceAlarm,         // Warnung beim Eintritt in Interferenzzone
+        UdpCmdState,            // UDP-Kommunikationsverbindungsstatus von Port 20007
+        WeldReadyState,         // Schweißgerät-Bereitschaftsstatus
+        AlarmCheckEmergStopBtn, // 0-normal; 1-Kommunikationsanomalie, Not-Halt-Knopf prüfen
+        TsTmCmdComError,        // 0-normal; 1-Drehmomentbefehlskommunikationsfehler
+        TsTmStateComError,      // 0-normal; 1-Drehmomentstatuskommunikationsfehler
+        CtrlBoxError,           // Steuerschrankfehler
+        SafetyDataState,        // Sicherheitsdatenstatus, 0-normal, 1-anomal
+        ForceSensorErrState,    // Kraftsensor-Verbindungszeitüberschreitung, bit0-bit1 entsprechen ID1-ID2
+        CtrlOpenLuaErrCode,     // 4 Controller-Peripherieprotokoll-Fehlercodes (500-Fehlercode)
+        StrangePosFlag,         // Singuläre-Pose-Flag: 0-normal, 1-singuläre Pose
+        Alarm,                  // Alarm
+        DriverAlarm,            // Treiber-Alarmachsenummer
+        AliveSlaveNumError,     // Aktive-Slave-Anzahlfehler: 0-normal, 1-Anzahlfehler
+        SlaveComError,          // Slave-Fehler: 0-normal, 1-offline, 2-Zustandsinkonsistenz, 3-nicht konfiguriert, 4-Konfigurationsfehler, 5-Initialisierungsfehler, 6-Mailbox-Kommunikationsinitialisierungsfehler
+        CmdPointError,          // Befehlspunktfehler
+        IOError,                // IO-Fehler
+        GripperError,           // Greiferfehler
+        FileError,              // Dateifehler
+        ParaError,              // Parameterfehler
+        ExaxisOutLimitError,    // Fehler wegen Überschreitung der weichen Grenze der externen Achse
+        DriverComError,         // Treiberkommunikationsfehler (6 Achsen)
+        DriverError,            // Achsnummer des Treiberkommunikationsfehlers
+        OutSoftLimitError,      // Fehler wegen Überschreitung der weichen Grenze
+        AxleGenComData,         // Roboter-End-Durchsatz-Feedbackdaten
+        SocketConnTimeout,      // Socket-Verbindungszeitüberschreitung, bit0-bit4 entsprechen socketID 1-4
+        SocketReadTimeout,      // Socket-Lesezeitüberschreitung, bit0-bit4 entsprechen socketID 1-4
+        TsWebStateComErr,       // web-Drehmomentkommunikationsfehler: 0-normal, 1-Fehler
+        ExaxisCoordID           // Kennung des erweiterten Achskoordinatensystems
+    };

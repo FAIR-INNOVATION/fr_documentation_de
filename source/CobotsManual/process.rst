@@ -641,3 +641,201 @@ Wenn zwei identische Verfolgungsbewegungsziele (mit möglichem Versatz) nacheina
 .. centered:: Abbildung 15.3‑16 Ein typisches Förderbandprogramm für blockierende Verfolgungsgreifbewegungen
 
 Wenn zwei identische Verfolgungsbewegungsziele (mit möglichem Versatz) nacheinander angefahren werden und dazwischen eine Greiferbewegung eingefügt wird, verfolgt der Roboter an diesem Zielpunkt das Förderband kontinuierlich, bis die Greiferbewegung abgeschlossen ist. Dies realisiert ein blockierendes Verfolgungsgreifen.
+
+Optimierungsfunktion der Matrixbewegungsanweisung
+------------------------------------------------------------------
+Überblick
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Bei der automatisierten Bearbeitung von CNC-Geräten und Palettiervorgängen werden Matrixbewegungsanweisungen in mehreren kritischen Prozessschritten häufig eingesetzt, einschließlich der Beschickung von Rohlingen, der Entnahme von Fertigteilen, dem Wenden von Werkstücken und der sekundären Aufspannung. Durch das Einlernen von drei Matrixpunkten im Matrixbewegungsrezept zur Bestimmung der Matrixposition und die Konfiguration von Matrixzeilen, -spalten, -schichten und dem Bewegungspfad kann das Matrixrezept auf der Anweisungsoberfläche schnell umgeschaltet werden, um es bereitzustellen und auszuführen.
+
+Konfiguration des Matrixbewegungsrezepts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Schritt 1**: Gehen Sie zur Oberfläche "Hilfsanwendungen -> Prozesspakete -> Matrixbewegung", um Rezepte hinzuzufügen, zu bearbeiten, umzubenennen und zu löschen;
+
+.. figure:: process/049.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑1 Matrixrezept-Oberfläche
+
+.. note:: 
+   .. image:: process/050.png
+      :height: 0.75in
+      :align: left
+
+   Name: **Schaltfläche Hinzufügen**
+   
+   Funktion: Neues Matrixrezept hinzufügen
+
+.. note:: 
+   .. image:: process/051.png
+      :height: 0.75in
+      :align: left
+
+   Name: **Schaltfläche Bearbeiten**
+   
+   Funktion: Matrixrezeptparameter bearbeiten
+
+.. note:: 
+   .. image:: process/052.png
+      :height: 0.75in
+      :align: left
+
+   Name: **Schaltfläche Umbenennen**
+   
+   Funktion: Matrixrezept umbenennen
+
+.. note:: 
+   .. image:: process/053.png
+      :height: 0.75in
+      :align: left
+
+   Name: **Schaltfläche Löschen**
+   
+   Funktion: Matrixrezept löschen
+
+**Schritt 2**: Neues Matrixrezept hinzufügen. Klicken Sie auf die Schaltfläche "Hinzufügen", um das modale Fenster "Matrix hinzufügen" zu öffnen. Geben Sie den Matrixnamen ein (Sonderzeichen sind verboten, nur Zahlen, gebräuchliche chinesische Zeichen und Unterstriche "_" sind erlaubt). Gehen Sie dann zur Rezeptdetailoberfläche, um die Anzahl der Zeilen, Schichten, Spalten, Schichthöhe, Bewegungskonfiguration und die Versatzwerte X, Y, Z für den Übergangspunkt einzugeben und drei Matrixpfadpunkte einzulernen. Klicken Sie auf die Schaltfläche "Konfigurieren", um die Konfiguration zu bestätigen.
+
+.. figure:: process/054.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑2 Popup-Modalfenster "Matrix hinzufügen"
+
+.. figure:: process/055.png
+   :align: center
+   :width: 4in
+
+.. figure:: process/056.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑3 Einlernen des ersten Pfadpunkts
+
+.. figure:: process/057.png
+   :align: center
+   :width: 4in
+
+.. figure:: process/058.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑4 Einlernen des zweiten Pfadpunkts
+
+.. figure:: process/059.png
+   :align: center
+   :width: 4in
+
+.. figure:: process/060.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑5 Einlernen des dritten Pfadpunkts
+
+Die Bewegungspfade werden in die "Kopf-zu-Schwanz"-Methode und die "Zickzack"-Methode unterteilt. Die Beschreibungen sind wie folgt:
+
+**Kopf-zu-Schwanz-Methode**: Die erste Reihe von links nach rechts abschließen, zum linken Startpunkt zurückkehren, dann die zweite Reihe von links nach rechts abschließen, wieder zum linken Startpunkt zurückkehren, die dritte Reihe von links nach rechts abschließen, bis die vollständige Abdeckung erreicht ist.
+
+.. figure:: process/061.png
+   :align: center
+   :width: 1in
+
+.. centered:: Abbildung 15.4‑6 Kopf-zu-Schwanz-Methode
+
+**Zickzack-Methode**: Die erste Reihe von links nach rechts abschließen, sich vertikal nach unten bewegen, dann die zweite Reihe von rechts nach links abschließen. Sich erneut vertikal nach unten bewegen, dann die dritte Reihe von links nach rechts abschließen, bis der Bereich vollständig abgedeckt ist.
+
+.. figure:: process/062.png
+   :align: center
+   :width: 1in
+
+.. centered:: Abbildung 15.4‑7 Zickzack-Methode
+
+**Schritt 3**: Rezept bearbeiten, umbenennen und löschen. Klicken Sie auf die Schaltfläche "Bearbeiten", um die Daten des aktuell ausgewählten Matrixrezepts abzurufen. Ändern Sie bei Bedarf Parameter oder lernen Sie Pfadpunkte neu ein. Wenn eine Umbenennung erforderlich ist, klicken Sie auf die Schaltfläche "Umbenennen", geben Sie den neuen Namen ein und klicken Sie erneut auf die Schaltfläche "Umbenennen", um den Vorgang abzuschließen. Klicken Sie auf die Schaltfläche "Löschen", eine sekundäre Bestätigung fragt, ob das Matrixrezept gelöscht werden soll; klicken Sie erneut auf die Schaltfläche "Löschen", um das Löschen zu bestätigen. Wie unten dargestellt:
+
+.. figure:: process/063.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑8 Matrixrezept umbenennen
+
+.. figure:: process/064.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑9 Löschbestätigung für Matrixrezept
+
+Hinzufügen von Matrixbewegungsanweisungen
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Schritt 1**: Nachdem Sie die Oberfläche "Teach-Programm -> Programmierung -> Palettieranweisungen -> Matrixbewegung" aufgerufen haben, überprüfen Sie, ob Rezepte vorhanden sind. Wenn kein Rezept erstellt wurde, wird eine Hinweismeldung angezeigt. Unterhalb des Hinweistextes können Sie auf die Schaltfläche "Konfigurieren" klicken, um schnell zur Oberfläche "Hilfsanwendungen -> Prozesspakete -> Matrixbewegung" zu gelangen. Wie unten dargestellt:
+
+.. figure:: process/065.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑10 Matrixbewegungsanweisung ohne Rezeptoberfläche
+
+Wenn ein Rezept vorhanden ist, wird die Matrixbewegungsanweisungsoberfläche angezeigt. Die aktuellen Anweisungstypen sind:
+
+- **Matrixbewegung**: Den Roboter so einstellen, dass er sich zum Übergangspunkt für Be- und Entladevorgänge bewegt;
+- **Matrixbetriebszähler**: Zählen der Zeile, Spalte und Schicht, nachdem der Roboter das Be- und Entladen abgeschlossen hat;
+- **Startzähler konfigurieren**: Einstellen der Zeile, Spalte und Schicht, von der der Roboter mit dem Be- und Entladen beginnt;
+- **Matrixzähler abrufen**: Abrufen der Zeile, Spalte und Schicht, bei der der Roboter das Be- und Entladen abgeschlossen hat.
+
+.. figure:: process/066.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑11 Matrixbewegungsanweisung mit Rezeptoberfläche
+
+**Schritt 2**: Fügen Sie die Anweisung "Matrixbewegung" hinzu. Erstellen Sie ein neues Programm mit dem Namen "matrix", wählen Sie das Rezept "matrix1", die Bewegungsrichtung "Abwärts" und geben Sie die Geschwindigkeit 100 ein. Der Roboter bewegt sich vom Sicherheitspunkt zum Übergangspunkt und dann zum Greifpunkt. Klicken Sie auf die Schaltfläche "Hinzufügen", um sie auf das Programm anzuwenden. Wie unten dargestellt:
+
+.. figure:: process/067.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑12 Matrixbewegungsanweisung Abwärts
+
+**Schritt 3**: Fügen Sie die Anweisung "Matrixbetriebszähler" hinzu. Wählen Sie das Rezept "matrix1", klicken Sie auf die Schaltfläche "Hinzufügen", um sie auf das Programm anzuwenden. Wie unten dargestellt:
+
+.. figure:: process/068.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑13 Matrixbetriebszähler-Anweisung
+
+**Schritt 4**: Fügen Sie die Anweisung "Matrixbewegung" hinzu. Wählen Sie das Rezept "matrix1", die Bewegungsrichtung "Aufwärts" und geben Sie die Geschwindigkeit 100 ein. Der Roboter bewegt sich vom Greifpunkt zum Übergangspunkt und dann zurück zum Sicherheitspunkt. Klicken Sie auf die Schaltfläche "Hinzufügen", um sie auf das Programm anzuwenden. Wie unten dargestellt:
+
+.. figure:: process/069.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑14 Matrixbewegungsanweisung Aufwärts
+
+**Schritt 5**: Fügen Sie eine while-Anweisung für kontinuierliche Schleifen hinzu. Klicken Sie auf die Schaltfläche "Speichern", um das Programm zu speichern, wechseln Sie in den Automatikmodus und führen Sie das Programm aus. Der Roboter führt kontinuierlich Be- und Entladevorgänge mit Matrixbewegung durch. Wie unten dargestellt:
+
+.. figure:: process/070.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑15 Ausführung der Matrixbewegungsanweisung
+
+**Schritt 6**: Fügen Sie die Anweisung "Startzähler konfigurieren" hinzu. Wählen Sie das Rezept "matrix1", geben Sie Zeile 1, Spalte 1, Schicht 1 ein. Klicken Sie auf die Schaltfläche "Hinzufügen", um sie auf das Programm anzuwenden. Wie unten dargestellt:
+
+.. note:: Die eingegebenen Zeilen-, Spalten- und Schichtnummern werden um 1 erhöht, um die tatsächliche Zeile, Spalte und Schicht darzustellen. Das heißt, die Eingabe von Zeile 1, Spalte 1, Schicht 1 bedeutet, dass der Roboter tatsächlich von Zeile 2, Spalte 2, Schicht 2 an der angegebenen Position startet.
+
+.. figure:: process/071.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑16 Anweisung "Startzähler konfigurieren"
+
+**Schritt 7**: Wenn sich die Matrix ändert, gehen Sie zur Oberfläche "Hilfsanwendungen -> Prozesspakete -> Matrixbewegung", wählen Sie das Matrixrezept "matrix1", klicken Sie auf die Schaltfläche "Bearbeiten", um die Parameter zu ändern, und klicken Sie dann auf die Schaltfläche "Konfigurieren", um die Matrixänderung abzuschließen. Kehren Sie nun zur Programmieroberfläche zurück, öffnen Sie das Programm "matrix" und führen Sie es direkt aus, um das neue Matrixszenario durchzuführen.
+
+.. figure:: process/072.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 15.4‑17 Matrixrezept ändern

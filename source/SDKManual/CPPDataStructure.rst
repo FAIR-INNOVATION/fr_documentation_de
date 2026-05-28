@@ -303,6 +303,7 @@ Status-Rückmeldungspaket der Steuerung
       uint8_t socketConnTimeout;   // Socket-Verbindungszeitüberschreitung, bit0-bit4: socketID 1-4
       uint8_t socketReadTimeout;   // Socket-Lesezeitüberschreitung, bit0-bit4: socketID 1-4
       uint8_t tsWebStateComErr;   // Web-Drehmoment-Kommunikationsfehler; 0-normal; 1-fehlgeschlagen
+      uint8_t exaxisCoordID;     //Kennung des erweiterten Achskoordinatensystems
       uint16_t check_sum;     // Summenprüfung
     }ROBOT_STATE_PKG;
 
@@ -442,5 +443,6 @@ Aufzählungstyp für Roboterstatus-Rückmeldungskonfiguration
         AxleGenComData = 128,       // Roboter-Endeffektor-Transparentübertragungs-Rückmeldedaten
         SocketConnTimeout = 129,    // Socket-Verbindungszeitüberschreitung, bit0-bit4 entsprechen socketID 1-4
         SocketReadTimeout = 130,    // Socket-Lesezeitüberschreitung, bit0-bit4 entsprechen socketID 1-4
-        TsWebStateComErr = 131      // Web-Drehmoment-Kommunikationsfehler: 0-normal, 1-fehlgeschlagen
+        TsWebStateComErr = 131,     // Web-Drehmoment-Kommunikationsfehler: 0-normal, 1-fehlgeschlagen
+        ExaxisCoordID = 132          //Kennung des erweiterten Achskoordinatensystems
     };

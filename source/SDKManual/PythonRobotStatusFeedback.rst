@@ -236,6 +236,7 @@ Roboterstatus-Rückmeldungsstrukturtyp
             ("socketConnTimeout", c_uint8),     # Socket-Verbindungszeitüberschreitung
             ("socketReadTimeout", c_uint8),     # Socket-Lesezeitüberschreitung
             ("tsWebStateComErr", c_uint8),      # TS_WEB-Statuskommunikationsfehler
+            ("exaxisCoordID", c_uint8),         # Externe erweiterte Achsen-ID
             ("check_sum", c_uint16)          # Summenprüfung
         ]
 
@@ -738,4 +739,5 @@ Aufzählungstyp der Roboterstatus-Rückmeldungskonfigurationsliste
         SocketConnTimeout = 129
         SocketReadTimeout = 130
         TsWebStateComErr = 131
-        CheckSum = 132
+        exaxisCoordID = 132
+        CheckSum = 133

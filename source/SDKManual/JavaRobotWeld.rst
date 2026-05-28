@@ -1501,3 +1501,242 @@ Codebeispiel für benutzerdefinierte Pendelparameter
 
         robot.CloseRPC();
     }
+
+Laserschweißgerät-Parameterkonfiguration
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Laserschweißgerät-Parameterkonfiguration
+    * @param  io_type Kommunikationstyp 0-IO 1-UDP
+    * @param  num Zu setzende Gruppennummer (1~10)
+    * @param  scanSpeed Scangeschwindigkeit
+    * @param  scanWidth Scanbreite
+    * @param  peakPower Spitzenleistung
+    * @param  dutyCycle Tastverhältnis
+    * @param  freq Frequenz
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingParam(int io_type, int num, int scanSpeed, int scanWidth, int peakPower, int dutyCycle, int freq);
+
+Laserschweißen Starten/Stoppen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Laserschweißen starten/stoppen
+    * @param io_type Kommunikationstyp 0-IO 1-UDP
+    * @param status Steuerwort 0-Laser aus 1-Laser ein
+    * @param max_waittime Maximale Wartezeit in Millisekunden, Standard 10000
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingStartEnd(int io_type, int status, int max_waittime)
+
+Laserschweißgerät Aktivieren/Deaktivieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Laserschweißgerät aktivieren/deaktivieren
+    * @param io_type Kommunikationstyp 0-IO 1-UDP
+    * @param status 0-deaktivieren 1-aktivieren
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingEnable(int io_type, int status)
+
+Laserschweißgerät-Fehlerrücksetzung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Laserschweißgerät-Fehlerrücksetzung
+    * @param io_type Kommunikationstyp 0-IO 1-UDP
+    * @param status Steuerwort 0-ungültig 1-Fehlerrücksetzung
+    * @return Fehlercode
+    */
+    public int ResetLaserWeldingErr(int io_type, int status)
+
+Betriebszustand des Laserschweißgeräts Abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Betriebszustand des Laserschweißgeräts abrufen
+    * @param io_type Kommunikationstyp 0-IO 1-UDP
+    * @param  status Steuerwort 0-gestoppt 1-in Betrieb
+    * @return Fehlercode
+    */
+    public int GetLaserWeldingRunningState(int io_type, int[] status)
+
+Fehlerzustand des Laserschweißgeräts Abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Fehlerzustand des Laserschweißgeräts abrufen
+    * @param io_type Kommunikationstyp 0-IO 1-UDP
+    * @param  status 0-kein Fehler 1-Fehler vorhanden
+    * @return Fehlercode
+    */
+    public int GetLaserWeldingErrState(int io_type, int[] status)
+
+Konfigurationsparameter des Laserschweißgeräts Abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Konfigurationsparameter einer der 10 Prozessgruppen des Laserschweißgeräts abrufen
+    * @param num Zu setzende Gruppennummer (1~10)
+    * @param params Ausgabeparameter-Array: [scanSpeed, scanWidth, peakPower, dutyCycle, freq]
+    * @return Fehlercode
+    */
+    public int GetLaserWeldingParamTarget(int num, int[] params)
+
+Aktive Konfigurationsparameter des Laserschweißgeräts Abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Aktive Konfigurationsparameter des Laserschweißgeräts abrufen
+    * @param io_type Kommunikationstyp 0-IO 1-UDP
+    * @param params Ausgabeparameter-Array: [scanSpeed, scanWidth, peakPower, dutyCycle, freq]
+    * @return Fehlercode
+    */
+    public int GetLaserWeldingParamActual(int io_type, int[] params)
+
+Erweiterte IO-Aktivierungs-DO-Port für Laserschweißgerät Konfigurieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Erweiterte IO-Aktivierungs-DO-Port für Laserschweißgerät konfigurieren
+    * @param ctrlModeDONum Erweiterte DO-Portnummer für Laserschweißgerät-Aktivierung
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingEnableExtDoNum(int ctrlModeDONum)
+
+Erweiterte IO-Start-DO-Port für Laserschweißgerät Konfigurieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Erweiterte IO-Start-DO-Port für Laserschweißgerät konfigurieren
+    * @param ctrlModeDONum Erweiterte DO-Portnummer für Laserschweißgerät-Start/Stopp
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingStartExtDoNum(int ctrlModeDONum)
+
+Erweiterte IO-Fehlerrücksetzungs-DO-Port für Laserschweißgerät Konfigurieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Erweiterte IO-Fehlerrücksetzungs-DO-Port für Laserschweißgerät konfigurieren
+    * @param ctrlModeDONum Erweiterte DO-Portnummer für Laserschweißgerät-Fehlerrücksetzung
+    * @return Fehlercode
+    */
+    public int SetLaserWeldingErrResetExtDoNum(int ctrlModeDONum)
+
+Erweiterte IO-Betriebszustands-(Laser-Ein-Zustands)-DI-Port für Laserschweißgerät Konfigurieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Erweiterte IO-Betriebszustands-(Laser-Ein-Zustands)-DI-Port für Laserschweißgerät konfigurieren
+    * @param diNum Erweiterte DI-Portnummer für Laserschweißgerät-Betriebszustand (Laser-Ein-Zustand)
+    * @return Fehlercode, 0 zeigt Erfolg an, Nicht-Null zeigt Fehler an
+    */
+    public int SetLaserWeldingRunningStateExtDiNum(int diNum);
+
+Erweiterte IO-Fehlerzustands-DI-Port für Laserschweißgerät Konfigurieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Erweiterte IO-Fehlerzustands-DI-Port für Laserschweißgerät konfigurieren
+    * @param diNum Erweiterte DI-Portnummer für Laserschweißgerät-Fehlerzustand
+    * @return Fehlercode, 0 zeigt Erfolg an, Nicht-Null zeigt Fehler an
+    */
+    public int SetLaserWeldingErrStateExtDiNum(int diNum);
+
+Beispielcode für Laserschweißen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int testLsaerWeld(Robot robot) {
+        int rtn = -1;
+        rtn = robot.ExtDevLoadUDPDriver();
+        if (rtn != 0) {
+            System.out.println("Fehler beim Laden des UDP-Treibers, Fehlercode: " + rtn);
+        }
+        robot.Sleep(1000);
+        rtn = robot.SetLaserWeldingParam(1, 3, 2000, 3, 1500, 100, 1000);
+        if (rtn != 0) {
+            System.out.println("SetLaserWeldingParam fehlgeschlagen, Fehlercode: " + rtn);
+        } else {
+            System.out.println("SetLaserWeldingParam erfolgreich");
+        }
+        rtn = robot.SetLaserWeldingStartExtDoNum(1);
+        if (rtn != 0) {
+            System.out.println("SetLaserWeldingStartExtDoNum fehlgeschlagen, Fehlercode: " + rtn);
+        }
+        rtn = robot.Mode(0);
+        if (rtn != 0) {
+            System.out.println("Setzen des Modus 0 fehlgeschlagen, Fehlercode: " + rtn);
+        }
+        robot.Sleep(1000);
+        DescPose desc_pos1 = new DescPose(-303.721, -206.960, 297.105, 152.209, 19.857, 109.166);
+        DescPose desc_pos2 = new DescPose(-301.575, -254.888, 284.786, 155.919, 26.946, 111.629);
+        DescPose desc_safe = new DescPose(-344.386, -280.830, 435.073, 173.835, 15.333, 124.931);
+
+        JointPos jointPos1 = new JointPos(9.827, -99.740, 120.088, -78.900, -77.241, -17.904);
+        JointPos jointPos2 = new JointPos(15.251, -96.456, 120.138, -84.664, -68.542, -17.843);
+        JointPos jointSafe = new JointPos(19.142, -98.078, 101.493, -83.078, -77.070, -17.794);
+
+        ExaxisPos exaxis = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+        DescPose offset = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        int error = robot.MoveL(desc_pos1, 0, 0, 100, 100, 100, -1, 0, exaxis, 0, 0, offset, -1, 0,0,0);
+        System.out.println("MoveL zu pos1 Rückgabe: " + error);
+        rtn = robot.SetLaserWeldingStartEnd(1, 1, 10000);
+        if (rtn != 0) {
+            System.out.println("SetLaserWeldingStartEnd (Start) fehlgeschlagen, Fehlercode: " + rtn);
+        } else {
+            System.out.println("Laser gestartet");
+        }
+        rtn = robot.MoveL(desc_pos2, 0, 0, 30, 100, 100, -1, 0, exaxis, 0, 0, offset, -1, 0,0, 0);
+        System.out.println("MoveL zu pos2 Rückgabe: " + rtn);
+        rtn = robot.SetLaserWeldingStartEnd(1, 0, 10000);
+        if (rtn != 0) {
+            System.out.println("SetLaserWeldingStartEnd (Stopp) fehlgeschlagen, Fehlercode: " + rtn);
+        } else {
+            System.out.println("Laser gestoppt");
+        }
+        robot.Sleep(500);
+        rtn = robot.MoveL(desc_safe, 0, 0, 100, 100, 100, -1, 0, exaxis, 0, 0, offset, -1, 0,0,0);
+        System.out.println("MoveL zu safe_pos Rückgabe: " + rtn);
+        rtn = robot.Mode(1);
+        if (rtn != 0) {
+            System.out.println("Setzen des Modus 1 fehlgeschlagen, Fehlercode: " + rtn);
+        }
+        robot.Sleep(1000);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+
+        System.out.println("Test abgeschlossen");
+
+        return 0;
+    }

@@ -2166,6 +2166,185 @@ Am Beispiel des Programms "testWeld". Schalten Sie den Roboter in den Automatikm
 .. warning::
    Die Funktion zur Wiederaufnahme nach Schweißunterbrechung des kollaborativen Roboters kann nur für gerade Schweißnähte oder Kreisbogenschweißnähte verwendet werden. Bei Verwendung einer while(1)-Schleife für das Schweißen werden keine verschachtelten mehrschichtigen while-Schleifen unterstützt. Sie darf keine bedingten Anweisungen mit lokalen Variablen enthalten. Bei Verwendung der Intervallschweißfunktion achten Sie darauf, die Schnittstelle zur Rückmeldung von Intervallschweißinformationen hinzuzufügen.
 
+Kommunikationsanpassung für Roboter-Laserschweißgerät
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Hintergrund
+++++++++++++++++++++++++++++++++++++++++++++
+
+Dieses Benutzerhandbuch erklärt die Kommunikation am Beispiel des bereits angepassten Laserschweißgeräts REDSABERE 1500. Der Roboter steuert den Schweißprozess über das "Digitale Kommunikationsprotokoll". Im Wesentlichen kommuniziert der Roboter über UDP mit der SPS. Der Roboter sendet Steuerungsdaten über UDP an die SPS, die dann das Laserschweißgerät weiter über Modbus RTU steuert. Gleichzeitig erfasst die SPS die tatsächlichen Laser-Schweißprozessparameter und Steuersignale und leitet sie an den Roboter zurück. Der Inhalt des UDP-Kommunikationsprotokolls des Roboters ist in Anhang I aufgeführt.
+
+SPS-Konfiguration
+++++++++++++++++++++++++++++++++++++++++++++
+
+.. list-table:: 
+   :widths: 25 25 25 25
+   :header-rows: 1
+
+   * - Marke
+     - Modell
+     - Software
+     - IP-Adresse
+   * - Inovance
+     - EASY521-0808TN
+     - AutoShopV4.11.0.1
+     - 192.168.58.88
+			
+Programm-Download: Öffnen Sie das Testprogramm. Die Standard-SPS-IP-Adresse ist "192.168.1.88". Ändern Sie die SPS-IP-Adresse auf "192.168.58.88".
+
+Klicken Sie auf die Test-Taste, um die aktuelle SPS-Kommunikation zu verbinden, wie in der folgenden Abbildung dargestellt;
+
+.. figure:: robot_peripherals/293.png
+   :align: center
+   :width: 6in 
+
+.. centered:: Abbildung 8.6-37 SPS-Kommunikationsverbindung
+
+Nach erfolgreicher Verbindung mit der aktuellen SPS ändern Sie die IP-Adresse wie unten dargestellt;
+
+.. figure:: robot_peripherals/294.png
+   :align: center
+   :width: 6in 
+
+.. centered:: Abbildung 8.6-38 SPS-IP-Adressänderung
+
+Ändern Sie auf 192.168.58.88 und ändern Sie das Standard-Gateway auf 192.168.58.1, wie unten dargestellt;
+
+.. figure:: robot_peripherals/295.png
+   :align: center
+   :width: 6in 
+
+.. centered:: Abbildung 8.6-39 SPS-Gateway-Adressänderung
+
+Ändern Sie die lokale IP-Adresse des Computers auf das 58er Netzwerksegment und klicken Sie erneut auf die Test-Taste, um zu überprüfen, ob die Kommunikation erfolgreich ist, wie unten dargestellt;
+
+.. figure:: robot_peripherals/296.png
+   :align: center
+   :width: 6in 
+
+.. centered:: Abbildung 8.6-40 SPS-Verbindungstest
+
+Klicken Sie auf die Download-Taste, um das Programm herunterzuladen, wie unten dargestellt.
+
+.. figure:: robot_peripherals/297.png
+   :align: center
+   :width: 6in 
+
+.. centered:: Abbildung 8.6-41 SPS-Programm-Download
+
+Konfiguration der Laserschweißgerät-Parameter
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Der kollaborative Roboter steuert den Schweißprozess über das "Digitale Kommunikationsprotokoll". Bei Verwendung des "Digitalen Kommunikationsprotokolls" müssen zuerst die Kommunikationsparameter konfiguriert werden.
+
+"Digitales Kommunikationsprotokoll" Konfiguration
+*************************************************************************************
+
+Öffnen Sie wie in der folgenden Abbildung dargestellt die WebApp und klicken Sie nacheinander auf "Grundeinstellungen", "Peripheriegeräte", "Schweißgerät", "Laserschweißen", "Digitales Kommunikationsprotokoll (UDP)", "UDP-Kommunikationskonfiguration".
+
+.. figure:: robot_peripherals/298.png
+   :align: center
+   :width: 6in 
+
+.. centered:: Abbildung 8.6-42 Kommunikationsprotokollkonfiguration
+
+Die Bedeutung der einzelnen Parameter ist wie folgt:
+
+- **IP-Adresse**: IP-Adresse der SPS für die UDP-Kommunikation;
+- **Port-Nummer**: UDP-Kommunikationsportnummer der SPS;
+- **Kommunikationszyklus**: Der Zyklus der UDP-Kommunikation zwischen Roboter und SPS, Standard ist 2 ms;
+- **Paketverlust-Erkennungszyklus, Paketverlustanzahl**: Wenn die Anzahl der Paketverluste innerhalb des Paketverlust-Erkennungszyklus den eingestellten Wert überschreitet, meldet der Roboter einen "UDP-Kommunikationspaketverlust" Fehler und unterbricht die Kommunikation automatisch;
+- **Bestätigungsdauer für Kommunikationsunterbrechung**: Wenn der Roboter innerhalb dieser Zeit kein vollständiges SPS-Rückmeldepaket erhält, meldet er einen "UDP-Kommunikationsunterbrechung" Fehler und unterbricht die UDP-Kommunikation;
+- **Automatische Wiederverbindung bei Kommunikationsunterbrechung**: Ob der Roboter nach Erkennung einer UDP-Kommunikationsunterbrechung automatisch versucht, die Verbindung wiederherzustellen;
+- **Wiederverbindungszyklus, Wiederverbindungsanzahl**: Wenn die automatische Wiederverbindung bei Kommunikationsunterbrechung aktiviert ist und eine UDP-Kommunikationsunterbrechung erkannt wird, versucht der Roboter in den eingestellten Zyklen erneut zu verbinden. Wenn die Verbindung nach der maximal eingestellten Anzahl von Wiederverbindungsversuchen immer noch nicht erfolgreich ist, meldet der Roboter einen "UDP-Kommunikationsunterbrechung" Fehler und unterbricht die UDP-Kommunikation.
+
+Nach der Konfiguration der oben genannten Parameter klicken Sie nacheinander auf die Schaltflächen "Konfigurieren" und "Laden".
+
+IO-Konfiguration der Schweißfunktion
+*************************************************************************************
+
+Wählen Sie wie unten dargestellt den DI-Eingangsport für das Schweißgerät-Statussignal und den DO-Ausgangsport für das Schweißgerät-Steuersignal. Das aktuelle REDSABERE 1500 Laserschweißgerät unterstützt nur das Schweißstart (Laseremissions)-Signal; andere Signale sind noch nicht angepasst. Klicken Sie nach der Auswahl der Ports auf die Schaltfläche "Konfigurieren".
+
+.. figure:: robot_peripherals/299.png
+   :align: center
+   :width: 4in 
+
+.. centered:: Abbildung 8.6-43 Konfiguration der Schweißfunktion IO
+
+Die Bedeutung der AUX-DI-Signale ist wie folgt:
+
+- **Schweißgerät bereit**: Wenn das Schweißgerät für Schweißarbeiten bereit ist, sendet es dieses Signal an den Roboter; wenn das Schweißgerät defekt ist oder aus anderen Gründen nicht bereit ist, wird dieses Signal nicht an den Roboter gesendet, und die obere rechte Ecke der Roboter-WebApp zeigt "Schweißgerät nicht bereit" an. Das REDSABERE 1500 Laserschweißgerät unterstützt dieses Signal nicht und es wurde noch nicht angepasst.
+- **Schweißgerät-Betriebszustand**: Wenn das Schweißgerät in den Betriebszustand eintritt, sendet es dieses Signal an den Roboter. Das REDSABERE 1500 Laserschweißgerät unterstützt dieses Signal nicht und es wurde noch nicht angepasst.
+- **Schweißgerät-Fehlerzustand**: Wenn das Schweißgerät einen Fehler aufweist, gibt es dieses Signal an den Roboter weiter. Das REDSABERE 1500 Laserschweißgerät unterstützt dieses Signal nicht und es wurde noch nicht angepasst.
+
+Die Bedeutung der AUX-DO-Signale ist wie folgt:
+
+- **Schweißgerät-Freigabe**: Der DO-Ausgangsport, über den der Roboter die Schweißgerät-Freigabe steuert. Wenn das Roboterprogramm den Schweißgerät-Freigabebefehl ausführt, wird der entsprechende DO-Ausgangsport für die Schweißgerät-Freigabe automatisch aktiv. Das REDSABERE 1500 Laserschweißgerät unterstützt dieses Signal nicht und es wurde noch nicht angepasst.
+- **Schweißstart (Laseremission)**: Der DO-Ausgangsport, über den der Roboter den Schweißstart (Laseremission) steuert. Wenn das Roboterprogramm den Schweißstart (Laseremissions)-Befehl ausführt, wird der entsprechende DO-Ausgangsport für den Schweißstart (Laseremission) automatisch aktiv. Wenn der DO-Ausgangsport geändert wird, muss auch der entsprechende Steuerungsport im SPS-Programm geändert werden; die aktuelle SPS verwendet standardmäßig DO1.
+- **Gasprüfung**: Der DO-Ausgangsport, über den der Roboter die Gaszufuhr des Schweißgeräts steuert. Wenn der Roboter den Schweißgaszufuhrbefehl ausführt, wird der entsprechende DO-Ausgangsport für die Gaszufuhr automatisch aktiv. Das REDSABERE 1500 Laserschweißgerät unterstützt dieses Signal nicht und es wurde noch nicht angepasst.
+- **Schweißgerät-Fehlerrücksetzung**: Der DO-Ausgangsport, über den der Roboter die Fehlerrücksetzung des Schweißgeräts steuert. Wenn das Roboterprogramm den Schweißgerät-Fehlerrücksetzbefehl ausführt, wird der entsprechende DO-Ausgangsport für die Schweißgerät-Fehlerrücksetzung automatisch aktiv. Das REDSABERE 1500 Laserschweißgerät unterstützt dieses Signal nicht und es wurde noch nicht angepasst.
+- **Vorwärtsdrahtvorschub**: Der DO-Ausgangsport, über den der Roboter den Vorwärtsdrahtvorschub des Schweißgeräts steuert. Wenn der Roboter den Vorwärtsdrahtvorschubbefehl ausführt, wird der entsprechende DO-Ausgangsport für den Vorwärtsdrahtvorschub automatisch aktiv. Das REDSABERE 1500 Laserschweißgerät unterstützt dieses Signal nicht und es wurde noch nicht angepasst.
+- **Rückwärtsdrahtvorschub**: Der DO-Ausgangsport, über den der Roboter den Rückwärtsdrahtvorschub des Schweißgeräts steuert. Wenn der Roboter den Rückwärtsdrahtvorschubbefehl ausführt, wird der entsprechende DO-Ausgangsport für den Rückwärtsdrahtvorschub automatisch aktiv. Das REDSABERE 1500 Laserschweißgerät unterstützt dieses Signal nicht und es wurde noch nicht angepasst.
+
+Konfiguration der Schweißprozessparameter
+*************************************************************************************
+
+Suchen Sie wie unten dargestellt den Abschnitt "Schweißprozessparameter" auf der Schweißkonfigurationsseite. Der kollaborative Roboter bietet 10 Gruppen von Schweißprozessparametern von 0 bis 10. Die Prozessnummer 0 bedeutet, dass keine Schweißprozesskurve verwendet wird, während die Prozessnummern 1-10 die Schweißprozesskurve verwenden.
+
+.. figure:: robot_peripherals/300.png
+   :align: center
+   :width: 4in 
+
+.. centered:: Abbildung 8.6-44 Konfiguration der Schweißprozessparameter
+
+Bei Verwendung der Schweißprozesskurve, nehmen Sie als Beispiel die Auswahl der Schweißprozessnummer 1. Geben Sie nacheinander "Scan-Geschwindigkeit (mm/s)", "Scan-Breite (mm)", "Spitzenleistung (W)", "Tastverhältnis (%)" und "Frequenz (Hz)" ein.
+
+Die Scan-Geschwindigkeit des REDSABERE 1500 Laserschweißgeräts wird durch die Scan-Breite begrenzt. Die Einschränkungsbeziehung lautet: 10 ≤ Scan-Geschwindigkeit / (Scan-Breite × 2) ≤ 500. Werte außerhalb dieses Bereichs werden automatisch auf die Grenzwerte geändert. Wenn die Scan-Breite auf 0 gesetzt wird, findet kein Scannen statt (d.h. punktförmige Lichtquelle). Andernfalls wird ein Fehler gemeldet, und die Web-Oberfläche zeigt "Schweißgerät-Kommunikationsstörung" an. Sobald die Konfiguration korrekt ist, verschwindet der Fehler automatisch. Wie unten dargestellt.
+
+.. figure:: robot_peripherals/301.png
+   :align: center
+   :width: 3in 
+
+.. centered:: Abbildung 8.6-45 Schweißgerät-Kommunikationsstörung
+
+Schweißgerät-Debugging
+*************************************************************************************
+
+Suchen Sie wie unten dargestellt den Abschnitt "Schweißgerät-Debugging" auf der Schweißgerät-Konfigurationsseite. Das aktuelle REDSABERE 1500 Laserschweißgerät unterstützt nur das Debugging der Funktionen Laseremission stoppen und Laseremission starten. Andere Schaltflächen wie "Timeout-Zeit" und "Freigabe" sind noch nicht angepasst.
+
+.. figure:: robot_peripherals/302.png
+   :align: center
+   :width: 4in 
+
+.. centered:: Abbildung 8.6-46 Schweißgerät-Debugging
+
+Schweißprogrammierung
+++++++++++++++++++++++++++++++++++++++++++++
+
+Die Schweißfunktionsbefehle sind im Teach-Programm integriert. Klicken Sie wie unten dargestellt auf "Teach-Programm", "Programmierung", um ein neues Benutzerprogramm "testWeld.lua" zu erstellen.
+
+.. figure:: robot_peripherals/303.png
+   :align: center
+   :width: 6in 
+
+.. centered:: Abbildung 8.6-47 Erstellen des Programms "testWeld.lua"
+
+Wählen Sie wie unten dargestellt "Schweißbefehle" und klicken Sie auf "Laserschweißen".
+
+.. figure:: robot_peripherals/304.png
+   :align: center
+   :width: 6in 
+
+.. centered:: Abbildung 8.6-48 Laserschweißbezogene Befehle
+
+Wie unten dargestellt, ist der Standardsteuerungstyp für Laserschweißbefehle "Digitales Kommunikationsprotokoll (UDP)". Sie können nacheinander Befehle zum Einstellen der Schweißprozessparameter (Lua-Programm), Abrufen der Schweißprozessparameter (Lua-Programm), Laseremission starten und Laseremission stoppen hinzufügen. Nach dem Hinzufügen der Lua-Befehle klicken Sie auf die Schaltfläche "Übernehmen", um das Laserschweiß-Lua-Programm zu generieren. Klicken Sie auf die Schaltfläche "Speichern", wechseln Sie in den Automatikmodus und führen Sie das Programm aus.
+
+.. figure:: robot_peripherals/305.png
+   :align: center
+   :width: 6in 
+
+.. centered:: Abbildung 8.6-49 Generieren des Schweißprogramms
+
 Anhang 1: UDP-Kommunikationsprotokoll des Roboters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -2455,80 +2634,80 @@ Robotersteuerung -> SPS
    * - 44
      - D242
      - INT
-     -
-     - 4# Motorsteuerwort
-
+     - 
+     - Scangeschwindigkeit (Laserschweißgerät)
+  
    * - 45
      - D243
      - DINT
-     -
-     - 4# Zielpositionseingabe
+     - 
+     - Scanbreite (Laserschweißgerät)
 
    * - 46
      - D244
      - DINT
-     -
-     - 4# Zielpositionseingabe
+     - 
+     - Spitzenleistung (Laserschweißgerät)
 
    * - 47
      - D245
      - INT
-     -
-     - 4# Referenzpunktfahrt-Steuerwort
+     - 
+     - Tastverhältnis (Laserschweißgerät)
 
    * - 48
      - D246
      - DINT
-     -
-     - 4# Referenzpunktfahrt hohe Geschwindigkeitseingabe
+     - 
+     - Scangeschwindigkeit (Laserschweißgerät)
 
    * - 49
      - D247
      - DINT
-     -
-     - 4# Referenzpunktfahrt hohe Geschwindigkeitseingabe
+     - 
+     - Scangeschwindigkeit (Laserschweißgerät)
 
    * - 50
      - D248
      - DINT
-     -
-     - 4# Referenzpunktfahrt niedrige Geschwindigkeitseingabe
+     - 
+     - Laserschweißgerät reserviert
 
    * - 51
      - D249
      - DINT
-     -
-     - 4# Referenzpunktfahrt niedrige Geschwindigkeitseingabe
+     - 
+     - Laserschweißgerät reserviert
 
    * - 52
      - D250
      - DINT
-     -
-     - 4# Positionsversatz (reserviert)
+     - 
+     - Laserschweißgerät reserviert
 
    * - 53
      - D251
      - DINT
-     -
-     - 4# Positionsversatz (reserviert)
+     - 
+     - Laserschweißgerät reserviert
 
    * - 54
      - D252
      - DINT
-     -
-     - 4# Geschwindigkeitsversatz (reserviert)
+     - 
+     - Laserschweißgerät reserviert
 
    * - 55
      - D253
      - DINT
-     -
-     - 4# Geschwindigkeitsversatz (reserviert)
+     - 
+     - Laserschweißgerät reserviert
 
    * - 56
      - D254
      - INT
-     -
-     - Reserviert
+     - 
+     - Laserschweißgerät reserviert
 
    * - 57
      - D255
@@ -2757,14 +2936,14 @@ SPS -> Robotersteuerung
    * - 15
      - D113
      - DINT
-     -
-     - 1# Echtzeit-Drehmoment (reserviert)
+     - 
+     - 1# Echtzeit-Drehmoment (reserviert) Das Motordrehmoment wird nach dem Getriebeuntersetzungsverhältnis mit 100 multipliziert und an die übergeordnete Steuerung übertragen
 
    * - 16
      - D114
      - DINT
-     -
-     - 1# Echtzeit-Drehmoment (reserviert)
+     - 
+     - 1# Echtzeit-Drehmoment (reserviert) Das Motordrehmoment wird nach dem Getriebeuntersetzungsverhältnis mit 100 multipliziert und an die übergeordnete Steuerung übertragen
 
    * - 17
      - D115
@@ -2949,92 +3128,92 @@ SPS -> Robotersteuerung
    * - 47
      - D145
      - INT
-     -
-     - 4# Motorstatuswort
+     - 
+     - Scangeschwindigkeit (Laserschweißgerät)
 
    * - 48
      - D146
      - DINT
-     -
-     - 4# Aktuelle Position
+     - 
+     - Scanbreite (Laserschweißgerät)
 
    * - 49
      - D147
      - DINT
-     -
-     - 4# Aktuelle Position
+     - 
+     - Spitzenleistung (Laserschweißgerät)
 
    * - 50
      - D148
      - INT
-     -
-     - 4# Referenzpunktfahrt-Statuswort
+     - 
+     - Tastverhältnis (Laserschweißgerät)
 
    * - 51
      - D149
      - DINT
-     -
-     - 4# Rückmeldung hohe Geschwindigkeit Referenzpunktfahrt
+     - 
+     - Scangeschwindigkeit (Laserschweißgerät)
 
    * - 52
      - D150
      - DINT
-     -
-     - 4# Rückmeldung hohe Geschwindigkeit Referenzpunktfahrt
+     - 
+     - Scangeschwindigkeit (Laserschweißgerät)
 
    * - 53
      - D151
      - DINT
-     -
-     - 4# Rückmeldung niedrige Geschwindigkeit Referenzpunktfahrt
+     - 
+     - Laserschweißgerät reserviert
 
    * - 54
      - D152
      - DINT
-     -
-     - 4# Rückmeldung niedrige Geschwindigkeit Referenzpunktfahrt
+     - 
+     - Laserschweißgerät reserviert
 
    * - 55
      - D153
-     - INT
-     -
-     - 4# Fehlercode
+     - DINT
+     - 
+     - Laserschweißgerät reserviert
 
    * - 56
      - D154
      - DINT
-     -
-     - 4# Folgeabweichung (reserviert)
+     - 
+     - Laserschweißgerät reserviert
 
    * - 57
      - D155
      - DINT
-     -
-     - 4# Folgeabweichung (reserviert)
+     - 
+     - Laserschweißgerät reserviert
 
    * - 58
      - D156
      - DINT
-     -
-     - 4# Geschwindigkeitsrückmeldung (reserviert)
+     - 
+     - Laserschweißgerät reserviert
 
    * - 59
      - D157
      - DINT
-     -
-     - 4# Geschwindigkeitsrückmeldung (reserviert)
+     - 
+     - Laserschweißgerät reserviert
 
    * - 60
      - D158
      - DINT
-     -
-     - Echtzeit-Drehmoment (reserviert)
+     - 
+     - Laserschweißgerät reserviert
 
    * - 61
      - D159
      - DINT
-     -
-     - Echtzeit-Drehmoment (reserviert)
+     - 
+     - Laserschweißgerät reserviert
 
    * - 62
      - D160
@@ -3164,7 +3343,7 @@ Klicken Sie in der Konfiguration des offenen Protokolls auf die Schaltfläche "H
    :align: center
    :width: 4in
 
-.. centered:: Abbildung 8.6‑37 Hochladen und Konfigurieren des offenen Steuerungs-Peripherieprotokolls
+.. centered:: Abbildung 8.6‑50 Hochladen und Konfigurieren des offenen Steuerungs-Peripherieprotokolls
 
 Klicken Sie in den konfigurierten Protokollen auf die Schaltfläche "Laden". Die Betriebsstatus-LED leuchtet auf und zeigt an, dass das offene Protokoll erfolgreich geladen wurde.
 
@@ -3172,7 +3351,7 @@ Klicken Sie in den konfigurierten Protokollen auf die Schaltfläche "Laden". Die
    :align: center
    :width: 4in
 
-.. centered:: Abbildung 8.6-38 Laden und Betriebsanzeige des offenen Steuerungs-Peripherieprotokolls
+.. centered:: Abbildung 8.6-51 Laden und Betriebsanzeige des offenen Steuerungs-Peripherieprotokolls
 
 Offenes Schweißgeräteprotokoll
 ++++++++++++++++++++++++++++++++++++++

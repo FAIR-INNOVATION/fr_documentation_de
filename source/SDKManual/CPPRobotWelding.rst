@@ -1634,3 +1634,283 @@ Codebeispiel für benutzerdefinierte Pendelparameter
       robot.WeaveEnd(0);
       robot.CloseRPC();
     }
+
+Konfiguration der Laserschweißgerät-Parameter
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Konfiguration der Laserschweißgerät-Parameter
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[in] num Gruppennummer, die eingestellt werden soll (1~10)
+    * @param[in] scanSpeed Scangeschwindigkeit
+    * @param[in] scanWidth Scanbreite
+    * @param[in] peakPower Spitzenleistung
+    * @param[in] dutyCycle Tastverhältnis
+    * @param[in] freq Frequenz
+    * @return Fehlercode
+    */
+    errno_t SetLaserWeldingParam(int io_type, int num, int scanSpeed, int scanWidth, int peakPower, int dutyCycle, int freq);
+                        
+Laserschweißen Start/Stopp einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Laserschweißen Start/Stopp einstellen
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[in] status Steuerwort 0-Laser aus 1-Laser an
+    * @param[in] max_waittime Maximale Wartezeit, Einheit Millisekunden, Standard 10000
+    * @return Fehlercode
+    */
+    errno_t SetLaserWeldingStartEnd(int io_type, int status, int max_waittime = 10000);
+                        
+Laserschweißgerät aktivieren/deaktivieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Laserschweißgerät aktivieren/deaktivieren
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[in] status 0-deaktivieren 1-aktivieren
+    * @return Fehlercode
+    */
+    errno_t SetLaserWeldingEnable(int io_type, int status);
+
+Laserschweißgerät-Fehler zurücksetzen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Laserschweißgerät-Fehler zurücksetzen
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[in] status Steuerwort 0-ungültig 1-Fehler zurücksetzen
+    * @return Fehlercode
+    */
+    errno_t ResetLaserWeldingErr(int io_type, int status);
+
+Laserschweißgerät-Betriebsstatus abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Laserschweißgerät-Betriebsstatus abrufen
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[out] status Steuerwort 0-gestoppt 1-läuft
+    * @return Fehlercode
+    */
+    errno_t GetLaserWeldingRunningState(int io_type, int& status);
+
+Laserschweißgerät-Fehlerstatus abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Laserschweißgerät-Fehlerstatus abrufen
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[out] status 0-kein Fehler 1-Fehler vorhanden
+    * @return Fehlercode
+    */
+    errno_t GetLaserWeldingErrState(int io_type, int& status);
+    
+Konfigurierte Parameter des Laserschweißgeräts abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Konfigurierte Parameter des Laserschweißgeräts abrufen
+    * @param[in] num Gruppennummer, die eingestellt werden soll (1~10)
+    * @param[out] scanSpeed Scangeschwindigkeit
+    * @param[out] scanWidth Scanbreite
+    * @param[out] peakPower Spitzenleistung
+    * @param[out] dutyCycle Tastverhältnis
+    * @param[out] freq Frequenz
+    * @return Fehlercode
+    */
+    errno_t GetLaserWeldingParamTarget(int num, int& scanSpeed, int& scanWidth, int& peakPower, int& dutyCycle, int& freq);
+
+Aktuell aktive Konfigurationsparameter des Laserschweißgeräts abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Die aktuell aktiven Konfigurationsparameter des Laserschweißgeräts abrufen
+    * @param[in] io_type Kommunikationstyp 0-IO 1-UDP
+    * @param[out] scanSpeed Scangeschwindigkeit
+    * @param[out] scanWidth Scanbreite
+    * @param[out] peakPower Spitzenleistung
+    * @param[out] dutyCycle Tastverhältnis
+    * @param[out] freq Frequenz
+    * @return Fehlercode, 0 zeigt Erfolg an, nicht 0 zeigt Fehler an
+    */
+    errno_t GetLaserWeldingParamActual(int io_type, int& scanSpeed, int& scanWidth, int& peakPower, int& dutyCycle, int& freq);
+
+Erweiterte IO-Aktivierungs-DO-Port des Laserschweißgeräts konfigurieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Erweiterte IO-Aktivierungs-DO-Port des Laserschweißgeräts konfigurieren
+    * @param[in] ctrlModeDONum Erweiterte DO-Portnummer für die Aktivierung des Laserschweißgeräts
+    * @return Fehlercode, 0 zeigt Erfolg an, nicht 0 zeigt Fehler an
+    */
+    errno_t SetLaserWeldingEnableExtDoNum(int ctrlModeDONum);
+
+Erweiterte IO-Start-DO-Port des Laserschweißgeräts konfigurieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Erweiterte IO-Start-DO-Port des Laserschweißgeräts konfigurieren
+    * @param[in] ctrlModeDONum Erweiterte DO-Portnummer für den Start (Laser an/aus) des Laserschweißgeräts
+    * @return Fehlercode, 0 zeigt Erfolg an, nicht 0 zeigt Fehler an
+    */
+    errno_t SetLaserWeldingStartExtDoNum(int ctrlModeDONum);
+
+Erweiterte IO-Fehlerrücksetzungs-DO-Port des Laserschweißgeräts konfigurieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Erweiterte IO-Fehlerrücksetzungs-DO-Port des Laserschweißgeräts konfigurieren
+    * @param[in] ctrlModeDONum Erweiterte DO-Portnummer für die Fehlerrücksetzung des Laserschweißgeräts
+    * @return Fehlercode, 0 zeigt Erfolg an, nicht 0 zeigt Fehler an
+    */
+    errno_t SetLaserWeldingErrResetExtDoNum(int ctrlModeDONum);
+    
+Erweiterte DI für Betriebsstatus (Laser an-Status) des Laserschweißgeräts konfigurieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Erweiterte DI für Betriebsstatus (Laser an-Status) des Laserschweißgeräts konfigurieren
+    * @param[in] diNum Erweiterte DI-Portnummer für den Betriebsstatus (Laser an-Status) des Laserschweißgeräts
+    * @return Fehlercode, 0 zeigt Erfolg an, nicht 0 zeigt Fehler an
+    */
+    errno_t SetLaserWeldingRunningStateExtDiNum(int diNum);
+    
+Erweiterte DI für Fehlerstatus des Laserschweißgeräts konfigurieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Erweiterte DI für Fehlerstatus des Laserschweißgeräts konfigurieren
+    * @param[in] diNum Erweiterte DI-Portnummer für den Fehlerstatus des Laserschweißgeräts
+    * @return Fehlercode, 0 zeigt Erfolg an, nicht 0 zeigt Fehler an
+    */
+    errno_t SetLaserWeldingErrStateExtDiNum(int diNum);
+        
+Laserschweiß-Codebeispiel
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestLaserWeld()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        robot.SetReConnectParam(true, 300000, 500);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        rtn = robot.ExtDevLoadUDPDriver();
+        if (rtn != 0) 
+        {
+            std::cout << "Failed to load UDP driver, error code: " << rtn << std::endl;
+        }
+        robot.Sleep(1000);
+        rtn = robot.SetLaserWeldingParam(1, 3, 2000, 3, 1500, 100, 1000);
+        if (rtn != 0) 
+        {
+            std::cout << "SetLaserWeldingParam failed, error code: " << rtn << std::endl;
+        }
+        else 
+        {
+            std::cout << "SetLaserWeldingParam success" << std::endl;
+        }
+        rtn = robot.SetLaserWeldingStartExtDoNum(1);
+        if (rtn != 0) 
+        {
+            std::cout << "SetLaserWeldingStartExtDoNum failed, error code: " << rtn << std::endl;
+        }
+        rtn = robot.Mode(0);
+        if (rtn != 0) 
+        {
+            std::cout << "Set mode 0 failed, error code: " << rtn << std::endl;
+        }
+        robot.Sleep(1000);
+        DescPose desc_pos1(-303.721, -206.960, 297.105, 152.209, 19.857, 109.166);
+        DescPose desc_pos2(-301.575, -254.888, 284.786, 155.919, 26.946, 111.629);
+        DescPose desc_safe(-344.386, -280.830, 435.073, 173.835, 15.333, 124.931);
+        JointPos jointPos1(9.827, -99.740, 120.088, -78.900, -77.241, -17.904);
+        JointPos jointPos2(15.251, -96.456, 120.138, -84.664, -68.542, -17.843);
+        JointPos jointSafe(19.142, -98.078, 101.493, -83.078, -77.070, -17.794);
+        ExaxisPos exaxis(0.0, 0.0, 0.0, 0.0);
+        DescPose offset(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        int error = robot.MoveL(&desc_pos1,0, 0, 100, 100, 100, -1, 0, &exaxis, 0, 0, &offset, -1, 0);
+        std::cout << "MoveL to pos1 return: " << error << std::endl;
+        rtn = robot.SetLaserWeldingStartEnd(1, 1, 10000);
+        if (rtn != 0)
+        {
+            std::cout << "SetLaserWeldingStartEnd (start) failed, error code: " << rtn << std::endl;
+        }
+        else 
+        {
+            std::cout << "Laser started" << std::endl;
+        }
+        rtn = robot.MoveL(&desc_pos2,0, 0, 30, 100, 100, -1, 0, &exaxis, 0, 0, &offset, -1, 0);
+        std::cout << "MoveL to pos2 return: " << rtn << std::endl;
+        rtn = robot.SetLaserWeldingStartEnd(1, 0, 10000);
+        if (rtn != 0)
+        {
+            std::cout << "SetLaserWeldingStartEnd (stop) failed, error code: " << rtn << std::endl;
+        }
+        else 
+        {
+            std::cout << "Laser stopped" << std::endl;
+        }
+        robot.Sleep(500);
+        rtn = robot.MoveL(&desc_safe, 0, 0, 100, 100, 100, -1, 0, &exaxis, 0, 0, &offset, -1, 0);
+        std::cout << "MoveL to safe_pos return: " << rtn << std::endl;
+        rtn = robot.Mode(1);
+        if (rtn != 0) 
+        {
+            std::cout << "Set mode 1 failed, error code: " << rtn << std::endl;
+        }
+        robot.Sleep(1000);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        std::cout << "Test completed" << std::endl;
+        return 0;
+    }

@@ -1653,3 +1653,204 @@ SDK-Codebeispiel für stationäres Pendeln (mit Laser und Erweiterungsachse)
         time.sleep(1)
 
     TestOriginPointWeave(robot)
+
+Bewegung im Geschwindigkeits-Servo-Modus des Gelenkraums
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``ServoJV(self, joint_vel, exis_vel, acc=0.0, vel=0.0, cmdT=0.008, filterT=0.0, gain=0.0, id=0, comType=0)``"
+    "Beschreibung", "Bewegung im Geschwindigkeits-Servo-Modus des Gelenkraums"
+    "Erforderliche Parameter", "
+    - ``joint_vel``: 6 Zielgelenkgeschwindigkeiten, Einheit deg/s
+    - ``exis_vel``: 4 Geschwindigkeiten externer Achsen, Einheit deg/s
+    - ``acc``: Beschleunigungsprozentsatz, Bereich [0~100], noch nicht freigegeben, Standard 0
+    - ``vel``: Geschwindigkeitsprozentsatz, Bereich [0~100], noch nicht freigegeben, Standard 0
+    - ``cmdT``: Befehlszykluszeit, Einheit s, empfohlener Bereich [0.001~0.0016]
+    - ``filterT``: Filterzeit, Einheit s, noch nicht freigegeben, Standard 0
+    - ``gain``: Proportionalverstärkung für Zielposition, noch nicht freigegeben, Standard 0
+    - ``id``: servoJ-Befehls-ID, Standard 0
+    - ``comType``: Befehlstyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Codebeispiel für Bewegung im Geschwindigkeits-Servo-Modus des Gelenkraums
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+    import time
+
+    def main():
+        # Verbindung mit der Robotersteuerung herstellen
+        robot = Robot.RPC('192.168.58.2')
+        time.sleep(0.5)  # Auf Verbindung und Datenempfang warten
+
+        # Initialisiere Gelenkgeschwindigkeitsarray und externe Achsen-Geschwindigkeitsarray
+        joint_vel = [10.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        exis_vel = [0.0, 0.0, 0.0, 0.0]
+        acc = 0.0
+        vel = 0.0
+        cmdT = 0.008
+        filterT = 0.0
+        gain = 0.0
+        cnt = 0
+
+        # ServoJV in einer Schleife aufrufen, insgesamt 200 Mal
+        while cnt < 200:
+            rtn = robot.ServoJV(joint_vel=joint_vel, exis_vel=exis_vel, acc=acc, vel=vel,
+                                cmdT=cmdT, filterT=filterT, gain=gain)
+            print(f"ServoJV rtn is {rtn}")
+            cnt += 1
+
+        # Verbindung schließen
+        robot.CloseRPC()
+
+
+    # Testfunktion aufrufen
+    main()
+
+Start der Gelenk-MIT-Steuerung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``ServoMITStart(self, comType=0)``"
+    "Beschreibung", "Start der Gelenk-MIT-Steuerung"
+    "Erforderliche Parameter", "
+    - ``comType``: Befehlstyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Ende der Gelenk-MIT-Steuerung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``ServoMITEnd(self, comType=0)``"
+    "Beschreibung", "Ende der Gelenk-MIT-Steuerung"
+    "Erforderliche Parameter", "
+    - ``comType``: Befehlstyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Gelenk-MIT-Steuerung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``ServoMIT(self, posGain, desPos, velGain, desVel, torque_ff, interval, comType=0)``"
+    "Beschreibung", "Gelenk-MIT-Steuerung"
+    "Erforderliche Parameter", "
+    - ``posGain``: j1~j6 Gelenkpositionsverstärkungen
+    - ``desPos``: j1~j6 gewünschte Gelenkpositionen, Einheit: deg
+    - ``velGain``: j1~j6 Gelenkgeschwindigkeitsverstärkungen
+    - ``desVel``: j1~j6 gewünschte Gelenkgeschwindigkeiten, Einheit: deg/s
+    - ``torque_ff``: j1~j6 Feedforward-Drehmomente, Einheit: Nm
+    - ``interval``: Befehlszykluszeit, Einheit s, Bereich [0.001~0.008]
+    - ``comType``: Befehlstyp; 0-xmlrpc; 1-UDP (entspricht Roboter-Port 20007)
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Codebeispiel für Roboter-Gelenk-MIT-Steuerung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # Verbindung mit der Robotersteuerung herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+    # Callback-Funktion definieren
+    def udp_frame_callback(src_type, count, cmd_id, data_len, content):
+        """UDP-Befehlsantwort-Callback-Funktion"""
+        print(f"Callback: cmd_id={cmd_id} count={count} data_len={data_len} content={content}")
+        return 0
+
+    def ServoMITtest(self):
+        # UDP-Befehlsantwort-Callback setzen
+        robot.SetUDPCmdRpyCallback(udp_frame_callback)
+
+        while True:
+            # Alle Fehler zurücksetzen
+            robot.ResetAllError()
+            time.sleep(0.5)
+
+            # Parameterarrays initialisieren
+            posGain = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+            desPos = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+            velGain = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+            desVel = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+            torques = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+            # Gelenkdrehmomente abrufen
+            rtn, torques = robot.GetJointTorques(flag=1)
+            print(f"GetJointTorques rtn: {rtn}")
+            print("111111")
+
+            # Servo MIT-Modus starten
+            rtn = robot.ServoMITStart(0)
+            print(f"ServoMITStart rtn: {rtn}")
+
+            # Drag Teaching aktivieren
+            rtn = robot.DragTeachSwitch(1)
+            print(f"DragTeachSwitch rtn: {rtn}")
+
+            intev = 0.008
+
+            # Vorwärtsbewegung: positives Drehmoment auf Achse 6, bis Winkel 30 Grad überschreitet
+            while True:
+                torques[5] = 0.03
+                rtn = robot.ServoMIT(posGain, desPos, velGain,
+                                    desVel, torques, intev, comType=0)
+                print(f"ServoMIT call rtn is {rtn}")
+                time.sleep(0.001)  # 1ms
+
+                rtn, pkg = robot.GetRobotRealTimeState()
+                print(f"pkg.jt_cur_pos[5]: {pkg.jt_cur_pos[5]}")
+
+                if pkg.jt_cur_pos[5] > 30:
+                    break
+
+            # Rückwärtsbewegung: negatives Drehmoment auf Achse 6, bis Winkel unter 0 Grad liegt
+            while True:
+                torques[5] = -0.03
+                rtn = robot.ServoMIT(posGain, desPos, velGain,
+                                    desVel, torques, intev, comType=0)
+                print(f"ServoMIT call rtn is {rtn}")
+                time.sleep(0.001)  # 1ms
+
+                rtn, pkg = robot.GetRobotRealTimeState()
+                print(f"pkg.jt_cur_pos[5]: {pkg.jt_cur_pos[5]}")
+
+                if pkg.jt_cur_pos[5] < 0:
+                    break
+
+            # Drag Teaching deaktivieren
+            rtn = robot.DragTeachSwitch(0)
+            print(f"DragTeachSwitch off rtn: {rtn}")
+
+            # Servo MIT-Modus beenden
+            rtn = robot.ServoMITEnd(0)
+            print(f"ServoMITEnd rtn: {rtn}")
+
+    # Testfunktion aufrufen
+    ServoMITtest(robot)

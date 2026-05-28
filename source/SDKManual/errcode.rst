@@ -188,3 +188,6 @@ SDK-Fehlercode-Referenztabelle
     "202","Prüfung der Interfere-Konfigurationsdatei fehlgeschlagen","Überprüfen Sie die Interfere-Konfigurationsdatei."
     "203","Ende-485-Kommunikationsstörung","Bitte überprüfen Sie die Ende-485-Kommunikation"
     "204","Befehlswarteschlange ist voll","Bitte überprüfen Sie die Häufigkeit des Befehlsversands"
+    "205","Endprotokoll bereits konfiguriert","Bitte deaktivieren Sie zuerst das Endprotokoll"
+    "206","Angepasstes Protokoll bereits konfiguriert","Bitte löschen Sie zuerst das aktuell angepasste Gerät"
+    "207","Sicherheitsstopp im Automatikmodus erfordert Drei-Stellung-Freigabe des Teach-Pendants","Bitte überprüfen Sie das Teach-Pendant"

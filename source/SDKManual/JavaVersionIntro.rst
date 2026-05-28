@@ -13,6 +13,29 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V3.9.6
+     - 2026-05-26
+     - | 1.Roboterstatus-Rückmeldungsstruktur aktualisiert, Status der Erweiterungsachsen-Koordinatensystemnummer hinzugefügt;
+       | 2.Aufzählungstyp für Roboterstatus-Rückmeldungskonfiguration aktualisiert, Konfigurationsaufzählung der Erweiterungsachsen-Koordinatensystemnummer hinzugefügt;
+       | 3.ExtAxisGetParamConfig()-Schnittstelle zum Abrufen der UDP-Erweiterungsachsen-Parameterkonfiguration hinzugefügt;
+       | 4.ServoJV()-Schnittstelle für Geschwindigkeitsservomodellbewegung im Roboter-Gelenkraum hinzugefügt;
+       | 5.ServoMITStart()-Schnittstelle für Start der Roboter-Gelenk-MIT-Steuerung hinzugefügt;
+       | 6.ServoMITEnd()-Schnittstelle für Ende der Roboter-Gelenk-MIT-Steuerung hinzugefügt;
+       | 7.ServoMIT()-Schnittstelle für Roboter-Gelenk-MIT-Steuerung hinzugefügt;
+       | 8.SetLaserWeldingParam()-Schnittstelle für die Konfiguration von Roboter-Laserschweißparametern hinzugefügt;
+       | 9.SetLaserWeldingStartEnd()-Schnittstelle zum Einstellen des Start/Stopps des Roboter-Laserschweißens hinzugefügt;
+       | 10.SetLaserWeldingEnable()-Schnittstelle zum Aktivieren/Deaktivieren des Laserschweißgeräts hinzugefügt;
+       | 11.ResetLaserWeldingErr()-Schnittstelle zum Zurücksetzen von Laserschweißgerät-Fehlern hinzugefügt;
+       | 12.GetLaserWeldingRunningState()-Schnittstelle zum Abrufen des Betriebszustands des Laserschweißgeräts hinzugefügt;
+       | 13.GetLaserWeldingErrState()-Schnittstelle zum Abrufen des Fehlerzustands des Laserschweißgeräts hinzugefügt;
+       | 14.GetLaserWeldingParamTarget()-Schnittstelle zum Abrufen der Laserschweiß-Konfigurationsparameter hinzugefügt;
+       | 15.GetLaserWeldingParamActual()-Schnittstelle zum Abrufen der aktuell aktiven Konfigurationsparameter des Laserschweißgeräts hinzugefügt;
+       | 16.SetLaserWeldingEnableExtDoNum()-Schnittstelle zum Konfigurieren des erweiterten IO-Aktivierungs-DO-Ports des Laserschweißgeräts hinzugefügt;
+       | 17.SetLaserWeldingStartExtDoNum()-Schnittstelle zum Konfigurieren des erweiterten IO-Start-DO-Ports des Laserschweißgeräts hinzugefügt;
+       | 18.SetLaserWeldingErrResetExtDoNum()-Schnittstelle zum Konfigurieren des erweiterten IO-Fehlerrücksetzungs-DO-Ports des Laserschweißgeräts hinzugefügt;
+       | 19.SetLaserWeldingRunningStateExtDiNum()-Schnittstelle zum Konfigurieren des erweiterten IO-Betriebszustands (Laser an-Status) DI-Ports des Laserschweißgeräts hinzugefügt;
+       | 20.SetLaserWeldingErrStateExtDiNum()-Schnittstelle zum Konfigurieren des erweiterten IO-Fehlerstatus-DI-Ports des Laserschweißgeräts hinzugefügt.
+
    * - V3.9.5
      - 2026-04-24
      - | 1.SetTrajectoryJSpeed()-Schnittstelle fügt die Modi Geschwindigkeitsreduzierung und direkte Umschaltung hinzu;

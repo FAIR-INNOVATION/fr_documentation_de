@@ -308,6 +308,7 @@ Wenn ein Zeitverlust auftritt (d.h. nach dem erneuten Einschalten ein falsches D
    * - Batterie nicht eingelegt oder falsch herum eingelegt
      - Der Benutzer hat die Backup-Batterie nicht eingelegt oder beim Einlegen die Polarität verwechselt.
      - | Bestätigen Sie, dass die Batterie mit der richtigen Polarität eingelegt ist (Pluspol nach oben).
+       
        .. image:: installation/131.png
           :width: 2in
           :align: center

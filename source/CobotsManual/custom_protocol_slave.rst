@@ -7,7 +7,7 @@ Anweisungen für kundenspezifische Protokoll-Slaves
 Überblick
 -------------------
 
-Um die Bewegungssteuerung des Roboters durch eine SPS über verschiedene industrielle Busprotokolle (CC-Link IEF Basic, Profinet, Ethernet/IP und EtherCAT) zu erleichtern, wurden im integrierten Mini-Steuerschrank die Karten FRH-PCIeN-EC/EIP/CC/PN-RJ-V10, FRJ-PCIeN-EIP/CC/PN-RJ-V10 und FRJ-PCIeN-EC-RJ-V10 ergänzt.
+Um die Bewegungssteuerung des Roboters durch eine SPS über verschiedene industrielle Busprotokolle (CC-Link IEF Basic, Profinet, Ethernet/IP und EtherCAT) zu erleichtern, wurden im integrierten Mini-Steuerschrank die Karten FRH-PCIeN-EC/EIP/CC/PN-RJ-V10, FRJ-PCIeN-EIP/CC/PN-RJ-V10 und FRJ-PCIeN-EC/PN/EIP/CC-RJ-V20 ergänzt.
 
 Umgebungskonfiguration
 --------------------------
@@ -28,7 +28,7 @@ Die Kartenmodelle und Softwareversionen werden wie folgt beschrieben:
      - V3.8.4 und höher
 
    * - CC-Link IEF Basic
-     - FRJ-PCIeN-EC-RJ-V10-Karte
+     - FRJ-PCIeN-EC/PN/EIP/CC-RJ-V20-Karte
      - V3.9.5 und höher
 
    * - Profinet
@@ -36,7 +36,7 @@ Die Kartenmodelle und Softwareversionen werden wie folgt beschrieben:
      - V3.8.4 und höher
 
    * - Profinet
-     - FRJ-PCIeN-EC-RJ-V10-Karte
+     - FRJ-PCIeN-EC/PN/EIP/CC-RJ-V20-Karte
      - V3.9.5 und höher
 
    * - Ethernet/IP
@@ -44,11 +44,11 @@ Die Kartenmodelle und Softwareversionen werden wie folgt beschrieben:
      - V3.8.4 und höher
 
    * - Ethernet/IP
-     - FRJ-PCIeN-EC-RJ-V10-Karte
+     - FRJ-PCIeN-EC/PN/EIP/CC-RJ-V20-Karte
      - V3.9.5 und höher
 
    * - EtherCAT
-     - FRJ-PCIeN-EC-RJ-V10-Karte
+     - FRJ-PCIeN-EC/PN/EIP/CC-RJ-V20-Karte
      - V3.9.5 und höher
 
 Einrichtung der Hardware-Umgebung für die FRH-PCIeN-EC/EIP/CC/PN-RJ-V10 Karte
@@ -189,19 +189,6 @@ Wenn das Protokoll als CC-Link IEF Basic konfiguriert ist, ändert die Steuerung
 Wenn das Protokoll als Ethernet/IP konfiguriert ist, ändert die Steuerung die Karten-IP auf "192.168.0.112".
 
 Bei Umstellung auf Profinet und Übereinstimmung des Slave-Gerätenamens mit dem Master vergibt der Master automatisch die IP-Adresse des Slaves.
-
-FRJ-PCIeN-EC-RJ-V10 Board Firmware-Upgrade
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Geben Sie die URL 192.169.58.2 ein, um die Roboterschnittstelle aufzurufen. Klicken Sie dann auf "Grundeinstellungen" -> "Peripheriegeräte" -> "Board-Kommunikation", um die Firmware-Versionsnummer des FRJ-PCIeN-EC-RJ-V10-Boards zu erhalten. Wählen Sie die zu upgradende Bin-Datei aus, klicken Sie auf "Hochladen", warten Sie, bis das Firmware-Upgrade abgeschlossen ist, und starten Sie dann das Steuergehäuse neu.
-
-.. image:: custom_protocol_slave/064.png
-   :width: 6in
-   :align: center
-
-.. centered:: Abbildung 17.2-13 Board-Firmware-Upgrade
-
-.. note:: Für das Firmware-Upgrade des FRJ-PCIeN-EC-RJ-V10-Boards muss das laufende Open Protocol entladen werden.
 
 Einrichtung der Software-Umgebung
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -712,8 +699,8 @@ Ein Beispiel für das generierte Programm ist wie folgt:
 
 :download:`Anhang 1: Adresszuordnungstabelle für den Slave-Modus <../_static/_doc/Control box slave mode address comparison table.xlsx>`
 
-Konfiguration des Karten-Kommunikationszyklus
----------------------------------------------------------
+Firmware-Upgrade der Platine und Konfiguration des Kommunikationszyklus
+--------------------------------------------------------------------------------
 
 FRJ-PCIeN-EIP/CC/PN-RJ-V10 Board
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -742,16 +729,26 @@ FRJ-PCIeN-EIP/CC/PN-RJ-V10 Board
    :width: 6in
    :align: center
 
-FRJ-PCIeN-EC-RJ-V10 Board
+FRJ-PCIeN-EC/PN/EIP/CC-RJ-V20 Karte
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Geben Sie die URL 192.169.58.2 ein, um die Roboterschnittstelle aufzurufen. Klicken Sie dann auf "Grundeinstellungen" -> "Peripheriegeräte" -> "Board-Kommunikation", um den Kommunikationszyklus des Boards zu erhalten. Geben Sie den gewünschten Kommunikationszyklus (1~100 ms) ein, klicken Sie auf die Schaltfläche "Konfigurieren", warten Sie, bis die Konfiguration abgeschlossen ist, und starten Sie dann das Steuergehäuse neu.
+Diese Karte unterstützt Online-Upgrades. Die Schritte sind wie folgt:
+
+(1) Geben Sie die URL 192.168.58.2 ein, um die Roboterschnittstelle aufzurufen, klicken Sie dann auf "Grundeinstellungen" -> "Peripheriegeräte" -> "Kartenkommunikation", um die Firmware-Versionsnummer der FRJ-PCIeN-EC/PN/EIP/CC-RJ-V20 Karte zu erhalten. Wählen Sie die zu aktualisierende Bin-Datei aus, klicken Sie auf "Hochladen", warten Sie, bis das Firmware-Upgrade abgeschlossen ist, und starten Sie dann das Steuergehäuse neu.
 
 .. image:: custom_protocol_slave/064.png
    :width: 6in
    :align: center
 
-.. note:: Um den Kommunikationszyklus des FRJ-PCIeN-EC-RJ-V10-Boards zu konfigurieren, muss das laufende Open Protocol entladen werden.
+.. note:: Für das Firmware-Upgrade der FRJ-PCIeN-EC/PN/EIP/CC-RJ-V20 Karte muss das laufende Open Protocol entladen werden.
+
+(2) Geben Sie die URL 192.168.58.2 ein, um die Roboterschnittstelle aufzurufen, klicken Sie dann auf "Grundeinstellungen" -> "Peripheriegeräte" -> "Kartenkommunikation", um den Kommunikationszyklus der Karte zu erhalten. Geben Sie den gewünschten Kommunikationszyklus (1~100 ms) ein, klicken Sie auf die Schaltfläche "Konfigurieren", warten Sie, bis die Konfiguration abgeschlossen ist, und starten Sie dann das Steuergehäuse neu.
+
+.. image:: custom_protocol_slave/064.png
+   :width: 6in
+   :align: center
+
+.. note:: Um den Kommunikationszyklus der FRJ-PCIeN-EC/PN/EIP/CC-RJ-V20 Karte zu konfigurieren, muss das laufende Open Protocol entladen werden.
 
 Anhang
 -------------------

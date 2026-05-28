@@ -1508,3 +1508,271 @@ Codebeispiel für benutzerdefinierte Pendelparameter
     robot.MoveL(desc_pos=desc_p2, tool=3, user=0, vel=100, ovl=10, speedPercent=100)
     robot.WeaveEnd(0)
     robot.CloseRPC()
+
+Laserschweißgerät-Parameterkonfiguration
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetLaserWeldingParam(self, num, scanSpeed, scanWidth, peakPower, dutyCycle, Freq, io_type=1)``"
+    "Beschreibung", "Schreibt die Konfigurationsparameter einer der 10 Prozessgruppen des Laserschweißgeräts und konfiguriert sie dem Schweißgerät"
+    "Erforderliche Parameter", "
+    - ``io_type``: Kommunikationstyp 0-IO 1-UDP
+    - ``Num``: Zu setzende Gruppennummer (1~10)
+    - ``scanSpeed``: Scangeschwindigkeit
+    - ``scanWidth``: Scanbreite
+    - ``peakPower``: Spitzenleistung
+    - ``dutyCycle``: Tastverhältnis
+    - ``Freq``: Frequenz
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Laserschweißen Starten/Stoppen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetLaserWeldingStartEnd(self, status, io_type=1, max_waittime=10000)``"
+    "Beschreibung", "Startet/stoppt das Laserschweißgerät"
+    "Erforderliche Parameter", "
+    - ``io_type``: Kommunikationstyp 0-IO 1-UDP
+    - ``status``: Steuerwort 0-Laser aus 1-Laser ein
+    - ``max_waittime``: Maximale Wartezeit
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Laserschweißgerät Aktivieren/Deaktivieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetLaserWeldingEnable(self, status, io_type=1)``"
+    "Beschreibung", "Aktiviert/deaktiviert das Laserschweißgerät"
+    "Erforderliche Parameter", "
+    - ``io_type``: Kommunikationstyp 0-IO 1-UDP
+    - ``status``: 0-deaktivieren 1-aktivieren
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Laserschweißgerät-Fehlerrücksetzung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``ResetLaserWeldingErr(self,status, io_type=1)``"
+    "Beschreibung", "Laserschweißgerät-Fehlerrücksetzung"
+    "Erforderliche Parameter", "
+    - ``io_type``: Kommunikationstyp 0-IO 1-UDP
+    - ``status``: Steuerwort 0-ungültig 1-Fehlerrücksetzung
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Betriebszustand des Laserschweißgeräts Abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetLaserWeldingRunningState(self, io_type=1)``"
+    "Beschreibung", "Ruft den Betriebszustand des Laserschweißgeräts ab"
+    "Erforderliche Parameter", "
+    - ``io_type``: Kommunikationstyp 0-IO 1-UDP
+    - ``status``: Steuerwort 0-gestoppt 1-in Betrieb
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Fehlerzustand des Laserschweißgeräts Abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetLaserWeldingErrState(self, io_type=1)``"
+    "Beschreibung", "Ruft den Fehlerzustand des Laserschweißgeräts ab"
+    "Erforderliche Parameter", "
+    - ``io_type``: Kommunikationstyp 0-IO 1-UDP
+    - ``status``: 0-kein Fehler 1-Fehler vorhanden
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Konfigurationsparameter des Laserschweißgeräts Abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetLaserWeldingParamTarget(self, num)``"
+    "Beschreibung", "Ruft die Konfigurationsparameter einer der 10 Prozessgruppen des Laserschweißgeräts ab"
+    "Erforderliche Parameter", "
+    - ``Num``: Zu setzende Gruppennummer (1~10)
+    - ``scanSpeed``: Scangeschwindigkeit
+    - ``scanWidth``: Scanbreite
+    - ``peakPower``: Spitzenleistung
+    - ``dutyCycle``: Tastverhältnis
+    - ``Freq``: Frequenz
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Aktive Konfigurationsparameter des Laserschweißgeräts Abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetLaserWeldingParamActual(self, io_type=1)``"
+    "Beschreibung", "Ruft die aktuell aktiven Konfigurationsparameter des Laserschweißgeräts ab"
+    "Erforderliche Parameter", "
+    - ``io_type``: Kommunikationstyp 0-IO 1-UDP
+    - ``scanSpeed``: Scangeschwindigkeit
+    - ``scanWidth``: Scanbreite
+    - ``peakPower``: Spitzenleistung
+    - ``dutyCycle``: Tastverhältnis
+    - ``Freq``: Frequenz
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Erweiterte IO-Aktivierungs-DO-Port für Laserschweißgerät Konfigurieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetLaserWeldingEnableExtDoNum(self, ctrlModeDONum)``"
+    "Beschreibung", "Konfiguriert den erweiterten IO-Aktivierungs-DO-Port für Laserschweißgerät"
+    "Erforderliche Parameter", "
+    - ``ctrlModeDONum``: Erweiterte DO-Portnummer für Laserschweißgerät-Aktivierung
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Erweiterte IO-Start-DO-Port für Laserschweißgerät Konfigurieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetLaserWeldingStartExtDoNum(self, ctrlModeDONum)``"
+    "Beschreibung", "Konfiguriert den erweiterten IO-Start-DO-Port für Laserschweißgerät"
+    "Erforderliche Parameter", "
+    - ``ctrlModeDONum``: Erweiterte DO-Portnummer für Laserschweißgerät-Start/Stopp
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Erweiterte IO-Fehlerrücksetzungs-DO-Port für Laserschweißgerät Konfigurieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetLaserWeldingErrResetExtDoNum(self, ctrlModeDONum)``"
+    "Beschreibung", "Konfiguriert den erweiterten IO-Fehlerrücksetzungs-DO-Port für Laserschweißgerät"
+    "Erforderliche Parameter", "
+    - ``ctrlModeDONum``: Erweiterte DO-Portnummer für Laserschweißgerät-Fehlerrücksetzung
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Erweiterte IO-Betriebszustands-(Laser-Ein-Zustands)-DI-Port für Laserschweißgerät Konfigurieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetLaserWeldingRunningStateExtDiNum(self, diNum)``"
+    "Beschreibung", "Konfiguriert den erweiterten IO-Betriebszustands-(Laser-Ein-Zustands)-DI-Port für Laserschweißgerät"
+    "Erforderliche Parameter", "
+    - ``diNum``: Erweiterte DI-Portnummer für Laserschweißgerät-Betriebszustand (Laser-Ein-Zustand)
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Erweiterte IO-Fehlerzustands-DI-Port für Laserschweißgerät Konfigurieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetLaserWeldingErrStateExtDiNum(self, diNum)``"
+    "Beschreibung", "Konfiguriert den erweiterten IO-Fehlerzustands-DI-Port für Laserschweißgerät"
+    "Erforderliche Parameter", "
+    - ``diNum``: Erweiterte DI-Portnummer für Laserschweißgerät-Fehlerzustand
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0 Fehler- errcode"
+
+Beispielcode für Laserschweißen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+
+    from time import sleep
+    from fairino import Robot
+    import time
+
+    # Verbindung mit der Robotersteuerung herstellen, bei erfolgreicher Verbindung wird ein Roboterobjekt zurückgegeben
+    robot = Robot.RPC('192.168.58.2')
+
+    def testLsaerWeld():
+        robot.ExtDevLoadUDPDriver()
+        time.sleep(1)
+
+        robot.SetLaserWeldingParam(num = 3, scanSpeed = 2000, scanWidth = 3, peakPower = 1500, dutyCycle = 100, Freq = 1000, io_type=1)
+        robot.SetLaserWeldingStartExtDoNum(ctrlModeDONum=1)
+
+        robot.Mode(0)
+        time.sleep(1)
+
+        desc_pos1 = [-303.721, -206.960, 297.105, 152.209, 19.857, 109.166]
+        desc_pos2 = [-301.575, -254.888, 284.786, 155.919, 26.946, 111.629]
+        desc_safe = [-344.386, -280.830, 435.073, 173.835, 15.333, 124.931]
+        jointPos1 = [9.827, -99.740, 120.088, -78.900, -77.241, -17.904]
+        jointPos2 = [15.251, -96.456, 120.138, -84.664, -68.542, -17.843]
+        jointSafe = [19.142, -98.078, 101.493, -83.078, -77.070, -17.794]
+
+        error = robot.MoveL(desc_pos=desc_pos1,joint_pos=jointPos1, tool=1, user=0, vel=100, ovl= 2, acc=100)
+        print("MoveL return:", error)
+        robot.SetLaserWeldingStartEnd(1, io_type=1, max_waittime=10000)
+
+        error = robot.MoveL(desc_pos=desc_pos2, joint_pos=jointPos2, tool=1, user=0, vel=100, ovl= 2, acc=100)
+        print("MoveL return:", error)
+        robot.SetLaserWeldingStartEnd(0, io_type=1, max_waittime=10000)
+
+        error = robot.MoveL(desc_pos=desc_safe, joint_pos=jointSafe, tool=1, user=0, vel=100, ovl= 2, acc=100)
+        print("MoveL return:", error)
+
+        robot.Mode(1)
+        time.sleep(1)
+
+        # Verbindung schließen
+        robot.CloseRPC()
+        time.sleep(1)
+
+    # Testfunktion aufrufen
+    testLsaerWeld()
