@@ -1306,9 +1306,10 @@ Photoelektrischer Sensor TCP-Kalibrierung
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``PhotoelectricSensorTCPCalibration(luaPath, offsetX)``"
+    "Prototyp", "``PhotoelectricSensorTCPCalibration(self, luaFile, offsetX)``"
     "Beschreibung", "Photoelektrischer Sensor TCP-Kalibrierung"
-    "Erforderliche Parameter", "- ``luaPath``: Pfad zum automatischen Kalibrierungs-Lua-Programm: QX-Roboter - '/fruser/FR_CalibrateTheToolTcp.lua'; LA-Roboter - '/usr/local/etc/controller/lua/FR_CalibrateTheToolTcp.lua'
+    "Erforderliche Parameter", "
+    - ``luaFile``: Pfad zum automatischen Kalibrierungs-Lua-Programm: - 'FR_CalibrateTheToolTcp.lua';
     - ``offsetX``: Teachpunktversatz (x, y, z) mm"
     "Optionale Parameter", "Keine"
     "Rückgabewerte", "- Fehlercode: 0 bei Erfolg, sonst Fehlercode
@@ -1325,7 +1326,7 @@ Codebeispiel für Photoelektrische Sensor TCP-Kalibrierung
     robot = Robot.RPC('192.168.58.2')
     offset = [10.0, 10.0, 3.0]
     TCP = [0.0] * 6
-    rtn, TCP = robot.PhotoelectricSensorTCPCalibration("/fruser/FR_CalibrateTheToolTcp.lua", offset)
+    rtn, TCP = robot.PhotoelectricSensorTCPCalibration("FR_CalibrateTheToolTcp.lua", offset)
     print(f"PhotoelectricSensorTCPCalibration rtn is {rtn},{TCP[0]},{TCP[1]},{TCP[2]},{TCP[3]},{TCP[4]},{TCP[5]}")
     robot.CloseRPC()
     return 0

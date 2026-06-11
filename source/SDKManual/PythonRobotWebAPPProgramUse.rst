@@ -12,8 +12,9 @@ Einstellen des standardmäßig beim Start automatisch zu ladenden Arbeitsprogram
 
     "Prototyp", "``LoadDefaultProgConfig(flag, program_name)``"
     "Beschreibung", "Einstellen des standardmäßig beim Start automatisch zu ladenden Arbeitsprogramms"
-    "Erforderliche Parameter", "- ``flag``: 1 = Standardprogramm automatisch beim Start laden, 0 = nicht automatisch laden
-    - ``program_name``: Name und Pfad des Arbeitsprogramms, z.B. /fruser/movej.lua, wobei /fruser/ der feste Pfad für QX und /usr/local/etc/controller/lua/ der feste Pfad für LA ist"
+    "Erforderliche Parameter", "
+    - ``flag``: 1 = Standardprogramm automatisch beim Start laden, 0 = nicht automatisch laden
+    - ``program_name``: Name und Pfad des Arbeitsprogramms, z.B. movej.lua"
     "Standardparameter", "Keine"
     "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
 
@@ -25,7 +26,7 @@ Angegebenes Arbeitsprogramm laden
 
     "Prototyp", "``ProgramLoad(program_name)``"
     "Beschreibung", "Angegebenes Arbeitsprogramm laden"
-    "Erforderliche Parameter", "- ``program_name``: Name und Pfad des Arbeitsprogramms, z.B. /fruser/movej.lua, wobei /fruser/ der feste Pfad für QX und /usr/local/etc/controller/lua/ der feste Pfad für LA ist"
+    "Erforderliche Parameter", "- ``program_name``: Name und Pfad des Arbeitsprogramms, z.B. movej.lua"
     "Standardparameter", "Keine"
     "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
 
@@ -125,7 +126,7 @@ Codebeispiel für Roboter-LUA-Programmoperationen
     import time
     # Verbindung zur Robotersteuerung herstellen, bei Erfolg wird ein Roboterobjekt zurückgegeben
     robot = Robot.RPC('192.168.58.2')
-    program_name = "/fruser/test0610.lua"
+    program_name = "test0610.lua"
     loaded_name = ""
     state = 0
     line = 0

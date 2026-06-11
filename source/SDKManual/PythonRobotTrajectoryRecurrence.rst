@@ -159,7 +159,8 @@ Trajektorie vorverarbeiten (für MoveTrajectoryJ)
 
     "Prototyp", "``LoadTrajectoryJ(name, ovl, opt=1)``"
     "Beschreibung", "Externe Trajektoriendatei vorverarbeiten (für MoveTrajectoryJ)"
-    "Erforderliche Parameter", "- ``name``: Name der Trajektoriendatei, z.B.: /fruser/traj/trajHelix_aima_1.txt
+    "Erforderliche Parameter", "
+    - ``name``: Trajektorienname, z. B. trajHelix_aima_1.txt, gleichzeitig kompatibel mit vollständigen Pfadnamen, z. B. /fruser/traj/trajHelix_aima_1.txt
     - ``ovl``: Geschwindigkeitsskalierungsprozentsatz, Bereich [0~100]"
     "Standardparameter", "- ``opt``: 1 = Kontrollpunkt, Standard = 1"
     "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
@@ -234,7 +235,7 @@ Codebeispiel zum Einstellen der Geschwindigkeit während der Trajektorienausfüh
         rtn = robot.TrajectoryJUpLoad("C://Users/lenovo/Desktop/trajHelix_aima_1.txt")
         print(f"Upload TrajectoryJ A {rtn}")
 
-        traj_file_name = "/fruser/traj/trajHelix_aima_1.txt"
+        traj_file_name = "trajHelix_aima_1.txt"
         # Trajektoriendatei laden, Parameter: Dateiname, Geschwindigkeitsprozentsatz, Schleife (1: Schleife)
         rtn = robot.LoadTrajectoryJ(name=traj_file_name, ovl=100, opt=1)
         print(f"LoadTrajectoryJ {traj_file_name}, rtn is: {rtn}")
@@ -411,7 +412,7 @@ Codebeispiel für Roboter-Trajektorien-J-Wiedergabe
     robot = Robot.RPC('192.168.58.2')
     rtn = robot.TrajectoryJUpLoad("D://zUP/traj.txt")
     print(f"Upload TrajectoryJ A {rtn}")
-    traj_file_name = "/fruser/traj/traj.txt"
+    traj_file_name = "traj.txt"
     rtn = robot.LoadTrajectoryJ(traj_file_name, 100, 1)
     print(f"LoadTrajectoryJ {traj_file_name}, rtn is: {rtn}")
     rtn,traj_start_pose = robot.GetTrajectoryStartPose(traj_file_name)
@@ -492,7 +493,7 @@ Codebeispiel für Trajektorienwiedergabe (Vorausschauende Planung)
     robot = Robot.RPC('192.168.58.2')
     rtn = robot.TrajectoryJUpLoad("D://zUP/traj.txt")
     print(f"Upload TrajectoryJ A {rtn}")
-    traj_file_name = "/fruser/traj/traj.txt"
+    traj_file_name = "traj.txt"
     rtn = robot.LoadTrajectoryLA(traj_file_name, 1, 2, 0, 2, 50, 200, 1000, 0)
     print(f"LoadTrajectoryLA {traj_file_name}, rtn is: {rtn}")
     rtn, traj_start_pose = robot.GetTrajectoryStartPose(traj_file_name)
