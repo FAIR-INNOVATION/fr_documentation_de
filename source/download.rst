@@ -240,6 +240,35 @@ Komponenten-Zertifikate:
      - PETREL
      - :download:`Download <_static/_doc/Parts-Core Board Certification.pdf>`
 
+Greifer-Zertifizierungszertifikate:
+
+.. list-table::
+   :widths: 35 35 30
+   :header-rows: 0
+   :class: sheet-center
+
+   * - **Zertifizierungszertifikat**
+     - **Produkttyp**
+     - **Download**
+   * - **CE-EMC-Zertifikat für elektrischen 2-Finger-Greifer**
+     - FE-MG2-3-E
+     - :download:`Download <_static/_doc/FE-MG2-3-E Electric 2-Finger Gripper CE-EMC Certificate-V1.0.pdf>`
+   * - **ROHS-Zertifikat für elektrischen 2-Finger-Greifer**
+     - FE-MG2-3-E
+     - :download:`Download <_static/_doc/FE-MG2-3-E Electric 2-Finger Gripper ROHS Certificate-V1.0.pdf>`
+   * - **CE-EMC-Zertifikat für elektrischen Vakuumaktuator**
+     - FE-MS1-1-E
+     - :download:`Download <_static/_doc/FE-MS1-1-E Electric Vacuum Actuator CE-EMC Certificate-V1.0.pdf>`
+   * - **ROHS-Zertifikat für elektrischen Vakuumaktuator**
+     - FE-MS1-1-E
+     - :download:`Download <_static/_doc/FE-MS1-1-E Electric Vacuum Actuator ROHS Certificate-V1.0.pdf>`
+   * - **CE-EMC-Zertifikat für pneumatischen Vakuumsaugnapf**
+     - FE-MS1-2-P
+     - :download:`Download <_static/_doc/FE-MS1-2-P Pneumatic Vacuum Suction Cup CE-EMC Certificate-V1.0.pdf>`
+   * - **ROHS-Zertifikat für pneumatischen Vakuumsaugnapf**
+     - FE-MS1-2-P
+     - :download:`Download <_static/_doc/FE-MS1-2-P Pneumatic Vacuum Suction Cup ROHS Certificate-V1.0.pdf>`
+
 Sekundäre Entwicklung
 ---------------------------------
     :download:`FAIRINO ROS1 <https://github.com/FAIR-INNOVATION/frcobot_ros/archive/refs/heads/master.zip>`
