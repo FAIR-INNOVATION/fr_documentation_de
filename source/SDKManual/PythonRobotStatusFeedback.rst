@@ -98,7 +98,7 @@ Roboterstatus-Rückmeldungsstrukturtyp
             # Statussignale
             ("EmergencyStop", c_uint8),         # Not-Halt-Flag, 0-nicht gedrückt, 1-gedrückt
             ("motion_done", c_int),             # Bewegung-abgeschlossen-Signal, 1-abgeschlossen, 0-nicht abgeschlossen
-            ("gripper_motiondone", c_uint8),    # Greiferbewegung-abgeschlossen-Signal, 1-abgeschlossen, 0-nicht abgeschlossen
+            ("gripper_motiondone", c_uint8),    # Greifer-Bewegungsabschluss-Signal, 0-nicht abgeschlossen, 1-abgeschlossen (kein Objekt erkannt), 2-Bewegung abgeschlossen (Objekt erkannt)
             ("mc_queue_len", c_int),            # Länge der Bewegungskommando-Warteschlange
             ("collisionState", c_uint8),        # Kollisionserkennung, 1-Kollision, 0-keine Kollision
             ("trajectory_pnum", c_int),         # Bahnpunktnummer
@@ -107,7 +107,7 @@ Roboterstatus-Rückmeldungsstrukturtyp
 
             # Greiferinformationen
             ("gripper_fault_id", c_uint8),      # Fehlerhafte Greifernummer
-            ("gripper_fault", c_uint16),        # Greiferfehler
+            ("gripper_fault", c_uint16),        # Greiferfehler 0-kein Fehler 1-485-Timeout 2-Befehlsfehler 3-Werkstückabfall Sonstiges-Greifer-Fehlercode
             ("gripper_active", c_uint16),      # Greifer-Aktivierungsstatus
             ("gripper_position", c_uint8),      # Greiferposition
             ("gripper_speed", c_int8),          # Greifergeschwindigkeit
@@ -280,14 +280,14 @@ Controller-Statusrückmeldungs-Datenpaket
     "ft_sensor_active", "Aktivierungsstatus des Kraft-/Momentensensors: 0 - zurückgesetzt, 1 - aktiviert"
     "EmergencyStop", "Not-Halt-Status: 0 - Not-Halt nicht betätigt, 1 - Not-Halt betätigt"
     "motion_done", "Bewegungsabschluss-Signal: 1 - abgeschlossen, 0 - nicht abgeschlossen"
-    "gripper_motiondone", "Greiferbewegungsabschluss-Signal: 1 - abgeschlossen, 0 - nicht abgeschlossen"
+    "gripper_motiondone", "Greifer-Bewegungsabschluss-Signal, 0-nicht abgeschlossen, 1-abgeschlossen (kein Objekt erkannt), 2-Bewegung abgeschlossen (Objekt erkannt)"
     "mc_queue_len", "Länge der Bewegungsbefehlswarteschlange"
     "collisionState", "Kollisionserkennung: 1 - Kollision, 0 - keine Kollision"
     "trajectory_pnum", "Trajektorienpunktnummer"
     "safety_stop0_state", "Sicherheitsstopp-Signal SI0"
     "safety_stop1_state", "Sicherheitsstopp-Signal SI1"
     "gripper_fault_id", "Nummer des fehlerhaften Greifers"
-    "gripper_fault", "Greiferfehler"
+    "gripper_fault", "Greiferfehler 0-kein Fehler 1-485-Timeout 2-Befehlsfehler 3-Werkstückabfall Sonstiges-Greifer-Fehlercode"
     "gripper_active", "Greifer-Aktivierungsstatus: 0 - nicht aktiviert, 1 - aktiviert"
     "gripper_position", "Greiferposition (Prozent)"
     "gripper_speed", "Greifergeschwindigkeit (Prozent)"

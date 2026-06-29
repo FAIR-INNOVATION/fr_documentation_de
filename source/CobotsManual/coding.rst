@@ -8546,3 +8546,134 @@ Im Folgenden ist ein typisches LUA-Programm für das Schweißen von Durchdringun
    :align: center
 
 .. centered:: Abbildung 9.38‑18 Beispielprogramm für das Schweißen von Durchdringungskurven mit Positionierer
+
+PrintMsg()-Druckfunktion des Roboter-LUA-Programms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Das Roboter-LUA-Programm verfügt über integrierte Druckbefehle, die bestimmte Informationen im WebApp-Druckfenster ausgeben können. Diese Funktion unterstützt das Drucken von Zahlenwerten, Zeichenfolgen, Tabellen, booleschen Werten usw. und ist mit Hilfsfunktionen wie Druckspeicherung, Inhaltsdurchsuchung und Protokoll-Download ausgestattet, die das Debugging und die Datenverfolgung erleichtern.
+
+Bearbeiten und Hinzufügen von Druckbefehlen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klicken Sie auf der Seite "Logische Befehle" auf die Schaltfläche "Drucken", um die Bearbeitungsseite für den PrintMsg()-Druckbefehl zu öffnen. Legen Sie zunächst den Drucktext und den Datentyp fest.
+
+.. image:: coding/573.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.39‑1 Bearbeitungsseite für Druckbefehle   
+
+- **Text**: Geben Sie einen benutzerdefinierten Beschreibungsstring ein, um die Bedeutung des gedruckten Inhalts zu kennzeichnen, z. B. "robot current pos :", "recv socket value :" usw.
+- **Typ**: Unterteilt in "Variable" und "Funktion", je nach Bedarf auswählen.
+- **Variable**: Druckt benutzerdefinierte Variablenwerte und unterstützt Variablen vom Typ Zahl, Zeichenfolge, Tabelle, Boolescher Wert usw.
+- **Funktion**: Druckt den Rückgabewert der angegebenen Befehlsfunktion. Nach Auswahl dieses Typs können Sie die Zielfunktion aus der Funktionsliste unten auswählen, z. B. GetActualTCPPose() zum Abrufen der TCP-Position des Roboters, GetDI() zum Lesen des DI-Eingangsstatus des Controllers, GetActualJointPosDegree() zum Abrufen der aktuellen Gelenkwinkel des Roboters usw.
+
+Nehmen wir das Drucken der aktuellen Gelenkposition des Roboters als Beispiel: Geben Sie den Drucktext "robot current joint pos :" ein, wählen Sie Funktion als Datentyp und wählen Sie die Funktion GetActualJointPosDegree() aus. Klicken Sie dann nacheinander auf Hinzufügen und Übernehmen. Das System generiert automatisch den entsprechenden Druckbefehl im LUA-Programm:
+
+.. code-block:: console
+    :linenos:
+
+    PrintMsg("robot current joint pos :",GetActualJointPosDegree())
+
+.. image:: coding/574.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.39‑2 Hinzufügen eines Druckbefehls   
+
+Sie können das Programmfenster auch auf die bearbeitbare Seite umschalten, den Befehlsnamen PrintMsg() eingeben und den zu druckenden Inhalt in die Parameter eingeben, wobei mehrere Druckinhalte durch Kommas getrennt werden.
+
+.. image:: coding/575.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.39‑3 Schreiben von Benutzerdefinierten Druckinformationen  
+
+Anzeigen von Druckinformationen und Grundlegende Bedienung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klicken Sie auf die Druckanzeigeschaltfläche, um das Druckinformations-Popup-Fenster zu öffnen. Schalten Sie den Roboter in den Automatikmodus und führen Sie das Programm aus. Der gedruckte Inhalt wird in Echtzeit im Fenster ausgegeben. Jede Nachricht enthält vier Informationen: Zeitstempel, LUA-Programmname, Codezeilennummer und gedruckter Inhalt.
+
+.. image:: coding/576.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.39‑4 Druckinhalts-Anzeigefeld  
+
+Löschen des Druckinhalts
+*******************************************************************
+
+Klicken Sie auf die Schaltfläche "Löschen" oben im Druckfenster, um alle angezeigten Inhalte im Fenster mit einem Klick zu löschen.
+
+.. image:: coding/577.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.39‑5 Löschen des Druckinhalts  
+
+Durchsuchen des Druckinhalts
+*******************************************************************
+
+Geben Sie das Ziel-Keyword in das Suchfeld ein und klicken Sie auf Suchen. Das Fenster zeigt nur die Druckdatensätze an, die das Keyword enthalten, und blendet den Rest aus. Nachdem Sie das Suchfeld geleert und erneut auf Suchen geklickt haben, werden alle Druckinformationen wiederhergestellt.
+
+.. image:: coding/578.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.39‑6 Druckinhalts-Suche  
+
+Konfiguration und Verwaltung von Druckprotokollen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Konfiguration der Speicherparameter für Druckprotokolle
+*******************************************************************
+
+Klicken Sie in der Webapp nacheinander auf "Systemeinstellungen" und "Wartungsmodus", um in den Wartungsmodus zu gelangen. Suchen Sie die Module "Protokollverwaltung" und "Druckprotokoll", um die Aktivierung/Deaktivierung der Druckprotokoll-Speicherfunktion zu konfigurieren, die Anzahl der zu speichernden Dateien und die maximale Anzahl von Druckeinträgen pro Protokolldatei festzulegen. Nach der Aktivierung der Druckprotokoll-Speicherung werden alle Druckdaten automatisch in Protokolldateien geschrieben.
+
+.. image:: coding/579.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.39‑7 Konfiguration der Speicherparameter für Druckprotokolle 
+
+Wenn das Robotergerät das System neu startet oder die Anzahl der Einträge in einer einzelnen Protokolldatei die festgelegte Obergrenze erreicht, wird automatisch eine neue Protokolldatei erstellt und die Protokollrotation ausgelöst. Wenn die Gesamtzahl der Protokolldateien das maximale Speicherlimit überschreitet, löscht das System automatisch die ältesten Protokolldateien.
+
+Download von Druckprotokollen
+*******************************************************************
+
+Klicken Sie auf die Download-Schaltfläche oben im Druckfenster, um alle gedruckten Inhalte im aktuellen Fenster auf den lokalen Computer herunterzuladen.
+
+.. image:: coding/580.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.39‑8 Download von Druckprotokollen 
+
+Neben dem direkten Download von Druckprotokollen sind Druckprotokolle auch beim Download von Controller-Protokollen und vollständigen Datenquellendateien enthalten.
+
+Codebeispiele für Druckbefehle
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Drucken der vom Roboter Empfangenen Zielposition
+*******************************************************************
+
+Das folgende ist ein Programm, bei dem der Roboter die Ziel-Cartesian-Positionen x, y, z von einem ModbusTCP-Slave liest und den Roboter steuert, um sich zur Zielposition zu bewegen. Im Programm wird jedes Mal, wenn die Zielposition gelesen wird, der PrintMsg()-Befehl verwendet, um die Zielposition zu drucken.
+
+.. image:: coding/581.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.39‑9 Beispiel für das Drucken der Roboter-Ziellaufposition 
+
+Drucken der Roboter-Echtzeitposition und der Steuerschrank-DI-Daten
+*******************************************************************
+
+Das folgende ist ein Programm für eine nicht-blockierende Roboterbewegung, das während der Bewegung die Roboterposition und die Steuerschrank-DI-Werte in Echtzeit druckt.
+
+.. note:: Hinweis: Wenn der PrintMsg()-Druckbefehl in einer Schleife aufgerufen wird, muss der Befehl sleep_ms() verwendet werden, um das Schleifenintervall festzulegen, um eine Endlosschleife zu vermeiden.
+
+.. image:: coding/582.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.39‑10 Beispiel für das Drucken der Aktuellen Position und DI während der Roboterbewegung   

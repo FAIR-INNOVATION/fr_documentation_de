@@ -13,6 +13,36 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V3.9.7
+     - 2026-06-25
+     - | 1. Greifer-Werkstück-Fall-Alarmfehler hinzugefügt, Hauptfehlercode 8, Unterfehlercode 3.
+       | 2. Robotersatus-Rückmeldungsstruktur aktualisiert: Objekterkennungsstatus zum Greiferbewegung-abgeschlossen-Signal hinzugefügt; zu Greiferfehlern hinzugefügt: 2-Befehlfehler, 3-Werkstückfall, andere-Greiferfehlercode +3;
+       | 3. Codebeispiele für Ausgangs-Reset nach LUA-Programmstopp/-pause aktualisiert; Schnittstelle zum Laden von lua-Dateien optimiert, jetzt nur noch lua-Dateiname erforderlich, Pfad nicht mehr benötigt.
+       | 4. Codebeispiele für photoelektrische Sensor-TCP-Kalibrierung aktualisiert; Schnittstelle zum Laden von Dateien optimiert, jetzt nur noch lua-Dateiname erforderlich, Pfad nicht mehr benötigt.
+       | 5. Codebeispiele für Geschwindigkeitseinstellung während der Trajektorienausführung aktualisiert; Schnittstelle zum Laden von Trajektorien-J-Dateien optimiert, jetzt nur noch Trajektorien-J-Dateiname erforderlich, Pfad nicht mehr benötigt.
+       | 6. Codebeispiele für Robotertrajektorien-J-Datei-Wiedergabe aktualisiert; Schnittstelle zum Laden von Trajektorien-J-Dateien optimiert, jetzt nur noch Trajektorien-J-Dateiname erforderlich, Pfad nicht mehr benötigt.
+       | 7. Codebeispiele für Trajektorienwiedergabe (Trajektorien-Vorausschau) aktualisiert; Schnittstelle zum Laden von Trajektorien-J-Dateien optimiert, jetzt nur noch Trajektorien-J-Dateiname erforderlich, Pfad nicht mehr benötigt.
+       | 8. Der Jobprogrammnamen-Parameter der LoadDefaultProgConfig()-Schnittstelle erfordert jetzt nur noch den lua-Dateinamen, Pfad nicht mehr benötigt.
+       | 9. Der Jobprogrammnamen-Parameter der ProgramLoad()-Schnittstelle erfordert jetzt nur noch den lua-Dateinamen, Pfad nicht mehr benötigt.
+       | 10. Der Jobprogrammnamen-Parameter der GetLoadedProgram()-Schnittstelle erfordert jetzt nur noch den lua-Dateinamen, Pfad nicht mehr benötigt.
+       | 11. Codebeispiele für LUA-Programmoperationen des Roboters aktualisiert; Schnittstelle zum Laden von Dateien optimiert, jetzt nur noch lua-Dateiname erforderlich, Pfad nicht mehr benötigt.
+       | 12. Aktivierungsstatus-Parameter für dreifingrige Hand zur SetAxleLuaEnableDeviceType()-Schnittstelle hinzugefügt;
+       | 13. Aktivierungsstatus-Parameter für dreifingrige Hand zur GetAxleLuaEnableDeviceType()-Schnittstelle hinzugefügt;
+       | 14. Statusparameter für aktivierte Gerätenummer der dreifingrigen Hand zur GetAxleLuaEnableDevice()-Schnittstelle hinzugefügt;
+       | 15. Greifer-Funktionscode-Array in SetAxleLuaGripperFunc() auf 32 erweitert, Drehgreifersteuerung usw. hinzugefügt;
+       | 16. Greifer-Funktionscode-Array in GetAxleLuaGripperFunc() auf 32 erweitert, Drehgreiferstatus usw. hinzugefügt;
+       | 17. Fehler im Schnittstellennamen von SetCoderCompenParams() korrigiert;
+       | 18. SetDexterousHandsMove()-Schnittstelle zur Steuerung der Bewegung der dreifingrigen Hand hinzugefügt.
+       | 19. SetDexterousHandsAct()-Schnittstelle zur Steuerung des Resets und der Aktivierung der dreifingrigen Hand hinzugefügt.
+       | 20. ClearDexterousHandsError()-Schnittstelle zum Löschen von Fehlern der dreifingrigen Hand hinzugefügt.
+       | 21. SetDexterousHandsFunc()-Schnittstelle zum Festlegen der aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand hinzugefügt.
+       | 22. GetDexterousHandsFunc()-Schnittstelle zum Abrufen der aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand hinzugefügt.
+       | 23. FT_LinInsertion()-Schnittstelle für lineare Einfügung und Codebeispiele für Kraftsensor-Rotationseinfügung hinzugefügt.
+       | 24. FT_FindSurface(), FT_CalCenterStart(), FT_CalCenterEnd() oberflächenpositionsbezogene Schnittstellen und Codebeispiele hinzugefügt.
+       | 25. SetWeaveBackCenterConfig(), GetWeaveBackCenterConfig() zum Einstellen und Abrufen der Parameter für die Rückkehr zum Zyklus-Nullpunkt nach Pendelende hinzugefügt.
+       | 26. SetWeaveOffsetRT()-Schnittstelle zum Einstellen des Echtzeit-Pendeloffsets hinzugefügt;
+       | 27. SetSpeedInstant()-Schnittstelle zur Echtzeit-Geschwindigkeitseinstellung hinzugefügt;
+
    * - V3.9.6
      - 2026-05-26
      - | 1.Roboterstatus-Rückmeldungsstruktur aktualisiert, Status der Erweiterungsachsen-Koordinatensystemnummer hinzugefügt;

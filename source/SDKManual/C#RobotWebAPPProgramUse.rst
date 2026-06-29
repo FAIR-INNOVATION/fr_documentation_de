@@ -12,7 +12,7 @@ Einstellen des standardmäßig beim Start automatisch zu ladenden Arbeitsprogram
     /**
     * @brief Einstellen des standardmäßig beim Start automatisch zu ladenden Arbeitsprogramms
     * @param [in] flag 0 - Standardprogramm nicht automatisch beim Start laden, 1 - Standardprogramm automatisch beim Start laden
-    * @param [in] program_name Name und Pfad des Arbeitsprogramms, z.B. "/fruser/movej.lua", wobei "/fruser/" der feste Pfad für QX und "/usr/local/etc/controller/lua/" der feste Pfad für LA ist
+    * @param [in] program_name Name und Pfad des Arbeitsprogramms, z.B. "movej.lua"
     * @return Fehlercode
     */
     int LoadDefaultProgConfig(byte flag, string program_name);
@@ -24,7 +24,7 @@ Angegebenes Arbeitsprogramm laden
 
     /**
     * @brief Angegebenes Arbeitsprogramm laden
-    * @param [in] program_name Name und Pfad des Arbeitsprogramms, z.B. "/fruser/movej.lua", wobei "/fruser/" der feste Pfad für QX und "/usr/local/etc/controller/lua/" der feste Pfad für LA ist
+    * @param [in] program_name Name und Pfad des Arbeitsprogramms, z.B. "movej.lua"
     * @return Fehlercode
     */
     int ProgramLoad(string program_name);
@@ -36,7 +36,7 @@ Name des geladenen Arbeitsprogramms abrufen
 
     /**
     * @brief Name des geladenen Arbeitsprogramms abrufen
-    * @param [out] program_name Name und Pfad des Arbeitsprogramms, z.B. "/fruser/movej.lua"
+    * @param [out] program_name Name und Pfad des Arbeitsprogramms, z.B. "movej.lua"
     * @return Fehlercode
     */
     int GetLoadedProgram(ref string program_name);
@@ -116,7 +116,7 @@ Codebeispiel für Roboter-LUA-Programmoperationen
 
     private void btnWebApp_Click(object sender, EventArgs e)
     {
-        string program_name = "/fruser/Text1.lua";
+        string program_name = "Text1.lua";
         string loaded_name = "";
         byte state=0;
         int line=0;

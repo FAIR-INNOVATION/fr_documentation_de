@@ -217,14 +217,14 @@ Roboterstatus-Feedback-Strukturtyp
 
         public byte EmergencyStop;          // Not-Halt-Flag, 0-nicht gedrückt, 1-gedrückt
         public int motion_done;             // Bewegungsabschluss-Signal, 1-abgeschlossen, 0-nicht abgeschlossen
-        public byte gripper_motiondone;     // Greiferbewegungsabschluss-Signal, 1-abgeschlossen, 0-nicht abgeschlossen
+        public byte gripper_motiondone;     // Greifer-Bewegungsabschluss-Signal, 0-nicht abgeschlossen, 1-abgeschlossen (kein Objekt erkannt), 2-Bewegung abgeschlossen (Objekt erkannt)
         public int mc_queue_len;            // Länge der Bewegungskommando-Warteschlange
         public byte collisionState;         // Kollisionserkennung, 1-Kollision, 0-keine Kollision
         public int trajectory_pnum;         // Trajektorienpunktnummer
         public byte safety_stop0_state;     // Sicherheitsstoppsignal SI0
         public byte safety_stop1_state;     // Sicherheitsstoppsignal SI1
         public byte gripper_fault_id;       // ID des fehlerhaften Greifers
-        public UInt16 gripper_fault;     /* Greiferfehler */
+        public UInt16 gripper_fault;     /* Greiferfehler 0-kein Fehler 1-485-Timeout 2-Befehlsfehler 3-Werkstückabfall Sonstiges-Greifer-Fehlercode */
         public UInt16 gripper_active;    /* Greiferaktivierungsstatus */
         public byte gripper_position;       // Greiferposition
         public byte gripper_speed;       /* Greifergeschwindigkeit */

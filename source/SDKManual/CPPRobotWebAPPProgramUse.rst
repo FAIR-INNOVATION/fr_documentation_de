@@ -12,7 +12,7 @@ Automatisches Laden des Standard-Jobprogramms beim Start einstellen
     /**
     * @brief  Legt fest, ob das Standard-Jobprogramm beim Start automatisch geladen wird.
     * @param  [in] flag  0-nicht automatisch laden, 1-automatisch laden.
-    * @param  [in] program_name Name und Pfad des Jobprogramms, z.B. "/fruser/movej.lua". "/fruser/" ist fester Pfad für QX, "/usr/local/etc/controller/lua/" fester Pfad für LA.
+    * @param  [in] program_name Name und Pfad des Jobprogramms, z.B. "movej.lua"
     * @return  Fehlercode.
     */
     errno_t LoadDefaultProgConfig(uint8_t flag, char program_name[64]);
@@ -24,7 +24,7 @@ Bestimmtes Jobprogramm laden
 
     /**
     * @brief  Lädt ein bestimmtes Jobprogramm.
-    * @param  [in] program_name Name und Pfad des Jobprogramms, z.B. "/fruser/movej.lua". "/fruser/" ist fester Pfad für QX, "/usr/local/etc/controller/lua/" fester Pfad für LA.
+    * @param  [in] program_name Name und Pfad des Jobprogramms, z.B. "movej.lua". 
     * @return  Fehlercode.
     */
     errno_t ProgramLoad(char program_name[64]);
@@ -36,7 +36,7 @@ Name des geladenen Jobprogramms abrufen
 
     /**
     * @brief  Gibt den Namen des geladenen Jobprogramms zurück.
-    * @param  [out] program_name Name und Pfad des Jobprogramms, z.B. "/fruser/movej.lua". "/fruser/" ist fester Pfad für QX, "/usr/local/etc/controller/lua/" fester Pfad für LA.
+    * @param  [out] program_name Name und Pfad des Jobprogramms, z.B. "movej.lua". 
     * @return  Fehlercode.
     */
     errno_t GetLoadedProgram(char program_name[64]);
@@ -126,7 +126,7 @@ Codebeispiel für Roboter-LUA-Programmoperationen
         return -1;
       }
       robot.SetReConnectParam(true, 30000, 500);
-      char program_name[64] = "/fruser/test.lua";
+      char program_name[64] = "test.lua";
       char loaded_name[64] = "";
       uint8_t state;
       int line;

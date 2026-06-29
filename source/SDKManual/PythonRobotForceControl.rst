@@ -1100,7 +1100,7 @@ Momentenkompensation aktivieren und Koeffizienten setzen
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``SerCoderCompenParams(status, torqueCoeff)``"
+    "Prototyp", "``SetCoderCompenParams(status, torqueCoeff)``"
     "Beschreibung", "Momentenkompensation aktivieren und Koeffizienten setzen (für Gelenke)"
     "Erforderliche Parameter", "
     - ``status``: Schalter, 0 = aus, 1 = an

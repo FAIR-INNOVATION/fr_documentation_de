@@ -1,3 +1,45 @@
+Version V3.9.7
+-----------------
+
+Datum: 2026-06-25
+
+- **Optimiertes japanisches Sprachpaket für die Software**:
+
+    Beschreibung: Optimierte Übersetzungsinhalte des japanischen Sprachpakets.
+
+- **Optimierte Pfadparameter für LUA-Programme des Roboters**:
+
+    Beschreibung: Bei der Dateieingabe ist jetzt nur noch der Name erforderlich; der Pfad wird nicht mehr benötigt.
+
+- **Optimierte Pendelfunktion für neue Spline-Linien-Bogen-Übergänge**:
+    Pfad: Hilfsanwendungen -> Prozesspaket -> Schweißexpertenbibliothek -> Neue Spline-Pendelschweißung.
+
+    Beschreibung: Anpassung der Pendelfunktion an die neue Spline-Linien-Bogen-Übergangsfunktion.
+
+- **Optimierte Schutzfunktion der weichen Gelenkbegrenzungen**:
+    Pfad: Grundeinstellungen -> Basis -> Gelenke -> Weiche Begrenzungen.
+
+    Beschreibung: Optimierung der Steifigkeits- und Dämpfungskoeffizienten für die weichen Begrenzungen jedes Gelenks.
+
+- **Print-Funktion für LUA-Programme des Roboters hinzugefügt**:
+    Pfad: Teach-Pendant-Programm -> Druckfunktion.
+
+    Beschreibung: Echtzeitanzeige von benutzerdefinierten Druckinformationen aus LUA-Programmen.
+
+- **Endeffektor-Lua-Adapter für eine dreifingrige Hand hinzugefügt**:
+    Pfad: Grundeinstellungen -> Peripheriegeräte -> Sauger.
+
+    Beschreibung: 1. Anpassung für Endeffektor-Sauger und dreifingrige Hand hinzugefügt; 2. Vorhandenes Endeffektor-Lua-Open-Protokoll optimiert.
+
+- **Fehlermelde-Funktion bei Greiferabfall hinzugefügt**:
+    Pfad: Grundeinstellungen -> Peripheriegeräte -> Greifer.
+
+    Beschreibung: Fehlermeldung bei Werkstückabfall vom Greifer hinzugefügt; Bewegung wird nach der Meldung gestoppt.
+
+- **Rückmeldefunktion für die 24V-Kurzschlussschutzauslösung am DO-Modul des Breitspannungs-Steuerschranks hinzugefügt**:
+
+    Beschreibung: Kurzschlussschutz und Fehlerhinweis hinzugefügt.
+
 Version V3.9.6
 -----------------
 

@@ -12,7 +12,7 @@ Einstellen des standardmäßig beim Start automatisch zu ladenden Arbeitsprogram
     /**
     * @brief Einstellen des standardmäßig beim Start automatisch zu ladenden Arbeitsprogramms
     * @param [in] flag 0 - Standardprogramm nicht automatisch beim Start laden, 1 - Standardprogramm automatisch beim Start laden
-    * @param [in] program_name Name und Pfad des Arbeitsprogramms, z.B. "/fruser/movej.lua", wobei "/fruser/" der feste Pfad für QX und "/usr/local/etc/controller/lua/" der feste Pfad für LA ist
+    * @param [in] program_name Name und Pfad des Arbeitsprogramms, z.B. "movej.lua"
     * @return Fehlercode
     */
     int LoadDefaultProgConfig(int flag, String program_name);
@@ -24,7 +24,7 @@ Angegebenes Arbeitsprogramm laden
 
     /**
     * @brief Angegebenes Arbeitsprogramm laden
-    * @param [in] program_name Name und Pfad des Arbeitsprogramms, z.B. "/fruser/movej.lua", wobei "/fruser/" der feste Pfad für QX und "/usr/local/etc/controller/lua/" der feste Pfad für LA ist
+    * @param [in] program_name Name und Pfad des Arbeitsprogramms, z.B. "movej.lua"
     * @return Fehlercode
     */
     int ProgramLoad(String program_name);
@@ -36,7 +36,7 @@ Name des geladenen Arbeitsprogramms abrufen
 
     /**
     * @brief Name des geladenen Arbeitsprogramms abrufen
-    * @param [out] program_name Array (Länge 1) zum Befüllen mit dem Namen und Pfad des Arbeitsprogramms, z.B. "/fruser/movej.lua"
+    * @param [out] program_name Array (Länge 1) zum Befüllen mit dem Namen und Pfad des Arbeitsprogramms, z.B. "movej.lua"
     * @return Fehlercode
     */
     int GetLoadedProgram(String[] program_name);
@@ -115,7 +115,7 @@ Codebeispiel für Roboter-LUA-Programmoperationen
 
     public static int TestLuaOp(Robot robot)
     {
-        String program_name = "/fruser/Text1.lua";
+        String program_name = "Text1.lua";
         String[] loaded_name = new String[]{""};
         int[] state = new int[]{0};
         List<Integer> line = new ArrayList<>();

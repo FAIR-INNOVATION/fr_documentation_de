@@ -204,14 +204,14 @@ Status-Rückmeldungspaket der Steuerung
       uint8_t ft_sensor_active;  // Aktivierungsstatus des Kraft-/Drehmomentsensors, 0-zurückgesetzt, 1-aktiviert 
       uint8_t EmergencyStop;   // Not-Halt-Flag, 0-Not-Halt nicht gedrückt, 1-Not-Halt gedrückt 
       int   motion_done;    // Bewegung-abgeschlossen-Signal, 1-abgeschlossen, 0-nicht abgeschlossen 
-      uint8_t gripper_motiondone; // Greiferbewegung-abgeschlossen-Signal, 1-abgeschlossen, 0-nicht abgeschlossen 
+      uint8_t gripper_motiondone; // Greifer-Bewegungsabschluss-Signal, 0-nicht abgeschlossen, 1-abgeschlossen (kein Objekt erkannt), 2-Bewegung abgeschlossen (Objekt erkannt)
       int   mc_queue_len;    // Länge der Bewegungskommando-Warteschlange 
       uint8_t collisionState;   // Kollisionserkennung, 1-Kollision, 0-keine Kollision 
       int   trajectory_pnum;  // Bahnpunktnummer 
       uint8_t safety_stop0_state; // Sicherheitsstoppsignal SI0 
       uint8_t safety_stop1_state; // Sicherheitsstoppsignal SI1 
       uint8_t gripper_fault_id;  // Fehlerhafte Greifernummer 
-      uint16_t gripper_fault;   // Greiferfehler 
+      uint16_t gripper_fault;   // Greiferfehler 0-kein Fehler 1-485-Timeout 2-Befehlsfehler 3-Werkstückabfall Sonstiges-Greifer-Fehlercode 
       uint16_t gripper_active;   // Greifer-Aktivierungsstatus 
       uint8_t gripper_position;  // Greiferposition 
       int8_t  gripper_speed;   // Greifergeschwindigkeit 

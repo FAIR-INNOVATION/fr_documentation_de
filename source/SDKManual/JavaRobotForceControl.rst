@@ -923,4 +923,4 @@ Drehmomentkompensationsfunktion und -koeffizienten aktivieren
     * @param  torqueCoeff J1-J6 Drehmomentkompensationskoeffizienten [0-1] (double[] der Länge 6).
     * @return Fehlercode.
     */
-    public int SerCoderCompenParams(int status, double[] torqueCoeff);
+    public int SetCoderCompenParams(int status, double[] torqueCoeff);

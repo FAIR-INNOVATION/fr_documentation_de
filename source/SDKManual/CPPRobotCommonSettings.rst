@@ -1421,7 +1421,7 @@ Photoelektrischer Sensor TCP-Kalibrierung (automatisiert)
 
     /**
     * @brief Photoelektrischer Sensor TCP-Kalibrierung (automatisiert)
-    * @param [in] luaPath Pfad zum automatischen Kalibrierungs-Lua-Programm: QX-Roboter - "/fruser/FR_CalibrateTheToolTcp.lua"; LA-Roboter - "/usr/local/etc/controller/lua/FR_CalibrateTheToolTcp.lua"
+    * @param [in] luaPath Pfad zum automatischen Kalibrierungs-Lua-Programm: "FR_CalibrateTheToolTcp.lua"; 
     * @param [in] offset Versatz der Teachpunkte (x,y,z) [mm]
     * @param [out] TCP Kalibriertes Werkzeugkoordinatensystem (x,y,z,rx,ry,rz)
     * @return Fehlercode
@@ -1447,9 +1447,22 @@ Codebeispiel für photoelektrische Sensor TCP-Kalibrierung
         robot.SetReConnectParam(true, 30000, 500);
         DescTran offset = { 10.0, 10.0, 3.0 };
         DescPose TCP = {};
-        rtn = robot.PhotoelectricSensorTCPCalibration("/fruser/FR_CalibrateTheToolTcp.lua", offset, TCP);
+        rtn = robot.PhotoelectricSensorTCPCalibration("FR_CalibrateTheToolTcp.lua", offset, TCP);
         printf("PhotoelectricSensorTCPCalibration rtn is  %d %f %f %f %f %f %f \n", rtn, TCP.tran.x, TCP.tran.y, TCP.tran.z, TCP.rpy.rx, TCP.rpy.ry, TCP.rpy.rz);
         robot.CloseRPC();
         robot.Sleep(9999999);
         return 0;
     }
+
+Globale Geschwindigkeit sofort einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Stellt die globale Geschwindigkeit sofort ein
+    * @param [in] vel Geschwindigkeitsprozent, Bereich [0~100]
+    * @return Fehlercode
+    */
+    errno_t SetSpeedInstant(int vel);    

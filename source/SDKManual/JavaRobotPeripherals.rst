@@ -723,73 +723,85 @@ Aktivierungsstatus der Endeffektor-LUA-Ausführung abrufen
     */
     int GetAxleLuaEnableStatus(int[] status);
 
-Aktivierungstypen für Endeffektor-LUA-Geräte einstellen
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: java
+Festlegen der aktivierten Endeffektor-Gerätetypen für LUA
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
     :linenos:
 
     /**
-    * @brief Stellt die Aktivierungstypen für Endeffektor-LUA-Geräte ein.
-    * @param forceSensorEnable Aktivierungsstatus Kraftsensor, 0-deaktivieren; 1-aktivieren.
-    * @param gripperEnable Aktivierungsstatus Greifer, 0-deaktivieren; 1-aktivieren.
-    * @param IOEnable Aktivierungsstatus IO-Gerät, 0-deaktivieren; 1-aktivieren.
-    * @return Fehlercode.
+    * @brief Legt die aktivierten Endeffektor-Gerätetypen für LUA fest
+    * @param forceSensorEnable Aktivierungsstatus Kraftsensor, 0-deaktiviert; 1-aktiviert
+    * @param gripperEnable Aktivierungsstatus Greifer, 0-deaktiviert; 1-aktiviert
+    * @param IOEnable Aktivierungsstatus IO-Gerät, 0-deaktiviert; 1-aktiviert
+    * @param dexhandEnable Aktivierungsstatus dreifingrige Hand, 0-deaktiviert; 1-aktiviert
+    * @return  Fehlercode
     */
-    public int SetAxleLuaEnableDeviceType(int forceSensorEnable, int gripperEnable, int IOEnable);
+    public int SetAxleLuaEnableDeviceType(int forceSensorEnable, int gripperEnable, int IOEnable, int dexhandEnable)
 
-Aktivierungstypen für Endeffektor-LUA-Geräte abrufen
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: java
+Abrufen der aktivierten Endeffektor-Gerätetypen für LUA
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
     :linenos:
 
     /**
-     * @brief Gibt die Aktivierungstypen für Endeffektor-LUA-Geräte zurück.
-     * @param enable enable[0]: forceSensorEnable Aktivierungsstatus Kraftsensor, 0-deaktivieren; 1-aktivieren.
-     * @param enable enable[1]: gripperEnable Aktivierungsstatus Greifer, 0-deaktivieren; 1-aktivieren.
-     * @param enable enable[2]: IOEnable Aktivierungsstatus IO-Gerät, 0-deaktivieren; 1-aktivieren.
-     * @return Fehlercode.
+     * @brief Ruft die aktivierten Endeffektor-Gerätetypen für LUA ab
+     * @param enable enable[0]:forceSensorEnable Aktivierungsstatus Kraftsensor, 0-deaktiviert; 1-aktiviert
+     * @param enable enable[1]:gripperEnable Aktivierungsstatus Greifer, 0-deaktiviert; 1-aktiviert
+     * @param enable enable[2]:IOEnable Aktivierungsstatus IO-Gerät, 0-deaktiviert; 1-aktiviert
+     * @param enable enable[3]:dexhandEnable Aktivierungsstatus dreifingrige Hand, 0-deaktiviert; 1-aktiviert
+     * @return  Fehlercode
      */
-    public int GetAxleLuaEnableDeviceType(int[] enable);
+    public int GetAxleLuaEnableDeviceType(int[] enable)
 
-Aktuell konfigurierte Endeffektor-Geräte abrufen
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: java
+Abrufen der aktuell konfigurierten Endeffektor-Geräte
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
     :linenos:
 
     /**
-     * @brief Gibt die aktuell konfigurierten Endeffektor-Geräte zurück.
-     * @param forceSensorEnable Aktivierte Kraftsensor-Gerätenummern (Array).
-     * @param gripperEnable Aktivierte Greifer-Gerätenummern (Array).
-     * @param IODeviceEnable Aktivierte IO-Gerätenummern (Array).
-     * @return Fehlercode.
+     * @brief Ruft die aktuell konfigurierten Endeffektor-Geräte ab
+     * @param forceSensorEnable Aktivierte Gerätenummer Kraftsensor, 0-deaktiviert; 1-aktiviert
+     * @param gripperEnable Aktivierte Gerätenummer Greifer, 0-deaktiviert; 1-aktiviert
+     * @param IODeviceEnable Aktivierte Gerätenummer IO-Gerät, 0-deaktiviert; 1-aktiviert
+     * @param dexhandEnable Aktivierungsstatus dreifingrige Hand, 0-deaktiviert; 1-aktiviert
+     * @return  Fehlercode
      */
-    public int GetAxleLuaEnableDevice(int[] forceSensorEnable, int[] gripperEnable, int[] IODeviceEnable);
+    public int GetAxleLuaEnableDevice(int[] forceSensorEnable, int[] gripperEnable, int[] IODeviceEnable, int[] dexhandEnable)
 
-Greifer-Aktionssteuerungsfunktionen aktivieren
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: java
+
+Festlegen der aktivierten Greifer-Aktionssteuerungsfunktionen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
     :linenos:
 
     /**
-     * @brief Aktiviert die Greifer-Aktionssteuerungsfunktionen für LUA.
-     * @param id Greifer-Gerätenummer.
-     * @param func func[0]-Greifer aktivieren; func[1]-Greifer initialisieren; 2-Position setzen; 3-Geschwindigkeit setzen; 4-Kraft setzen; 6-Greiferstatus lesen; 7-Initialisierungsstatus lesen; 8-Fehlercode lesen; 9-Position lesen; 10-Geschwindigkeit lesen; 11-Kraft lesen.
-     * @return Fehlercode.
+     * @brief Legt die aktivierten Greifer-Aktionssteuerungsfunktionen fest
+     * @param id Greifer-Gerätenummer
+     * @param func func[0]-Greifer aktivieren; func[1]-Greifer initialisieren; func[2]-Position einstellen; func[3]-Geschwindigkeit einstellen; func[4]-Drehmoment einstellen; func[6]-Greiferstatus lesen;
+        func[7]-Initialisierungsstatus lesen; func[8]-Fehlercode lesen; func[9]-Position lesen; func[10]-Geschwindigkeit lesen; func[11]-Drehmoment lesen; func[12]-Drehzahl für Drehgreifer einstellen;
+        func[13]-Drehgeschwindigkeit für Drehgreifer einstellen; func[14]-Drehmoment für Drehgreifer einstellen; func[15]-Drehgreiferstatus lesen; func[16]-Initialisierungsstatus Drehgreifer lesen;
+        func[17]-Drehzahl Drehgreifer lesen; func[18]-Drehgeschwindigkeit Drehgreifer lesen; func[19]-Drehmoment Drehgreifer lesen; func[20]-Mehrachs-Synchronbewegung einstellen; func[21]-Fehlerlöschbefehl;
+        func[22]-Einzelachsen-Betriebsstatus; func[23]-Alle-Achsen-Betriebsstatus;
+     * @return  Fehlercode
      */
-    public int SetAxleLuaGripperFunc(int id, int[] func);
+    public int SetAxleLuaGripperFunc(int id, int[] func)
 
-Aktivierte Greifer-Aktionssteuerungsfunktionen abrufen
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: java
+Abrufen der aktivierten Greifer-Aktionssteuerungsfunktionen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
     :linenos:
 
     /**
-     * @brief Gibt die aktivierten Greifer-Aktionssteuerungsfunktionen für LUA zurück.
-     * @param id Greifer-Gerätenummer.
-     * @param func func[0]-Greifer aktivieren; func[1]-Greifer initialisieren; 2-Position setzen; 3-Geschwindigkeit setzen; 4-Kraft setzen; 6-Greiferstatus lesen; 7-Initialisierungsstatus lesen; 8-Fehlercode lesen; 9-Position lesen; 10-Geschwindigkeit lesen; 11-Kraft lesen.
-     * @return Fehlercode.
+     * @brief Ruft die aktivierten Greifer-Aktionssteuerungsfunktionen ab
+     * @param id Greifer-Gerätenummer
+     * @param func func[0]-Greifer aktivieren; func[1]-Greifer initialisieren; func[2]-Position einstellen; func[3]-Geschwindigkeit einstellen; func[4]-Drehmoment einstellen; func[6]-Greiferstatus lesen;
+        func[7]-Initialisierungsstatus lesen; func[8]-Fehlercode lesen; func[9]-Position lesen; func[10]-Geschwindigkeit lesen; func[11]-Drehmoment lesen; func[12]-Drehzahl für Drehgreifer einstellen;
+        func[13]-Drehgeschwindigkeit für Drehgreifer einstellen; func[14]-Drehmoment für Drehgreifer einstellen; func[15]-Drehgreiferstatus lesen; func[16]-Initialisierungsstatus Drehgreifer lesen;
+        func[17]-Drehzahl Drehgreifer lesen; func[18]-Drehgeschwindigkeit Drehgreifer lesen; func[19]-Drehmoment Drehgreifer lesen; func[20]-Mehrachs-Synchronbewegung einstellen; func[21]-Fehlerlöschbefehl;
+        func[22]-Einzelachsen-Betriebsstatus; func[23]-Alle-Achsen-Betriebsstatus;
+     * @return  Fehlercode
      */
-    public int GetAxleLuaGripperFunc(int id, int[] func);
+    public int GetAxleLuaGripperFunc(int id, int[] func)
 
 Roboter-Ethercat-Slave-Datei schreiben
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1799,3 +1811,154 @@ Codebeispiel für Open-Protocol-Upload, -Download und -Löschen von Controller-P
         robot.Sleep(1000);
         return 0;
     }
+
+Steuerung der Bewegung der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Steuerung der Bewegung der dreifingrigen Hand
+    * @param idstart Start-Slave-Stationsnummer
+    * @param slaveNum Anzahl
+    * @param pos Positionsarray, Länge 16, Bereich (-360~360)
+    * @param speed Geschwindigkeitsprozent-Array, Länge 16, Bereich [0~100]
+    * @param force Drehmomentprozent-Array, Länge 16, Bereich [0~100]
+    * @param max_time Maximale Wartezeit, Bereich [0~30000], Einheit ms
+    * @return Fehlercode
+    */
+    public int SetDexterousHandsMove(int idstart, int slaveNum, double[] pos, int[] speed, int[] force, int max_time) 
+        
+Steuerung des Resets und der Aktivierung der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Steuerung des Resets und der Aktivierung der dreifingrigen Hand
+    * @param id Slave-Stationsnummer
+    * @param act 0-Reset 1-Aktivierung
+    * @return Fehlercode
+    */
+    public int SetDexterousHandsAct(int id, int act)
+            
+Löschen von Fehlern der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Löschen von Fehlern der dreifingrigen Hand
+    * @return Fehlercode
+    */
+    public int ClearDexterousHandsError()
+                
+Festlegen der Aktivierten Aktionssteuerungsfunktionen der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Legt die aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand fest
+    * @param id Slave-Stationsnummer der dreifingrigen Hand
+    * @param func Funktionsarray, Länge 32, Bit0-Greifauslösung, Bit1-Greiferinitialisierung, Bit2-Positionseinstellung, Bit3-Geschwindigkeitseinstellung, Bit4-Drehmomenteinstellung, Bit6-Greiferstatus lesen, Bit7-Initialisierungsstatus lesen, Bit8-Fehlercode lesen, Bit9-Position lesen, Bit10-Geschwindigkeit lesen, Bit11-Drehmoment lesen, Bit12-Drehzahl einstellen, Bit13-Drehgeschwindigkeit einstellen, Bit14-Drehmoment einstellen, Bit15-Drehgreiferstatus lesen, Bit16-Dreh-Initialisierungsstatus lesen, Bit17-Drehzahl lesen, Bit18-Drehgeschwindigkeit lesen, Bit19-Drehmoment lesen, Bit20-Mehrachsen-Synchronbewegung einstellen, Bit21-Fehlerlöschbefehl, Bit22-Einzelachsen-Betriebsstatus, Bit23-Alle-Achsen-Betriebsstatus
+    * @return Fehlercode
+    */
+    public int SetDexterousHandsFunc(int id, int[] func)
+                    
+Abrufen der Aktivierten Aktionssteuerungsfunktionen der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Ruft die aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand ab
+    * @param id Gerätenummer der dreifingrigen Hand
+    * @param func Ausgabeparameter-Array, Länge 32, Bit0-Greifauslösung, Bit1-Greiferinitialisierung, Bit2-Positionseinstellung, Bit3-Geschwindigkeitseinstellung, Bit4-Drehmomenteinstellung, Bit6-Greiferstatus lesen, Bit7-Initialisierungsstatus lesen, Bit8-Fehlercode lesen, Bit9-Position lesen, Bit10-Geschwindigkeit lesen, Bit11-Drehmoment lesen, Bit12-Drehzahl einstellen, Bit13-Drehgeschwindigkeit einstellen, Bit14-Drehmoment einstellen, Bit15-Drehgreiferstatus lesen, Bit16-Dreh-Initialisierungsstatus lesen, Bit17-Drehzahl lesen, Bit18-Drehgeschwindigkeit lesen, Bit19-Drehmoment lesen, Bit20-Mehrachsen-Synchronbewegung einstellen, Bit21-Fehlerlöschbefehl, Bit22-Einzelachsen-Betriebsstatus, Bit23-Alle-Achsen-Betriebsstatus
+    * @return Fehlercode
+    */
+    public int GetDexterousHandsFunc(int id, int[] func)
+                    
+Codebeispiel für Konfiguration und Bewegung der Dreifingrigen Hand am Endeffektor
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: Java
+    :linenos:
+
+    public static int TestDexterousHands(Robot robot) {
+        int id = 1;
+        int slaveNum = 4;
+        int max_time = 8000;
+        int[] speed = new int[16]; 
+        int[] force = new int[16]; 
+
+        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
+        for (int i = 0; i < 16; i++) {
+            force[i] = (i < 4) ? 50 : 0;
+        }
+
+        final double[] pos = new double[16];
+
+        JointPos j1 = new JointPos(-91.876, -85.920, 109.279, -86.239, -96.664, -28.563);
+        JointPos j2 = new JointPos(-40.954, -85.920, 109.279, -86.239, -96.664, -28.563);
+        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+
+        int ret = robot.ClearDexterousHandsError();
+        System.out.println("ClearDexterousHandsError -> " + ret);
+
+        int[] setFunc = new int[32];
+        setFunc[2] = 1;
+        setFunc[4] = 1;
+        setFunc[9] = 1;
+        setFunc[10] = 1;
+        setFunc[11] = 1;
+        setFunc[22] = 1;
+
+        ret = robot.SetDexterousHandsFunc(id, setFunc);
+
+        int[] getFunc = new int[32];
+        ret = robot.GetDexterousHandsFunc(id, getFunc);
+        System.out.println("GetDexterousHandsFunc -> " + ret);
+        if (ret == 0) {
+            for (int i = 0; i < getFunc.length; i++) {
+                System.out.print("  [" + i + "]=" + getFunc[i]);
+                if ((i + 1) % 8 == 0) {
+                    System.out.println();
+                } else if (i < getFunc.length - 1) {
+                    System.out.print(", ");
+                }
+            }
+            if (getFunc.length % 8 != 0) {
+                System.out.println();
+            }
+        }
+
+        ret = robot.SetDexterousHandsAct(id, 1);
+        if (ret != 0) {
+            return ret;
+        }
+
+        setPositions(pos, 20, 20, 20, 20);
+        ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time);
+        robot.Sleep(5000);
+        
+        for (int iteration = 1; iteration <= 10; iteration++) {
+            robot.MoveJ(j1, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+
+            setPositions(pos, 10, 10, 10, 10);
+            ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time);
+            robot.Sleep(1000);
+
+            robot.MoveJ(j2, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+            setPositions(pos, 50, 50, 50, 50);
+            ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time);
+            robot.Sleep(1000);
+        }
+        return 0;
+    }    

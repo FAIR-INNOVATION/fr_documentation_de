@@ -1216,9 +1216,8 @@ Geschwindigkeits-Vorsteuerungskoeffizienten für jede Achse abrufen
     */
     public int GetVelFeedForwardRatio(ref double radio[6]);
 
-Codebeispiel für Slave-Port-Fehlerzähler
+Codebeispiel zum Einstellen der Geschwindigkeitsvorsteuerung des Roboters
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-V1.1.9  Web-3.8.7
 
 .. code-block:: csharp
     :linenos:
@@ -1315,7 +1314,7 @@ Photoelektrischer Sensor TCP-Kalibrierung
 
     /**
     * @brief Photoelektrischer Sensor TCP-Kalibrierung
-    * @param [in] luaPath Pfad zum automatischen Kalibrierungs-Lua-Programm: QX-Roboter - "/fruser/FR_CalibrateTheToolTcp.lua"; LA-Roboter - "/usr/local/etc/controller/lua/FR_CalibrateTheToolTcp.lua"
+    * @param [in] luaPath Pfad zum automatischen Kalibrierungs-Lua-Programm: "FR_CalibrateTheToolTcp.lua"
     * @param [in] offsetX Teachpunktversatz (x, y, z) mm
     * @param [out] TCP Kalibriertes Werkzeugkoordinatensystem (x, y, z, rx, ry, rz)
     * @return Fehlercode
@@ -1333,8 +1332,21 @@ Codebeispiel für Photoelektrische Sensor TCP-Kalibrierung
         ROBOT_STATE_PKG pkg =new ROBOT_STATE_PKG();
         DescTran offset = new DescTran( 10.0, 10.0, 3.0 );
         DescPose TCP = new DescPose();
-        int rtn = robot.PhotoelectricSensorTCPCalibration("/fruser/FR_CalibrateTheToolTcp.lua", offset, out TCP);
+        int rtn = robot.PhotoelectricSensorTCPCalibration("FR_CalibrateTheToolTcp.lua", offset, out TCP);
         Console.WriteLine($"PhotoelectricSensorTCPCalibration : {rtn}");
         Console.WriteLine($"Werkzeug-TCP Koordinaten: X={TCP.tran.x:F3}, Y={TCP.tran.y:F3}, Z={TCP.tran.z:F3}");
         Console.WriteLine($"Werkzeug-RPY Ausrichtung: RX={TCP.rpy.rx:F3}, RY={TCP.rpy.ry:F3}, RZ={TCP.rpy.rz:F3}");
     }
+
+Globale Geschwindigkeit sofort einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Stellt die globale Geschwindigkeit sofort ein
+    * @param [in] vel Geschwindigkeitsprozent, Bereich [0~100]
+    * @return Fehlercode
+    */
+    public int SetWeaveOffsetRT(DescPose offset)

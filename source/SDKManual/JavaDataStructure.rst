@@ -397,14 +397,14 @@ Strukturtyp für Roboterstatus-Rückmeldung
         public int ft_sensor_active;                // Aktivierungsstatus des Kraftsensors
         public int EmergencyStop;                   // Not-Halt-Status
         public int motion_done;                     // Bewegung abgeschlossen
-        public int gripper_motiondone;              // Greiferbewegung abgeschlossen
+        public int gripper_motiondone;              // Greifer-Bewegungsabschluss-Signal, 0-nicht abgeschlossen, 1-abgeschlossen (kein Objekt erkannt), 2-Bewegung abgeschlossen (Objekt erkannt)
         public int mc_queue_len;                    // Bewegungswarteschlangenlänge
         public int collisionState;                  // Kollisionsstatus
         public int trajectory_pnum;                 // Bahnpunkt-Sequenznummer
         public int safety_stop0_state;              // Sicherheitsstopp 0 Status
         public int safety_stop1_state;              // Sicherheitsstopp 1 Status
         public int gripper_fault_id;                // Greiferfehler-ID
-        public int gripper_fault;                   // Greiferfehler
+        public int gripper_fault;                   // Greiferfehler 0-kein Fehler 1-485-Timeout 2-Befehlsfehler 3-Werkstückabfall Sonstiges-Greifer-Fehlercode
         public int gripper_active;                  // Greiferaktivierung
         public int gripper_position;                // Greiferposition
         public int gripper_speed;                   // Greifergeschwindigkeit

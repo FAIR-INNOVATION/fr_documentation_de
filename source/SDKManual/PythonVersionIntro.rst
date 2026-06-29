@@ -13,6 +13,25 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V3.9.7
+     - 2026-06-25
+     - | 1. PhotoelectricSensorTCPCalibration()-Parameter können sich jetzt an Dateinamen ohne Pfad anpassen;
+       | 2. LoadTrajectoryJ()-Parameter können sich jetzt an Dateinamen ohne Pfad anpassen;
+       | 3. LoadTrajectoryLA()-Parameter können sich jetzt an Dateinamen ohne Pfad anpassen;
+       | 4. LoadDefaultProgConfig()-Parameter können sich jetzt an Dateinamen ohne Pfad anpassen;
+       | 5. ProgramLoad()-Parameter können sich jetzt an Dateinamen ohne Pfad anpassen;
+       | 6. Aktivierungsstatus-Parameter für dreifingrige Hand zur SetAxleLuaEnableDeviceType()-Schnittstelle hinzugefügt;
+       | 7. Aktivierungsstatus-Parameter für dreifingrige Hand zur GetAxleLuaEnableDeviceType()-Schnittstelle hinzugefügt;
+       | 8. Schnittstellen zum Abrufen der aktuell konfigurierten Endeffektor-Geräteaktivierungstypen und der Greifer-Aktionssteuerung modifiziert;
+       | 9. Aktivierung und Funktionscodes für dreifingrige Hand hinzugefügt;
+       | 10. SetDexterousHandsMove()-Schnittstelle zur Steuerung der Bewegung der dreifingrigen Hand hinzugefügt;
+       | 11. SetDexterousHandsAct()-Schnittstelle zur Steuerung des Resets und der Aktivierung der dreifingrigen Hand hinzugefügt;
+       | 12. ClearDexterousHandsError()-Schnittstelle zum Löschen von Fehlern der dreifingrigen Hand hinzugefügt;
+       | 13. SetDexterousHandsFunc()-Schnittstelle zum Festlegen der aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand hinzugefügt;
+       | 14. GetDexterousHandsFunc()-Schnittstelle zum Abrufen der aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand hinzugefügt;
+       | 15. Schnittstellen zum Einstellen und Abrufen der Parameter für die Rückkehr zum Zyklus-Nullpunkt nach Pendelende hinzugefügt;
+       | 16. SetWeaveOffsetRT()-Schnittstelle zum Einstellen des Echtzeit-Pendeloffsets und SetSpeedInstant()-Schnittstelle zur Echtzeit-Geschwindigkeitseinstellung hinzugefügt.
+
    * - V3.9.6
      - 2026-05-26
      - | 1.Roboterstatus-Rückmeldungsstruktur aktualisiert, Status der Erweiterungsachsen-Koordinatensystemnummer hinzugefügt;

@@ -807,88 +807,93 @@ Aktivierungsstatus der Endeffektor-LUA-Ausführung abrufen
     "Rückgabewert", "- Fehlercode: 0 = Erfolg, sonst Fehlercode
     - ``enable``: 0 = nicht aktiviert, 1 = aktiviert"
 
-Aktivierungstyp der Endeffektor-LUA-Endgeräte einstellen
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Python SDK-v2.0.5
+Festlegen der aktivierten Endeffektor-Gerätetypen für LUA
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``SetAxleLuaEnableDeviceType(forceSensorEnable, gripperEnable, IOEnable)``"
-    "Beschreibung", "Aktivierungstyp der Endeffektor-LUA-Endgeräte einstellen"
-    "Erforderliche Parameter", "- ``forceSensorEnable``: Kraftsensor aktivieren, 0 = nein, 1 = ja
-    - ``gripperEnable``: Greifer aktivieren, 0 = nein, 1 = ja
-    - ``IOEnable``: IO-Geräte aktivieren, 0 = nein, 1 = ja"
+    "Prototyp", "``SetAxleLuaEnableDeviceType(self, forceSensorEnable, gripperEnable, IOEnable, dexhandEnable)``"
+    "Beschreibung", "Legt die aktivierten Endeffektor-Gerätetypen für LUA fest"
+    "Erforderliche Parameter", "
+    - ``forceSensorEnable``: Aktivierungsstatus Kraftsensor, 0-deaktiviert; 1-aktiviert
+    - ``gripperEnable``: Aktivierungsstatus Greifer, 0-deaktiviert; 1-aktiviert
+    - ``IOEnable``: Aktivierungsstatus IO-Gerät, 0-deaktiviert; 1-aktiviert
+    - ``dexhandEnable``: Aktivierungsstatus dreifingrige Hand, 0-deaktiviert; 1-aktiviert"
     "Standardparameter", "Keine"
-    "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
 
-Aktivierungstyp der Endeffektor-LUA-Endgeräte abrufen
-++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Python SDK-v2.0.5
+Abrufen der aktivierten Endeffektor-Gerätetypen für LUA
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
     "Prototyp", "``GetAxleLuaEnableDeviceType()``"
-    "Beschreibung", "Aktivierungstyp der Endeffektor-LUA-Endgeräte abrufen"
+    "Beschreibung", "Ruft die aktivierten Endeffektor-Gerätetypen für LUA ab"
     "Erforderliche Parameter", "Keine"
     "Standardparameter", "Keine"
-    "Rückgabewert", "- Fehlercode: 0 = Erfolg, sonst Fehlercode
-    - ``forceSensorEnable``: Kraftsensor aktiviert? 0 = nein, 1 = ja
-    - ``gripperEnable``: Greifer aktiviert? 0 = nein, 1 = ja
-    - ``IOEnable``: IO-Geräte aktiviert? 0 = nein, 1 = ja"
+    "Rückgabewert", "- Fehlercode, 0-Erfolg; ungleich Null-Fehler
+    - ``forceSensorEnable``: Aktivierungsstatus Kraftsensor, 0-deaktiviert; 1-aktiviert
+    - ``gripperEnable``: Aktivierungsstatus Greifer, 0-deaktiviert; 1-aktiviert
+    - ``IOEnable``: Aktivierungsstatus IO-Gerät, 0-deaktiviert; 1-aktiviert
+    - ``dexhandEnable``: Aktivierungsstatus dreifingrige Hand, 0-deaktiviert; 1-aktiviert"
 
-Aktuell konfigurierte Endgeräte abrufen
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Python SDK-v2.0.5
+Abrufen der aktuell konfigurierten Endeffektor-Geräte
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
     "Prototyp", "``GetAxleLuaEnableDevice()``"
-    "Beschreibung", "Aktuell konfigurierte Endgeräte (über LUA) abrufen"
+    "Beschreibung", "Ruft die aktuell konfigurierten Endeffektor-Geräte ab"
     "Erforderliche Parameter", "Keine"
     "Standardparameter", "Keine"
-    "Rückgabewert", "- Fehlercode: 0 = Erfolg, sonst Fehlercode
-    - ``forceSensorEnable[8]``: Aktivierte Kraftsensoren (Indikator pro Kanal)
-    - ``gripperEnable[8]``: Aktivierte Greifer (Indikator pro Kanal)
-    - ``IOEnable[8]``: Aktivierte IO-Geräte (Indikator pro Kanal)"
+    "Rückgabewert", "- Fehlercode, 0-Erfolg; ungleich Null-Fehler
+    - ``forceSensorEnable[8]``: Aktivierungsstatus Kraftsensor, 0-deaktiviert; 1-aktiviert
+    - ``gripperEnable[8]``: Aktivierungsstatus Greifer, 0-deaktiviert; 1-aktiviert
+    - ``IOEnable[8]``: Aktivierungsstatus IO-Gerät, 0-deaktiviert; 1-aktiviert
+    - ``dexhandEnable``: Aktivierungsstatus dreifingrige Hand, 0-deaktiviert; 1-aktiviert"
 
-Greifer-Aktionssteuerungsfunktion aktivieren (für LUA)
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Python SDK-v2.0.5
+Festlegen der aktivierten Greifer-Aktionssteuerungsfunktionen
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
     "Prototyp", "``SetAxleLuaGripperFunc(id, func)``"
-    "Beschreibung", "Greifer-Aktionssteuerungsfunktion aktivieren (für LUA-Skript)"
-    "Erforderliche Parameter", "- ``id``: Greifer-Gerätenummer
-    - ``func``: Funktions-Array (16 Elemente): Index 0 = Greifer aktivieren, 1 = Greifer initialisieren, 2 = Position setzen, 3 = Geschwindigkeit setzen, 4 = Drehmoment setzen, 6 = Greiferstatus lesen, 7 = Initialisierungsstatus lesen, 8 = Fehlercode lesen, 9 = Position lesen, 10 = Geschwindigkeit lesen, 11 = Drehmoment lesen, 12-15 reserviert. Werte 0/1 geben an, ob die Funktion aktiviert ist."
+    "Beschreibung", "Legt die aktivierten Greifer-Aktionssteuerungsfunktionen fest"
+    "Erforderliche Parameter", "
+    - ``id``: Greifer-Gerätenummer
+    - ``func``: 0-Greifer aktivieren; 1-Greifer initialisieren; 2-Position einstellen; 3-Geschwindigkeit einstellen; 4-Drehmoment einstellen; 6-Greiferstatus lesen; 7-Initialisierungsstatus lesen; 8-Fehlercode lesen; 9-Position lesen; 10-Geschwindigkeit lesen; 11-Drehmoment lesen; 12-Drehzahl für Drehgreifer einstellen; 13-Drehgeschwindigkeit für Drehgreifer einstellen; 14-Drehmoment für Drehgreifer einstellen; 15-Drehgreiferstatus lesen; 16-Initialisierungsstatus Drehgreifer lesen; 17-Drehzahl Drehgreifer lesen; 18-Drehgeschwindigkeit Drehgreifer lesen; 19-Drehmoment Drehgreifer lesen; 20-Mehrachs-Synchronbewegung einstellen; 21-Fehlerlöschbefehl; 22-Einzelachsen-Betriebsstatus; 23-Alle-Achsen-Betriebsstatus;"
     "Standardparameter", "Keine"
-    "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
 
-Aktivierte Greifer-Aktionssteuerungsfunktion abrufen
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Python SDK-v2.0.5
+Abrufen der aktivierten Greifer-Aktionssteuerungsfunktionen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
     "Prototyp", "``GetAxleLuaGripperFunc(id)``"
-    "Beschreibung", "Aktivierte Greifer-Aktionssteuerungsfunktion abrufen"
+    "Beschreibung", "Ruft die aktivierten Greifer-Aktionssteuerungsfunktionen ab"
     "Erforderliche Parameter", "- ``id``: Greifer-Gerätenummer"
     "Standardparameter", "Keine"
-    "Rückgabewert", "- Fehlercode: 0 = Erfolg, sonst Fehlercode
-    - ``func``: Funktions-Array (16 Elemente, siehe SetAxleLuaGripperFunc)"
+    "Rückgabewert", "- Fehlercode, 0-Erfolg; ungleich Null-Fehler
+    - ``func``: 0-Greifer aktivieren; 1-Greifer initialisieren; 2-Position einstellen; 3-Geschwindigkeit einstellen; 4-Drehmoment einstellen; 6-Greiferstatus lesen; 7-Initialisierungsstatus lesen; 8-Fehlercode lesen; 9-Position lesen; 10-Geschwindigkeit lesen; 11-Drehmoment lesen; 12-Drehzahl für Drehgreifer einstellen; 13-Drehgeschwindigkeit für Drehgreifer einstellen; 14-Drehmoment für Drehgreifer einstellen; 15-Drehgreiferstatus lesen; 16-Initialisierungsstatus Drehgreifer lesen; 17-Drehzahl Drehgreifer lesen; 18-Drehgeschwindigkeit Drehgreifer lesen; 19-Drehmoment Drehgreifer lesen; 20-Mehrachs-Synchronbewegung einstellen; 21-Fehlerlöschbefehl; 22-Einzelachsen-Betriebsstatus; 23-Alle-Achsen-Betriebsstatus;"
 
 In Ethercat-Slave-Datei des Roboters schreiben
-+++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: Python SDK-v2.0.5
 
 .. csv-table::
@@ -1840,3 +1845,177 @@ SDK-Codebeispiel für Open-Protocol-Lua-Dateioperationen
 
     # Testfunktion aufrufen
     TestCtrlOpenLuaOperate(robot)
+
+Steuerung der Bewegung der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetDexterousHandsMove(self, idstart, slaveNum, pos, speed, force, max_time)``"
+    "Beschreibung", "Steuerung der Bewegung der dreifingrigen Hand"
+    "Erforderliche Parameter", "
+    - ``idstart``: Start-Slave-Stationsnummer;
+    - ``slaveNum``: Anzahl;
+    - ``pos[16]``: Position (-360~360);
+    - ``speed[16]``: Geschwindigkeitsprozent, Bereich [0~100];
+    - ``force[16]``: Drehmomentprozent, Bereich [0~100];
+    - ``max_time``: Maximale Wartezeit, Bereich [0~30000], Einheit ms;"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
+        
+Steuerung des Resets und der Aktivierung der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetDexterousHandsAct(self, id, act)``"
+    "Beschreibung", "Steuerung des Resets und der Aktivierung der dreifingrigen Hand"
+    "Erforderliche Parameter", "
+    - ``id``: Slave-Stationsnummer;
+    - ``act``: 0-Reset 1-Aktivierung"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
+        
+Löschen von Fehlern der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``ClearDexterousHandsError(self)``"
+    "Beschreibung", "Löschen von Fehlern der dreifingrigen Hand"
+    "Erforderliche Parameter", "Keine"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
+    
+Festlegen der Aktivierten Aktionssteuerungsfunktionen der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetDexterousHandsFunc(self, id, func)``"
+    "Beschreibung", "Legt die aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand fest"
+    "Erforderliche Parameter", "
+    - ``id``: Slave-Stationsnummer der dreifingrigen Hand;
+    - ``func``: Funktionsarray, 32 Elemente
+        0-Greifauslösung, 1-Greiferinitialisierung, 2-Positionseinstellung, 3-Geschwindigkeitseinstellung, 4-Drehmomenteinstellung,
+        6-Greiferstatus lesen, 7-Initialisierungsstatus lesen, 8-Fehlercode lesen, 9-Position lesen, 10-Geschwindigkeit lesen,
+        11-Drehmoment lesen, 12-Drehzahl einstellen, 13-Drehgeschwindigkeit einstellen, 14-Drehmoment einstellen,
+        15-Drehgreiferstatus lesen, 16-Dreh-Initialisierungsstatus lesen, 17-Drehzahl lesen, 18-Drehgeschwindigkeit lesen,
+        19-Drehmoment lesen, 20-Mehrachsen-Synchronbewegung einstellen, 21-Fehlerlöschbefehl, 22-Einzelachsen-Betriebsstatus,
+        23-Alle-Achsen-Betriebsstatus"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
+    
+Abrufen der Aktivierten Aktionssteuerungsfunktionen der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetDexterousHandsFunc(self, id)``"
+    "Beschreibung", "Ruft die aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand ab"
+    "Erforderliche Parameter", "
+    - ``id``: Slave-Stationsnummer der dreifingrigen Hand;
+    - ``func``: Funktionsarray, 32 Elemente
+        0-Greifauslösung, 1-Greiferinitialisierung, 2-Positionseinstellung, 3-Geschwindigkeitseinstellung, 4-Drehmomenteinstellung,
+        6-Greiferstatus lesen, 7-Initialisierungsstatus lesen, 8-Fehlercode lesen, 9-Position lesen, 10-Geschwindigkeit lesen,
+        11-Drehmoment lesen, 12-Drehzahl einstellen, 13-Drehgeschwindigkeit einstellen, 14-Drehmoment einstellen,
+        15-Drehgreiferstatus lesen, 16-Dreh-Initialisierungsstatus lesen, 17-Drehzahl lesen, 18-Drehgeschwindigkeit lesen,
+        19-Drehmoment lesen, 20-Mehrachsen-Synchronbewegung einstellen, 21-Fehlerlöschbefehl, 22-Einzelachsen-Betriebsstatus,
+        23-Alle-Achsen-Betriebsstatus"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
+
+Codebeispiel für Konfiguration und Bewegung der Dreifingrigen Hand am Endeffektor  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:  
+     
+    from fairino import Robot
+    import time
+    robot = Robot.RPC('192.168.58.2')
+
+    def main(self):
+
+        id = 1                 
+        slaveNum = 4         
+        max_time = 8000      
+        speed = [0] * 16     
+        force = [0] * 16     
+
+        for i in range(16):
+            force[i] = 50 if i < 4 else 0
+
+        def set_positions(v1, v2, v3, v4):
+            pos = [0.0] * 16
+            pos[0] = v1
+            pos[1] = v2
+            pos[2] = v3
+            pos[3] = v4
+            return pos
+
+        j1 = [-53.426,-85.916,109.280,-86.236,-96.663,-28.560]
+        j2 = [-91.877,-85.917,109.281,-86.236,-96.663,-28.560]
+        epos = [0, 0, 0, 0]
+        offset_pos = [0, 0, 0, 0, 0, 0]
+
+        ret = robot.ClearDexterousHandsError()
+        print(f"ClearDexterousHandsError -> {ret}")
+
+        setFunc = [0] * 32
+        setFunc[2] = 1   
+        setFunc[4] = 1   
+        setFunc[9] = 1   
+        setFunc[10] = 1  
+        setFunc[11] = 1  
+        setFunc[22] = 1  
+
+        ret = robot.SetDexterousHandsFunc(id, setFunc)
+        print(f"SetDexterousHandsFunc(Init + Positions-/Drehmomentfunktionen aktiviert) -> {ret}")
+
+        ret, getFunc = robot.GetDexterousHandsFunc(id)
+        print(f"GetDexterousHandsFunc -> {ret}")
+        if ret == 0:
+            print("GetDexterousHandsFunc :")
+            for i in range(len(getFunc)):
+                print(f"  [{i}]={getFunc[i]}", end="")
+                if (i + 1) % 8 == 0:
+                    print()  
+                elif i < len(getFunc) - 1:
+                    print(", ", end="")
+            if len(getFunc) % 8 != 0:
+
+        ret = robot.SetDexterousHandsAct(id, 1)
+        print(f"SetDexterousHandsAct() -> {ret}")
+        if ret != 0:
+            return
+            pos = set_positions(20, 20, 20, 20)
+        ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time)
+        print(f"ret: {ret}")
+        time.sleep(5)
+
+        for iteration in range(1, 11):
+            robot.MoveJ(joint_pos=j1, tool=1, user=0, vel=100, acc=100, ovl=100,
+                        exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+
+            pos = set_positions(10, 10, 10, 10)
+            ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time)
+            time.sleep(1)
+
+            robot.MoveJ(joint_pos=j2, tool=1, user=0, vel=100, acc=100, ovl=100,
+                        exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+
+            pos = set_positions(50, 50, 50, 50)
+            ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time)
+            time.sleep(1)
+
+    main(robot)    

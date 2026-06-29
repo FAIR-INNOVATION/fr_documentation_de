@@ -837,83 +837,94 @@ Aktivierungsstatus der Endeffektor-LUA-Ausführung abrufen
     */
     errno_t GetAxleLuaEnableStatus(int status[]);
 
-Aktivierungstyp der Endeffektor-LUA-Endgeräte einstellen
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Festlegen der aktivierten Endeffektor-Gerätetypen für LUA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
 
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief Aktivierungstyp der Endeffektor-LUA-Endgeräte einstellen
-    * @param [in] forceSensorEnable Kraftsensor-Aktivierungsstatus, 0-nicht aktivieren; 1-aktivieren
-    * @param [in] gripperEnable Greifer-Aktivierungsstatus, 0-nicht aktivieren; 1-aktivieren
-    * @param [in] IOEnable IO-Geräte-Aktivierungsstatus, 0-nicht aktivieren; 1-aktivieren
+    * @brief Legt die aktivierten Endeffektor-Gerätetypen für LUA fest
+    * @param forceSensorEnable Aktivierungsstatus Kraftsensor, 0-deaktiviert; 1-aktiviert
+    * @param gripperEnable Aktivierungsstatus Greifer, 0-deaktiviert; 1-aktiviert
+    * @param IOEnable Aktivierungsstatus IO-Gerät, 0-deaktiviert; 1-aktiviert
+    * @param dexhandEnable Aktivierungsstatus dreifingrige Hand, 0-deaktiviert; 1-aktiviert
+    * @return  Fehlercode
+    */
+    errno_t SetAxleLuaEnableDeviceType(int forceSensorEnable, int gripperEnable, int IOEnable, int dexhandEnable);
+
+Abrufen der aktivierten Endeffektor-Gerätetypen für LUA
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+
+.. code-block:: c++
+    :linenos:
+        
+    /**
+    * @brief Ruft die aktivierten Endeffektor-Gerätetypen für LUA ab
+    * @param enable enable[0]:forceSensorEnable Aktivierungsstatus Kraftsensor, 0-deaktiviert; 1-aktiviert
+    * @param enable enable[1]:gripperEnable Aktivierungsstatus Greifer, 0-deaktiviert; 1-aktiviert
+    * @param enable enable[2]:IOEnable Aktivierungsstatus IO-Gerät, 0-deaktiviert; 1-aktiviert
+    * @param enable enable[3]:dexhandEnable Aktivierungsstatus dreifingrige Hand, 0-deaktiviert; 1-aktiviert
     * @return Fehlercode
     */
-    errno_t SetAxleLuaEnableDeviceType(int forceSensorEnable, int gripperEnable, int IOEnable);
+    errno_t GetAxleLuaEnableDeviceType(int* forceSensorEnable, int* gripperEnable, int* IOEnable, int* dexhandEnable);
 
-Aktivierungstyp der Endeffektor-LUA-Endgeräte abrufen
-++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Abrufen der aktuell konfigurierten Endeffektor-Geräte
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
 
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief Aktivierungstyp der Endeffektor-LUA-Endgeräte abrufen
-    * @param [out] forceSensorEnable Kraftsensor-Aktivierungsstatus, 0-nicht aktiviert; 1-aktiviert
-    * @param [out] gripperEnable Greifer-Aktivierungsstatus, 0-nicht aktiviert; 1-aktiviert
-    * @param [out] IOEnable IO-Geräte-Aktivierungsstatus, 0-nicht aktiviert; 1-aktiviert
+    * @brief Ruft die aktuell konfigurierten Endeffektor-Geräte ab
+    * @param [out] forceSensorEnable Aktivierte Gerätenummer Kraftsensor, 0-deaktiviert; 1-aktiviert
+    * @param [out] gripperEnable Aktivierte Gerätenummer Greifer, 0-deaktiviert; 1-aktiviert
+    * @param [out] IODeviceEnable Aktivierte Gerätenummer IO-Gerät, 0-deaktiviert; 1-aktiviert
+    * @param [out] decHandEnable Aktivierte Gerätenummer dreifingrige Hand, 0-deaktiviert; 1-aktiviert
     * @return Fehlercode
     */
-    errno_t GetAxleLuaEnableDeviceType(int* forceSensorEnable, int* gripperEnable, int* IOEnable);
+    errno_t GetAxleLuaEnableDevice(int forceSensorEnable[], int gripperEnable[], int IODeviceEnable[], int decHandEnable[]);
 
-Aktuell konfigurierte Endgeräte abrufen
-++++++++++++++++++++++++++++++++++++++++
+Festlegen der aktivierten Greifer-Aktionssteuerungsfunktionen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
 
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief Aktuell konfigurierte Endgeräte (über LUA) abrufen
-    * @param [out] forceSensorEnable Array aktivierter Kraftsensornummern (Indikator)
-    * @param [out] gripperEnable Array aktivierter Greifernummern (Indikator)
-    * @param [out] IODeviceEnable Array aktivierter IO-Gerätenummern (Indikator)
-    * @return Fehlercode
+    * @brief Legt die aktivierten Greifer-Aktionssteuerungsfunktionen fest
+    * @param id Greifer-Gerätenummer
+    * @param func func[0]-Greifer aktivieren; func[1]-Greifer initialisieren; func[2]-Position einstellen; func[3]-Geschwindigkeit einstellen; func[4]-Drehmoment einstellen; func[6]-Greiferstatus lesen;
+        func[7]-Initialisierungsstatus lesen; func[8]-Fehlercode lesen; func[9]-Position lesen; func[10]-Geschwindigkeit lesen; func[11]-Drehmoment lesen; func[12]-Drehzahl für Drehgreifer einstellen;
+        func[13]-Drehgeschwindigkeit für Drehgreifer einstellen; func[14]-Drehmoment für Drehgreifer einstellen; func[15]-Drehgreiferstatus lesen; func[16]-Initialisierungsstatus Drehgreifer lesen;
+        func[17]-Drehzahl Drehgreifer lesen; func[18]-Drehgeschwindigkeit Drehgreifer lesen; func[19]-Drehmoment Drehgreifer lesen; func[20]-Mehrachs-Synchronbewegung einstellen; func[21]-Fehlerlöschbefehl;
+        func[22]-Einzelachsen-Betriebsstatus; func[23]-Alle-Achsen-Betriebsstatus;
+    * @return  Fehlercode
     */
-    errno_t GetAxleLuaEnableDevice(int forceSensorEnable[], int gripperEnable[], int IODeviceEnable[]);
+    errno_t SetAxleLuaGripperFunc(int id, int func[32]);
 
-Greifer-Aktionssteuerungsfunktion aktivieren (für LUA)
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Abrufen der aktivierten Greifer-Aktionssteuerungsfunktionen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
 
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief Greifer-Aktionssteuerungsfunktion aktivieren (für LUA-Skript)
-    * @param [in] id Greifer-Gerätenummer
-    * @param [in] func Funktions-Array: func[0]-Greifer aktivieren; func[1]-Greifer initialisieren; 2-Position einstellen; 3-Geschwindigkeit einstellen; 4-Drehmoment einstellen; 6-Greiferstatus lesen; 7-Initialisierungsstatus lesen; 8-Fehlercode lesen; 9-Position lesen; 10-Geschwindigkeit lesen; 11-Drehmoment lesen
-    * @return Fehlercode
+    * @brief Ruft die aktivierten Greifer-Aktionssteuerungsfunktionen ab
+    * @param id Greifer-Gerätenummer
+    * @param func func[0]-Greifer aktivieren; func[1]-Greifer initialisieren; func[2]-Position einstellen; func[3]-Geschwindigkeit einstellen; func[4]-Drehmoment einstellen; func[6]-Greiferstatus lesen;
+        func[7]-Initialisierungsstatus lesen; func[8]-Fehlercode lesen; func[9]-Position lesen; func[10]-Geschwindigkeit lesen; func[11]-Drehmoment lesen; func[12]-Drehzahl für Drehgreifer einstellen;
+        func[13]-Drehgeschwindigkeit für Drehgreifer einstellen; func[14]-Drehmoment für Drehgreifer einstellen; func[15]-Drehgreiferstatus lesen; func[16]-Initialisierungsstatus Drehgreifer lesen;
+        func[17]-Drehzahl Drehgreifer lesen; func[18]-Drehgeschwindigkeit Drehgreifer lesen; func[19]-Drehmoment Drehgreifer lesen; func[20]-Mehrachs-Synchronbewegung einstellen; func[21]-Fehlerlöschbefehl;
+        func[22]-Einzelachsen-Betriebsstatus; func[23]-Alle-Achsen-Betriebsstatus;
+    * @return  Fehlercode
     */
-    errno_t SetAxleLuaGripperFunc(int id, int func[]);
-
-Aktivierte Greifer-Aktionssteuerungsfunktion abrufen
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief Aktivierte Greifer-Aktionssteuerungsfunktion abrufen
-    * @param [in] id Greifer-Gerätenummer
-    * @param [out] func Funktions-Array (wie oben)
-    * @return Fehlercode
-    */
-    errno_t GetAxleLuaGripperFunc(int id, int func[]);
+    errno_t GetAxleLuaGripperFunc(int id, int func[32]);
 
 In Ethercat-Slave-Datei des Roboters schreiben
 +++++++++++++++++++++++++++++++++++++++++++++++
@@ -965,69 +976,73 @@ Codebeispiel für Roboter-Endeffektor-LUA-Dateioperationen
 
     int TestAxleLua(void)
     {
-      ROBOT_STATE_PKG pkg = {};
-      FRRobot robot;
-      robot.LoggerInit();
-      robot.SetLoggerLevel(1);
-      int rtn = robot.RPC("192.168.58.2");
-      if (rtn != 0)
-      {
-        return -1;
-      }
-      robot.SetReConnectParam(true, 30000, 500);
-      robot.AxleLuaUpload("D://zUP/AXLE_LUA_End_DaHuan.lua");
-      AxleComParam param(7, 8, 1, 0, 5, 3, 1);
-      robot.SetAxleCommunicationParam(param);
-      AxleComParam getParam;
-      robot.GetAxleCommunicationParam(&getParam);
-      printf("GetAxleCommunicationParam param is %d %d %d %d %d %d %d\n", getParam.baudRate, getParam.dataBit, getParam.stopBit, getParam.verify, getParam.timeout, getParam.timeoutTimes, getParam.period);
-      robot.SetAxleLuaEnable(1);
-      int luaEnableStatus[1] = {0};
-      robot.GetAxleLuaEnableStatus(luaEnableStatus);
-      robot.SetAxleLuaEnableDeviceType(0, 1, 0);
-      int forceEnable = 0;
-      int gripperEnable = 0;
-      int ioEnable = 0;
-      robot.GetAxleLuaEnableDeviceType(&forceEnable, &gripperEnable, &ioEnable);
-      printf("GetAxleLuaEnableDeviceType param is %d %d %d\n", forceEnable, gripperEnable, ioEnable);
-      int func[16] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-      robot.SetAxleLuaGripperFunc(1, func);
-      int getFunc[16] = { 0 };
-      robot.GetAxleLuaGripperFunc(1, getFunc);
-      int getforceEnable[16] = { 0 };
-      int getgripperEnable[16] = { 0 };
-      int getioEnable[16] = { 0 };
-      robot.GetAxleLuaEnableDevice(getforceEnable, getgripperEnable, getioEnable);
-      printf("\ngetforceEnable status : ");
-      for (int i = 0; i < 16; i++)
-      {
-        printf("%d,", getforceEnable[i]);
-      }
-      printf("\ngetgripperEnable status : ");
-      for (int i = 0; i < 16; i++)
-      {
-        printf("%d,", getgripperEnable[i]);
-      }
-      printf("\ngetioEnable status : ");
-      for (int i = 0; i < 16; i++)
-      {
-        printf("%d,", getioEnable[i]);
-      }
-      printf("\n");
-      robot.ActGripper(1, 0);
-      robot.Sleep(2000);
-      robot.ActGripper(1, 1);
-      robot.Sleep(2000);
-      robot.MoveGripper(1, 90, 10, 100, 50000, 0, 0, 0, 0, 0);
-      int pos = 0;
-      while (true)
-      {
-        robot.GetRobotRealTimeState(&pkg);
-        printf("gripper pos is %u\n", pkg.gripper_position);
-        robot.Sleep(100);
-      }
-      robot.CloseRPC();
-      return 0;
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        robot.AxleLuaUpload("D://zUP/AXLE_LUA_End_DaHuan.lua");
+        AxleComParam param(7, 8, 1, 0, 5, 3, 1);
+        robot.SetAxleCommunicationParam(param);
+        AxleComParam getParam;
+        robot.GetAxleCommunicationParam(&getParam);
+        printf("GetAxleCommunicationParam param is %d %d %d %d %d %d %d\n", getParam.baudRate, getParam.dataBit, getParam.stopBit, getParam.verify, getParam.timeout, getParam.timeoutTimes, getParam.period);
+        robot.SetAxleLuaEnable(1);
+        int luaEnableStatus = 0;
+        robot.GetAxleLuaEnableStatus(&luaEnableStatus);
+        robot.SetAxleLuaEnableDeviceType(0, 1, 0, 0);
+        int forceEnable = 0;
+        int gripperEnable = 0;
+        int ioEnable = 0;
+        int dexhandEnable = 0;
+        robot.GetAxleLuaEnableDeviceType(&forceEnable, &gripperEnable, &ioEnable, &dexhandEnable);
+        printf("GetAxleLuaEnableDeviceType param is %d %d %d %d\n", forceEnable, gripperEnable, ioEnable, dexhandEnable);
+        int func[32] = { 0,1,1,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+        rtn = robot.SetAxleLuaGripperFunc(2, func);
+        printf("SetAxleLuaGripperFunc rtn is %d\n", rtn);
+        int getFunc[32] = { 0 };
+        rtn = robot.GetAxleLuaGripperFunc(2, getFunc);
+        printf("GetAxleLuaGripperFunc rtn is %d\n", rtn);
+        int getforceEnable[16] = { 0 };
+        int getgripperEnable[16] = { 0 };
+        int getioEnable[16] = { 0 };
+        int dexhandEnable1[16] = { 0 };
+        robot.GetAxleLuaEnableDevice(getforceEnable, getgripperEnable, getioEnable, dexhandEnable1);
+        printf("\ngetforceEnable status : ");
+        for (int i = 0; i < 16; i++)
+        {
+            printf("%d,", getforceEnable[i]);
+        }
+        printf("\ngetgripperEnable status : ");
+        for (int i = 0; i < 16; i++)
+        {
+            printf("%d,", getgripperEnable[i]);
+        }
+        printf("\ngetioEnable status : ");
+        for (int i = 0; i < 16; i++)
+        {
+            printf("%d,", getioEnable[i]);
+        }
+        printf("\n");
+        robot.ActGripper(2, 0);
+        robot.Sleep(2000);
+        robot.ActGripper(2, 1);
+        robot.Sleep(2000);
+        robot.MoveGripper(2, 1, 10, 100, 50000, 0, 0, 0, 0, 0);
+        int pos = 0;
+        while (true)
+        {
+            robot.GetRobotRealTimeState(&pkg);
+            printf("gripper pos is %u\n", pkg.gripper_position);
+            robot.Sleep(100);
+        }
+        robot.CloseRPC();
+        return 0;
     }
 
 SmartTool-Tastenstatus abrufen
@@ -2029,4 +2044,189 @@ Codebeispiel für Open-Protocol-Upload, -Download und -Löschen von Controller-P
         robot.CloseRPC();
         robot.Sleep(1000);
         return 0;
+    }
+
+Steuerung der Bewegung der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Steuerung der Bewegung der dreifingrigen Hand
+    * @param [in] idstart Start-Slave-Stationsnummer
+    * @param [in] slaveNum Anzahl
+    * @param [in] pos Positionsarray, Länge 16, Bereich (-360~360)
+    * @param [in] speed Geschwindigkeitsprozent-Array, Länge 16, Bereich [0~100]
+    * @param [in] force Drehmomentprozent-Array, Länge 16, Bereich [0~100]
+    * @param [in] max_time Maximale Wartezeit, Bereich [0~30000], Einheit ms
+    * @return Fehlercode, 0 bei Erfolg
+    */
+    errno_t SetDexterousHandsMove(int idstart, int slaveNum, double pos[16], int speed[16], int force[16], int max_time);
+        
+Steuerung des Resets und der Aktivierung der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Steuerung des Resets und der Aktivierung der dreifingrigen Hand
+    * @param [in] id Slave-Stationsnummer
+    * @param [in] act 0-Reset 1-Aktivierung
+    * @return Fehlercode, 0 bei Erfolg
+    */
+    errno_t SetDexterousHandsAct(int id, int act);
+            
+Löschen von Fehlern der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Löschen von Fehlern der dreifingrigen Hand
+    * @return Fehlercode, 0 bei Erfolg
+    */
+    errno_t ClearDexterousHandsError();
+                
+Festlegen der Aktivierten Aktionssteuerungsfunktionen der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Legt die aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand fest
+    * @param [in] id Gerätenummer der dreifingrigen Hand
+    * @param [in] func 0-Greifauslösung, 1-Greiferinitialisierung, 2-Positionseinstellung, 3-Geschwindigkeitseinstellung, 4-Drehmomenteinstellung, 6-Greiferstatus lesen, 7-Initialisierungsstatus lesen, 8-Fehlercode lesen, 9-Position lesen, 10-Geschwindigkeit lesen, 11-Drehmoment lesen, 12-Drehzahl einstellen, 13-Drehgeschwindigkeit einstellen, 14-Drehmoment einstellen, 15-Drehgreiferstatus lesen, 16-Dreh-Initialisierungsstatus lesen, 17-Drehzahl lesen, 18-Drehgeschwindigkeit lesen, 19-Drehmoment lesen, 20-Mehrachsen-Synchronbewegung einstellen, 21-Fehlerlöschbefehl, 22-Einzelachsen-Betriebsstatus, 23-Alle-Achsen-Betriebsstatus
+    * @return Fehlercode
+    */
+    errno_t SetDexterousHandsFunc(int id, int func[32]);
+                    
+Abrufen der Aktivierten Aktionssteuerungsfunktionen der Dreifingrigen Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Ruft die aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand ab
+    * @param [in] id Gerätenummer der dreifingrigen Hand
+    * @param [out] func 0-Greifauslösung, 1-Greiferinitialisierung, 2-Positionseinstellung, 3-Geschwindigkeitseinstellung, 4-Drehmomenteinstellung, 6-Greiferstatus lesen, 7-Initialisierungsstatus lesen, 8-Fehlercode lesen, 9-Position lesen, 10-Geschwindigkeit lesen, 11-Drehmoment lesen, 12-Drehzahl einstellen, 13-Drehgeschwindigkeit einstellen, 14-Drehmoment einstellen, 15-Drehgreiferstatus lesen, 16-Dreh-Initialisierungsstatus lesen, 17-Drehzahl lesen, 18-Drehgeschwindigkeit lesen, 19-Drehmoment lesen, 20-Mehrachsen-Synchronbewegung einstellen, 21-Fehlerlöschbefehl, 22-Einzelachsen-Betriebsstatus, 23-Alle-Achsen-Betriebsstatus
+    * @return Fehlercode
+    */
+    errno_t GetDexterousHandsFunc(int id, int func[32]);
+                        
+Codebeispiel für Konfiguration und Bewegung der Dreifingrigen Hand am Endeffektor
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestDexterousHands()
+    {
+    ROBOT_STATE_PKG pkg = {};
+    FRRobot robot;
+    robot.LoggerInit();
+    robot.SetLoggerLevel(1);
+    int rtn = robot.RPC("192.168.58.2");
+    if (rtn != 0)
+    {
+        return -1;
+    }
+    robot.SetReConnectParam(true, 30000, 500);
+    int id = 1;        // Slave-Stationsnummer
+    int slaveNum = 4;     // Steuert 4 Finger
+    int max_time = 8000;   // Maximale Wartezeit 8 Sekunden
+    int speed[16] = {0};   // Geschwindigkeitsarray, alle 0 bedeutet Standardgeschwindigkeit verwenden
+    int force[16] = {0};   // Drehmomentarray
+    // Drehmomentarray initialisieren: erste 4 Finger auf 50% setzen, der Rest 0 (Werte werden über Move-Befehl gesendet)
+    for (int i = 0; i < 16; i++)
+    {
+        force[i] = (i < 4) ? 50 : 0;
+    }
+    // Hilfsfunktion: Positionsarray setzen (nur erste 4 Finger sind wirksam)
+    double pos[16] = {0.0};
+    JointPos j1(-91.876, -85.920, 109.279, -86.239, -96.664, -28.563);
+    JointPos j2(-40.954, -85.920, 109.279, -86.239, -96.664, -28.563);
+    ExaxisPos epos(0, 0, 0, 0);
+    DescPose offset_pos(0, 0, 0, 0, 0, 0);
+    printf("===== Vollfunktionstest der dreifingrigen Hand gestartet =====\n");
+    // 1. Fehler löschen
+    int ret = robot.ClearDexterousHandsError();
+    printf("ClearDexterousHandsError rtn %d\n", ret);
+    // ========== 2. Funktionsschalter setzen ==========
+    int setFunc[32] = {0};
+    setFunc[2] = 1;  // Positionseinstellungsfunktion aktivieren
+    setFunc[4] = 1;  // Drehmomenteinstellungsfunktion aktivieren
+    setFunc[9] = 1;  // Position lesen
+    setFunc[10] = 1;  // Drehmoment lesen
+    setFunc[11] = 1;  // Status lesen
+    setFunc[22] = 1;  // Einzelachsen-Bewegungsstatus
+    ret = robot.SetDexterousHandsFunc(id, setFunc);
+    printf("SetDexterousHandsFunc(Init + Positions-/Drehmomentfunktionen aktiviert) rtn %d\n", ret);
+    // ========== 3. Funktionsstatus lesen (überprüfen, ob Einstellungen wirksam wurden) ==========
+    int getFunc[32] = {0}; // GetDexterousHandsFunc gibt 32 Ganzzahlen zurück
+    ret = robot.GetDexterousHandsFunc(id, getFunc);
+    printf("GetDexterousHandsFunc rtn %d\n", ret);
+    if (ret == 0)
+    {
+        // Alle 32 Werte ausgeben
+        printf("Alle 32 von GetDexterousHandsFunc zurückgegebenen Werte:");
+        for (int i = 0; i < 32; i++)
+        {
+        printf(" [%d]={%d}", i, getFunc[i]);
+        if ((i + 1) % 8 == 0)
+        {
+            printf("\n");
+        } 
+        else if (i < 31)
+        {
+            printf(", ");
+        }
+        }
+    }
+    // ========== 4. Dreifingrige Hand aktivieren ==========
+    ret = robot.SetDexterousHandsAct(id, 1);
+    printf("SetDexterousHandsAct(aktivieren) rtn %d\n", ret);
+    if (ret != 0)
+    {
+        printf("Aktivierung fehlgeschlagen, Test abgebrochen");
+        return -1;
+    }
+    // ========== 5. Erste Bewegung auf 20° (Position und Drehmomentwerte über Move-Befehl senden) ==========
+    memset(pos, 0, sizeof(pos));
+    pos[0] = 20;
+    pos[1] = 20;
+    pos[2] = 20;
+    pos[3] = 20;
+    ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time);
+    printf("Erste Bewegung auf 20° -> %d\n", ret);
+    robot.Sleep(5000);
+    // ========== 6. Hin- und Herbewegung 10-mal (10° ↔ 50°) ==========
+    printf("Starte 10 Hin- und Herbewegungen...");
+    for (int iteration = 1; iteration <= 10; iteration++)
+    {
+        robot.MoveJ(&j1, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        memset(pos, 0, sizeof(pos));
+        pos[0] = 10;
+        pos[1] = 10;
+        pos[2] = 10;
+        pos[3] = 10;
+        ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time);
+        printf("Bewegung auf 10° -> %d\n", ret);
+        robot.Sleep(1000);
+        robot.MoveJ(&j2, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        memset(pos, 0, sizeof(pos));
+        pos[0] = 50;
+        pos[1] = 50;
+        pos[2] = 50;
+        pos[3] = 50;
+        ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time);
+        printf("Bewegung auf 50° -> %d\n", ret);
+        robot.Sleep(1000);
+    }
+    printf("Test abgeschlossen (Funktionsschalter setzen/lesen + Aktivierung + 10 Hin- und Herbewegungen).");
+    return 0;
     }

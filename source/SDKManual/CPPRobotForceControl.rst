@@ -1267,4 +1267,4 @@ Momentenkompensation aktivieren und Koeffizienten setzen
     * @param [in] torqueCoeff Momentenkompensationskoeffizienten J1-J6 [0-1]
     * @return Fehlercode
     */
-    errno_t SerCoderCompenParams(int status, double torqueCoeff[6]);
+    errno_t SetCoderCompenParams(int status, double torqueCoeff[6]);

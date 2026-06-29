@@ -476,7 +476,7 @@ Codebeispiel zum Festlegen des Ausgangs-Rücksetzverhaltens nach Stopp/Pause fü
         robot.SetOutputResetExtAO(resetFlag, resumeReloadFlag);
         robot.SetOutputResetSmartToolDO(resetFlag, resumeReloadFlag);
 
-        robot.ProgramLoad("/fruser/test.lua");
+        robot.ProgramLoad("test.lua");
         robot.ProgramRun();
 
         Thread.Sleep(2000);

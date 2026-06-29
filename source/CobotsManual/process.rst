@@ -286,6 +286,111 @@ Adaptive Posenanpassung in Kombination mit Erweiterungsachse und Laser-Tracking-
      - LTTrackOff
      - #Lasertracking ausschalten
 
+Neue Spline-Linienbogen-Übergangs-Pendelfunktion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Übersicht
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Die Funktion der neuen Spline-Linienbogen-Übergangs mit überlagerter Pendelbewegung ist eine Kombination aus der neuen Spline-Linienbogen-Übergangsfunktion des Roboters und der Pendelfunktion, die es dem Roboter ermöglicht, Pendelbewegungen der Typen "Dreieckswellenpendelung", "vertikale L-förmige Dreieckswellenpendelung", "Stehschweiß-Dreieckspendelung", "Sinuswellenpendelung" und "vertikale L-förmige Sinuswellenpendelung" während des neuen Spline-Linienbogen-Übergangsprozesses durchzuführen.
+
+Ablauf
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**Schritt 1**: Kalibrieren Sie das Roboter-Werkzeugkoordinatensystem über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie im entsprechenden Kapitel des Benutzerhandbuchs.
+
+**Schritt 2**: Unterrichten Sie nicht weniger als 4 Punkte über WebApp. Beachten Sie, dass der Abstand zwischen den Punkten gleichmäßig verteilt sein sollte, um die besten Ergebnisse zu erzielen.
+
+**Schritt 3**: Legen Sie die Pendelparameter fest. Klicken Sie auf der WebApp-Hauptoberfläche auf "Teach-Programm" -> "Programmierung", um in den Bereich "Bewegungsbefehle" zu gelangen.
+
+.. figure:: process/073.png
+   :align: center
+   :width: 4in
+   
+.. centered:: Abbildung 15.1‑23 Bereich "Bewegungsbefehle"
+  
+Klicken Sie im Bereich "Bewegungsbefehle" auf die Schaltfläche "Pendeln", um die Konfigurationsoberfläche "Weave" aufzurufen. Wählen Sie im Bereich "Befehlsbearbeitung" die Prozessnummer aus dem Dropdown-Menü "Nummer auswählen", klicken Sie auf "Bearbeiten", um zur Konfiguration der Pendelprozessparameter zu gelangen. Klicken Sie nach der Konfiguration auf "Konfigurieren", um die Prozessnummer zu speichern.
+
+.. figure:: process/074.png
+   :align: center
+   :width: 6in
+   
+.. centered:: Abbildung 15.1‑24 Einstellung der Pendelprozessparameter
+ 
+.. note:: Die Funktion des neuen Spline-Linienbogen-Übergangs mit überlagerter Pendelbewegung gilt derzeit für die Typen "Dreieckswellenpendelung", "vertikale L-förmige Dreieckswellenpendelung", "Stehschweiß-Dreieckspendelung", "Sinuswellenpendelung" und "vertikale L-förmige Sinuswellenpendelung". Wählen Sie "Einschließen" im Dropdown-Menü "Pendel-Wartezeit" und "Bewegung während der Wartezeit fortsetzen" im Dropdown-Menü "Pendelpositionswartezeit".
+
+**Schritt 4**: Fügen Sie Pendelbewegungsbefehle hinzu. Klicken Sie im Bereich "Befehlstyp" der Konfigurationsoberfläche "Weave" auf "Pendeln starten" -> "Hinzufügen" -> "Pendeln stoppen" -> "Hinzufügen" -> "Übernehmen", um die Pendelbewegungseinstellungen abzuschließen.
+
+.. figure:: process/075.png
+   :align: center
+   :width: 6in
+   
+.. centered:: Abbildung 15.1‑25 Pendelbewegungseinstellungen
+  
+**Schritt 5**: Fügen Sie einen neuen Spline-Linienbogen-Übergangsbefehl hinzu. Klicken Sie im Bereich "Bewegungsbefehle" auf die Schaltfläche "N-Spline", um die Konfigurationsoberfläche "N-Spline" aufzurufen. Klicken Sie im Bereich "Befehlstyp" auf die Schaltfläche "Mehrpunkt-Trajektorie starten", wählen Sie "Bogenübergangspunkt" aus dem Dropdown-Menü "Steuerungsmodus", geben Sie die Parameter in das Feld "Globale durchschnittliche Übergangszeit" ein und klicken Sie auf "Hinzufügen", um die Konfiguration des neuen Spline-Bewegungsmodus abzuschließen.
+
+.. figure:: process/076.png
+   :align: center
+   :width: 6in
+   
+.. centered:: Abbildung 15.1‑26 Konfiguration des Neuen Spline-Bewegungsmodus
+
+.. note:: Die "Globale durchschnittliche Übergangszeit" gilt für den Steuerungsmodus "Bogenübergangspunkt". Für andere Modi können die Standardeinstellungen beibehalten werden. Es wird empfohlen, den Wert so weit wie möglich nach oben anzupassen.
+
+Anpassungsmethoden:
+
+1. Teilen Sie die gesamte Bewegungszeit durch (Anzahl der Punkte - 1), um den Parameter der globalen durchschnittlichen Übergangszeit zu erhalten, wobei die Zeiteinheit Millisekunden ist.
+2. Legen Sie die Zeit basierend auf der Laufzeit der beiden Punkte mit dem größten Abstand während der gesamten Bewegung fest. Wenn die Beobachtung nicht möglich ist oder keine sanfte Positionsübergangsanforderung besteht, können Sie den Standardwert auf 10000 Millisekunden setzen oder nach oben anpassen.
+
+**Schritt 6**: Fügen Sie Bewegungspunkte hinzu. Klicken Sie im Bereich "Befehlstyp" der Konfigurationsoberfläche "N-Spline" auf "Punkt setzen" -> "SPL". Wählen Sie den Bewegungspunkt aus dem Dropdown-Menü "Punktname", geben Sie das Bewegungsgeschwindigkeitsverhältnis im Feld "Debug-Geschwindigkeit" ein, geben Sie den Glättungsparameter im Feld "Glatter Übergangsradius" ein, wählen Sie den Bewegungsstatus des Punktes aus dem Dropdown-Menü "Ist letzter Punkt" und klicken Sie auf "Hinzufügen", um die Konfiguration eines einzelnen Bewegungspunktes abzuschließen.
+
+.. figure:: process/077.png
+   :align: center
+   :width: 6in
+   
+.. centered:: Abbildung 15.1‑27 Konfiguration der Bewegungspunkte
+ 
+.. note:: Wiederholen Sie Schritt 6, um die Konfiguration aller Bewegungspunkte abzuschließen, und wählen Sie "Ja" aus dem Dropdown-Menü "Ist letzter Punkt" in der Konfiguration des letzten Punktes.
+
+**Schritt 7**: Schließen Sie den neuen Spline-Linienbogen-Übergangsbefehl ab. Klicken Sie im Bereich "Befehlstyp" der Konfigurationsoberfläche "N-Spline" auf die Schaltfläche "Mehrpunkt-Trajektorie beenden", klicken Sie dann auf "Hinzufügen" -> "Übernehmen", um die gesamte Konfiguration des neuen Spline-Linienbogen-Übergangsbefehls abzuschließen.
+
+.. figure:: process/078.png
+   :align: center
+   :width: 6in
+   
+.. centered:: Abbildung 15.1‑28 Konfiguration des Neuen Spline-Bewegungsendes
+  
+**Schritt 8**: Schreiben Sie das LUA-Programm für die Funktion Neuer Spline-Linienbogen-Übergang + Pendelbewegung. Passen Sie die Reihenfolge der in den Schritten 4 bis 7 generierten Befehle an. Führen Sie das LUA-Programm aus, um die Funktion Neuer Spline-Linienbogen-Übergang + Pendelbewegung zu implementieren.
+
+.. figure:: process/079.png
+   :align: center
+   :width: 4in
+   
+.. centered:: Abbildung 15.1‑29 LUA-Programm für Neuen Spline-Linienbogen-Übergang + Pendelbewegung
+ 
+.. note:: Vor dem Startbewegungspunkt des neuen Spline-Linienbogen-Übergangs kann eine PTP-Bewegung hinzugefügt werden, um sicherzustellen, dass der Roboter den Startbewegungspunkt erreicht.
+
+Einstellung der Rückführstrategie für Neuen Spline-Linienbogen-Übergang + Pendelbewegung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klicken Sie auf der WebApp-Hauptoberfläche auf "Hilfsanwendungen" -> "Prozesspaket" -> "Schweißexperten-Datenbank", um in den Bereich "Schweißexperten-Datenbank" zu gelangen.
+
+.. figure:: process/080.png
+   :align: center
+   :width: 6in
+   
+.. centered:: Abbildung 15.1‑30 Neuer Spline-Pendelschweißbefehl
+
+Klicken Sie im Bereich "Schweißexperten-Datenbank" auf die Schaltfläche "Neuer Spline-Pendelschweiß" (Neue Spline-Pendelschweißung), um die Konfigurationsoberfläche "Neue Spline-Pendelschweißung" aufzurufen. Im Bereich "Pendelschweißparameter" können Sie aus dem Dropdown-Menü "Pendel-Rückführtyp" entweder "Keine Rückführung" oder "Rückführung mit erweiterter Trajektorie" auswählen, wie in Abbildung 3-2 gezeigt. Klicken Sie nach der Auswahl auf die Schaltfläche "Konfigurieren", um die Einstellung der Pendel-Rückführstrategie abzuschließen.
+
+.. figure:: process/081.png
+   :align: center
+   :width: 4in
+   
+.. centered:: Abbildung 15.1‑31 Pendel-Rückführtyp für Neuen Spline-Linienbogen-Übergang
+
+.. note:: Im Dropdown-Menü "Pendel-Rückführtyp" stoppt die neue Spline-Bogenübergangs-Pendelbewegung, wenn "Keine Rückführung" ausgewählt ist, nachdem der letzte Punkt erreicht wurde; wenn "Rückführung mit erweiterter Trajektorie" ausgewählt ist, setzt die neue Spline-Bogenübergangs-Pendelbewegung ihre Bewegung nach dem Erreichen des letzten Punktes fort, um sicherzustellen, dass die Bewegung am Ende eines vollständigen Pendelzyklus stoppt.
+
 Palettiersystem-Konfiguration
 ------------------------------
 

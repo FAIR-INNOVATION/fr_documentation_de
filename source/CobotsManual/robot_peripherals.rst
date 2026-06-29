@@ -465,6 +465,122 @@ Drehgreifer
 
 .. note:: Die Anzahl der Umdrehungen bezieht sich auf die absolute Anzahl der Umdrehungen. Die maximale Anzahl für Vorwärts- und Rückwärtsdrehungen beträgt 90 Umdrehungen. Nach einer Drehung muss ein Reset durchgeführt werden.
 
+Funktion zur Erkennung von Greifer-Werkstückabfall
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Konfigurationsanweisungen
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Benutzer können das offene Endprotokoll ändern, um den Wert des Abfallalarmregisters des Greifers zu lesen und an den Roboter zurückzumelden. Wenn der Greifer diesen Fehler setzt, löst der Roboter gleichzeitig den Fehler "Greifer-Werkstückabfall-Alarm" aus.
+
+Am Beispiel des Junduo-Greifers wird nachfolgend ein Beispiel für die Hinzufügung der Greifer-Abwurferkennung zum offenen Endprotokoll gezeigt. Dieser Code liest Bit 1 des Registers 0x07D0 des Greifers. Wenn dieses Bit auf 1 gesetzt wird, wird das Werkstückabfall-Flag ausgelöst und GripState wird mit dem Wert 3 belegt und an den Roboter übergeben, wodurch der Fehler "Greifer-Werkstückabfall-Alarm" ausgelöst wird.
+
+Bei Problemen während der Erstellung wenden Sie sich bitte an unser Unternehmen für technischen Support.
+
+.. centered:: Beispiel für die Hinzufügung der Junduo-Greifer-Abwurferkennungslogik zum Offenen Endprotokoll
+
+.. code-block:: console
+    :linenos:  
+
+    ……
+    local T5 = {0x01,0x03,0x07,0xD0,0x00,0x01,0x84,0x87}
+    ……
+    if (Rcmd3 == 7) then
+    T5[7], T5[8] = CrcValue(T5[1], T5[2], T5[3], T5[4], T5[5], T5[6])
+    EndTxGripData(T5[1], T5[2], T5[3], T5[4], T5[5], T5[6], T5[7], T5[8])
+    DelayMs(10)
+    a, Rxd1, Rxd2, Rxd3, Rxd4, Rxd5, Rxd6, Rxd7 = EndRxGripData()
+    RxdCrcH, RxdCrcL = CrcValue(Rxd1, Rxd2, Rxd3, Rxd4, Rxd5)
+    if ((a == 8) and (Rxd1 == Rcmd2) and (Rxd2 == 0x03) and (Rxd3 == 0x02) and (Rxd6 == RxdCrcH) and (Rxd7 == RxdCrcL)) then
+    local Fall = ((Rxd5 & 0x02) >> 1)
+    Rxd5 = ((Rxd5 & 0xC0) >> 6)
+    if(Fall == 0)then
+    if (Rxd5 == 0x00) then
+    GripState = 0x00
+    elseif (Rxd5 == 0x03) then
+    GripState = 0x01
+    elseif ((Rxd5 == 0x01) or (Rxd5 == 0x02)) then
+    GripState = 0x02
+    end
+    else
+    GripState = 0x03
+    end
+    GripStateBack(GripState)
+    end
+    end
+
+Basierend auf dem Endprotokoll mit der hinzugefügten Abwurferkennungslogik gehen Sie zu "Initiale Einstellungen" -> "Peripheriegeräte" -> "Greifer", um das offene LUA-Endprotokoll hochzuladen, zu aktualisieren und anzuwenden.
+
+.. figure:: robot_peripherals/316.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.2‑13 Greifer-Endprotokoll-Upload
+
+Nach dem Neustart des Roboters kann der Greifer normal verwendet werden. Wenn während der Verwendung des Greifers ein Werkstückabfall auftritt, meldet der Roboter "Greifer-Werkstück abgefallen, bitte zurücksetzen und Greifer reaktivieren" und der Roboter stoppt gleichzeitig die aktuelle Bewegung und das aktuell laufende LUA-Programm.
+
+Die Haupt- und Unterfehlercodes der Ports 8083 und 20004 ändern sich zu 8-3, wobei der entsprechende Greifer-Fehlercode 3 ist. Für andere vom Greifer selbst hochgeladene Fehlercodes addiert der Controller 3 zum ursprünglichen Fehlercode.
+
+.. figure:: robot_peripherals/317.png
+   :align: center
+   :width: 3in
+
+.. centered:: Abbildung 8.2‑14 "Greifer-Werkstück abgefallen"-Fehler
+ 
+Es ist zu beachten, dass der Benutzer nach dem Löschen dieses Fehlers manuell die Befehle "Greifer zurücksetzen" und "Greifer aktivieren" senden muss, um das Abfall-Flag im Register des Greifers zu löschen. Dies kann über Seitenschaltflächen oder LUA-Befehle erfolgen; andernfalls wird der Fehler beim nächsten Lauf weiterhin gemeldet.
+
+.. figure:: robot_peripherals/318.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.2‑15 Zurücksetzen und Aktivieren des Greifers über die Seite
+
+.. figure:: robot_peripherals/319.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.2‑16 Zurücksetzen und Aktivieren des Greifers über LUA-Befehle
+
+Darüber hinaus bietet der Junduo-Greifer ein Register für die Abfallerkennungsschwelle unter der Adresse 0x1399, das durch Schreiben mit dem Befehl 0x10 geändert werden muss. Der Änderungsbereich beträgt 0~1000. Das in diesem Dokument bereitgestellte Endprotokoll kann den Wert dieses Registers ändern. Der erste Schreibvorgang nach jedem Protokolldurchlauf schreibt diesen Wert (0x14, bei Bedarf änderbar). Ein Beispiel ist unten in 2-2 dargestellt. Für weitere Informationen zur Verwendung wenden Sie sich bitte an den Hersteller des Junduo-Greifers.
+
+.. centered:: Beispiel für die Hinzufügung der Junduo-Greifer-Abfallschwellenänderung zum Offenen Endprotokoll
+
+.. code-block:: console
+    :linenos:  
+
+    ……
+    local T10 = {0x01,0x10,0x13,0x99,0x00,0x01,0x02,0x00,0x14,0x00,0x00}
+    ……
+    if Set == 0 then
+    T10[10],T10[11]= CrcValue(T10[1],T10[2],T10[3],T10[4],T10[5],T10[6],T10[7],T10[8],T10[9])
+    EndTxGripData(T10[1],T10[2],T10[3],T10[4],T10[5],T10[6],T10[7],T10[8],T10[9],T10[10],T10[11])
+    DelayMs(35)
+    a,Rxd1, Rxd2, Rxd3, Rxd4, Rxd5,Rxd6,Rxd7,Rxd8 = EndRxGripData()
+    Set=1
+    end
+
+Anhang 1: Bewegungsregler-Fehler und Behandlungsmethoden
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. centered:: Tabelle der Bewegungsregler-Fehlercodes
+
+.. list-table:: 
+   :widths: 15 40 100
+   :header-rows: 1
+
+   * - Hauptfehlercode
+     - Unterfehlercode
+     - Beschreibung
+   * - 8-Endgerätefehler
+     - 1
+     - Greifer-Bewegungs-Timeout-Fehler, zurücksetzbar
+   * - 8-Endgerätefehler
+     - 2
+     - End-485-Kommunikations-Timeout, zurücksetzbar
+   * - 8-Endgerätefehler
+     - 3
+     - Greifer-Werkstückabfall-Alarm, zurücksetzbar. Nach dem Löschen des Fehlers bitte den Greifer zurücksetzen und reaktivieren
+
 Kraftsensor
 -------------------------
 
@@ -7042,3 +7158,117 @@ Lua-Skript, geschrieben am Beispiel des DIO Health Care Moxibustion-Kopfes
     --***
     LuaGc()
     end
+
+Funktion der Geschickten Hand
+---------------------------------------------------------------------
+
+Übersicht
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Das offene LUA-Protokoll der Endseite fügt die folgenden Funktionen hinzu:
+
+1. Das offene LUA-Protokoll der Endseite passt sich der geschickten Hand an, um eine synchrone Gelenkbewegung der geschickten Hand zu realisieren.
+2. Hinzugefügt wurde die Funktion zum synchronen Senden von Befehlen an mehrere Slaves für die gleichzeitige Reaktion mehrerer Slave-Motoren.
+
+Umgebungskonfiguration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+End-Firmware-Version: FR_END_FV201013_MAIN_U1_T01_20260407
+
+Roboter-Software-Version: V3.9.7 und höher
+
+Bedienungsanleitung für die Geschickte Hand
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Konfiguration der Geschickten Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1. Öffnen Sie WebApp, gehen Sie zu Initiale Einstellungen -> Peripheriegeräte -> Geschickte Hand -> Protokollverwaltung, laden Sie die Lua-Datei der geschickten Hand hoch, wählen Sie die hochgeladene Datei aus und klicken Sie auf die Schaltfläche "Übernehmen". Nach der Erfolgsmeldung starten Sie die Steuerbox neu.
+
+.. figure:: robot_peripherals/306.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.19‑1 Protokollverwaltung
+
+2. Öffnen Sie WebApp, gehen Sie zu Initiale Einstellungen -> Peripheriegeräte -> Geschickte Hand -> Kommunikationsparameter, konfigurieren Sie die Kommunikationsparameter, einschließlich Baudrate, Datenbits, Stoppbits usw., und klicken Sie nach dem Ausfüllen auf die Schaltfläche "Konfigurieren".
+
+.. figure:: robot_peripherals/307.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.19‑2 Kommunikationsparameter-Konfiguration
+
+Die detaillierten Kommunikationsparameter der Endseite sind wie folgt:
+
+- **Baudrate**: Unterstützt 1-9600, 2-14400, 3-19200, 4-38400, 5-56000, 6-67600, 7-115200, 8-128000; der Rs485-Treiberchip der Endseite ist ein langsamer 485-Chip, die Baudrate darf 200k nicht überschreiten;
+- **Datenbits**: Unterstützt (8, 9), derzeit wird 8 häufig verwendet;
+- **Stoppbits**: 1-1, 2-0.5, 3-2, 4-1.5, derzeit wird 1 häufig verwendet;
+- **Parität**: 0-None, 1-Odd, 2-Even, derzeit wird 0 häufig verwendet;
+- **Timeout-Zeit**: 1~1000ms, dieser Wert muss in Kombination mit den Peripheriegeräten angemessen eingestellt werden;
+- **Timeout-Wiederholungen**: 1~10, hauptsächlich für die Timeout-Neuübertragung, um gelegentliche Anomalien zu reduzieren und die Benutzererfahrung zu verbessern;
+- **Zeitintervall für periodische Befehle**: 1~1000ms, hauptsächlich für das Zeitintervall zwischen jeder periodischen Befehlssendung;
+
+3. Öffnen Sie WebApp, gehen Sie zu Initiale Einstellungen -> Peripheriegeräte -> Geschickte Hand -> Endprotokoll-Aktivierung, aktivieren Sie das Endprotokoll, starten Sie das Gerät der geschickten Hand und konfigurieren Sie die entsprechenden Funktionscodes für die geschickte Hand.
+
+.. figure:: robot_peripherals/308.png
+   :align: center
+   :width: 6in
+
+.. figure:: robot_peripherals/309.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.19‑3 Entsprechende Funktionscodes der Geschickten Hand
+
+4. Die derzeit definierten Funktionscodes des offenen LUA-Endprotokolls sind in den folgenden Abbildungen dargestellt.
+
+.. figure:: robot_peripherals/310.png
+   :align: center
+   :width: 6in
+
+.. figure:: robot_peripherals/311.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.19‑4 Funktionscodes des Offenen Protokolls
+
+.. note:: Die geschickte Hand muss das Lesen der funktionsbezogenen Codes für den Betriebszustand unterstützen, um den Bewegungsstatus abfragen zu können.
+  
+Bewegungssteuerung der Geschickten Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1. Öffnen Sie WebApp, gehen Sie zu Teach-Programm -> Programmieroberfläche und öffnen Sie die Peripheriebefehle der geschickten Hand.
+
+.. figure:: robot_peripherals/312.png
+   :align: center
+   :width: 4in
+
+.. centered:: Abbildung 8.19‑5 Peripheriebefehle der Geschickten Hand
+   
+2. Klicken Sie auf Aktivieren, wählen Sie die entsprechende Startadresse der geschickten Hand und fügen Sie den entsprechenden Aktivierungsbefehl hinzu.
+
+.. figure:: robot_peripherals/313.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.19‑6 Aktivierungsbefehl der Geschickten Hand
+
+3. Klicken Sie auf Steuerung, füllen Sie die für die Bewegung des einzelnen Slaves der geschickten Hand erforderlichen Positions-, Geschwindigkeits- und Drehmomentdaten aus, füllen Sie die maximale Timeout-Zeit aus und fügen Sie den entsprechenden Steuerungsbefehl hinzu.
+
+.. figure:: robot_peripherals/314.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.19‑7 Steuerungsbefehl der Geschickten Hand
+
+Datenüberwachung der Geschickten Hand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Öffnen Sie WebApp, gehen Sie zu Initiale Einstellungen -> Peripheriegeräte -> Geschickte Hand -> Endprotokoll-Aktivierung und aktivieren Sie die Statusüberwachung. Nach dem Senden der Steuerungsbefehle können Sie in der Dexterous-Oberfläche auf der rechten Seite die Echtzeit-Feedbackdaten von Position, Geschwindigkeit und Drehmoment des einzelnen Slaves der geschickten Hand abrufen.
+
+.. figure:: robot_peripherals/315.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.19‑8 Echtzeit-Feedbackdaten der Geschickten Hand    
