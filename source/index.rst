@@ -17,7 +17,9 @@ Sprachauswahl
 
     \ `Italiano <https://fairino-doc-it.readthedocs.io/latest/>`__\ 
     
-    \ `protugues <https://fairino-doc-pt.readthedocs.io/latest/>`__\ 
+    \ `Protugues <https://fairino-doc-pt.readthedocs.io/latest/>`__\ 
+
+    \ `Polski <https://fairino-doc-pl.readthedocs.io/latest/>`__\ 
 
 .. toctree::
    :maxdepth: 6
