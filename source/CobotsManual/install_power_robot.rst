@@ -71,11 +71,6 @@ Bei der Montage des kollaborativen Roboters auf einer Montagehalterung verwenden
      - ≥45 Nm
      - φ8 mm
 
-   * - FR30L
-     - 6 Stück M10
-     - ≥45 Nm
-     - φ8 mm
-
 .. important::
    Die Montagehalterung des Roboters sollte die folgenden Anforderungen erfüllen, um eine sichere und stabile Befestigung des Roboters zu gewährleisten:
 

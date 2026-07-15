@@ -127,12 +127,6 @@ Typenschildinformationen
 
 .. centered:: Abbildung 3.1-11 FR30 kollaborativer Roboter
 
-.. figure:: installation/125.png
-	:align: center
-	:width: 6in
-
-.. centered:: Abbildung 3.1-12 FR30L kollaborativer Roboter
-
 Gültigkeit und Verantwortung
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -306,14 +300,6 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 0.31
      - 0.22
 
-   * - **FR30L**
-     - 0.69
-     - 0.75
-     - 0.80
-     - 0.48
-     - 0.31
-     - 0.22
-
 .. centered:: Tabelle 3.1-2 Stoppzeit Kategorie 0 (ms)
 .. list-table::
    :widths: 10 15 15 15 15 15 15
@@ -393,14 +379,6 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 130
 
    * - **FR20**
-     - 540
-     - 600
-     - 700
-     - 400
-     - 260
-     - 170
-
-   * - **FR30L**
      - 540
      - 600
      - 700
@@ -506,14 +484,6 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 0.33
      - 0.25
 
-   * - **FR30L**
-     - 0.71
-     - 0.78
-     - 0.82
-     - 0.51
-     - 0.33
-     - 0.25
-
 .. centered:: Tabelle 3.1-4 Sicherheitsstopp-Zeit (ms)
 .. list-table::
    :widths: 10 15 15 15 15 15 15
@@ -593,14 +563,6 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 150
 
    * - **FR20**
-     - 560
-     - 630
-     - 720
-     - 430
-     - 280
-     - 200
-
-   * - **FR30L**
      - 560
      - 630
      - 720
@@ -694,14 +656,6 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 0.36
      - 0.27
 
-   * - **FR30L**
-     - 0.74
-     - 0.80
-     - 0.85
-     - 0.53
-     - 0.36
-     - 0.27
-
 .. centered:: Tabelle 3.1-6 Zeit Software-Endschalter-Stopp (ms)
 .. list-table::
    :widths: 10 15 15 15 15 15 15
@@ -781,14 +735,6 @@ Die Tests für Gelenk 1 und Gelenk 6 prüfen die horizontale Bewegung des Robote
      - 170
 
    * - **FR20**
-     - 580
-     - 640
-     - 740
-     - 440
-     - 300
-     - 210
-
-   * - **FR30L**
      - 580
      - 640
      - 740
@@ -1905,7 +1851,7 @@ Bei der Montage des Roboters auf einer Montagehalterung verwenden Sie 4 M8-Schra
 
 	.. centered:: Abbildung 3.4-10 Montagehalterung für hohe Anforderungen (FR10, FR16)
 
-Montageanforderungen für Roboterarme FR20, FR30, FR30L
+Montageanforderungen für Roboterarme FR20, FR30
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Bei der Montage des Roboters auf einer Montagehalterung verwenden Sie 6 M10-Schrauben der Festigkeitsklasse nicht unter 8.8, um den Roboter auf der Halterung zu befestigen. Die Schrauben müssen mit einem Drehmoment von mindestens 45 Nm angezogen werden. Es wird empfohlen, auf der Montagehalterung zwei φ8 mm Passbohrungen in Verbindung mit Passstiften zur Positionierung des Roboters zu verwenden. Dies verbessert die Montagegenauigkeit des Roboters und verhindert, dass sich der Roboter durch Stöße oder ähnliches bewegt. Wenn hohe Anforderungen an die Laufgenauigkeit des Roboters gestellt werden, müssen auf jeden Fall Passstifte zur Positionierung des Roboters verwendet werden.
@@ -1914,7 +1860,7 @@ Bei der Montage des Roboters auf einer Montagehalterung verwenden Sie 6 M10-Schr
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.4-11 Einbaumaße für kollaborative Roboter FR20, FR30, FR30L
+.. centered:: Abbildung 3.4-11 Einbaumaße für kollaborative Roboter FR20, FR30
 
 .. important::
 
@@ -1941,7 +1887,7 @@ Der Werkzeugflansch des Roboters verfügt über vier M6-Gewindebohrungen, die zu
 	:align: center
 	:width: 6in
 
-.. centered:: Abbildung 3.4-14 Zeichnung des Roboter-Werkzeugflansches (FR20/FR30/FR30L)
+.. centered:: Abbildung 3.4-14 Zeichnung des Roboter-Werkzeugflansches (FR20/FR30)
 
 .. important::
 	- Stellen Sie sicher, dass das Werkzeug korrekt und sicher montiert ist.
