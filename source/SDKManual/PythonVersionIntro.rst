@@ -13,6 +13,24 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V3.9.8
+     - 2026-07-27
+     - | 1. Aktualisierung der Roboterstatus-Rückmeldungsstruktur um den aktuellen Ausführungsstatus des LUA-Programms des Roboters: 0 - Programm läuft nicht; 1 - Programm läuft (einschließlich Programm pausiert);
+       | 2. Aktualisierung der Parameterbeschreibungen für die Schnittstellen SetExToolCoord() und SetExToolList() zum Festlegen des externen Werkzeugkoordinatensystems und der Werkzeugkoordinatensystemliste. Die Nummern der externen Werkzeugkoordinatensysteme wurden auf 20-39 aktualisiert. Aktualisierung der Codebeispiele für Operationen mit externen Werkzeugkoordinatensystemen.
+       | 3. Hinzufügung der Möglichkeit, Parameter für Werkzeugtyp, Installationsposition, Werkzeug-ID und Lastnummer zur GetToolCoordWithID()-Schnittstelle zum Abrufen von Werkzeugkoordinatensystemparametern abzurufen.
+       | 4. Hinzufügung der Möglichkeit, Parameter für Referenzkoordinatensysteme zur GetWObjCoordWithID()-Schnittstelle zum Abrufen von Werkstückkoordinatensystemparametern abzurufen.
+       | 5. Hinzufügung der Möglichkeit, Parameter für die am Roboterende montierte Werkstückkoordinatensystem-Pose zur GetExToolCoordWithID()-Schnittstelle zum Abrufen von externen Werkzeugkoordinatensystemparametern abzurufen.
+       | 6. Hinzufügung der Möglichkeit, Parameter für die erweiterte Achsnummer und den Kalibrierungsflag zur GetExAxisCoordWithID()-Schnittstelle zum Abrufen von erweiterten Achsenkoordinatensystemparametern abzurufen.
+       | 7. Hinzufügung von Parametereinstellungen für die Gelenksicherheitsgeschwindigkeit des Roboters zur SetVelReducePara()-Schnittstelle zum Festlegen der Robotersicherheitsgeschwindigkeit.
+       | 8. Hinzufügung eines Beispiels zur Erfassung des Schweißgeräte-Steuermodus zum Codebeispiel für die Konfiguration von Schweißparametern.
+       | 9. Hinzufügung von Codebeispielen zum Abrufen von erweiterten DI- und erweiterten DO-Funktionskonfigurationen zum Codebeispiel für die Konfiguration von erweiterten IO-Schweißsignalen.
+       | 10. Hinzufügung eines neuen Codebeispiels zum Festlegen der Gelenksicherheitsgeschwindigkeit des Roboters;
+       | 11. Hinzufügung einer neuen Schnittstelle WaitStationaryMotionDone() zum Warten auf den Abschluss einer Leerbewegung an Ort und Stelle;
+       | 12. Hinzufügung einer neuen Schnittstelle SetStationaryTrackPara() zur Konfiguration von Förderband-ortsverfolgungsparametern, zusammen mit einem Codebeispiel für die Förderband-ortsverfolgung;
+       | 13. Hinzufügung neuer Schnittstellen WorkPieceTrsfStart() und WorkPieceTrsfEnd() zum Starten und Beenden der Werkstückkoordinatensystemtransformation, zusammen mit einem Codebeispiel für die Werkstückkoordinatensystemtransformation.
+       | 14. Hinzufügung der GetWeldMachineCtrlMode()-Schnittstelle zum Abrufen des Schweißgeräte-Steuermodus.
+       | 15. Hinzufügung der GetExtDIConfig()- und GetExtDOConfig()-Schnittstellen zum Abrufen der erweiterten DI-Funktions- und erweiterten DO-Funktionskonfigurationen.
+
    * - V3.9.7
      - 2026-06-25
      - | 1. PhotoelectricSensorTCPCalibration()-Parameter können sich jetzt an Dateinamen ohne Pfad anpassen;

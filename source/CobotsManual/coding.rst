@@ -176,61 +176,124 @@ Verwenden Sie die Werkzeugleiste am oberen Rand des Programmbaums, um diesen zu 
 
    Funktion: Wechselt zwischen Programmbaum-Modus und Lua-Editier-Modus.
 
-Die Bedeutung der Symbole oben rechts ist wie folgt:
+Die Symbole oben rechts werden wie folgt beschrieben:
 
-.. note::
+.. note:: 
    .. image:: coding/240.png
       :height: 0.75in
       :align: left
 
-   Bezeichnung: **Programmierung hinzufügen/bearbeiten**
+   Bezeichnung: **Programmierung Hinzufügen/Bearbeiten**
+   
+   Funktion: Inhalt des aktuellen Programmbefehls hinzufügen/bearbeiten
 
-   Funktion: Fügt Inhalt zum aktuellen Programmbefehl hinzu / bearbeitet ihn.
+.. note:: 
+   .. image:: coding/245.png
+      :height: 0.75in
+      :align: left
 
-.. note::
+   Bezeichnung: **Lokaler Teachpunkt**
+   
+   Funktion: Teachpunkte, die nur für das aktuelle Programm gelten
+
+.. note:: 
+   .. image:: coding/242.png
+      :height: 0.75in
+      :align: left
+
+   Bezeichnung: **NewDofile-Unterprogramm-Schnittstelle**
+   
+   Funktion: Wenn der aktuelle Programmbefehl eine NewDofile-Anweisung enthält, klicken Sie, um den Unterprogrammnamen auszuwählen und den Unterprogramminhalt anzuzeigen.
+
+.. note:: 
+   .. image:: coding/244.png
+      :height: 0.75in
+      :align: left
+
+   Bezeichnung: **Sicherung des aktuellen Teachprogramms**
+   
+   Funktion: Zeichnet die Änderungen am aktuellen Programm auf
+
+.. note:: 
+   .. image:: coding/602.png
+      :height: 0.75in
+      :align: left
+
+   Bezeichnung: **Print-Protokoll**
+   
+   Funktion: Gibt bestimmte Informationen im WebApp-Druckfenster aus, um Debugging und Datenverfolgung zu erleichtern
+
+.. note:: 
    .. image:: coding/241.png
       :height: 0.75in
       :align: left
 
    Bezeichnung: **Robotermodell**
+   
+   Funktion: Zurück zur 3D-Modelloberfläche des Roboters
 
-   Funktion: Kehrt zur 3D-Modell-Oberfläche des Roboters zurück.
-
-.. note::
-   .. image:: coding/242.png
+.. note:: 
+   .. image:: coding/596.png
       :height: 0.75in
       :align: left
 
-   Bezeichnung: **NewDofile-Unterprogramm-Oberfläche**
+   Bezeichnung: **Socket-Netzwerkdebugging**
+   
+   Funktion: Netzwerkkommunikations-Debugging-Oberfläche
 
-   Funktion: Wenn im aktuellen Programmbefehl ein NewDofile-Befehl vorhanden ist, klicken Sie hier, um den Unterprogrammnamen auszuwählen und den Inhalt des Unterprogramms anzuzeigen.
-
-.. note::
+.. note:: 
    .. image:: coding/243.png
       :height: 0.75in
       :align: left
 
-   Bezeichnung: **Modbus TCP Einstellungen**
+   Bezeichnung: **Modbus TCP-Einstellungen**
+   
+   Funktion: Konfigurieren der Modbus TCP-Kommunikationsparameter
 
-   Funktion: Konfiguriert die Parameter für die Modbus TCP-Kommunikation.
-
-.. note::
-   .. image:: coding/244.png
+.. note:: 
+   .. image:: coding/597.png
       :height: 0.75in
       :align: left
 
-   Bezeichnung: **Aktuelles Teach-Programm-Backup**
+   Bezeichnung: **Modbus RTU-Einstellungen**
+   
+   Funktion: Konfigurieren der Modbus RTU-Kommunikationsparameter
 
-   Funktion: Zeichnet den Änderungsinhalt des aktuellen Programms auf.
-
-.. note::
-   .. image:: coding/245.png
+.. note:: 
+   .. image:: coding/598.png
       :height: 0.75in
       :align: left
 
-   Bezeichnung: **Lokale Teachpunkte**
+   Bezeichnung: **Hintergrundprogrammverwaltung**
+   
+   Funktion: Konfigurieren der Hintergrundprogramm-Oberfläche
 
-   Funktion: Teachpunkte, die nur im aktuellen Programm verwendet werden.
+.. note:: 
+   .. image:: coding/599.png
+      :height: 0.75in
+      :align: left
+
+   Bezeichnung: **Benutzervariablenverwaltung**
+   
+   Funktion: Konfigurieren der Benutzervariablen-Oberfläche
+
+.. note:: 
+   .. image:: coding/600.png
+      :height: 0.75in
+      :align: left
+
+   Bezeichnung: **Teachpunkte**
+   
+   Funktion: Konfigurieren der Teachpunkt-Oberfläche
+
+.. note:: 
+   .. image:: coding/601.png
+      :height: 0.75in
+      :align: left
+
+   Bezeichnung: **Hauptprogrammkonfiguration**
+   
+   Funktion: Konfigurieren des Hauptprogramms
 
 Programmbefehle
 ~~~~~~~~~~~~~~~
@@ -1426,6 +1489,98 @@ Wählen Sie das Werkstückkoordinatensystem aus, das automatisch transformiert w
 
 .. centered:: Abbildung 9.5-33 WPTrsf-Befehls-Oberfläche
 
+Werkstücktransformation und Sicherheitsgeschwindigkeitsfunktion
+**********************************************************************
+
+Übersicht
+""""""""""""""""""""""""""""""""""""
+
+Die Werkstücktransformationsfunktion bezieht sich auf die Migration von PTP\LIN\ARC\CIR-Bewegungsbahnkurven unter dem aktuellen Werkstückkoordinatensystem, um unter dem Ziel-Werkstückkoordinatensystem zu laufen.
+
+Die Sicherheitsgeschwindigkeitsfunktion bezieht sich auf die offene Konfiguration von Geschwindigkeitsbegrenzungen im kartesischen\Gelenkraum des Roboters, die einen Geschwindigkeitsschutz sowohl im Arbeitsraum als auch im Gelenkraum ermöglicht.
+
+Betriebsablauf der Werkstücktransformationsfunktion
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Schritt 1**: Kalibrieren Sie das Werkstückkoordinatensystem des Roboters über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 2**: Punkte einlernen. Lernen Sie PTP\LIN\ARC\CIR-Bewegungspunkte ein und schreiben Sie LUA-Programme über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 3**: Konfigurieren Sie die Werkstückkoordinatensystemtransformation. Klicken Sie auf der WebApp-Hauptoberfläche auf "Teach Program" - "Programmprogrammierung", um den Bereich "Bewegungsbefehle" aufzurufen.
+
+.. image:: coding/583.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.5-33-1 Bereich "Bewegungsbefehle"
+
+Klicken Sie im Bereich "Bewegungsbefehle" auf die Schaltfläche "Werkstücktransformation", um die Konfigurationsoberfläche für den Befehl "WPTrsf" aufzurufen.
+
+.. image:: coding/584.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.5-33-2 WPTrsf-Befehlskonfiguration
+
+Wählen Sie in der Konfigurationsoberfläche für den Befehl "WPTrsf" -> Konfigurationsbereich "Befehlsbearbeitung" im Dropdown-Menü "Werkstückkoordinatensystem auswählen" die Nummer des Ziel-Werkstückkoordinatensystems aus und klicken Sie dann auf die Schaltflächen "Hinzufügen" - "Anwenden", um die Konfiguration der Werkstücktransformationsfunktion abzuschließen.
+
+**Schritt 4**: Schreiben Sie das LUA-Programm für die Werkstücktransformationsfunktion. Passen Sie die Reihenfolge der von Schritt 2 bis Schritt 3 generierten Befehle an und führen Sie das LUA-Programm aus, um die Werkstücktransformationsfunktion zu implementieren.
+
+.. image:: coding/585.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.5-33-3 LUA-Programm für die Werkstücktransformationsfunktion
+
+Betriebsablauf der Sicherheitsgeschwindigkeitsfunktion
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Klicken Sie auf der WebApp-Hauptoberfläche auf "Grundeinstellungen" - "Sicherheit" - "Sicherheitsgeschwindigkeit", um den Konfigurationsbereich "Sicherheitsgeschwindigkeit" aufzurufen.
+
+.. image:: coding/586.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.5-33-4 Sicherheitsgeschwindigkeits-Befehlskonfiguration
+
+Im Konfigurationsbereich "Sicherheitsgeschwindigkeit" -> Dropdown-Menü "Funktionsaktivierung" können Sie die Optionen "Deaktivieren", "Im Handmodus aktivieren" und "In allen Modi aktivieren" auswählen.
+
+"Im Handmodus aktivieren" bedeutet, dass die Funktion aktiviert wird, wenn in WebApp in den Handmodus gewechselt wird; "In allen Modi aktivieren" bedeutet, dass die Funktion aktiviert wird, wenn in WebApp in den Handmodus, Automatikmodus und Zugmodus gewechselt wird.
+
+Im unten gezeigten Konfigurationsbereich "Sicherheitsgeschwindigkeit" können Sie in den Eingabefeldern "TCP-Grenzgeschwindigkeit", "J1-Grenzgeschwindigkeit", "J2-Grenzgeschwindigkeit", "J3-Grenzgeschwindigkeit", "J4-Grenzgeschwindigkeit", "J5-Grenzgeschwindigkeit" und "J6-Grenzgeschwindigkeit" jeweils den Geschwindigkeitsschutz im kartesischen und Gelenkraum des Roboters einstellen.
+
+Es ist zu beachten, dass während der Roboterbewegung die oben genannten Geschwindigkeitsschutzmaßnahmen basierend auf dem Minimalwert unter ihnen ausgelöst werden.
+
+Im Konfigurationsbereich "Sicherheitsgeschwindigkeit" -> Dropdown-Menü "Modus nach Geschwindigkeitsüberschreitung" können Sie die Optionen "Stopp mit Alarm", "Automatische Geschwindigkeitsbegrenzung" und "Nach Stopp mit Alarm deaktivieren" auswählen, wie in der folgenden Tabelle dargestellt.
+
+.. centered:: Tabelle 9.5-4 Auswahl des "Modus nach Geschwindigkeitsüberschreitung" unter verschiedenen "Funktionsaktivierungs"-Optionen
+
+.. list-table::
+   :widths: 25 25 25 25
+   :header-rows: 0
+   :align: center
+
+   * - \
+     - **Stopp mit Alarm**
+     - **Automatische Geschwindigkeitsbegrenzung**
+     - **Nach Stopp mit Alarm deaktivieren**
+
+   * - **Im Handmodus aktivieren**
+     - Unterstützt
+     - Unterstützt
+     - Unterstützt
+
+   * - **In allen Modi aktivieren**
+     - Unterstützt
+     - Nicht unterstützt
+     - Unterstützt
+			
+"Stopp mit Alarm": Wenn sowohl die Gelenkbefehls- als auch die Rückmeldegeschwindigkeit die Sicherheitsgeschwindigkeit überschreiten, zeigt WebApp eine Geschwindigkeitsüberschreitungswarnung an;
+
+"Automatische Geschwindigkeitsbegrenzung": Wenn sowohl die Gelenkbefehls- als auch die Rückmeldegeschwindigkeit die Sicherheitsgeschwindigkeit überschreiten, wird die Geschwindigkeit automatisch auf die Sicherheitsgeschwindigkeit reduziert;
+
+"Nach Stopp mit Alarm deaktivieren": Wenn sowohl die Gelenkbefehls- als auch die Rückmeldegeschwindigkeit die Sicherheitsgeschwindigkeit überschreiten, zeigt WebApp eine Geschwindigkeitsüberschreitungswarnung an und alle Gelenke des Roboters werden deaktiviert.
+
 Werkzeugtransformations-Befehl
 ++++++++++++++++++++++++++++++
 
@@ -1722,6 +1877,71 @@ Dieser Befehl enthält vier Unterbefehle: Position Echtzeiterkennung, IO Echtzei
    :align: center
 
 .. centered:: Abbildung 9.7-5 Conveyor-Befehls-Oberfläche
+
+Förderband-Ortsverfolgungsbewegungsfunktion
+***********************************************************************
+
+Übersicht
+"""""""""""""""""""""""""""""""""""
+
+Diese Funktion ermöglicht es dem Roboter, Objekte, die sich auf einem Förderband bewegen, zu erkennen und synchron zu verfolgen, und dann eine "relativ stationäre" Bewegung zwischen dem Roboter und dem Objekt zu erreichen, ohne das Förderband anzuhalten.
+
+Betriebsablauf
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Schritt 1**: Klicken Sie auf "Hilfsanwendungen" - "Prozesspaket" - "Förderbandverfolgung", um die Förderbandverfolgungsparameter zu konfigurieren, einschließlich "I/O-Konfiguration", "Parameterkonfiguration", "Greifpunktkompensation" (nur für die Funktion "Verfolgung und Greifen" erforderlich) und "Referenzpunktkonfiguration". In der "Referenzpunktkonfiguration" ist die Position des "Startpunkts a" die Objektposition zu Beginn der Förderbandbewegung; die Position des "Endpunkts b" ist die Objektposition am Ende der Förderbandbewegung. Detaillierte Bedienschritte finden Sie in den entsprechenden Kapiteln.
+
+**Schritt 2**: Die Verfolgungsbewegung verwendet das Werkstückkoordinatensystem als Förderbandkoordinatensystem, daher muss das Werkstückkoordinatensystem eingestellt werden. Klicken Sie auf "Grundeinstellungen" - "Basis", wählen Sie "Werkstückkoordinatensystem", klicken Sie, um ein anderes Werkstückkoordinatensystem als "wobjcoord0" für die Kalibrierung auszuwählen. Die Kalibrierungsmethode finden Sie in den entsprechenden Kapiteln.
+
+**Schritt 3**: Klicken Sie auf "Teach Program" - "Programmprogrammierung" - "Förderband", um die Konfigurationsseite für die Förderbandfunktion aufzurufen.
+
+**Schritt 4**: Klicken Sie auf die Schaltfläche "Verfolgung aktivieren", wählen Sie "Verfolgungsbewegung" als Arbeitsmodus und klicken Sie auf die Schaltfläche "Hinzufügen".
+
+.. image:: coding/590.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.7-5-1 Verfolgungsaktivierungseinstellungen
+
+**Schritt 5**: Klicken Sie auf die Schaltfläche "I/O-Echtzeiterkennung", stellen Sie die maximale Wartezeit ein und klicken Sie auf die Schaltfläche "Hinzufügen".
+
+.. image:: coding/591.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.7-5-2 I/O-Echtzeiterkennungseinstellungen
+
+**Schritt 6**: Klicken Sie auf die Schaltfläche "Positions-Echtzeiterkennung", wählen Sie "Verfolgungsbewegung" als Arbeitsmodus und klicken Sie auf die Schaltfläche "Hinzufügen".
+
+.. image:: coding/592.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.7-5-3 Positions-Echtzeiterkennungseinstellungen
+
+**Schritt 7**: Klicken Sie auf die Schaltfläche "Ortsverfolgungsbewegung". Die Arbeitsmodi sind "Zeit", "Distanz" und "Zeit + Distanz". Im Modus "Zeit" muss die Bewegungszeit eingestellt werden. Die Zeit wird ab dem Start der Förderbandverfolgung berechnet, und die Verfolgungsbewegung stoppt nach Erreichen der eingestellten Zeit. Im Modus "Distanz" muss die Bewegungsdistanz eingestellt werden. Die Distanz wird ab dem Start der Förderbandverfolgung berechnet, und die Verfolgungsbewegung stoppt nach Erreichen der eingestellten Distanz. Im Modus "Zeit + Distanz" müssen sowohl Bewegungszeit als auch Bewegungsdistanz eingestellt werden. Die Berechnung beginnt mit der Aktivierung der Förderbandverfolgung, und die Verfolgungsbewegung stoppt, wenn eine der eingestellten Bedingungen (Zeit oder Distanz) erfüllt ist. Hinweis: Aus Sicherheitsgründen überschreitet die maximale Verfolgungsposition dieser drei Bewegungsmodi nicht die Position des "Endpunkts b" bei der Förderbandkalibrierung. Klicken Sie auf die Schaltfläche "Hinzufügen".
+
+.. image:: coding/593.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.7-5-4 Parametereinstellungen für Ortsverfolgungsbewegung
+
+**Schritt 8**: Klicken Sie auf die Schaltfläche "Verfolgung deaktivieren" und klicken Sie auf die Schaltfläche "Hinzufügen".
+
+.. image:: coding/594.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.7-5-5 Verfolgungsdeaktivierungseinstellungen
+
+**Schritt 9**: Das generierte LUA-Programm für die Förderband-Ortsverfolgungsbewegung ist in der Abbildung dargestellt. Führen Sie das Programm aus, um die Förderband-Ortsverfolgungsbewegung zu realisieren.
+
+.. image:: coding/595.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.7-5-6 LUA-Programm für Förderband-Ortsverfolgungsbewegung
 
 Schleifgeräte-Befehl
 ++++++++++++++++++++
@@ -8677,3 +8897,75 @@ Das folgende ist ein Programm für eine nicht-blockierende Roboterbewegung, das 
    :align: center
 
 .. centered:: Abbildung 9.39‑10 Beispiel für das Drucken der Aktuellen Position und DI während der Roboterbewegung   
+
+Optimierung der Web-Ladefunktion für große LUA-Programme und Unterprogramme
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Hintergrund
+++++++++++++++++++++++++++++++++++++++++++++++
+
+Derzeit kann der Roboter keine großen LUA-Programme (200k+ Zeilen) verarbeiten. Beim Hochladen eines großen LUA-Programms kann die Webseite es nicht laden und verwenden.
+
+Gleichzeitig führt die aktuelle Importlogik beim Importieren von Programmen keine Programm-Parsing und -Validierung durch. Nach dem Import muss das Programm manuell geöffnet und zur Validierung gespeichert werden. Bei gleichzeitiger Verwendung vieler Unterprogrammaufrufe müssen diese manuell einzeln geöffnet werden, was sehr zeitaufwändig ist und die Arbeitseffizienz erheblich verringert.
+
+Übersicht
+++++++++++++++++++++++++++++++++++++++++++++++
+
+Diese Optimierung betrifft die importierten Programme. Das Backend parst und speichert sie automatisch. Nach dem Hochladen nachfolgender Unterprogramme können diese direkt aufgerufen werden, ohne dass sie manuell geöffnet und gespeichert werden müssen.
+
+Bei großen LUA-Programmen wird beim Import durch das Web-Frontend ein großes LUA-Programm (ein natives LUA-Programm, das keine sekundäre Analyse benötigt) mit dem Präfix RAW benannt, z.B. RAW_test.lua. Diese Art von Programm bedeutet, dass das Programm ausschließlich aus nativen LUA-Anweisungen besteht und keine Anwendungsgeschäftsinformationen enthält. Es kann direkt in den LUA-Interpreter zur Ausführung gegeben werden. Der Controller muss nur eine Syntaxvalidierung durchführen, ohne zeilenweise zu parsen. Dies reduziert die Dateiimport-Parsing-Zeit erheblich. Gleichzeitig führt das Frontend kein Animations-Rendering mehr für große LUA-Programme durch; Programme werden im Klartextformat angezeigt, und dynamische Hervorhebungen sowie laufende Zeilennummern werden nicht mehr angezeigt, was die Daten-Rendering-Effizienz des Frontends verbessert. Für spezifische Anweisungen, die geparst werden müssen, siehe Kapitel 1.4.
+
+Nach dem Import eines Programms sollte das Web einen Fortschrittsbalken anzeigen und nach erfolgreichem Import eine Bestätigung geben.
+
+Für große LUA-Programme wird empfohlen, Unterprogramme in Kombination mit der `RAW_`-Methode zu verwenden, um die Bedieneffizienz zu verbessern.
+
+Betriebsablauf für große LUA-Programme
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**Schritt 1**: Benennen Sie das große LUA-Programm mit dem Präfix `RAW_`, z.B. RAW_test200000.lua.
+
+**Schritt 2**: Öffnen Sie die Webseite, klicken Sie nacheinander auf "Teach Program" -> "Programmierung", wählen Sie den Befehl "Importieren" und wählen Sie RAW_test200000.lua in der "Importieren"-Dateiauswahl.
+
+.. image:: coding/587.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.40‑1 `RAW_` Dateiimport    
+
+**Schritt 3**: Warten Sie auf den Abschluss des Imports. Nach Abschluss des Imports sind die Vorgänge Import, Parsing, Speicherung und Rendering bereits abgeschlossen, und die Datei kann direkt ausgeführt werden.
+
+.. image:: coding/588.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.40‑2 Import-Wartehinweis   
+
+Betriebsablauf für Unterprogramme
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**Schritt 1**: Öffnen Sie die Webseite, klicken Sie nacheinander auf "Teach Program" -> "Programmierung", wählen Sie den Befehl "Importieren" und wählen Sie in der "Importieren"-Dateiauswahl das Hauptprogramm und die Unterprogramme stapelweise aus.
+
+**Schritt 2**: Warten Sie, bis alle Programme erfolgreich importiert wurden, schalten Sie den Roboter in den Automatikmodus, und das Hauptprogramm kann direkt ausgeführt werden.
+
+Hinweise
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+`RAW_`-Dateien führen nur eine Syntaxvalidierung durch und parsen und generieren den Dateiinhalt nicht zeilenweise. Sie enthalten Punktinformationen, IO-Operationen und andere benutzerdefinierte integrierte LUA-Funktionen für die Kundenbequemlichkeit. Solche Funktionen müssen mit benutzerdefinierten Daten für die sekundäre Generierung in direkt ausführbare LUA-Funktionen kombiniert werden und können nicht in `RAW_`-Dateien verwendet werden.
+
+.. image:: coding/589.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.40‑3 Import-LUA-Programm-Flussdiagramm 
+
+Für das Schreiben von `RAW_`-Dateien siehe das FRLua-Programmierskript-Benutzerhandbuch. Die folgenden LUA-Funktionen müssen geparst werden und sind nicht für `RAW_`-Dateien geeignet.
+
+laserPTP(), EXT_AXIS_PTP(), SPTP(), NewSP(), SplinePTP(), laserLin(), SLIN(), Lin(), laserARC(), ARC() 
+laserCircle(), Circle(), TCPComputeCircleCenter(), unifCircle(), NewSpiral(), Spiral(), SCIRC() 
+ModbusSlaveWriteDO(), ModbusSlaveWriteDI(), ModbusSlaveWriteAO(), ModbusSlaveWriteAI(), ModbusSlaveReadDO(), ModbusSlaveReadDI(), ModbusSlaveReadAO(), ModbusSlaveReadAI(), ModbusSlaveWaitDI(), ModbusSlaveWaitAI()
+ModbusMasterWriteDO(), ModbusMasterWriteAO(), ModbusMasterReadDO(), ModbusMasterReadDI(), ModbusMasterReadAO(), ModbusMasterReadAI(), ModbusMasterWaitDI(), ModbusMasterWaitAI()
+ModbusSlaveWriteDO_RTU(), ModbusSlaveWriteDI_RTU(), ModbusSlaveWriteAO_RTU(), ModbusSlaveWriteAI_RTU(), ModbusSlaveReadDO_RTU(), ModbusSlaveReadDI_RTU(), ModbusSlaveReadAO_RTU(), ModbusSlaveReadAI_RTU(), ModbusSlaveWaitDI_RTU(), ModbusSlaveWaitAI_RTU()
+ModbusMasterWriteDO_RTU(), ModbusMasterWriteAO_RTU(), ModbusMasterReadDO_RTU(), ModbusMasterReadDI_RTU(), ModbusMasterReadAO_RTU(), ModbusMasterReadAI_RTU(), ModbusMasterWaitDI_RTU(), ModbusMasterWaitAI_RTU(), SetAO(), SetAuxAO(), SetToolAO(), WaitAI()
+FieldBusSlaveWaitAI(), WaitToolAI(), WaitAuxAI(), SPLCSetAO(), SPLCSetToolAO(), SetToolList(), SetWObjList(), SetExToolList(), PostureAdjustOn(), RegisterVar(), SetSysVarValue(), GetSysVarValue(), MultilayerOffsetTrsfToBase(), GetSegWeldDisDir(), DMP()
+LTSearchStart(), PointTableSwitch(), GetSegmentWeldPoint(), LaserRecordPoint(), GetIntersectionThrough3Point(), GetIntersectionThrough4Point(), GetUserVal(), SetUserVal(), MoveToIntersectLineStart(), MoveIntersectLine(), OriginPointWeaveStart()
+MatrixMoveStart(), MatrixMoveEnd(), MatrixSetCountPlus(), MatrixGetCount(), MatrixSetStartCount().   

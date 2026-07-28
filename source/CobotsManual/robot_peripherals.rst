@@ -641,6 +641,8 @@ Automatische Generierung des Flansch-Lua-Protokolls
 
 Diese neue Funktion ermöglicht die automatische Generierung von Protokollen, die mit dem eingebetteten SmartTool-Schweißgriff in Zusammenhang stehen (derzeit nur für vier Protokolle konfigurierbar: End_SmartTool_V1.3.lua, End_SM_JD_V1.3.lua, End_SM_GZCX_V1.3.lua, End_SM_XJC_V1.3.lua). Nach der Konfiguration über die Webseite wird das Flansch-Lua-Protokoll automatisch generiert, hochgeladen und auf die Flanschseite angewendet. Der Benutzer muss kein Protokoll mehr schreiben. Der Benutzer konfiguriert die Tasten A, B, C, D, E, IO des SmartTool-Schweißgriffs nach Bedarf. Nach der Konfiguration muss der Roboter deaktiviert (Enable entfernen) werden und auf "Anwenden" geklickt werden. Die Seite fragt dann: "Boot-Modus betreten und offenes Protokoll anwenden?". Nach der Bestätigung wechselt der Roboter in den Boot-Modus, lädt das automatisch generierte Flansch-Lua-Protokoll hoch und nach dem Neustart des Roboters kann der SmartTool gemäß den konfigurierten Tasten verwendet werden.
 
+Ab Version V3.9.8 unterstützt das auf dem Endeffektor-Protokoll basierende SmartTool die Konfiguration verschiedener Tasten mit derselben Funktion. Darüber hinaus wurden die Auswahl von Pendelnummer und Schweißprozessnummer hinzugefügt. Die Pendelnummer ist standardmäßig auf 0 eingestellt. Wenn "Pendelstart" konfiguriert ist, kann die Pendelnummer ausgewählt werden. Die IO-Tasteneinstellungen entsprechen den Pendelstart-Einstellungen. Die maximale Zeit für Lichtbogenstart und -ende kann bis zu 10000ms konfiguriert werden.
+
 .. figure:: robot_peripherals/284.png
    :align: center
    :width: 6in
@@ -685,6 +687,22 @@ Dem SmartTool basierend auf dem offenen Protokoll wurde ein Anti-Fehlbedienungsm
    :width: 6in
 
 .. centered:: Abbildung 8.3‑2-8 SmartTool "Anti-Fehlbedienungsmodus" Funktion
+
+SmartTool IO-Tasten-Speicherlöschfunktion
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Das auf dem offenen Protokoll basierende SmartTool wurde um eine IO-Tasten-Speicherlöschfunktion erweitert. Wenn der Benutzer eine IO-Taste einmal drückt, wird diese gespeichert, um paarige Befehle zu generieren. Wenn die Funktion "Programm löschen" oder "Neues Programm" gedrückt wird, wird der IO-Tasten-Speicher gelöscht, und beim nächsten Drücken der IO-Taste wird der Befehl neu generiert.
+
+Globale Punktlöschfunktion
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Eine globale Punktlöschfunktion wurde hinzugefügt. Öffnen Sie WebApp, klicken Sie nacheinander auf "Teach Program" und "Teach Points", wählen Sie "System Mode" und klicken Sie auf "Clear All", um alle vom Benutzer gespeicherten Punkte zu löschen. Die von SmartTool generierten und gespeicherten Befehlspunkt-Sequenznummern werden zurückgesetzt und beginnen wieder bei 1.
+
+.. figure:: robot_peripherals/320.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.3‑2-9 Globale Punktlöschfunktion
 
 Beispiel für ein Lua-Flanschprotokoll eines Schweißgriffs
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1128,7 +1146,9 @@ Funktionen der A-E Tasten:
 
 .. centered:: Abbildung 8.4‑2-2 Eingabe der tatsächlichen physikalischen Geschwindigkeit
 
-Nach erfolgreicher Konfiguration wird dem Teach-Programm ein entsprechender Bewegungsbefehl hinzugefügt. Bei der Konfiguration eines ARC-Bewegungsbefehls müssen zuerst PTP/LIN-Befehle konfiguriert werden.
+Nach erfolgreicher Konfiguration wird dem Teach-Programm ein entsprechender Bewegungsbefehl hinzugefügt. 
+
+.. note:: Hinweis: Bei der Konfiguration der ARC-Bewegungsanweisung muss zuerst die PTP/LIN-Anweisung konfiguriert werden, um sicherzustellen, dass die Schritte zum Hinzufügen von Anweisungen ordnungsgemäß befolgt werden.
 
 - **DO-Ausgang**: Bei Auswahl von "DO-Ausgang" erscheint ein Dropdown-Menü zur Auswahl der Ausgänge DO0 bis DO7.
 
@@ -1142,7 +1162,7 @@ Funktionen der IO-Taste:
 
 - **IO-Signalkonfiguration**: Dropdown-Menü zur Auswahl von DO0~DO7, CO0~CO7, End-DO0, End-DO1 und Erweiterungs-IO (Aux-DO0~Aux-DO127).
 
-- **Kombinationsbefehl**: Nach Auswahl von "IO-Signal" werden unter bestimmten Bedingungen die Konfigurationselemente "Schweißgeräteauswahl" und "Punktgeschwindigkeit" angezeigt, um verschiedene Programmbefehle zu generieren.
+- **Kombinationsbefehl**: Nach Auswahl von "IO-Signal" werden unter bestimmten Bedingungen die Konfigurationselemente "Schweißgeräteauswahl" und "Punktgeschwindigkeit" angezeigt, um verschiedene Programmbefehle zu generieren.Darüber hinaus wurde die Auswahl der Schweißprozessnummer hinzugefügt. Die maximale Zeit für Lichtbogenstart und -ende kann bis zu 10000ms konfiguriert werden. Die Pendelnummer ist standardmäßig auf 0 eingestellt. Wenn "Pendelstart" konfiguriert ist, kann die Pendelnummer ausgewählt werden. Die IO-Tasteneinstellungen entsprechen den Pendelstart-Einstellungen.
 
 .. important::
    - Wenn das IO-Signal als DO0~DO7 oder CO0~CO7 konfiguriert ist (ohne "Lichtbogenzündung"), fügt das Programm SetDO hinzu. "Schweißgeräteauswahl" und "Punktgeschwindigkeit" werden ausgeblendet.
@@ -1153,6 +1173,7 @@ Funktionen der IO-Taste:
    - Wenn das IO-Signal als CO0~CO7 (mit "Lichtbogenzündung") oder Erweiterungs-IO (mit "Lichtbogenzündung Schweißgerät") konfiguriert ist und die "Schweißgeräteauswahl" auf "Schweißen" steht, fügt das Programm beim ersten Tastendruck ARCStart hinzu, beim zweiten Tastendruck ARCEnd, beim dritten Tastendruck ARCStart, beim vierten Tastendruck ARCEnd, usw. (abwechselnd). "Schweißgeräteauswahl" und "Punktgeschwindigkeit" werden ausgeblendet.
    - Wenn das IO-Signal als CO0~CO7 (mit "Lichtbogenzündung") oder Erweiterungs-IO (mit "Lichtbogenzündung Schweißgerät") konfiguriert ist und die "Schweißgeräteauswahl" auf "LIN+Schweißen" steht, fügt das Programm beim ersten Tastendruck LIN und ARCStart hinzu, beim zweiten Tastendruck LIN und ARCEnd, beim dritten Tastendruck LIN und ARCStart, beim vierten Tastendruck LIN und ARCEnd, usw. (abwechselnd). "Schweißgeräteauswahl" und "Punktgeschwindigkeit" werden angezeigt.
    - Wenn das IO-Signal als CO0~CO7 (mit "Lichtbogenzündung") oder Erweiterungs-IO (mit "Lichtbogenzündung Schweißgerät") konfiguriert ist und die "Schweißgeräteauswahl" auf "LIN+Schweißen+Pendeln" steht, fügt das Programm beim ersten Tastendruck LIN, ARCStart und WeaveStart hinzu, beim zweiten Tastendruck LIN, ARCEnd und WeaveEnd, beim dritten Tastendruck LIN, ARCStart und WeaveStart, beim vierten Tastendruck LIN, ARCEnd und WeaveEnd, usw. (abwechselnd). "Schweißgeräteauswahl" und "Punktgeschwindigkeit" werden ausgeblendet.
+   - Wenn die Funktion "Programm löschen" oder "Neues Programm" gedrückt wird, wird der IO-Tasten-Speicher gelöscht, und beim nächsten Drücken der IO-Taste wird der Befehl neu generiert.
 
 .. image:: robot_peripherals/031.png
    :width: 4in
@@ -6416,50 +6437,55 @@ Hilfe der Ziehtaste stellen Sie das Roboterende horizontal nach unten. Klicken S
 
 .. centered:: Abbildung 8.14‑13 Automatische Nullpunktkorrektur des Kraft-/Drehmomentsensors
 
-Gemischtes Ziehen mit 6-Achsen-Kraft und Gelenkimpedanz
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Hybrides Ziehen mit Sechs-Achsen-Kraft und Gelenkimpedanz
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-1.  Unterstütztes Ziehen
+Unterstütztes Ziehen
+********************************************************
 
-**Schritt 1**: Klicken Sie im Menü "Hilfsanwendungen" -> "Werkzeuganwendungen" auf "Ziehen sperren", um zur Funktionsoberfläche für das gesperrte Ziehen zu gelangen.
+**Schritt 1**: Klicken Sie unter dem Menü "Hilfsanwendungen" -> "Werkzeuganwendungen" auf "Ziehverriegelung", um die Oberfläche der Ziehverriegelungsfunktion aufzurufen.
 
-**Schritt 2**: Stellen Sie im Bereich "Gemischtes Ziehen mit 6-Achsen-Kraft und Gelenkimpedanz" den Steuerungsstatus auf "Aktivieren" und den Impedanz-Aktivierungsstatus auf "Deaktivieren". Stellen Sie den Zugverstärkungsfaktor ein. Stellen Sie die Endlineargeschwindigkeit auf 1000 mm/s und die Winkelgeschwindigkeitsbegrenzung auf 100 °/s ein. Klicken Sie dann auf die Schaltfläche "Anwenden", um die Funktion zu aktivieren. Die genaue Konfiguration ist in Abbildung 4 dargestellt.
-
-**Schritt 3**: Schalten Sie den Robotermodus in den Ziehemodus. Sie können den Roboter nun ziehen. Der Effekt ist: Ziehen am Roboterende ist leicht und fühlt sich gut an; Ziehen an den Gelenken ist schwer.
+**Schritt 2**: Im Bereich "Hybrides Ziehen mit Sechs-Achsen-Kraft und Gelenkimpedanz" setzen Sie den Steuerungsstatus auf "Ein", den Impedanz-Aktivierungsstatus auf "Aus", stellen Sie den Ziehverstärkungsfaktor ein, die Endlineargeschwindigkeit auf 1000mm/s, die Winkelgeschwindigkeitsbegrenzung auf 100°/s und klicken Sie dann auf die Schaltfläche "Anwenden", um die Funktion zu aktivieren. Die spezifische Konfiguration ist in der folgenden Abbildung dargestellt.
 
 .. figure:: robot_peripherals/241.png
    :align: center
    :width: 4in
 
-.. centered:: Abbildung 8.14‑14 Konfigurationsparameter für unterstütztes Ziehen mit 6-Achsen-Kraft
+.. centered:: Abbildung 8.14‑14 Konfigurationsparameter für das Sechs-Achsen-Kraft-unterstützte Ziehen
 
-2.  Gelenkimpedanzregelung
+Gelenkimpedanzsteuerung
+********************************************************
 
-Die Impedanzregelung dient dazu, die Zugkraft und die Zugposition zu begrenzen. Ihr Standardzustand ist "Deaktiviert".
+Die Funktion der Impedanzsteuerung besteht darin, die Ziehkraft und die Ziehposition zu begrenzen. Ihr Standardstatus ist "Aus".
 
-Die genaue Vorgehen ist in Abbildung 5 dargestellt. Stellen Sie den Impedanz-Aktivierungsstatus auf "Aktivieren". Stellen Sie dann die Dämpfungskoeffizienten und Steifigkeitskoeffizienten wie in Abbildung 5 gezeigt ein. Die Funktion der Steifigkeitskoeffizienten ist derzeit nicht verfügbar.
+Für spezifische Vorgänge siehe die folgende Abbildung. Setzen Sie den Impedanz-Aktivierungsstatus auf "Ein" und stellen Sie dann den Dämpfungskoeffizienten und den Steifigkeitskoeffizienten wie gezeigt ein. Die Funktion des Steifigkeitskoeffizienten ist noch nicht verfügbar.
 
 .. figure:: robot_peripherals/242.png
    :align: center
    :width: 4in
 
-.. centered:: Abbildung 8.14‑15 Konfigurationsparameter für Gelenkimpedanz
+.. centered:: Abbildung 8.14‑15 Konfigurationsparameter für die Gelenkimpedanz
 
-Die spezifische Wirkung der Parameter:
+Spezifische Funktionen der Parameter:
 
-- **Steuerungsstatus**: Nach dem Aktivieren kann diese Funktion im Ziehemodus verwendet werden.
+- **Steuerungsstatus**: Nach der Aktivierung kann diese Funktion im Ziehmodus verwendet werden.
+  
+- **Impedanz Aktivieren**: Nach der Aktivierung müssen Steifigkeitsparameter und Dämpfungsparameter konfiguriert werden. Ihre Funktion besteht darin, die Ziehkraft und die Ziehposition zu begrenzen.
+  
+- **Ziehverstärkungsfaktor**: Es wird empfohlen, die Parameter zwischen [0-5] einzustellen. Bei 0 kann der Roboter nicht gezogen werden. Bei 1 verbessert sich der Zieheffekt nicht. Bei Werten über 1 ist das Ziehen leicht und das Zieherlebnis gut. Je größer der Parameter, desto leichter das Ziehen.
+  
+- **Steifigkeitsverstärkung**: Bei 0 wird der Roboter nach dem Ziehen in die Ausgangsposition vor dem Ziehen zurückversetzt.
+  
+- **Dämpfungsverstärkung**: Ihre Funktion besteht darin, die Ziehkraft zu begrenzen. Der Parameterbereich für die Achsen 1-3 ist [0-0.5], für die Achsen 4-5 ist [0-0.1]; für Achse 6 ist [0-0.05].
+  
+- **Endlineargeschwindigkeit**: 1000mm/s. Wenn die Endlineargeschwindigkeitsbegrenzung überschritten wird, wechselt der Roboter in den Handmodus und zeigt eine TCP-Übergeschwindigkeitswarnung an.
+  
+- **Winkelgeschwindigkeitsbegrenzung**: 100°/s. Wenn die Winkelgeschwindigkeitsbegrenzung überschritten wird, wechselt der Roboter in den Handmodus und zeigt eine TCP-Übergeschwindigkeitswarnung an.
 
-- **Impedanz aktivieren**: Nach dem Aktivieren müssen die Steifigkeits- und Dämpfungsparameter konfiguriert werden. Sie dienen dazu, die Zugkraft und die Zugposition zu begrenzen.
+.. note::
+  1. Für den FR3WML-Roboter werden die folgenden Parametereinstellungen empfohlen: Ziehverstärkungsfaktor [0.15, 0.15, 0.15, 0.15, 0.15, 0.2], Dämpfungsverstärkung nach Aktivierung der Impedanz [0.1, 0.1, 0.1, 0.05, 0.05, 0.05].
 
-- **Zugverstärkung (Drag Gain)**: Der Parameter sollte vorzugsweise zwischen [0-5] eingestellt werden. Bei 0 kann der Roboter nicht gezogen werden. Bei 1 verbessert sich der Zieheffekt nicht. Bei Werten über 1 ist das Ziehen leicht und fühlt sich gut an. Je größer der Wert, desto leichter das Ziehen.
-
-- **Steifigkeitsverstärkung (Stiffness Gain)**: Wird auf 0 gesetzt. Die Wirkung besteht darin, nach dem Ziehen in die Ausgangsposition vor dem Ziehen zurückzukehren.
-
-- **Dämpfungsverstärkung (Damping Gain)**: Dient zur Begrenzung der Zugkraft. Parameterbereich für Achsen 1-3: [0-0,5]; für Achsen 4-5: [0-0,1]; für Achse 6: [0-0,05].
-
-- **Endlineargeschwindigkeit**: 1000 mm/s. Wird diese Grenze überschritten, schaltet der Roboter in den Handmodus und meldet "TCP Übergeschwindigkeit".
-
-- **Winkelgeschwindigkeitsbegrenzung**: 100 °/s. Wird diese Grenze überschritten, schaltet der Roboter in den Handmodus und meldet "TCP Übergeschwindigkeit".
+  2. Wenn alle Ziehverstärkungsparameter auf 0 gesetzt sind, ist der Zieh widerstand stark und das Ziehen ist schwierig; wenn alle Ziehverstärkungsparameter auf 5 gesetzt sind, ist das Ziehgefühl leicht; je größer der Parameter, desto leichter das Ziehen.
 
 Funktion zur Laser-Punktverfolgung mit Erweiterungsachse
 ------------------------------------------------------------------
@@ -7232,6 +7258,20 @@ Die detaillierten Kommunikationsparameter der Endseite sind wie folgt:
    :width: 6in
 
 .. centered:: Abbildung 8.19‑4 Funktionscodes des Offenen Protokolls
+
+Die Bewegungssteuerungsbefehle der dreifingrigen Hand sind 0x31-0x36, wie folgt beschrieben:
+
+- ① 0x31 ist der Funktionscode für die Initialisierung der dreifingrigen Hand. Die spezifische Implementierung wird durch die tatsächlichen Gegebenheiten der dreifingrigen Hand bestimmt.
+- ② 0x32-0x34 sind Funktionscodes für das Senden von Steuerparametern der dreifingrigen Hand, die jeweils Positionssteuerparametern, Geschwindigkeitssteuerparametern und Drehmomentsteuerparametern entsprechen und zum Festlegen der Bewegungssollwerte für jedes Gelenk verwendet werden.
+- ③ 0x35 ist der Funktionscode für die Greifbewegungsauslösung. Die Bewegungssteuerung der dreifingrigen Hand hat in der Regel zwei Modi: Einer, bei dem die Bewegung sofort nach dem Schreiben in das Positionsregister ausgeführt wird; der andere, bei dem die Bewegung erst beginnt, nachdem in das Aktionsauslöseregister ein bestimmter Wert geschrieben wurde, nachdem das Positionsregister beschrieben wurde. Ob diese Auslösefunktion aktiviert wird, wird durch die tatsächlichen Gegebenheiten der dreifingrigen Hand bestimmt.
+- ④ 0x36 ist der Funktionscode für die mehrachsige Synchronbewegung. Ob die mehrachsige Synchronbewegung unterstützt wird, wird durch die tatsächlichen Gegebenheiten der dreifingrigen Hand bestimmt. Falls unterstützt, wird sie verwendet, um eine zeitlich koordinierte Planung mehrerer Fingergelenke zu erreichen, die gleichzeitig starten und gleichzeitig ihre jeweiligen Sollpositionen/-geschwindigkeiten erreichen. Falls nicht unterstützt, wird jede Achse sequenziell über Einzelachsensteuerungsbefehle gesteuert, um einen ähnlichen koordinierten Effekt zu erzielen.
+
+Die Statusabfragebefehle der dreifingrigen Hand sind 0xA0-0xA6, wie folgt beschrieben:
+
+- ⑤ 0xA0 ist der Funktionscode zum Lesen des Einzelachsen-Betriebsstatus, der verwendet wird, um den aktuellen Bewegungsstatus und den Greifstatusinformationen eines bestimmten Gelenks abzufragen.
+- ⑥ 0xA2 ist der Funktionscode zum Lesen des Initialisierungsstatus, der verwendet wird, um den Initialisierungsabschlussstatus und die Systembereitschaft der dreifingrigen Hand abzufragen. Die spezifische Implementierung wird durch die tatsächlichen Gegebenheiten der dreifingrigen Hand bestimmt.
+- ⑦ 0xA3-0xA5 sind Funktionscodes zum Lesen der Echtzeit-Statusparameter der dreifingrigen Hand, die jeweils der aktuellen Ist-Position, der aktuellen Ist-Geschwindigkeit und dem aktuellen Ist-Drehmoment entsprechen und für die Regelung im geschlossenen Regelkreis und die Zustandsüberwachung verwendet werden.
+- ⑧ 0xA6 ist der Funktionscode zum Lesen der Alarminformationen der dreifingrigen Hand, der verwendet wird, um die zugrunde liegenden Fehlercodes und den Alarmstatus der dreifingrigen Hand abzurufen, was die Diagnose von Anomalien und die Schutzbehandlung erleichtert.
 
 .. note:: Die geschickte Hand muss das Lesen der funktionsbezogenen Codes für den Betriebszustand unterstützen, um den Bewegungsstatus abfragen zu können.
   

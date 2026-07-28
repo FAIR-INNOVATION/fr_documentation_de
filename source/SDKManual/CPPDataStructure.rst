@@ -304,6 +304,7 @@ Status-Rückmeldungspaket der Steuerung
       uint8_t socketReadTimeout;   // Socket-Lesezeitüberschreitung, bit0-bit4: socketID 1-4
       uint8_t tsWebStateComErr;   // Web-Drehmoment-Kommunikationsfehler; 0-normal; 1-fehlgeschlagen
       uint8_t exaxisCoordID;     //Kennung des erweiterten Achskoordinatensystems
+      uint8_t programRunState;   // LUA-Programmausführungsstatus 0-Programm läuft nicht; 1-Programm läuft (einschließlich Programm pausiert)
       uint16_t check_sum;     // Summenprüfung
     }ROBOT_STATE_PKG;
 
@@ -445,4 +446,5 @@ Aufzählungstyp für Roboterstatus-Rückmeldungskonfiguration
         SocketReadTimeout = 130,    // Socket-Lesezeitüberschreitung, bit0-bit4 entsprechen socketID 1-4
         TsWebStateComErr = 131,     // Web-Drehmoment-Kommunikationsfehler: 0-normal, 1-fehlgeschlagen
         ExaxisCoordID = 132          //Kennung des erweiterten Achskoordinatensystems
+        programRunState = 133       //LUA-Programmausführungsstatus 0-Programm läuft nicht; 1-Programm läuft (einschließlich Programm pausiert)
     };

@@ -1,3 +1,38 @@
+Version V3.9.8
+-----------------
+
+Datum: 2026-07-27
+
+- **Förderband-Verfolgungsbewegung optimiert**:
+    Pfad: Teach Program -> Förderbandbefehle.
+
+    Beschreibung: 1. Optimierung der IO-Triggerpunkt- und Programm-Startpunkteinstellungen; 2. Optimierung der mehrfachen Auslösung von IO-Signalen während der Bewegung.
+
+- **Web-Ladefunktion für große LUA-Programme und Unterprogramme optimiert**:
+    Pfad: Teach Program -> Programm importieren.
+
+    Beschreibung: Hochladen großer LUA-Programmdateien (über 50 MB) zum Laden und Ausführen.
+
+- **Befehle zum Setzen/Abrufen von Roboterwerkzeugen, Werkstückkoordinatensystemen und Lasten optimiert**:
+    Pfad: Grundeinstellungen -> Werkzeuge, Werkstückkoordinatensysteme, Last.
+
+    Beschreibung: Koordinatensystem- und Lastparameter können normal über die 8080-Befehlsschnittstelle, das SDK und die WebApp gesetzt und abgerufen werden.
+
+- **SmartTool-bezogene Funktionen hinzugefügt**:
+    Pfad: Grundeinstellungen -> Peripheriegeräte -> Schweißgriff.
+
+    Beschreibung: 1. Zurücksetzen des IO-Tasten-Speichers nach dem Löschen oder Erstellen eines neuen Programms; 2. Auswahl der Prozessnummer für die 3 lichtbogenstartbezogenen Befehlserzeugungen hinzugefügt und die Timeout-Begrenzung für den Lichtbogenstart aufgehoben; 3. Globale Punktlöschfunktion mit Zurücksetzen der Sequenznummer nach dem Löschen hinzugefügt; 4. Beschränkung für die wiederholte Konfiguration von PTP, LIN und ARC aufgehoben.
+
+- **Unterstützung für fünf-fingrige Hand hinzugefügt**:
+    Pfad: Grundeinstellungen -> Peripheriegeräte -> Dreifingrige Hand.
+
+    Beschreibung: Endeffektor-Lua-Adapter für fünf-fingrige Hand hinzugefügt.
+
+- **FR3-WML-Gelenkimpedanz-Zuganpassung hinzugefügt**:
+    Pfad: Hilfsanwendungen -> Werkzeuganwendungen -> Zugverriegelung.
+
+    Beschreibung: Anpassung der Parameter für das hybride Ziehen mit Sechs-Achsen-Kraft und Gelenkimpedanz für FR3-WML zur Aktivierung der Zugfunktionalität.
+
 Version V3.9.7
 -----------------
 

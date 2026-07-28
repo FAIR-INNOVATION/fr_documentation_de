@@ -210,7 +210,7 @@ Externes Werkzeugkoordinatensystem einstellen
 
     /**
     * @brief Stellt das externe Werkzeugkoordinatensystem ein
-    * @param [in] id Koordinatensystem-Nummer, Bereich [0~14]
+    * @param [in] id Koordinatensystem-Nummer, 20-39 entsprechen den externen Werkzeugkoordinatensystemen 0-19
     * @param [in] etcp Pose des Werkzeugmittelpunkts relativ zur Flanschmitte
     * @param [in] etool Unbestimmt
     * @return Fehlercode
@@ -224,7 +224,7 @@ Liste der externen Werkzeugkoordinatensysteme einstellen
 
     /**
     * @brief  Stellt die Liste der externen Werkzeugkoordinatensysteme ein
-    * @param  [in] id Koordinatensystem-Nummer, Bereich [0~14]
+    * @param  [in] id Koordinatensystem-Nummer, 20-39 entsprechen den externen Werkzeugkoordinatensystemen 0-19
     * @param  [in] etcp  Pose des Werkzeugmittelpunkts relativ zur Flanschmitte
     * @param  [in] etool  Unbestimmt
     * @return  Fehlercode

@@ -498,6 +498,7 @@ Strukturtyp für Roboterstatus-Rückmeldung
         public int socketReadTimeout;                // Socket-Lesezeitüberschreitung
         public int tsWebStateComErr;                 // TS-Web-Zustandskommunikationsfehler
         public int exaxisCoordID;                  // Kennung des erweiterten Achskoordinatensystems
+        public int programRunState;                  // LUA-Programmausführungsstatus 0-Programm läuft nicht; 1-Programm läuft (einschließlich Programm pausiert)
     }
 
 Roboterstatus-Feedback-Konfigurationsergebnisklasse
@@ -654,4 +655,5 @@ Roboterstatus-Feedback-Konfigurationsaufzählungstyp
         SocketReadTimeout,      // Socket-Lesezeitüberschreitung, bit0-bit4 entsprechen socketID 1-4
         TsWebStateComErr,       // web-Drehmomentkommunikationsfehler: 0-normal, 1-Fehler
         ExaxisCoordID           // Kennung des erweiterten Achskoordinatensystems
+        programRunState         //LUA-Programmausführungsstatus 0-Programm läuft nicht; 1-Programm läuft (einschließlich Programm pausiert)
     };

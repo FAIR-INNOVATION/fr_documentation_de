@@ -172,12 +172,12 @@ Pendelparameter einstellen
 
 Codebeispiel zum Einstellen von Schweißparametern
 +++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-V1.1.3 Web-3.8.2
-
+.. versionadded:: C#SDK-V3.9.8
+    
 .. code-block:: c#
     :linenos:
 
-    private void button7_Click(object sender, EventArgs e)
+    private void button42_Click(object sender, EventArgs e)
     {
         robot.WeldingSetProcessParam(1, 177, 27, 1000, 178, 28, 176, 26, 1000);
         robot.WeldingSetProcessParam(2, 188, 28, 555, 199, 29, 133, 23, 333);
@@ -249,9 +249,14 @@ Codebeispiel zum Einstellen von Schweißparametern
         robot.SetWeldMachineCtrlModeExtDoNum(17);
         for (int i = 0; i < 5; i++)
         {
+            int getCtrlMode = -1;
             robot.SetWeldMachineCtrlMode(0);
+            robot.GetWeldMachineCtrlMode(ref getCtrlMode);
+            Console.WriteLine("GetWeldMachineCtrlMode {0}", getCtrlMode);
             Thread.Sleep(1000);
             robot.SetWeldMachineCtrlMode(1);
+            robot.GetWeldMachineCtrlMode(ref getCtrlMode);
+            Console.WriteLine("GetWeldMachineCtrlMode {0}", getCtrlMode);
             Thread.Sleep(1000);
         }
     }
@@ -358,6 +363,18 @@ Schweißmaschinen-Steuerungsmodus einstellen
     * @return Fehlercode
     */
     public int SetWeldMachineCtrlMode(int mode,int ioType = 1)
+
+Schweißgeräte-Steuermodus abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Ruft den Schweißgeräte-Steuermodus ab
+    * @param [out] mode Schweißgeräte-Steuermodus; 0-Gleichstrom-Einknopf-Modus; 1-Impuls-Einknopf-Modus; 2-JOB-Modus; 3-Nahsteuerungsmodus; 4-getrennter Modus; 5-CC/CV-Modus; 6-TIG; 7-CMT
+    * @return Fehlercode
+    */
+    public int GetWeldMachineCtrlMode(ref int mode)    
 
 Schweißstart
 ++++++++++++
@@ -776,8 +793,8 @@ Erweitertes I/O - Signale für Wiederaufnahme nach Schweißunterbrechung konfigu
     */
     int SetExtDIWeldBreakOffRecover(int reWeldDINum, int abortWeldDINum);
 
-Codebeispiel zum Einstellen erweiterter I/O-Schweißsignale
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Erweiterte IO-Konfiguration und Codebeispiel abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
@@ -792,7 +809,40 @@ Codebeispiel zum Einstellen erweiterter I/O-Schweißsignale
         robot.SetArcDoneExtDiNum(60);
         robot.SetExtDIWeldBreakOffRecover(70, 80);
         robot.SetWireSearchExtDIONum(0, 1);
+
+        int[] DIConfig = new int[16];
+        int[] DOConfig = new int[16];
+        int rtn = robot.GetExtDIConfig(ref DIConfig);
+        Console.WriteLine("GetExtDIConfig rtn={0}, Schweißgerät bereit={1}, Lichtbogenstart erfolgreich={2}, Unterbrechung fortsetzen={3}, Unterbrechung beenden={4}, Drahtsuche erfolgreich={5}, Laserzustand={6}, Laserfehler={7}",
+            rtn, DIConfig[0], DIConfig[1], DIConfig[2], DIConfig[3], DIConfig[4], DIConfig[5], DIConfig[6]);
+        rtn = robot.GetExtDOConfig(ref DOConfig);
+        Console.WriteLine("GetExtDOConfig rtn={0}, Lichtbogenstart Schweißgerät={1}, Gasprüfung={2}, Drahtvorschub vorwärts={3}, Drahtvorschub rückwärts={4}, Drahtsuche={5}, Schweißgerät-Modus={6}, Laser aktivieren={7}, Laser starten={8}, Laser zurücksetzen={9}",
+            rtn, DOConfig[0], DOConfig[1], DOConfig[2], DOConfig[3], DOConfig[4], DOConfig[5], DOConfig[6], DOConfig[7], DOConfig[8]);
     }
+
+Erweiterte DI-Funktionskonfiguration abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Ruft die erweiterte DI-Funktionskonfiguration ab
+    * @param [out] DIConfig Erweiterte DI-Eingangskonfiguration; [0]-Schweißgerät bereit; [1]-Lichtbogenstart erfolgreich; [2]-Schweißunterbrechung fortsetzen; [3]-Schweißunterbrechung beenden; [4]-Drahtsuche erfolgreich; [5]-Laser-Schweißgerät Betriebsstatus; [6]-Laser-Schweißgerät Fehlerstatus; [7-15]-reserviert
+    * @return  Fehlercode
+    */
+    public int GetExtDIConfig(ref int[] DIConfig)
+
+Erweiterte DO-Funktionskonfiguration abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Ruft die erweiterte DO-Funktionskonfiguration ab
+    * @param [out] DOConfig Erweiterte DO-Ausgangskonfiguration; [0]-Lichtbogenstart Schweißgerät; [1]-Gasprüfung; [2]-Drahtvorschub vorwärts; [3]-Drahtvorschub rückwärts; [4]-Drahtsuche; [5]-Schweißgerät-Steuermodus; [6]-Laser-Schweißgerät aktivieren; [7]-Laser-Schweißgerät starten; [8]-Laser-Schweißgerät zurücksetzen; [9-15]-reserviert
+    * @return  Fehlercode
+    */
+    public int GetExtDOConfig(ref int[] DOConfig)
 
 Lichtbogenverfolgungssteuerung (Arc Tracking)
 ++++++++++++++++++++++++++++++++++++++++++++++

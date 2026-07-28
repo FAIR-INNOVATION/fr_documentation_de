@@ -457,10 +457,7 @@ Förderbandparameter konfigurieren
                     - ``lead``: Mechanisches Übersetzungsverhältnis (Vorschub pro Encoderumdrehung) [mm]
                     - ``wpAxis``: Werkstückkoordinatennummer (für Tracking-Bewegung, bei Tracking-Greifen/TPD-Tracking auf 0 setzen)
                     - ``vision``: Mit Vision gekoppelt? 0 = nein, 1 = ja
-                    - ``speedRadio``: Geschwindigkeitsverhältnis (für Förderband-Tracking-Greifen Bereich 1-100, für Tracking-Bewegung/TPD-Tracking auf 1 setzen)
-    - ``followType``: Tracking-Bewegungstyp, 0 = Tracking-Bewegung, 1 = Nachlauf-Bewegung"
-    "Standardparameter", "- ``startDis``: Für Nachlauf-Greifen erforderlich: Startabstand des Trackings. -1 = automatische Berechnung (Nachlauf startet, wenn Werkstück unter Roboter ist). Einheit mm, Standard = 0
-    - ``endDis``: Für Nachlauf-Greifen erforderlich: Endabstand des Trackings. Einheit mm, Standard = 100"
+                    - ``speedRadio``: Geschwindigkeitsverhältnis (für Förderband-Tracking-Greifen Bereich 1-100, für Tracking-Bewegung/TPD-Tracking auf 1 setzen)"
     "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
 
 Förderband-Greifpunktkompensation
@@ -576,6 +573,111 @@ Codebeispiel für Roboter-Förderbandoperationen
     retval = robot.MoveGripper(index, 100, 40, 10, max_time, block, 0, 0, 0, 0)
     print(f"MoveGripper retval is: {retval}")
     robot.CloseRPC()
+
+Konfiguration der Parameter für die Förderband-Ortsverfolgung
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-V3.9.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetStationaryTrackPara(self, trackMode, trackTime, trackDis)``"
+    "Beschreibung", "Konfiguriert die Parameter für die Förderband-Ortsverfolgung"
+    "Erforderliche Parameter", "
+    - ``trackMode``: 0-Zeit; 1-Distanz; 2-Zeit und Distanz, eine der Bedingungen erfüllt
+    - ``trackTime``: Verfolgungszeit, Einheit s
+    - ``trackDis``: Verfolgungsdistanz
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
+
+Auf Abschluss der Leerbewegung an Ort und Stelle warten
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-V3.9.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``WaitStationaryMotionDone(self)``"
+    "Beschreibung", "Wartet auf den Abschluss der Leerbewegung an Ort und Stelle"
+    "Erforderliche Parameter", "Keine"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
+
+Codebeispiel für die Förderband-Ortsverfolgungsbewegung
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-V3.9.8
+
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+    import time
+
+
+    def main():
+        robot = Robot.RPC('192.168.58.2')
+        time.sleep(0.5) 
+        j1 = [-35.146, -102.684, 120.805, -100.401, -90.295, 150.105]
+        d1 = [-121.814, -348.341, 209.978, -173.152, -3.585, -5.446]
+
+        ex = [0.0, 0.0, 0.0, 0.0]
+        zeroOff = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+        tool = 1
+        workpiece = 1
+
+        para = [0, 10000, 200, 0, 0, 10]
+    
+        rtn = robot.ConveyorSetParam(para= para)
+        print(f"ConveyorSetParam rtn is {rtn}")
+
+        robot.MoveJ(joint_pos=j1, desc_pos=d1, tool=tool, user=workpiece,
+                    vel=100, acc=100, ovl=100, exaxis_pos=ex,
+                    blendT=-1, offset_flag=0, offset_pos=zeroOff)
+
+        print("--- Step 1: SetDO(6,1) ---")
+        rtn = robot.SetDO(6, 1, 0, 0)
+        print(f"  SetDO(6,1) rtn={rtn}")
+
+        print("--- Step 2: ConveyorTrackStart(2) ---")
+        rtn = robot.ConveyorTrackStart(2)
+        print(f"  ConveyorTrackStart(2) rtn={rtn}")
+
+        print("--- Step 3: ConveyorIODetect(10000) ---")
+        rtn = robot.ConveyorIODetect(10000)
+        print(f"  ConveyorIODetect(10000) rtn={rtn}")
+
+        print("--- Step 4: ConveyorGetTrackData(2) ---")
+        rtn = robot.ConveyorGetTrackData(2)
+        print(f"  ConveyorGetTrackData(2) rtn={rtn}")
+
+        print("--- Step 5: SetStationaryTrackPara(0,5,5) ---")
+        rtn = robot.SetStationaryTrackPara(0, 5, 5)
+        print(f"  SetStationaryTrackPara(0,5,5) rtn={rtn}")
+
+        print("--- Step 6: MoveStationary() ---")
+        rtn = robot.MoveStationary()
+        print(f"  MoveStationary() rtn={rtn}")
+
+        rtn = robot.WaitStationaryMotionDone()
+        print(f"  WaitStationaryMotionDone() rtn={rtn}")
+
+        print("--- Step 7: ConveyorTrackEnd() ---")
+        rtn = robot.ConveyorTrackEnd()
+        print(f"  ConveyorTrackEnd() rtn={rtn}")
+
+        print("--- Step 8: SetDO(6,0) ---")
+        rtn = robot.SetDO(6, 0, 0, 0)
+        print(f"  SetDO(6,0) rtn={rtn}")
+
+        robot.CloseRPC()
+
+
+    if __name__ == "__main__":
+        main()
 
 Endeffektor-Sensor konfigurieren
 ++++++++++++++++++++++++++++++++
@@ -808,7 +910,7 @@ Aktivierungsstatus der Endeffektor-LUA-Ausführung abrufen
     - ``enable``: 0 = nicht aktiviert, 1 = aktiviert"
 
 Festlegen der aktivierten Endeffektor-Gerätetypen für LUA
-+++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.5
 
 .. csv-table:: 
@@ -826,7 +928,7 @@ Festlegen der aktivierten Endeffektor-Gerätetypen für LUA
     "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
 
 Abrufen der aktivierten Endeffektor-Gerätetypen für LUA
-+++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.5
 
 .. csv-table:: 
@@ -844,7 +946,7 @@ Abrufen der aktivierten Endeffektor-Gerätetypen für LUA
     - ``dexhandEnable``: Aktivierungsstatus dreifingrige Hand, 0-deaktiviert; 1-aktiviert"
 
 Abrufen der aktuell konfigurierten Endeffektor-Geräte
-+++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.5
 
 .. csv-table:: 
@@ -862,7 +964,7 @@ Abrufen der aktuell konfigurierten Endeffektor-Geräte
     - ``dexhandEnable``: Aktivierungsstatus dreifingrige Hand, 0-deaktiviert; 1-aktiviert"
 
 Festlegen der aktivierten Greifer-Aktionssteuerungsfunktionen
-+++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.5
 
 .. csv-table:: 
@@ -1894,7 +1996,7 @@ Löschen von Fehlern der Dreifingrigen Hand
     "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
     
 Festlegen der Aktivierten Aktionssteuerungsfunktionen der Dreifingrigen Hand
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. csv-table:: 
     :stub-columns: 1
@@ -1915,7 +2017,7 @@ Festlegen der Aktivierten Aktionssteuerungsfunktionen der Dreifingrigen Hand
     "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
     
 Abrufen der Aktivierten Aktionssteuerungsfunktionen der Dreifingrigen Hand
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. csv-table:: 
     :stub-columns: 1
@@ -1936,7 +2038,7 @@ Abrufen der Aktivierten Aktionssteuerungsfunktionen der Dreifingrigen Hand
     "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
 
 Codebeispiel für Konfiguration und Bewegung der Dreifingrigen Hand am Endeffektor  
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: python
     :linenos:  
      

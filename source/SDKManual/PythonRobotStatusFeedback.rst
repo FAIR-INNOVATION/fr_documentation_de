@@ -237,6 +237,7 @@ Roboterstatus-Rückmeldungsstrukturtyp
             ("socketReadTimeout", c_uint8),     # Socket-Lesezeitüberschreitung
             ("tsWebStateComErr", c_uint8),      # TS_WEB-Statuskommunikationsfehler
             ("exaxisCoordID", c_uint8),         # Externe erweiterte Achsen-ID
+            ("programRunState", c_uint8),      # LUA-Programmausführungsstatus 0-Programm läuft nicht; 1-Programm läuft (einschließlich Programm pausiert)
             ("check_sum", c_uint16)          # Summenprüfung
         ]
 
@@ -740,4 +741,4 @@ Aufzählungstyp der Roboterstatus-Rückmeldungskonfigurationsliste
         SocketReadTimeout = 130
         TsWebStateComErr = 131
         exaxisCoordID = 132
-        CheckSum = 133
+        programRunState = 133

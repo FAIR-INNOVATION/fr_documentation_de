@@ -411,9 +411,6 @@ Förderbandparameter konfigurieren
     * @param [in] wpAxis Werkstückkoordinatensystem-Nummer (für Tracking-Bewegung), für Tracking-Greifen und TPD-Tracking auf 0 setzen.
     * @param [in] vision Vision vorhanden? 0-nein, 1-ja.
     * @param [in] speedRadio Geschwindigkeitsverhältnis (für Tracking-Greifen 1-100), sonst Standard 1.
-    * @param [in] followType Tracking-Bewegungstyp, 0-Tracking-Bewegung; 1-Nachverfolgungsbewegung.
-    * @param [in] startDis Startabstand für Nachverfolgung (mm), -1: automatische Berechnung, Standard 0.
-    * @param [in] endDis Endabstand für Nachverfolgung (mm), Standard 100.
     * @return Fehlercode.
     */
     int ConveyorSetParam(int encChannel, int resolution, double lead, int wpAxis, int vision, double speedRadio, int followType, int startDis, int endDis);
@@ -531,6 +528,90 @@ Beispielprogramm für Roboter-Förderbandoperationen
 
         retval = robot.MoveGripper(index, 100, 40, 10, max_time, block, 0, 0, 0, 0);
 
+        return 0;
+    }
+
+Konfiguration der Parameter für die Förderband-Ortsverfolgung
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  Konfiguriert die Parameter für die Förderband-Ortsverfolgung
+    * @param  [in] trackMode 0-Zeit; 1-Distanz; 2-Zeit und Distanz, eine der Bedingungen erfüllt
+    * @param  [in] trackTime Verfolgungszeit, Einheit s
+    * @param  [in] trackDis Verfolgungsdistanz
+    * @return  Fehlercode
+    */
+    public int SetStationaryTrackPara(int trackMode, double trackTime, int trackDis)
+
+Codebeispiel für Förderband-Ortsverfolgung
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestStationaryTrack(Robot robot)
+    {
+        System.out.println("\n========== Förderband-Stationärverfolgungstest ==========");
+
+        int rtn;
+
+        JointPos j1 = new JointPos(-35.146, -102.684, 120.805, -100.401, -90.295, 150.105);
+        DescPose d1 = new DescPose(-121.814, -348.341, 209.978, -173.152, -3.585, -5.446);
+
+        ExaxisPos ex = new ExaxisPos(0, 0, 0, 0);
+        DescPose zeroOff = new DescPose(0, 0, 0, 0, 0, 0);
+
+        int tool = 1;
+        int workpiece = 1;
+
+        rtn = robot.ConveyorSetParam(0, 10000, 200, 0, 0, 10,0,0,0);
+
+
+        robot.MoveJ(j1, d1, tool, workpiece, 100, 100, 100, ex, -1, 0, zeroOff);
+
+        // Step 1: SetDO-Steuersignal
+        System.out.println("--- Step 1: SetDO(6,1) ---");
+        rtn = robot.SetDO(6, 1, 0, 0);
+        System.out.println("  SetDO(6,1) rtn=" + rtn);
+
+        // Step 2: Förderbandverfolgung starten
+        System.out.println("--- Step 2: ConveyorTrackStart(2) ---");
+        rtn = robot.ConveyorTrackStart(2);
+        System.out.println("  ConveyorTrackStart(2) rtn=" + rtn);
+
+        // Step 3: Werkstück-IO-Erkennung
+        System.out.println("--- Step 3: ConveyorIODetect(10000) ---");
+        rtn = robot.ConveyorIODetect(10000);
+        System.out.println("  ConveyorIODetect(10000) rtn=" + rtn);
+
+        // Step 4: Verfolgungsdaten abrufen
+        System.out.println("--- Step 4: ConveyorGetTrackData(2) ---");
+        rtn = robot.ConveyorGetTrackData(2);
+        System.out.println("  ConveyorGetTrackData(2) rtn=" + rtn);
+
+        // Step 5: Stationärverfolgungsparameter konfigurieren (Zeitmodus, 200s, Distanz 5)
+        System.out.println("--- Step 5: SetStationaryTrackPara(0,200,5) ---");
+        rtn = robot.SetStationaryTrackPara(0, 5, 5);
+        System.out.println("  SetStationaryTrackPara(0,200,5) rtn=" + rtn);
+
+        // Step 6: Stationärverfolgungsbewegung ausführen
+        System.out.println("--- Step 6: MoveStationary() ---");
+        rtn = robot.MoveStationary();
+        robot.WaitStationaryMotionDone();
+        System.out.println("  MoveStationary() rtn=" + rtn);
+
+        // Step 7: Förderbandverfolgung beenden
+        System.out.println("--- Step 7: ConveyorTrackEnd() ---");
+        rtn = robot.ConveyorTrackEnd();
+        System.out.println("  ConveyorTrackEnd() rtn=" + rtn);
+
+        // Step 8: SetDO-Ausschaltsignal
+        System.out.println("--- Step 8: SetDO(6,0) ---");
+        rtn = robot.SetDO(6, 0, 0, 0);
+        System.out.println("  SetDO(6,0) rtn=" + rtn);
+
+        System.out.println("\n========== Stationärverfolgungstest abgeschlossen ==========");
         return 0;
     }
 

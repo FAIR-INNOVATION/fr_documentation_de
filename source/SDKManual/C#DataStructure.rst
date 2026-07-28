@@ -370,6 +370,7 @@ Roboterstatus-Feedback-Strukturtyp
         public byte socketReadTimeout;     // Socket-Lesezeitüberschreitungs-Flag
         public byte tsWebStateComErr;      // ts_web_state_com_err
         public byte exaxisCoordID;         // Nummer des Erweiterungsachsen-Koordinatensystems
+        public byte programRunState;         // LUA-Programmausführungsstatus 0-Programm läuft nicht; 1-Programm läuft (einschließlich Programm pausiert)
         public UInt16 check_sum;         /* Checksumme */
 
         // Konstruktor: Initialisiert alle Array-Felder
@@ -564,4 +565,5 @@ Aufzählungstyp der Roboterstatus-Rückmeldungskonfiguration
         SocketReadTimeout = 130,     // Socket-Lesezeitüberschreitung, bit0-bit4: socketID 1-4
         TsWebStateComErr = 131,     // Web-Drehmoment-Kommunikationsfehler; 0-normal; 1-fehlgeschlagen
         ExaxisCoordID = 132          // Nummer des Erweiterungsachsen-Koordinatensystems
+        programRunState = 133       //LUA-Programmausführungsstatus 0-Programm läuft nicht; 1-Programm läuft (einschließlich Programm pausiert)
     }
