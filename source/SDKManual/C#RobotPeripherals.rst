@@ -2080,9 +2080,7 @@ Festlegen der aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand
     /**
     * @brief Legt die aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand fest
     * @param [in] id Slave-Stationsnummer der dreifingrigen Hand
-    * @param [in] func 0-Greifauslösung, 1-Greiferinitialisierung, 2-Positionseinstellung, 3-Geschwindigkeitseinstellung, 4-Drehmomenteinstellung, 6-Greiferstatus lesen, 7-Initialisierungsstatus lesen, 8-Fehlercode lesen, 9-Position lesen, 10-Geschwindigkeit lesen, 11-Drehmoment lesen, 12-Drehzahl einstellen, 13-Drehgeschwindigkeit einstellen, 14-Drehmoment einstellen, 15-Drehgreiferstatus lesen, 16-Dreh-Initialisierungsstatus lesen, 17-Drehzahl lesen, 18-Drehgeschwindigkeit lesen, 19-Drehmoment lesen, 20-Mehr
-
-achsen-Synchronbewegung einstellen, 21-Fehlerlöschbefehl, 22-Einzelachsen-Betriebsstatus, 23-Alle-Achsen-Betriebsstatus
+    * @param [in] func 0-Greifauslösung, 1-Greiferinitialisierung, 2-Positionseinstellung, 3-Geschwindigkeitseinstellung, 4-Drehmomenteinstellung, 6-Greiferstatus lesen, 7-Initialisierungsstatus lesen, 8-Fehlercode lesen, 9-Position lesen, 10-Geschwindigkeit lesen, 11-Drehmoment lesen, 12-Drehzahl einstellen, 13-Drehgeschwindigkeit einstellen, 14-Drehmoment einstellen, 15-Drehgreiferstatus lesen, 16-Dreh-Initialisierungsstatus lesen, 17-Drehzahl lesen, 18-Drehgeschwindigkeit lesen, 19-Drehmoment lesen, 20-Mehrachsen-Synchronbewegung einstellen, 21-Fehlerlöschbefehl, 22-Einzelachsen-Betriebsstatus, 23-Alle-Achsen-Betriebsstatus
     * @return  Fehlercode
     */
     public int SetDexterousHandsFunc(int id, int[] func)
@@ -2096,9 +2094,7 @@ Abrufen der aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand
     /**
     * @brief Ruft die aktivierten Aktionssteuerungsfunktionen der dreifingrigen Hand ab
     * @param [in] id Gerätenummer der dreifingrigen Hand
-    * @param [out] func 0-Greifauslösung, 1-Greiferinitialisierung, 2-Positionseinstellung, 3-Geschwindigkeitseinstellung, 4-Drehmomenteinstellung, 6-Greiferstatus lesen, 7-Initialisierungsstatus lesen, 8-Fehlercode lesen, 9-Position lesen, 10-Geschwindigkeit lesen, 11-Drehmoment lesen, 12-Drehzahl einstellen, 13-Drehgeschwindigkeit einstellen, 14-Drehmoment einstellen, 15-Drehgreiferstatus lesen, 16-Dreh-Initialisierungsstatus lesen, 17-Drehzahl lesen, 18-Drehgeschwindigkeit lesen, 19-Drehmoment lesen, 20-Mehr
-
-achsen-Synchronbewegung einstellen, 21-Fehlerlöschbefehl, 22-Einzelachsen-Betriebsstatus, 23-Alle-Achsen-Betriebsstatus
+    * @param [out] func 0-Greifauslösung, 1-Greiferinitialisierung, 2-Positionseinstellung, 3-Geschwindigkeitseinstellung, 4-Drehmomenteinstellung, 6-Greiferstatus lesen, 7-Initialisierungsstatus lesen, 8-Fehlercode lesen, 9-Position lesen, 10-Geschwindigkeit lesen, 11-Drehmoment lesen, 12-Drehzahl einstellen, 13-Drehgeschwindigkeit einstellen, 14-Drehmoment einstellen, 15-Drehgreiferstatus lesen, 16-Dreh-Initialisierungsstatus lesen, 17-Drehzahl lesen, 18-Drehgeschwindigkeit lesen, 19-Drehmoment lesen, 20-Mehrachsen-Synchronbewegung einstellen, 21-Fehlerlöschbefehl, 22-Einzelachsen-Betriebsstatus, 23-Alle-Achsen-Betriebsstatus
     * @return  Fehlercode
     */
     public int GetDexterousHandsFunc(int id, ref int[] func)
