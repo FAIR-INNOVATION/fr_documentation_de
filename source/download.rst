@@ -355,9 +355,6 @@ FAIRINO SimMachine
 
     :download:`FAIRINO_SimMachine_Software <https://drive.google.com/file/d/1kvMm1XJ9qSfCpUrTtbuBPYZtNNchuLdQ/view?usp=drive_link>`
 
-Palettierer-FRCap
----------------------------------
-    :download:`Palletizer-v2.2.0 <_static/_doc/Palletizer-v2.2.0.zip>`
 
 CPP SDK
 ---------------------------------

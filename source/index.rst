@@ -34,6 +34,12 @@ Sprachauswahl
 
 .. toctree:: 
    :maxdepth: 6
+   :caption: Plugin-Store
+
+   CapSoftware
+
+.. toctree:: 
+   :maxdepth: 6
    :caption: Offene Plattform
 
    ROSGuide/index
