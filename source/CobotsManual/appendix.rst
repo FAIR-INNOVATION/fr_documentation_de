@@ -163,7 +163,79 @@ Anhang 1: Fehler des Bewegungscontrollers und Behandlungsmethoden
    "13-Einstellungsparameterfehler", "16", "Fehler im Kanal des Förderband-Encoders, zurücksetzbar"
    "13-Einstellungsparameterfehler", "17", "Fehler in der Achsnummer des Förderband-Werkstücks, zurücksetzbar"
 
-Anhang 2: Fehlercodetabelle des Servoantriebs
+Anhang 2: Fehlertabelle für den Breitspannungs-Steuerschrank
+---------------------------------------------------------------------------------
+
+.. list-table::
+   :widths: 20 40 80
+   :header-rows: 0
+   :align: center
+
+   * - **Fehlercode**
+     - **Fehlername**
+     - **Behandlungsmethode**
+
+   * - 3
+     - Hilfs-MCU offline
+     - | 1. Firmware der Hilfs-MCU neu flashen
+       | 2. Hilfs-MCU reparieren oder Steuerschrank austauschen  
+
+   * - 4
+     - Haupt- und Hilfs-MCU Not-Aus-Eingang nicht übereinstimmend
+     - | 1. Not-Aus-Kabelbaum der Tasterbox prüfen oder Tasterbox-Baugruppe austauschen
+       | 2. Die beiden Not-Aus-Brückenkabelbäume an den Steuerschrankklemmen prüfen  
+       | 3. Wenn der Fehler weiterhin besteht, Steuerschrank reparieren oder austauschen 
+
+   * - 5
+     - Haupt- und Hilfs-MCU Sicherheitseingang nicht übereinstimmend
+     - | 1. Die beiden Sicherheits-Brückenkabelbäume an den Steuerschrankklemmen prüfen
+       | 2. Wenn der Fehler weiterhin besteht, Steuerschrank reparieren oder austauschen
+
+   * - 6
+     - Haupt- und Hilfs-MCU 3-Stellungs-Freigabe und Not-Aus-Eingang nicht übereinstimmend
+     - | 1. 3-Stellungs-Freigabeschalter am Teach-Pendant und den Kabelbaum des Teach-Pendants prüfen
+       | 2. Teach-Pendant-Baugruppe austauschen
+       | 3. Prüfen, ob der Web im Teach-Pendant-Modus ist und ob das Teach-Pendant angeschlossen ist
+       | 4. Wenn der Fehler weiterhin besteht, Steuerschrank reparieren oder austauschen
+
+   * - 7
+     - Haupt-STO-Eingang/Ausgang nicht übereinstimmend
+     - | 1. Prüfen, ob der Schwerlaststecker des Steuerschranks und der STO-Kabelbaum fest eingesteckt sind
+       | 2. Prüfen, ob der Antrieb die STO-Funktion unterstützt
+       | 3. Bei Konfiguration Breitspannungs-zertifizierter Steuerschrank + nicht zertifizierter Roboter prüfen, ob der Functional-Safety-Modus aktiviert ist
+       | 4. Der Breitspannungs-zertifizierte Steuerschrank aktiviert im Zertifizierungsmodus die STO-Fehlererkennung; der nicht zertifizierte Roboter unterstützt den Functional-Safety-Modus nicht
+       | 5. Wenn der Fehler weiterhin besteht, Steuerschrank reparieren oder austauschen
+
+   * - 8
+     - Hilfs-STO-Eingang/Ausgang nicht übereinstimmend
+     - | 1. Prüfen, ob der Schwerlaststecker des Steuerschranks und der STO-Kabelbaum fest eingesteckt sind
+       | 2. Prüfen, ob der Antrieb die STO-Funktion unterstützt
+       | 3. Bei Konfiguration Breitspannungs-zertifizierter Steuerschrank + nicht zertifizierter Roboter prüfen, ob der Functional-Safety-Modus aktiviert ist
+       | 4. Der Breitspannungs-zertifizierte Steuerschrank aktiviert im Zertifizierungsmodus die STO-Fehlererkennung; der nicht zertifizierte Roboter unterstützt den Functional-Safety-Modus nicht
+       | 5. Wenn der Fehler weiterhin besteht, Steuerschrank reparieren oder austauschen
+
+   * - 9
+     - Haupt-MCU erkennt 48V-Relais-Eingang/Ausgang nicht übereinstimmend
+     - | 1. Eingang und Rückmeldung des zwangsgeführten Relais im Steuerschrank prüfen
+       | 2. Prüfen, ob das 48V-Relais im Steuerschrank festklebt
+       | 3. Prüfen, ob die 48V-Relais-Rückmeldeschaltung im Steuerschrank ordnungsgemäß funktioniert
+       | 4. Wenn der Fehler weiterhin besteht, Steuerschrank reparieren oder austauschen
+
+   * - 10
+     - Hilfs-MCU erkennt 48V-Relais-Eingang/Ausgang nicht übereinstimmend
+     - | 1. Eingang und Rückmeldung des zwangsgeführten Relais im Steuerschrank prüfen
+       | 2. Prüfen, ob das 48V-Relais im Steuerschrank festklebt
+       | 3. Prüfen, ob die 48V-Relais-Rückmeldeschaltung im Steuerschrank ordnungsgemäß funktioniert
+       | 4. Wenn der Fehler weiterhin besteht, Steuerschrank reparieren oder austauschen
+
+   * - \
+     - Steuerschrank stromlos, keine 48V-Ausgangsspannung
+     - | 1. Die 24V-Kurzschlussschutz-Chip-Schaltung prüfen und auf Kurzschlüsse bei 24V prüfen
+       | 2. Die Brückenkabelbäume der Not-Aus-Eingangs- und Sicherheitseingangsklemmen prüfen
+       | 3. Prüfen, ob die 24V-Stromversorgungsplatine im Steuerschrank 24V ausgibt
+       | 4. Wenn der Fehler weiterhin besteht, Steuerschrank reparieren oder austauschen
+
+Anhang 3: Fehlercodetabelle des Servoantriebs
 ----------------------------------------------
 
 .. list-table::
@@ -377,7 +449,27 @@ Anhang 2: Fehlercodetabelle des Servoantriebs
      - | 1. Prüfen, ob die optische Codierscheibe verschmutzt oder nicht fest verklebt ist.
        | 2. Wenn der Fehler weiterhin besteht, die Magnetgeber-Baugruppe reparieren oder austauschen.
 
-Anhang 3: Endplatten-485-Upgrade
+   * - 46
+     - Robotertyp-Konfigurationsfehler
+     - | 1. Ohne Spannungsunterbrechung die Firmware-Versionsnummer des fehlerhaften Antriebs prüfen
+       | 2. Robotertyp neu konfigurieren
+       | 3. Wenn der Fehler weiterhin besteht, Antriebsplatine austauschen oder reparieren
+
+   * - 47
+     - Bremsenspannungsprüfungsfehler
+     - | 1. Prüfen, ob die Bremsenverkabelung fehlerhaft ist
+       | 2. Prüfen, ob der Bremsenkreis fehlerhaft ist
+
+   * - 50
+     - Positionsbefehlfehler
+     - | 1. Prüfen, ob der vom Host-Computer (Controller) gesendete Positionsbefehl fehlerhaft ist (oder Positionsbefehlssprung)
+
+   * - 51
+     - Magnetischer Encoder-Modulfehler - Optischer Encoder-Fehler
+     - | 1. Prüfen, ob die Verkabelung des Drehmomentsensors fehlerhaft ist
+       | 2. Wenn der Fehler weiterhin besteht, Drehmomentsensor reparieren oder austauschen
+
+Anhang 4: Endplatten-485-Upgrade
 ---------------------------------
 
 Bei der Verwendung vor Ort kann es vorkommen, dass die Firmware aktualisiert werden muss, um neue Anforderungen zu erfüllen. Hierfür wird eine neue Upgrade-Datei (XX_XX_MAIN.bin) bereitgestellt. Das Upgrade der Endplatte erfolgt über die 485-Schnittstelle (mit Hilfe eines USB-zu-485-Moduls). Die Upgrade-Schritte sind wie folgt:
@@ -434,7 +526,7 @@ Bei der Verwendung vor Ort kann es vorkommen, dass die Firmware aktualisiert wer
 
 .. centered:: Abbildung 18.3-6 Abfrage der Firmware-Versionsinformationen
 
-Anhang 4: Steuerpult-485-Upgrade
+Anhang 5: Steuerpult-485-Upgrade
 ---------------------------------
 
 Auf der Platine des Roboter-Steuerpults befindet sich eine "Stromversorgung/Kommunikation"-Schnittstelle. Verbinden Sie die Klemmen A und B des USB-zu-485-Werkzeugs mit den Klemmen "485-A" und "485-B" dieser Schnittstelle.
@@ -447,7 +539,7 @@ Der Upgrade-Vorgang ist derselbe wie bei der Endplatte; wählen Sie einfach die 
 
 .. centered:: Abbildung 18.4-1 Stromversorgungs-/Kommunikationsschnittstelle
 
-Anhang 5: Liste der Ersatz- und Verschleißteile
+Anhang 6: Liste der Ersatz- und Verschleißteile
 ------------------------------------------------
 
 .. list-table::
