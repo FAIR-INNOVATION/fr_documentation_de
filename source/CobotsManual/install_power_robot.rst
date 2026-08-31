@@ -105,6 +105,30 @@ Das Anschlussfeld des kollaborativen Roboters ist in der folgenden Abbildung dar
 
 Die Taster-Box-Schnittstelle ist standardmäßig der Anschluss für das Teach Pendant. Die IP-Adresse lautet 192.168.58.2. Verbinden Sie den Anschluss der Taster-Box mit einem Netzwerkkabel mit einem Computer. Stellen Sie die IP-Adresse des Computers auf 192.168.58.10 oder ein anderes im selben Netzwerk ein. Öffnen Sie den Google Chrome Browser und geben Sie 192.168.58.2 ein, um auf die Teach-Pendant-Seite zuzugreifen.
 
+Informationen zu den Montagebohrungen des Steuerschranks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: installation/149.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 1.2-2 Außenabmessungen des Steuerschranks - Montagebohrungsabmessungen 1
+
+.. image:: installation/150.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 1.2-3 Außenabmessungen des Steuerschranks - Montagebohrungsabmessungen 2
+
+.. note:: 
+  1. Die bemaßten Bohrungen sind verfügbare Montagebohrungen;
+  2. Es gibt insgesamt 16 Montagebohrungen, die auf der linken und rechten Seite des Steuerschranks verteilt sind, 8 auf jeder Seite;
+  3. Die Schraubenspezifikation für die Montagebohrungen ist M3, mit einer Steigung von 0,5mm;
+  4. Die Eindrehtiefe der Schrauben in das Blechgehäuse des Steuerschranks beträgt ≤5mm;
+  5. Empfohlenes Anzugsdrehmoment ist 0,6Nm, maximales Anzugsdrehmoment ist 0,84Nm.
+
+:download:`Außenabmessungen des Steuerschranks - Montagebohrungsabmessungen <../_static/_doc/Control box outer dimensions - mounting hole dimensions.zip>`
+
 Lernen der Taster-Box und der LED an der Flanschseite kennen
 -----------------------------------------------------------------------
 

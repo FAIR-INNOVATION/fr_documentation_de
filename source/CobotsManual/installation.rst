@@ -1361,6 +1361,139 @@ Die softwarebezogenen Einstellungspunkte für die digitalen Ausgänge sind "DO-A
      - Ungültig
      - Gültig
 
+Sicherheitshandbuch für den Gleichstrom-Steuerschrank-Stromanschluss
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klemmen-Definition und -Kennzeichnung
+************************************************************************************
+Die Vorderseite des Gleichstrom-Steuerschranks ist mit einem 3-poligen Stromanschluss ausgestattet, der jeweils dem Strom-Plus (+V), Strom-Minus (-V) und Schutzleiter (PE) entspricht. Um Geräteschäden durch falschen Anschluss zu vermeiden, beachten Sie bitte strikt die folgende Tabelle:
+
+.. list-table::
+   :widths: 15 10 35 35
+   :header-rows: 0
+   :align: center
+
+   * - **Klemmenkennzeichnung** 
+     - **Farbstandard**
+     - **Funktionsdefinition**
+     - **Streng verboten**
+
+   * - 	.. figure:: installation/144.png
+          :align: center
+          :width: 1in
+     - Rot
+     - Gleichstrom-Plus-Eingang, nur für 30-60VDC-Plus-Kabel
+     - Kurzschluss mit PE oder -V streng verboten
+
+   * - 	.. figure:: installation/145.png
+          :align: center
+          :width: 1in
+     - Schwarz
+     - Gleichstrom-Minus-Eingang, nur für 30-60VDC-Minus-Kabel, bildet den Stromversorgungskreis
+     - Verbindung mit Gehäuse oder PE streng verboten
+
+   * - 	.. figure:: installation/146.png
+          :align: center
+          :width: 1in
+     - Gelb (Gelb-Grün)
+     - Schutzleiterklemme (Gehäusesicherheitserde)
+     - Verwendung als Strom-Minus oder -Plus streng verboten
+
+.. warning::
+  Warnung vor schwerwiegenden Risiken: Dieses Gerät verfügt nicht über eingebaute Verpolungs-, Verwechslungs- oder Überspannungsschutzschaltungen. Jede der folgenden unzulässigen Handlungen wird die interne Hauptplatine und die Leistungskomponenten sofort durchschlagen und zu einem permanenten, irreversiblen Durchbrennen des Geräts führen:
+  
+  1. Verpolung (+V- und -V-Kabel vertauscht);
+  2. +V oder -V versehentlich in die PE-Bohrung eingesteckt;
+  3. Minusklemme versehentlich geerdet (-V mit PE kurzgeschlossen);
+  4. Anschluss an Wechselstrom (110V/220V/380V) oder Gleichspannung außerhalb des Bereichs 30~60Vdc.
+
+Sicherheitsvorbereitungen vor dem Anschluss
+*************************************************************************
+
+Vor dem Anschluss müssen die Bediener die folgenden Vorbereitungen abschließen:
+
+Bestätigung der Spannungsfreiheit
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Die vorgelagerte Stromversorgung vollständig abschalten und ein Sicherheitswarnschild anbringen. Mit einem Multimeter die Stromanschlussklemmen prüfen, um sicherzustellen, dass keine Spannung oder Restladung vorhanden ist. Niemals bei eingeschalteter Spannung anschließen.
+
+Geräteprüfung
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Prüfen, ob die Geräteklemmen nicht beschädigt, oxidiert oder locker sind, und ob das Gerät nicht feucht, wasserdurchtränkt oder stoßbeschädigt ist, um sicherzustellen, dass das Gerät in einwandfreiem Zustand ist.
+
+Bestätigung der Stromversorgung
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Bestätigen, dass die vorgelagerte Stromversorgung eine 30-60VDC geregelte Gleichstromversorgung ist. Der Anschluss an Wechselstrom 110V/220V/380V, Gleichstrom unter 30VDC oder über 60VDC ist streng verboten.
+
+Kabelauswahl
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Es wird empfohlen, flexible Kupferleitungen mit 4mm² (AWG11) oder größer zu verwenden. Die Länge eines einzelnen Stromkabels sollte 2 Meter nicht überschreiten. Verwenden Sie keine Kabel mit zu geringem Querschnitt, beschädigter Isolierung oder gealterten Kabeln.
+
+Auswahl der Kabelanschlüsse
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Die Enden der Kabel müssen mit vorkonfektionierten Aderendhülsen gecrimpt werden (empfohlenes Modell: DBV5.5-10 Flachstecker). Das Einführen von blanken Kupferdrähten in die Anschlusslöcher ist streng verboten.
+
+Kalibrierung der Werkzeuge
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Ein qualifiziertes Multimeter, einen isolierten Schraubendreher und eine Crimpzange bereitstellen. Das Multimeter im Voraus kalibrieren, um sicherzustellen, dass die Spannungserkennung ordnungsgemäß funktioniert und eine genaue Spannungsmessung und Polaritätsunterscheidung ermöglicht.
+
+Standard-Anschlussverfahren
+************************************************************************************
+
+Aderendhülsen crimpen
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Mit der Crimpzange Aderendhülsen (empfohlen DBV5.5-10) an einem Ende jedes der drei farbcodierten Kabel anbringen: rot (+V), schwarz (-V) und gelb-grün (PE). Sicherstellen, dass die Crimpverbindung fest ist und der Kupferkern nicht freiliegt. Die Verwendung von gleichfarbigen Kabeln oder Kabeln mit unklarer Farbkennzeichnung ist streng verboten.
+
+Steckverbinder einstecken und festziehen
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Die gecrimpten Aderendhülsen in die entsprechenden Löcher des mitgelieferten steckbaren Anschlusssteckers einstecken (auf die Einsteckrichtung achten, die flache Seite der Hülse zeigt zur Kontaktfeder):
+Rotes Kabel → in die +V-Bohrung einführen;
+Schwarzes Kabel → in die -V-Bohrung einführen;
+Gelb-grünes Kabel → in die PE-Bohrung einführen.
+Mit einem isolierten Schlitzschraubendreher die Klemmenschraube über jeder Bohrung im Uhrzeigersinn festziehen.
+
+.. figure:: installation/147.png
+  :align: center
+  :width: 4in
+
+.. centered:: Kabelbaum mit Aderendhülsen in den grünen Stecker eingeführt
+
+Zugprüfung
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Nachdem jedes Kabel festgezogen wurde, das Kabel kräftig ziehen, um sicherzustellen, dass die Aderendhülse nicht locker ist und der Ader nicht herausrutscht. Bei Lockerheit die Aderendhülse erneut crimpen und wieder festziehen.
+
+Einführung in den Steuerschrank
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Den verdrahteten Stecker gemäß der Führungsnut in den Gleichstrom-Eingang des Steuerschranks einstecken. Sicherstellen, dass der Stecker vollständig eingesteckt ist.
+
+.. figure:: installation/148.png
+  :align: center
+  :width: 3in
+
+.. centered:: Kabelbaumstecker in den Gleichstrom-Eingang des Steuerschranks eingesteckt
+
+Endgültige Isolationsprüfung vor dem Einschalten
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Bevor die Stromversorgung eingeschaltet wird, mit einem Multimeter die Impedanz zwischen +V und -V am Steckerende messen, um sicherzustellen, dass kein Kurzschluss vorliegt; die Impedanz zwischen +V/-V und PE messen, um sicherzustellen, dass sie sich im offenen und isolierten Zustand befinden.
+
+Einschalten und Fehlerbehandlung
+************************************************************************************
+
+- Normaler Start: Den vorgelagerten Netzschalter schließen und die Kontrollleuchte an der Vorderseite des Steuerschranks beobachten. Der Normalzustand ist, dass die Kontrollleuchte dauerhaft leuchtet und keine ungewöhnlichen Geräusche oder Gerüche auftreten.
+- Abnormale Bedingung (Sofort ausschalten!): Bei starkem Fiepen, Rauchentwicklung, Funken, Gerüchen oder wenn das vorgelagerte Strom-Amperemeter sofort auf Überlast ansteigt, sofort die Hauptstromversorgung unterbrechen und nicht wieder einschalten. Bitte wenden Sie sich an den technischen Support, nachdem das Gerät vollständig abgekühlt ist. Versuchen Sie nicht, das Gerät selbst zu zerlegen.
+
+.. warning:: Letzte Warnung: Das Einschalten bedeutet, dass Sie die oben genannten Anschlussspezifikationen vollständig verstanden und befolgt haben. Wenn eine Kennzeichnung unklar ist, wenden Sie sich bitte sofort an den technischen Support. Verlassen Sie sich nicht auf Erfahrungswerte beim Anschließen!
+
 Wartungsplan überprüfen
 ++++++++++++++++++++++++
 
