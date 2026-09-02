@@ -13,6 +13,21 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V3.9.9
+     - 2026-09-01
+     - | 1. Modifizierte die Parameterbeschreibung der GetGripperMotionDone()-Schnittstelle zum Abrufen des Greiferstatus, aktualisierte die Definition des Greiferstatus;
+       | 2. Modifizierte GetInverseKinExaxis(), die Schnittstelle zur inversen Kinematiklösung unter Einbeziehung von Erweiterungsachsenpositionen, fügte Gelenkkonfigurationsparameter mit dem Standardwert -1 hinzu, der auf die aktuelle Gelenkkonfiguration verweist;
+       | 3. Modifizierte die kraftgeregelten Schnittstellen FT_SpiralSearch(), FT_LinInsertion() und FT_FindSurface() um Parameter für die Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment;
+       | 4. Modifizierte die Parameterbeschreibungen der CIO-Funktionskonfigurationsschnittstellen des Robotersteuerschranks SetDIConfig(), GetDIConfig(), SetDOConfig(), GetDOConfig(), aktualisierte die neu hinzugefügten Funktionsnamen und Funktionscodes;
+       | 5. Modifizierte die Codebeispiele für die grundlegende Robotersteuerung, fügte Codebeispiele für den Wechsel in den manuellen Hochgeschwindigkeitsmodus hinzu;
+       | 6. Fügte den ServoJ()-Befehl für die Servo-Modus-Bewegung im Gelenkraum (Mehrpunkteingabe) und Codebeispiele hinzu;
+       | 7. Fügte den GetSafetyParamsCheckSum()-Befehl zum Abrufen der Prüfsumme der Sicherheitskonfigurationsparameter, den SafetyOPPasswordCheck()-Befehl zur Sicherheitsoperations-Kennwortprüfung und Codebeispiele hinzu;
+       | 8. Fügte den GripperWaitMotionDone()-Befehl zum Warten auf den Abschluss der Greiferbewegung und Codebeispiele hinzu;
+       | 9. Fügte den SetRobotTime()-Befehl zur Synchronisation der Systemzeit mit dem Roboter und Codebeispiele hinzu;
+       | 10. Fügte SetSafetyDIConfig() zur Sicherheits-Zweikanal-CI-Funktionskonfiguration, SetSafetyDOConfig() zur Sicherheits-Zweikanal-CO-Funktionskonfiguration und Codebeispiele hinzu;
+       | 11. Fügte den HiSpeedManualSwitch()-Befehl zum Wechsel in den manuellen Hochgeschwindigkeitsmodus hinzu;
+       | 12. Fügte Codebeispiele für die Überlagerung der Pendelbewegung während der Wiedergabe der Lasersensortrajektorie hinzu;
+
    * - V3.9.8
      - 2026-07-27
      - | 1. Aktualisierung der Roboterstatus-Rückmeldungsstruktur um den aktuellen Ausführungsstatus des LUA-Programms des Roboters: 0 - Programm läuft nicht; 1 - Programm läuft (einschließlich Programm pausiert);

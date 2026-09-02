@@ -481,6 +481,24 @@ Rotationseinfügung
     */
     public int FT_RotInsertion(int rcs, double angVelRot, double ft, double max_angle, int orn, double max_angAcc, int rotorn, int strategy)
 
+Spiralsuche
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  Spiralsuche
+    * @param  [in] rcs Referenzkoordinatensystem, 0-Werkzeugkoordinatensystem, 1-Basiskoordinatensystem
+    * @param  [in] dr Radiusvorschub pro Umdrehung
+    * @param  [in] ft Kraft-/Drehmomentschwelle, fx,fy,fz,tx,ty,tz, Bereich [0~100]
+    * @param  [in] max_t_ms Maximale Suchzeit, Einheit ms
+    * @param  [in] max_vel Maximale Lineargeschwindigkeit, Einheit mm/s
+    * @param  [in] strategy Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment, 0-Fehler; 1-Warnung, Bewegung fortsetzen
+    * @return  Fehlercode
+    */
+    public int FT_SpiralSearch(int rcs, float dr, float ft, float max_t_ms, float max_vel, int strategy = 0)
+
 Lineare Einführung
 +++++++++++++++++++++++++++++++++++++++++++++
     
@@ -495,9 +513,10 @@ Lineare Einführung
     * @param  [in] lin_a Linearbeschleunigung, Einheit mm/s^2, vorübergehend nicht verwendet
     * @param  [in] max_dis Maximale Einführungsdistanz, Einheit mm
     * @param  [in] linorn  Einführungsrichtung, 0-negative Richtung, 1-positive Richtung
+    * @param  [in] strategy Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment, 0-Fehler; 1-Warnung, Bewegung fortsetzen
     * @return  Fehlercode
     */
-    public int FT_LinInsertion(int rcs, float ft, float lin_v, float lin_a, float max_dis, byte linorn)
+    public int FT_LinInsertion(int rcs, float ft, float lin_v, float lin_a, float max_dis, byte linorn, int strategy=0)
 
 Codebeispiel für Kraftsensor-Rotationseinführung
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1026,9 +1045,10 @@ Oberflächenpositionierung
     * @param  [in] lin_a Such-Linearbeschleunigung, Einheit mm/s^2, vorübergehend nicht verwendet, Standard 0
     * @param  [in] max_dis Maximale Suchdistanz, Einheit mm
     * @param  [in] ft  Kraft-/Drehmomentschwelle für Bewegungsbeendigung, fx,fy,fz,tx,ty,tz
+    * @param  [in] strategy Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment, 0-Fehler; 1-Warnung, Bewegung fortsetzen
     * @return  Fehlercode
     */
-    public int FT_FindSurface(int rcs, byte dir, byte axis, float lin_v, float lin_a, float max_dis, float ft)
+    public int FT_FindSurface(int rcs, byte dir, byte axis, float lin_v, float lin_a, float max_dis, float ft, int stragety = 0)
 
 Start der Berechnung der Mittelebene-Position
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

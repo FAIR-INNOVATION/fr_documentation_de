@@ -405,9 +405,10 @@ Inverse Kinematik (mit Erweiterungsachsenposition) berechnen
     * @param [in] tool Werkzeugnummer.
     * @param [in] workPiece Werkstücknummer.
     * @param [out] joint_pos Gelenkposition.
+    * @param [in] config Gelenkraumkonfiguration, [-1] - Lösung basierend auf der aktuellen Gelenkposition als Referenz, [0~7] - Lösung gemäß einer bestimmten Gelenkraumkonfiguration
     * @return Fehlercode.
     */
-    errno_t GetInverseKinExaxis(int type, DescPose desc_pos, ExaxisPos exaxis, int tool, int workPiece, JointPos& joint_pos);
+    errno_t GetInverseKinExaxis(int type, DescPose desc_pos, ExaxisPos exaxis, int tool, int workPiece, JointPos& joint_pos, int config = -1);
 
 Codebeispiel für inverse Kinematik mit Erweiterungsachsen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

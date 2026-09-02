@@ -1,3 +1,41 @@
+Version V3.9.9
+-----------------
+
+Datum: 2026-09-01
+
+- **Optimiertes kraftgeregeltes Montageprozesspaket**:
+    Pfad: Teach Program -> Kraftregelungsbefehle.
+
+    Beschreibung: Verbesserte Benutzerfreundlichkeit und Zuverlässigkeit des Prozesses.
+
+- **Optimierte IGH-Masterstation-Dynamik-Slave-Konfiguration**:
+
+    Beschreibung: Verbesserte Kompatibilität für mehrere Modelle und Wartungsfreundlichkeit.
+
+- **Erweiterung der Gelenkimpedanz-Zugfunktion für mehrere Modelle hinzugefügt**:
+    Pfad: Hilfsanwendungen -> Zugverriegelung.
+
+    Beschreibung: Zugfunktionsunterstützung für die Modelle FR3-WML, FR3-WMS, FR3-C und FR5-C hinzugefügt.
+
+- **Sicherheitskonfigurationsprüffunktion hinzugefügt**:
+    Pfad: Grundeinstellungen -> Sicherheit.
+
+    Beschreibung: Überarbeitung der Sicherheitsseite, Sicherheitskonfigurations-Kennwortprüfung, Konfigurationslegalitätsprüfung und PDF-Generierung von Sicherheitsberichten.
+
+- **Vollständige Adaption des Kaiwei-Sechs-Achsen-Kraftsensors hinzugefügt**:
+    Pfad: Grundeinstellungen -> Peripheriegeräte -> Kraftsensor.
+
+    Beschreibung: KWL-Kraftsensor-Adaption hinzugefügt.
+
+- **Unterstützung der Pendelfunktion für die Laserscan-Wiedergabe hinzugefügt**:
+    Pfad: Programmprogrammierung -> Laseraufzeichnung -> Laser-Tracking-Wiedergabebefehl.
+
+    Beschreibung: Verbesserte Anpassungsfähigkeit des Laserschweißprozesses und Schweißnahtqualität.
+
+- **IGH-Protokollstapel-Physik-Link-Gesundheitsdiagnose hinzugefügt**:
+
+    Beschreibung: Lesefunktion und Schnittstellenanzeige zur schnellen Lokalisierung von Busproblemen hinzugefügt.
+
 Version V3.9.8
 -----------------
 

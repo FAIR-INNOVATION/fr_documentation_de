@@ -538,6 +538,7 @@ Konfigurierbare CI-Portfunktionen des Steuerkastens einstellen
     22-Stufe 1 Reduzierungsmodus;23-Stufe 2 Reduzierungsmodus;24-Stufe 3 Reduzierungsmodus (Stopp);25-Schweißen fortsetzen;26-Schweißen beenden;
     27-Hilfszug aktivieren;28-Hilfszug deaktivieren;29-Hilfszug aktivieren/deaktivieren;30-Alle Fehler löschen;
     31-Manuell/Auto umschalten (High/Low-Pegel);32-Aktivieren;33-Deaktivieren;34-Aktivieren/Deaktivieren (steigende/fallende Flanke);35-Fixpunkt-Tracking starten/beenden
+    36-Entra in movimento a velocità di sicurezza;37-Blocco trascinamento ad anello di corrente;38-Blocco assistito da sensore di forza
     * @return Fehlercode
     */
     errno_t SetDIConfig(int config[8]);
@@ -558,6 +559,11 @@ Konfigurierbare CI-Portfunktionen des Steuerkastens abrufen
     22-Stufe 1 Reduzierungsmodus;23-Stufe 2 Reduzierungsmodus;24-Stufe 3 Reduzierungsmodus (Stopp);25-Schweißen fortsetzen;26-Schweißen beenden;
     27-Hilfszug aktivieren;28-Hilfszug deaktivieren;29-Hilfszug aktivieren/deaktivieren;30-Alle Fehler löschen;
     31-Manuell/Auto umschalten (High/Low-Pegel);32-Aktivieren;33-Deaktivieren;34-Aktivieren/Deaktivieren (steigende/fallende Flanke);35-Fixpunkt-Tracking starten/beenden
+    36-Sicherheitsgeschwindigkeitsbewegung einleiten;37-Stromregelkreis-Zugverriegelung;38-Kraftsensor-unterstützte Verriegelung
+    201-Externes Not-Halt-Eingangssignal 1-Zweikanal; 202-Externes Not-Halt-Eingangssignal 2-Zweikanal; 203-Reduzierter Modus Stufe 1-Zweikanal;
+    204-Reduzierter Modus Stufe 2-Zweikanal; 205-Reduzierter Modus Stufe 3-Zweikanal; 206-Normaler Stopp-Zweikanal; 207-Sicherheitswand 1-Zweikanal; 208-Sicherheitswand 2-Zweikanal;
+    209-Sicherheitswand 3-Zweikanal; 210-Sicherheitswand 4-Zweikanal; 211-Sicherheitswand 5-Zweikanal; 212-Sicherheitswand 6-Zweikanal; 213-Sicherheitswand 7-Zweikanal;
+    214-Sicherheitswand 8-Zweikanal; 215-Sicherheitsstopp-Zurücksetzung-Zweikanal;
     * @return Fehlercode
     */
     errno_t GetDIConfig(int config[8]);
@@ -604,6 +610,8 @@ Konfigurierbare CO-Portfunktionen des Steuerkastens abrufen
     39-Roboterfehler-Antriebskommunikationsfehler;40-Roboterfehler-Parameterfehler;41-Roboterfehler-Externe Achse Weichgrenze überschritten;42-Roboterwarnung-Warnung;
     43-Roboterwarnung-Sicherheitstürwarnung;44-Roboterwarnung-Bewegungswarnung;45-Roboterwarnung-Interferenzbereichswarnung;46-Roboterwarnung-Sicherheitswandwarnung;
     47-Aktivierungsstatus;48-Automatisches Anheben bei Unterbrechung;49-Würfel 1 Interferenzwarnung;50-Würfel 2 Interferenzwarnung;51-Würfel 3 Interferenzwarnung;52-Würfel 4 Interferenzwarnung;
+    201-Not-Halt-Ausgangssignal 1-Zweikanal; 202-Not-Halt-Ausgangssignal 2-Zweikanal; 203-Sicherheitsstatusausgang-Zweikanal; 204-Schutzstopp-Statusausgang-Zweikanal; 205-Roboter in Bewegung-Zweikanal;
+	206-Roboter im reduzierten Modus-Zweikanal; 207-Roboter im nicht reduzierten Modus-Zweikanal;
     * @return Fehlercode
     */
     errno_t GetDOConfig(int config[8]);

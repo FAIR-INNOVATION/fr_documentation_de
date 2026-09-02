@@ -875,6 +875,115 @@ Start der Gelenkmomentsteuerung
     */
     public int ServoJTStart (int comType = 0)
 
+Servo-Modus-Bewegung im Gelenkraum (Unterstützt Mehrfacheingabe auf Einmal)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Servo-Modus-Bewegung im Gelenkraum (unterstützt Mehrfacheingabe auf einmal)
+    * @param [in] joint_pos Ziel-Gelenkpositionssatz (unterstützt bis zu 10 Gruppen), Einheit deg
+    * @param [in] axisPos Externe Achsenposition, Einheit mm
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100], noch nicht verfügbar, Standard 0
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100], noch nicht verfügbar, Standard 0
+    * @param [in] cmdT Befehlssendezyklus, Einheit s, empfohlener Bereich [0.001~0.0016]
+    * @param [in] filterT Filterzeit, Einheit s, noch nicht verfügbar, Standard 0
+    * @param [in] gain Proportionalverstärker der Zielposition, noch nicht verfügbar, Standard 0
+    * @param [out] servoJCmdCount ServoJ-Befehlspunktzähler [0-10000]
+    * @param [in] id ServoJ-Befehls-ID, Standard 0
+    * @param [in] comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboterschleuse 20007)
+    * @return Fehlercode
+    */
+    public int ServoJ(List<JointPos> joint_pos, ExaxisPos axisPos, float acc, float vel, float cmdT, float filterT, float gain, ref int servoJCmdCount, int id = 0, int comType = 0)
+    
+Codebeispiel für Servo-Modus-Bewegung im Gelenkraum (Unterstützt Mehrfacheingabe auf Einmal)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public void TestServoJPath()
+    {
+        // ServoJ-Pfaddatei lesen, Spalten 2~7 jeder Zeile als 6 Gelenkpositionen nehmen
+        string filePath = "D://zUP/ServoJPath.txt";
+        List<JointPos> allJointData = new List<JointPos>();
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] cols = line.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                if (cols.Length < 7)
+                    continue;
+                JointPos pose = new JointPos(0, 0, 0, 0, 0, 0);
+                pose.jPos[0] = double.Parse(cols[1]);
+                pose.jPos[1] = double.Parse(cols[2]);
+                pose.jPos[2] = double.Parse(cols[3]);
+                pose.jPos[3] = double.Parse(cols[4]);
+                pose.jPos[4] = double.Parse(cols[5]);
+                pose.jPos[5] = double.Parse(cols[6]);
+                allJointData.Add(pose);
+            }
+        }
+        Console.WriteLine($"Total {allJointData.Count} joint position sets read");
+        if (allJointData.Count == 0)
+            return;
+
+        // Hin- und Rückweg erstellen: Vorwärtsreihenfolge + Rückwärtsreihenfolge
+        List<JointPos> backForthPath = new List<JointPos>(allJointData);
+        for (int i = allJointData.Count - 2; i >= 0; i--)
+        {
+            backForthPath.Add(allJointData[i]);
+        }
+
+        ExaxisPos epos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+        DescPose offsetPos = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        robot.MoveJ(allJointData[0], 0, 0, 100, 100, 100, epos, -1, 0, offsetPos);
+
+        robot.Sleep(1000);
+
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+        while (true)
+        {
+            robot.ResetAllError();
+            robot.MoveJ(allJointData[0], 0, 0, 100, 100, 100, epos, -1, 0, offsetPos);
+            int moveCount = 0;
+            while (moveCount < backForthPath.Count - 10)
+            {
+                robot.GetRobotRealTimeState(ref pkg);
+
+                int singleServoJCount = 50 - pkg.mc_queue_len;
+                if (singleServoJCount <= 0)
+                {
+                    robot.Sleep(100);
+                    continue;
+                }
+                if (singleServoJCount > 10)
+                {
+                    singleServoJCount = 10;
+                }
+
+                List<JointPos> jointPos = new List<JointPos>();
+                for (int j = 0; j < singleServoJCount; j++)
+                {
+                    jointPos.Add(backForthPath[moveCount]);
+                    moveCount++;
+                }
+
+                Console.WriteLine($"Sending {singleServoJCount} waypoints, moveCount={moveCount}");
+
+                ExaxisPos axisPos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+                int servoJCmdCount = 0;
+                int rtn = robot.ServoJ(jointPos, axisPos, 100.0f, 100.0f, 0.008f, 0.008f, 1.0f, ref servoJCmdCount);
+                if (rtn != 0)
+                {
+                    Console.WriteLine($"ServoJ failed: {rtn}");
+                    break;
+                }
+            }
+            robot.Sleep(4000);
+        }
+    }    
+
 Gelenkmomentsteuerung
 ++++++++++++++++++++++++++++++++++
 .. code-block:: c#

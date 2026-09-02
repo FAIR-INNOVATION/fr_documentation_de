@@ -1473,3 +1473,134 @@ Admittanzparameter für freie Ausrichtung
 .. centered:: Abbildung 6.11‑5 Einstellung des Referenzkoordinatensystems des Kraftsensors
 
 **Schritt 4**: Führen Sie das Skript aus und beobachten Sie die Wirkung der Ausrichtungsanpassung. Der Trägheitsparameter beeinflusst die Beschleunigungsreaktion und die Störfestigkeit. Je größer die Trägheit, desto ausgeprägter die Hysterese des Roboters. Der Dämpfungskoeffizient beeinflusst die Glätte der Ausrichtungsanpassung. Je größer die Dämpfung, desto schwieriger ist die Ausrichtungsanpassung.
+
+Bewegungskonfiguration
+---------------------------------------------
+
+Optimierung der T-förmigen Geschwindigkeitscharakteristik + Glättungsfunktion Blending
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Übersicht
+++++++++++++++++++++++
+
+Das Blending zwischen zwei Trajektorienabschnitten vermeidet häufige Start-Stopp-Probleme, die durch vollständige Stopps verursacht werden, und verbessert so die Bewegungseffizienz des Roboters.
+
+Diese Funktion gilt hauptsächlich für das Blending zwischen PTP-PTP-, LIN-LIN-, ARC-ARC-, LIN-ARC- und ARC-LIN-Befehlen. Das Blending zwischen anderen Befehlstypen ist nicht wirksam.
+
+Betriebsablauf
+++++++++++++++++++++++
+
+Da die Bedienmethoden für jeden Befehl ähnlich sind, verwendet dieses Handbuch das Blending zwischen PTP-PTP als Beispiel, um die Funktion dieser Operation zu veranschaulichen. Diese Funktion kann auf zwei Arten implementiert werden: mit Lua-Anweisungen oder mit dem Bewegungskonfigurationsschalter.
+
+Methode mit Lua-Anweisungen
+*****************************
+
+**Schritt 1**: Wählen Sie die Teach-Punkte für die Ausführung der PTP-Funktion aus. Dieses Handbuch verwendet "A0" ~ "A5" als Namen der Teach-Punkte.
+
+**Schritt 2**: Klicken Sie auf "Teach Program" -> "Programmprogrammierung" und wählen Sie den Befehl "Punkt-zu-Punkt" aus "Bewegungsbefehlen". Im Bereich "Befehl bearbeiten" wählen Sie den Teach-Punkt aus und stellen Sie die Debug-Geschwindigkeit ein. Wählen Sie "Beschleunigungsglättungsmodus" für den Bewegungsschutz und stellen Sie den Parameter "Sanfter Übergang" an den Punkten ein, an denen eine Glättung erforderlich ist.
+
+.. image:: base/103.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-1 Blending-Befehlseinstellungen für PTP mit Beschleunigungsglättung
+
+**Schritt 3**: Generieren und führen Sie das Lua-Programm aus, um die PTP-PTP-Blending-Funktion zu erreichen. In diesem Modus verwenden nur die Anweisungen zwischen AccSmoothStart() und AccSmoothEnd() die optimierte T-förmige Geschwindigkeit für die Bewegung, während andere Anweisungen die ursprüngliche T-förmige Geschwindigkeit verwenden.
+
+.. image:: base/104.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.13-2 Typisches Programm für PTP-PTP-Blending mit Lua-Anweisungsmethode
+
+Methode mit Bewegungskonfigurationsschalter
+***********************************
+
+**Schritt 1**: Klicken Sie auf "Grundeinstellungen" -> "Sicherheit" -> "Bewegungskonfiguration" und aktivieren Sie den Schalter "Beschleunigungsglättungsmodus".
+
+.. image:: base/105.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-3 Einstellungen des Konfigurationsschalters für den Beschleunigungsglättungsmodus
+
+**Schritt 2**: Wählen Sie die Teach-Punkte für die Ausführung der PTP-PTP-Funktion aus. Dieses Handbuch verwendet "A0" ~ "A5" als Namen der Teach-Punkte.
+
+**Schritt 3**: Klicken Sie auf "Teach Program" -> "Programmprogrammierung" und wählen Sie den Befehl "Punkt-zu-Punkt" aus "Bewegungsbefehlen". Im Bereich "Befehl bearbeiten" wählen Sie den Teach-Punkt aus und stellen Sie die Debug-Geschwindigkeit ein. Wählen Sie "Keine" für den Bewegungsschutz und stellen Sie den Parameter "Sanfter Übergang" an den Punkten ein, an denen eine Glättung erforderlich ist.
+
+.. image:: base/106.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-4 Blending-Befehlseinstellungen für reguläres PTP
+
+**Schritt 4**: Generieren und führen Sie das Lua-Programm aus, um die PTP-PTP-Blending-Funktion zu erreichen. Das typische Programm ist dasselbe wie das reguläre PTP-Programm. In diesem Modus verwenden alle Anweisungen die optimierte T-förmige Geschwindigkeit für die Bewegung.
+
+.. image:: base/107.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.13-5 Typisches Programm für PTP-PTP-Blending mit Konfigurationsschalter
+
+FIR-Adaptive-Parameterfunktion + FIR-Pause/Fortsetzungsfunktion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Übersicht
+++++++++++++++++++++++
+
+Die adaptive Konfigurationsfunktion der Parameter für den zeitoptimalen Modus des Roboters macht das Debuggen und Konfigurieren der verschiedenen Parameter überflüssig. Diese Funktion passt die Parameterkonfiguration für den zeitoptimalen Modus basierend auf dem aktuellen Betriebszustand des Roboters adaptiv an und verbessert so die Debugging-Effizienz.
+
+Betriebsablauf
+++++++++++++++++++++++
+
+Die Verwendung der grundlegenden Bewegungsbefehle PTP, LIN und ARC des Roboters ist ähnlich. Dieses Beispiel verwendet den PTP-Bewegungsbefehl im zeitoptimalen Modus als Hauptbeispiel.
+
+**Schritt 1**: Klicken Sie auf der Web-Steuerungsoberfläche des Roboters nacheinander auf "Grundeinstellungen" -> "Sicherheit" -> "Bewegungskonfiguration", um zur Oberfläche "Bewegungskonfiguration" zu gelangen.
+
+.. image:: base/098.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-6 Oberfläche der Bewegungskonfiguration
+
+**Schritt 2**: Klicken Sie auf der Oberfläche "Bewegungskonfiguration" auf den Schalter "Zeitoptimaler Modus", um zur Oberfläche "Zeitoptimaler Modus" zu gelangen.
+
+.. image:: base/099.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 7.13-7 Oberfläche des Zeitoptimalen Modus
+
+.. note:: Im Bereich "Parameterkonfiguration" der Oberfläche "Zeitoptimaler Modus" kann der "Anpassungskoeffizient" von -100 bis 100 eingestellt werden. Er stellt einen Skalierungsfaktor dar, der zur Steuerung des Grades der Zeitoptimierung für Bewegungsbefehle verwendet wird. Der Standardwert ist 1.
+
+**Schritt 3**: Bestimmen Sie die Teach-Punkte für die Ausführung der PTP-Bewegung. Dieses Beispiel verwendet "A0" ~ "A5" als Namen der Teach-Punkte.
+
+**Schritt 4**: Klicken Sie auf der Web-Steuerungsoberfläche des Roboters nacheinander auf "Teach Program" -> "Programmprogrammierung", um zur Oberfläche "Bewegungsbefehle" zu gelangen.
+
+.. image:: base/100.png
+   :width: 2in
+   :align: center
+
+.. centered:: Abbildung 7.13-8 Oberfläche der Bewegungsbefehle
+
+**Schritt 5**: Klicken Sie auf der Oberfläche "Bewegungsbefehle" auf "Punkt-zu-Punkt", um zur Bearbeitungsoberfläche für den Befehl "PTP" zu gelangen. Wählen Sie den Teach-Punkt aus dem Dropdown-Menü "Punktname" aus, stellen Sie das gewünschte Geschwindigkeitsverhältnis im Feld "Debug-Geschwindigkeit" ein, wählen Sie "Stopp" aus dem Feld "An diesem Punkt", wählen Sie "Nein" aus dem Dropdown-Menü "Versatz" und wählen Sie "Keine" aus dem Feld "Bewegungsschutz". Klicken Sie dann auf "Hinzufügen".
+
+.. image:: base/101.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-9 Bearbeitungsoberfläche für PTP-Bewegungsbefehle
+
+**Schritt 6**: Klicken Sie auf der Bearbeitungsoberfläche für den PTP-Bewegungsbefehl auf "Übernehmen", um das entsprechende LUA-Programm automatisch zu generieren.
+
+.. image:: base/102.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.13-10 Typisches PTP-Bewegungs-LUA-Programm im Zeitoptimalen Modus
+
+.. note:: 
+   Das typische PTP-Bewegungs-LUA-Programm im zeitoptimalen Modus unterscheidet sich nicht von einem regulären PTP-Bewegungs-LUA-Programm. Der Unterschied besteht darin, dass die Funktion "Zeitoptimaler Modus" in Schritt 2 aktiviert wurde.
+
+   Wenn der Schalter der Funktion "Zeitoptimaler Modus" aktiviert ist, befinden sich die grundlegenden Bewegungsbefehle PTP, LIN und ARC des Roboters alle im zeitoptimalen Modus. Durch Deaktivieren des Schalters der Funktion "Zeitoptimaler Modus" in dieser Oberfläche werden die grundlegenden Bewegungsbefehle PTP, LIN und ARC in ihren normalen Zustand zurückversetzt.
+   Der Schalter der Funktion "Beschleunigungsglättungsmodus" kann in dieser Oberfläche nicht gleichzeitig mit dem zeitoptimalen Modus aktiviert werden.

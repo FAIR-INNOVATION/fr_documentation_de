@@ -94,6 +94,53 @@ Greifer-Aktivierungsstatus abrufen
     */
     int GetGripperActivateStatus(ref int fault, ref int status);
 
+Auf Greiferbewegungsstatus warten
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  Wartet auf den Greiferbewegungsstatus (nur für das Endeffektor-Offenprotokoll definiert; für angepasste Geräte wird die Statusdefinition an jeden Greiferhersteller durchgereicht)
+    * @param  [in] status  0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen ohne Objekterkennung, 2-Bewegung abgeschlossen mit Objekterkennung
+    * @param  [in] timeout Timeout (ms), -1 für unendliches Warten
+    * @param  [in] strategy  0-mit Fehler stoppen, 1-weiterlaufen
+    * @param  [in] type  0-Parallelgreifer, 1-Drehgreifer
+    * @return  Fehlercode
+    */
+    public int GripperWaitMotionDone(int status, int timeout, int strategy, int type) 
+    
+Codebeispiel zum Warten auf den Greiferbewegungsstatus
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public void TestGripperWaitMotionDone()
+    {
+        int rtn;
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+
+
+        // Greifer öffnen
+        rtn = robot.MoveGripper(1, 50, 50, 100, 30000, 0, 0, 0, 0, 0);
+        Console.WriteLine("MoveGripper(öffnen) ret={0}", rtn);
+        Thread.Sleep(2000);
+        robot.GetRobotRealTimeState(ref pkg);
+        Console.WriteLine(" gripper_motiondone {0})", pkg.gripper_motiondone);
+        // Greifer schließen
+        rtn = robot.MoveGripper(1, 90, 100, 100, 30000, 0, 0, 0, 0, 0);
+        Console.WriteLine("MoveGripper(schließen) ret={0}", rtn);
+        Thread.Sleep(2000);
+        robot.GetRobotRealTimeState(ref pkg);
+        Console.WriteLine(" gripper_motiondone {0}", pkg.gripper_motiondone);
+        // Warten auf Bewegungsabschluss ohne Objekterkennung, Timeout 30s, mit Fehler stoppen
+        rtn = robot.GripperWaitMotionDone(2, -1, 0, 0);
+        Console.WriteLine("GripperWaitMotionDone(warten auf Abschluss ohne Objekterkennung) ret={0}", rtn);
+
+        // Greifer öffnen
+        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0);
+        Console.WriteLine("MoveGripper(öffnen) ret={0}", rtn);
+    }    
+
 Greiferposition abrufen
 ++++++++++++++++++++++++
 .. code-block:: c#
@@ -1847,6 +1894,147 @@ Codebeispiel für synchrones Laser-Tracking mit Erweiterungsachse und Roboter
             }
             Console.WriteLine($"Number of completions : {i + 1} ");
         }     
+    }
+
+Codebeispiel für Laseraufzeichnungswiedergabe + Reguläre Pendelbewegung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    void TestLaserReproduceNormalWeave()
+    {
+        JointPos startjointPos = new JointPos(69.655, -71.524, -119.568, -76.454, 91.188, 138.014);
+        DescPose startdescPose = new DescPose(214.765, 311.139, 41.255, 7.693, -0.287, 37.080);
+        JointPos endjointPos = new JointPos(58.803, -79.528, -113.688, -74.599, 91.637, 127.167);
+        DescPose enddescPose = new DescPose(294.942, 311.153, 41.302, 7.701, -0.283, 37.081);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+        int rtn = 0;
+
+        // WaitMs(1000)
+        Thread.Sleep(1000);
+
+        // MoveL zur Startposition (Erweiterungsachse 0,174.957,0,0)
+        rtn = robot.MoveL(startjointPos, startdescPose, 5, 0, 100, 100, 100, -1, 0, new ExaxisPos(0, 174.957, 0, 0), 0, 0, offdese, 100, 0, 0, 10);
+
+        Console.WriteLine($"MoveL start: {rtn}");
+
+        // Laseraufzeichnung starten
+        rtn = robot.LaserSensorRecord1(2, 10);
+        Console.WriteLine($"LaserSensorRecord start: {rtn}");
+
+        // MoveL zur Endposition
+        rtn = robot.MoveL(endjointPos, enddescPose, 5, 0, 100, 100, 100, -1, 0, new ExaxisPos(0, 174.957, 0, 0), 0, 0, offdese, 100, 0, 0, 10);
+        Console.WriteLine($"MoveL end: {rtn}");
+
+        // Laseraufzeichnung stoppen
+        rtn = robot.LaserSensorRecord1(0, 10);
+        Console.WriteLine($"LaserSensorRecord stop: {rtn}");
+
+        // MoveL zurück zur Startposition
+        rtn = robot.MoveL(startjointPos, startdescPose, 5, 0, 100, 100, 100, -1, 0, new ExaxisPos(0, 174.957, 0, 0), 0, 0, offdese, 100, 0, 0, 10);
+        Console.WriteLine($"MoveL back: {rtn}");
+
+        // LIN-Bewegung zum Start des Laseraufzeichnungspfads
+        rtn = robot.MoveToLaserRecordStart(1, 30);
+        Console.WriteLine($"MoveToLaserRecordStart: {rtn}");
+
+        // Reguläre Pendelbewegung starten
+        rtn = robot.WeaveStart(0);
+        Console.WriteLine($"WeaveStart: {rtn}");
+
+        // Wiedergabeaufzeichnung starten
+        rtn = robot.LaserSensorRecord1(3, 10);
+        Console.WriteLine($"LaserSensorRecord replay: {rtn}");
+
+        // Laser-Tracking-Wiedergabebewegung
+        rtn = robot.MoveLTR();
+        Console.WriteLine($"MoveLTR: {rtn}");
+        Thread.Sleep(3000);
+
+        // Wiedergabeaufzeichnung stoppen
+        rtn = robot.LaserSensorRecord1(0, 10);
+        Console.WriteLine($"LaserSensorRecord stop: {rtn}");
+
+        // Reguläre Pendelbewegung beenden
+        rtn = robot.WeaveEnd(0);
+        Console.WriteLine($"WeaveEnd: {rtn}");
+    }
+
+Codebeispiel für Laseraufzeichnungswiedergabe + Asynchrone Erweiterungsachsenbewegung + Punktgenaue Pendelbewegung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    void TestLaserRecordReplayExaxisWithWave()
+    {
+        JointPos startjointPos = new JointPos(106.245, -63.397, -93.331, -80.809, 80.389, 134.561);
+        DescPose startdescPose = new DescPose(33.534, 516.527, 371.029, 14.712, -31.379, 71.734);
+        JointPos endjointPos = new JointPos(105.534, -64.685, -93.681, -79.071, 80.772, 133.952);
+        DescPose enddescPose = new DescPose(33.536, 528.536, 364.924, 14.712, -31.379, 71.734);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+        int rtn = 0;
+
+        // MoveJ zum sicheren Punkt (Erweiterungsachse 0,174.957,0,0)
+        rtn = robot.MoveJ(startjointPos, startdescPose, 5, 0, 100, 100, 50, new ExaxisPos(0, 174.957, 0, 0), -1, 0, offdese);
+        Console.WriteLine($"MoveJ start: {rtn}");
+
+        // Asynchrone Erweiterungsachsenbewegung zum Startpunkt 105.003
+        rtn = robot.ExtAxisMove(new ExaxisPos(0, 105.003, 0, 0), 50, -1);
+        Console.WriteLine($"ExtAxisMove 105.003: {rtn}");
+        Thread.Sleep(3000);
+
+        // MoveL zum Startpunkt
+        rtn = robot.MoveL(endjointPos, enddescPose, 5, 0, 100, 100, 50, -1, 0, new ExaxisPos(0, 105.003, 0, 0), 0, 0, offdese, 100, 0, 0, 10);
+        Console.WriteLine($"MoveL end: {rtn}");
+
+        // Laseraufzeichnung starten
+        rtn = robot.LaserSensorRecord1(2, 10);
+        Console.WriteLine($"LaserSensorRecord start: {rtn}");
+
+        // Erweiterungsachse bewegt sich während der Aufzeichnung auf 174.957
+        rtn = robot.ExtAxisMove(new ExaxisPos(0, 174.957, 0, 0), 50, -1);
+        Console.WriteLine($"ExtAxisMove 174.957: {rtn}");
+        Thread.Sleep(3000);
+
+        // Laseraufzeichnung stoppen
+        rtn = robot.LaserSensorRecord1(0, 10);
+        Console.WriteLine($"LaserSensorRecord stop: {rtn}");
+
+
+        // Erweiterungsachse kehrt zu 105.003 zurück, MoveL zurück zum Startpunkt
+        rtn = robot.ExtAxisMove(new ExaxisPos(0, 105.003, 0, 0), 50, -1);
+        Console.WriteLine($"ExtAxisMove back: {rtn}");
+
+        // MoveL zum Startpunkt
+        rtn = robot.MoveL(endjointPos, enddescPose, 5, 0, 100, 100, 50, -1, 0, new ExaxisPos(0, 105.003, 0, 0), 0, 0, offdese, 100, 0, 0, 10);
+        Console.WriteLine($"MoveL back: {rtn}");
+
+        // PTP-Bewegung zum Start des Laseraufzeichnungspfads
+        rtn = robot.MoveToLaserRecordStart(0, 30);
+        Console.WriteLine($"MoveToLaserRecordStart: {rtn}");
+
+        // Wiedergabe starten
+        rtn = robot.LaserSensorRecord1(3, 10);
+        Console.WriteLine($"LaserSensorRecord replay: {rtn}");
+
+        // Punktgenaue Pendelbewegung starten
+        DescPose refPoint = new DescPose(61.087, 512.431, 370.523, 14.335, -31.333, 69.014);
+        rtn = robot.OriginPointWeaveStart(0, 1, refPoint, 5);
+        Console.WriteLine($"OriginPointWeaveStart: {rtn}");
+
+        // Erweiterungsachse bewegt sich während der Pendelbewegung auf 174.957
+        rtn = robot.ExtAxisMove(new ExaxisPos(0, 174.957, 0, 0), 50, -1);
+        Console.WriteLine($"ExtAxisMove replay: {rtn}");
+
+        // Pendelbewegung beenden
+        rtn = robot.OriginPointWeaveEnd();
+        Console.WriteLine($"OriginPointWeaveEnd: {rtn}");
+
+        // Wiedergabe stoppen
+        rtn = robot.LaserSensorRecord1(0, 10);
+        Console.WriteLine($"LaserSensorRecord stop: {rtn}");
     }
 
 Endeffektor-Transparentübertragungsfunktion ein-/ausschalten

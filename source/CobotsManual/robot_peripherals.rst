@@ -655,6 +655,16 @@ Ab Version V3.9.8 unterstützt das auf dem Endeffektor-Protokoll basierende Smar
 
 .. centered:: Abbildung 8.3‑2-5 Seitenabfrage "Boot-Modus betreten und offenes Protokoll anwenden?"
 
+Darüber hinaus muss der Benutzer bei der Verwendung von IO-Tasten den Kommunikationstyp des aktuellen Schweißgeräts auswählen, einschließlich: Controller-I/O, Digitales Kommunikationsprotokoll (UDP), Digitales Kommunikationsprotokoll (Modbus TCP). Bei Controller-I/O und Digitalem Kommunikationsprotokoll (UDP) muss der entsprechende DO mit der Lichtbogenstartfunktion konfiguriert werden, damit schweißbezogene Befehle generiert werden können. Beim Digitalen Kommunikationsprotokoll (Modbus TCP) muss der Befehl als Schweißen konfiguriert werden, damit schweißbezogene Befehle generiert werden können; andernfalls werden nur Befehle zum Setzen des DO-Ausgangs generiert.
+
+.. note:: Es ist zu beachten, dass bei der Auswahl von Digitalem Kommunikationsprotokoll (UDP) oder Digitalem Kommunikationsprotokoll (Modbus TCP) für die Schweißgerätekommunikation die Konfiguration der Schweißbefehle eine ordnungsgemäß hergestellte Kommunikationsverbindung erfordert.
+
+.. figure:: robot_peripherals/321.png
+   :align: center
+   :width: 4in
+
+.. centered:: Abbildung 8.3‑2-6 Auswahl des Schweißgeräte-Steuertyps und Befehlstyps
+
 Import einer Vorlage für die SmartTool-Programmgenerierung
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -664,7 +674,7 @@ Wenn die Funktion "Programmgenerierung" für eine SmartTool-Taste konfiguriert i
    :align: center
    :width: 4in
 
-.. centered:: Abbildung 8.3‑2-6 Import einer Vorlage für die SmartTool-Programmgenerierung
+.. centered:: Abbildung 8.3‑2-7 Import einer Vorlage für die SmartTool-Programmgenerierung
 
 Konfiguration der SmartTool-Bewegungsbefehlspunkte
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -675,7 +685,7 @@ Bei der Konfiguration der drei Befehle "PTP", "LIN", "ARC" für den SmartTool ka
    :align: center
    :width: 4in
 
-.. centered:: Abbildung 8.3‑2-7 Konfiguration "Globale Teach-Punkte" und "Lokale Teach-Punkte" für SmartTool-Bewegungsbefehle
+.. centered:: Abbildung 8.3‑2-8 Konfiguration "Globale Teach-Punkte" und "Lokale Teach-Punkte" für SmartTool-Bewegungsbefehle
 
 SmartTool Anti-Fehlbedienungsmodus
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -686,7 +696,7 @@ Dem SmartTool basierend auf dem offenen Protokoll wurde ein Anti-Fehlbedienungsm
    :align: center
    :width: 6in
 
-.. centered:: Abbildung 8.3‑2-8 SmartTool "Anti-Fehlbedienungsmodus" Funktion
+.. centered:: Abbildung 8.3‑2-9 SmartTool "Anti-Fehlbedienungsmodus" Funktion
 
 SmartTool IO-Tasten-Speicherlöschfunktion
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -702,7 +712,7 @@ Eine globale Punktlöschfunktion wurde hinzugefügt. Öffnen Sie WebApp, klicken
    :align: center
    :width: 6in
 
-.. centered:: Abbildung 8.3‑2-9 Globale Punktlöschfunktion
+.. centered:: Abbildung 8.3‑2-10 Globale Punktlöschfunktion
 
 Beispiel für ein Lua-Flanschprotokoll eines Schweißgriffs
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1103,6 +1113,51 @@ Klicken Sie auf die Karte "Benutzerdefiniertes Protokoll", um zur Oberfläche zu
 
 .. centered:: Abbildung 8.3‑12 Kraftsensor aktivieren
 
+Kaiwei-Kraftsensor-Adaption
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Übersicht
++++++++++++++++++++++++++++++++++++++++++++++
+Der Geräteadaptierung wurde ein neuer Kaiwei-Kraftsensor hinzugefügt, mit dem Sensormodell KWL-SFTE75B.
+
+Kaiwei-Kraftsensor-Adaption
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+(1) Gehen Sie zu Grundeinstellungen -> Peripheriegeräte -> Kraftsensor und wählen Sie das adaptierte Gerät aus.
+
+.. figure:: robot_peripherals/322.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.3‑13 Adaptierte Geräte
+
+(2) Wählen Sie in der Liste der adaptierten Geräte den Hersteller KWL, wählen Sie den Typ KWL-SFTE75B, wählen Sie die Montageposition und klicken Sie auf Konfigurieren.
+
+.. figure:: robot_peripherals/323.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.3‑13 Hersteller konfigurieren
+
+(3) Wählen Sie die entsprechende Montagepositionsnummer, klicken Sie auf Reset und dann auf Aktivieren. Wenn Act_State in der FT-Symbolleiste den Wert 1 anzeigt, ist der Sensor für den normalen Gebrauch bereit.
+
+.. figure:: robot_peripherals/324.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.3‑14 Aktivierungs- und Reset-Vorgänge
+
+Geräteverwendungsanleitung
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+(1) In der FT-Symbolleiste stellen Fx, Fy, Fz, Tx, Ty, Tz die Sechs-Achsen-Kraftdaten dar, mit Einheiten in N und N·m.
+
+.. figure:: robot_peripherals/325.png
+   :align: center
+   :width: 4in
+
+.. centered:: Abbildung 8.3‑15 Sechs-Achsen-Kraftdaten in der FT-Symbolleiste
+
 Schweißgriff
 -------------------------------------------------------------
 
@@ -1162,7 +1217,10 @@ Funktionen der IO-Taste:
 
 - **IO-Signalkonfiguration**: Dropdown-Menü zur Auswahl von DO0~DO7, CO0~CO7, End-DO0, End-DO1 und Erweiterungs-IO (Aux-DO0~Aux-DO127).
 
-- **Kombinationsbefehl**: Nach Auswahl von "IO-Signal" werden unter bestimmten Bedingungen die Konfigurationselemente "Schweißgeräteauswahl" und "Punktgeschwindigkeit" angezeigt, um verschiedene Programmbefehle zu generieren.Darüber hinaus wurde die Auswahl der Schweißprozessnummer hinzugefügt. Die maximale Zeit für Lichtbogenstart und -ende kann bis zu 10000ms konfiguriert werden. Die Pendelnummer ist standardmäßig auf 0 eingestellt. Wenn "Pendelstart" konfiguriert ist, kann die Pendelnummer ausgewählt werden. Die IO-Tasteneinstellungen entsprechen den Pendelstart-Einstellungen.
+-  **Kombinierte Befehle**: Nach Auswahl von "IO-Signal" werden unter bestimmten Bedingungen die Konfigurationselemente "Schweißgeräteauswahl" und "Punktgeschwindigkeit" angezeigt, um verschiedene Programmbefehle zu generieren.
+
+  - Der Benutzer muss den Kommunikationstyp des aktuellen Schweißgeräts auswählen, einschließlich: Controller-I/O, Digitales Kommunikationsprotokoll (UDP), Digitales Kommunikationsprotokoll (Modbus TCP). Bei Controller-I/O und Digitalem Kommunikationsprotokoll (UDP) muss der entsprechende DO mit der Lichtbogenstartfunktion konfiguriert werden, damit schweißbezogene Befehle generiert werden können. Beim Digitalen Kommunikationsprotokoll (Modbus TCP) muss der Befehl als Schweißen konfiguriert werden, damit schweißbezogene Befehle generiert werden können; andernfalls werden nur Befehle zum Setzen des DO-Ausgangs generiert. Es ist zu beachten, dass bei der Auswahl von Digitalem Kommunikationsprotokoll (UDP) oder Digitalem Kommunikationsprotokoll (Modbus TCP) für die Schweißgerätekommunikation die Konfiguration der Schweißbefehle eine ordnungsgemäß hergestellte Kommunikationsverbindung erfordert.
+  - Darüber hinaus wurde die Auswahl der Schweißprozessnummer hinzugefügt. Die maximale Zeit für Lichtbogenstart und -ende kann bis zu 10000ms konfiguriert werden. Die Pendelnummer ist standardmäßig auf 0 eingestellt. Wenn "Pendelstart" konfiguriert ist, kann die Pendelnummer ausgewählt werden. Die IO-Tasteneinstellungen entsprechen den Pendelstart-Einstellungen.
 
 .. important::
    - Wenn das IO-Signal als DO0~DO7 oder CO0~CO7 konfiguriert ist (ohne "Lichtbogenzündung"), fügt das Programm SetDO hinzu. "Schweißgeräteauswahl" und "Punktgeschwindigkeit" werden ausgeblendet.
@@ -6483,9 +6541,17 @@ Spezifische Funktionen der Parameter:
 - **Winkelgeschwindigkeitsbegrenzung**: 100°/s. Wenn die Winkelgeschwindigkeitsbegrenzung überschritten wird, wechselt der Roboter in den Handmodus und zeigt eine TCP-Übergeschwindigkeitswarnung an.
 
 .. note::
-  1. Für den FR3WML-Roboter werden die folgenden Parametereinstellungen empfohlen: Ziehverstärkungsfaktor [0.15, 0.15, 0.15, 0.15, 0.15, 0.2], Dämpfungsverstärkung nach Aktivierung der Impedanz [0.1, 0.1, 0.1, 0.05, 0.05, 0.05].
+  1. Einstellungen der Zugparameter
 
-  2. Wenn alle Ziehverstärkungsparameter auf 0 gesetzt sind, ist der Zieh widerstand stark und das Ziehen ist schwierig; wenn alle Ziehverstärkungsparameter auf 5 gesetzt sind, ist das Ziehgefühl leicht; je größer der Parameter, desto leichter das Ziehen.
+  (1) Für den FR3WML-Roboter werden die folgenden Parametereinstellungen empfohlen: Zugverstärkung [1.5, 1.5, 1.5, 1.5, 1.5, 2], Dämpfungsverstärkung nach Aktivierung der Impedanz [0.1, 0.1, 0.1, 0.05, 0.05, 0.05];
+
+  (2) Für den FR3WMS-Roboter werden die folgenden Parametereinstellungen empfohlen: Zugverstärkung [2, 2, 2, 2, 2, 2], Dämpfungsverstärkung nach Aktivierung der Impedanz [0.1, 0.1, 0.1, 0.05, 0.05, 0.05];
+
+  (3) Für den FR3C-Roboter werden die folgenden Parametereinstellungen empfohlen: Zugverstärkung [2, 2, 2, 2, 2, 2], Dämpfungsverstärkung nach Aktivierung der Impedanz [0.1, 0.1, 0.1, 0.05, 0.05, 0.05].
+
+  (4) Für den FR5C-Roboter werden die folgenden Parametereinstellungen empfohlen: Zugverstärkung [2, 2, 2, 2, 2, 2], Dämpfungsverstärkung nach Aktivierung der Impedanz [0.1, 0.1, 0.1, 0.05, 0.05, 0.05].
+
+  2. Wenn alle Zugverstärkungsparameter auf 0 gesetzt sind, ist der Zugwiderstand stark und das Ziehen ist schwierig; wenn alle Zugverstärkungsparameter auf 5 gesetzt sind, ist das Zuggefühl leicht; je größer der Parameter, desto leichter das Ziehen.
 
 Funktion zur Laser-Punktverfolgung mit Erweiterungsachse
 ------------------------------------------------------------------

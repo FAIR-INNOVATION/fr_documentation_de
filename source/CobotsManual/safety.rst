@@ -1,714 +1,437 @@
 Sicherheit
 ===============
 
-.. toctree::
+.. toctree:: 
    :maxdepth: 6
 
-Sicherheitsstopp
-----------------
+Hintergrund
+------------------------------------------------
+Als zentrale Ausführungseinheit in der Entwicklung der industriellen intelligenten Fertigung ist die Sicherheitsleistung von Industrierobotern zu einem Kernelement im gesamten Lebenszyklusmanagement von Geräten geworden. Derzeit fordert die Branche allgemein, dass sicherheitsfunktionsbezogene Parameter unveränderlich und manipulationssicher sind und dass ein vollständiger und rückverfolgbarer Verifizierungsmechanismus eingerichtet wird, um strenge Anforderungen an Sicherheitskonformitätsaudits zu erfüllen.
+Systemintegratoren und Endbenutzer in Europa haben in der tatsächlichen Projektabnahme weitere klare Anforderungen an die Transparenz und Überprüfbarkeit von Sicherheitskonfigurationen gestellt. Konkret sollte das System nach Abschluss des Debuggings der Sicherheitsfunktionen automatisch einen Sicherheitskonfigurationsbericht mit einer vollständigen Prüfsumme (Checksum) generieren können, und diese Prüfsumme muss in Echtzeit in der Web-Verwaltungsoberfläche des Geräts angezeigt werden. Dieser Mechanismus soll sicherstellen, dass alle Änderungen an Sicherheitsparametern effektiv erkannt und aufgezeichnet werden können, um so eine zuverlässige Grundlage für die Bewertung des Sicherheitszustands des Geräts, die Abnahme vor Ort und die spätere Wartung zu schaffen.
+Vor diesem Hintergrund entspricht das Sicherheitsarchitekturdesign dieses Geräts nicht nur den relevanten internationalen Sicherheitsstandards, sondern verfügt auch über integrierte Funktionen zum Export von Sicherheitskonfigurationen und zur Echtzeitanzeige der Prüfsumme, um Bediener und Sicherheitsverantwortliche bei der bequemen und zuverlässigen Durchführung von Konfigurationsbestätigungen und Konformitätsnachweisen zu unterstützen.
 
-Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Klicken Sie auf das Untermenü "Sicherheitsstopp", um zur Konfigurationsoberfläche zu gelangen. Hier stellen Sie den Sicherheitsstopp-Modus und die Parameter der Sicherheitsstopp-Strategie ein.
+Prüfsumme der Sicherheitskonfiguration
+------------------------------------------------
+
+Öffnen Sie die Webseite. Die Sicherheitsprüfsumme befindet sich in der oberen rechten Ecke der Seite und wird durch eine 8-stellige Hexadezimalzahl dargestellt. Die Sicherheitsprüfsumme ist eindeutig; wenn sich die Sicherheitskonfigurationsparameter ändern, ändert sich die Sicherheitsprüfsumme entsprechend.
 
 .. image:: safety/001.png
    :width: 4in
    :align: center
 
-.. centered:: Abbildung 7.1-1 Sicherheitsstopp-Konfiguration
+.. centered:: Abbildung 7.1-1 Anzeige der Sicherheitskonfigurations-Prüfsumme
 
-Sicherheitsstopp mit Zweikanal + Reduziertem Modus konfigurierbar
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Klicken Sie auf die Sicherheitsprüfsumme, um die Menge der Sicherheitskonfigurationsparameter anzuzeigen, die durch die aktuelle Prüfsumme dargestellt wird.
 
-Überblick
-++++++++++++++++++++++++++++++++++++++++++++
-
-Wenn die Auslöseart des Sicherheitsstopps auf "Zweikanal" eingestellt ist, muss der Zustand über beide Kanäle gelöscht sein und der Benutzer muss die Warnung auf der Bedienoberfläche manuell quittieren, bevor der Roboter zurückgesetzt werden kann. Zusätzlich wurde in der Strategiekonfiguration die Option "Reduzierter Modus" hinzugefügt. Wenn der Benutzer diese Strategie wählt, wechselt der Roboter in den reduzierten Bewegungsmodus.
-
-Vorgehen
-++++++++++++++++++++++++++++++++++++++++++++
-
-**Schritt 1**: Klicken Sie auf "Initiale Einstellungen" -> "Sicherheit" -> "Sicherheitsstopp". Die Auslöseart kann als "Standard" oder "Zweikanal" gewählt werden. Der Unterschied besteht darin: Im "Standard"-Modus wird die Fehlermeldung auf der Oberfläche nach dem Auslösen und Wiederherstellen automatisch gelöscht. Im "Zweikanal"-Modus muss die Fehlermeldung auf der Oberfläche nach dem Auslösen und Wiederherstellen manuell gelöscht werden. Die "Sicherheitsstopp-Strategie" kann als "Stopp", "Pause", "Erste Reduzierungsstufe" oder "Zweite Reduzierungsstufe" gewählt werden. Die genaue Bedeutung ist wie folgt: Bei Auswahl von "Stopp" stoppt der Roboter die aktuelle Bewegung; bei "Pause" pausiert der Roboter die aktuelle Bewegung; nach Wiederherstellung und Löschen des Fehlers wird die Bewegung fortgesetzt; bei "Erste Reduzierungsstufe" wechselt der Roboter in die erste Reduzierungsstufe; bei "Zweite Reduzierungsstufe" wechselt der Roboter in die zweite Reduzierungsstufe.
-
-.. image:: safety/048.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.1-2 Einstellung der Sicherheitsstopp-Strategie
-
-**Schritt 2**: Da bei Auswahl der Auslöseart "Standard" die Fehlermeldung auf der Oberfläche nach der Wiederherstellung automatisch gelöscht wird, ist keine weitere Erklärung erforderlich. Daher wird hauptsächlich die Vorgehen bei Auswahl der Auslöseart "Zweikanal" beschrieben: Nach der Wiederherstellung muss der Benutzer oben rechts auf "Löschen" klicken, bevor der Roboter zurückgesetzt werden kann.
-
-.. image:: safety/049.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.1-3 Manuelles Löschen nach Sicherheitsstopp-Auslösung
-
-Sicherheitsgeschwindigkeitsbewegung
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Nachdem der Roboter einen Sicherheitsstopp ausgelöst hat, kann der Benutzer in der Webapp auf eine Schaltfläche klicken, einen konfigurierbaren CI-Eingang des Steuerkastens oder einen konfigurierbaren End-DI-Eingang des Endeffektorwerkzeugs konfigurieren, um den Roboter in den Zustand der Sicherheitsgeschwindigkeitsbewegung zu versetzen. Im Zustand der Sicherheitsgeschwindigkeitsbewegung kann der Roboter mit sicherer Geschwindigkeit getastet oder in den Ziehemodus versetzt werden, um dem Benutzer die Fehlerbehebung zu erleichtern.
-
-Klicken Sie in der Roboter-Webapp nacheinander auf "Grundeinstellungen", "Sicherheit", "Sicherheitsstopp", suchen Sie auf dieser Seite "Sicherheitsgeschwindigkeitsbewegung" und aktivieren Sie es.
-
-.. image:: safety/057.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.1-4 Sicherheitsgeschwindigkeitsbewegung aktivieren
-
-Wenn zu diesem Zeitpunkt ein Sicherheitsstopp ausgelöst wird, zeigt die obere rechte Ecke der Roboter-Webapp eine Warnung "Sicherheitsstopp ausgelöst" an und zeigt die Schaltfläche "Sicherheitsgeschwindigkeitsbewegung starten".
-
-.. image:: safety/058.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.1-5 Popup zum Starten der Sicherheitsgeschwindigkeitsbewegung
-
-Klicken Sie auf die Schaltfläche "Starten", und der Roboter stoppt automatisch das Lua-Programm und wechselt in den manuellen Modus. Gleichzeitig wird die Schaltfläche "Sicherheitsgeschwindigkeitsbewegung starten" zu "Gestartet" aktualisiert. Zu diesem Zeitpunkt kann der Roboter über den Endeffektor-Knopf, das Tastenfeld, die Webapp usw. gesteuert werden, um in den Ziehemodus zu wechseln und den Roboter zu ziehen, oder er kann über die Webapp oder das Teach-Pendant getastet werden.
-
-.. image:: safety/059.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.1-6 Sicherheitsgeschwindigkeitsbewegung starten
-
-Wenn sich der Roboter in der Sicherheitsgeschwindigkeitsbewegung befindet und im kartesischen Raum getastet wird, ist die maximale Bewegungsgeschwindigkeit des Roboters die eingestellte Sicherheitsgeschwindigkeit. Wenn die aktuelle globale Geschwindigkeitseinstellung des Roboters höher ist als die Sicherheitsgeschwindigkeit, wird die Tastgeschwindigkeit des Roboters automatisch auf die Sicherheitsgeschwindigkeit reduziert. Die Sicherheitsgeschwindigkeit wird unter "Grundeinstellungen", "Sicherheit", "Sicherheitsgeschwindigkeit" eingestellt.
-
-Nachdem der Roboter sicher gestoppt wurde, kann der Roboter zusätzlich zur Steuerung über die obere rechte Ecke der Webapp auch über CI-Eingänge des Steuerkastens oder CI-Eingänge des Endeffektors in den Sicherheitsgeschwindigkeitsmodus versetzt werden. Klicken Sie in der Webapp nacheinander auf "Grundeinstellungen", "Basis", "I/O-Einstellungen", "DI". Konfigurieren Sie einen bestimmten CI-Port des Steuerkastens oder den End-DI des Endeffektorwerkzeugs als "Sicherheitsgeschwindigkeitsbewegung starten". Nachdem ein Sicherheitsstopp ausgelöst wurde, genügt es, das Eingangssignal des konfigurierten Ports zu aktivieren, um in die Sicherheitsgeschwindigkeitsbewegung zu gelangen.
-
-.. image:: safety/060.png
+.. image:: safety/002.png
    :width: 6in
    :align: center
 
-.. centered:: Abbildung 7.1-7 Starten der Sicherheitsgeschwindigkeitsbewegung über eine Schaltfläche
+.. centered:: Abbildung 7.1-2 Sicherheitskonfigurationsparameter
 
-Sicherheitsstopp nur im Automatikmodus
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Wenn der Roboter den Sicherheitsstoppmodus aktiviert hat (CR-Zertifizierung, funktionale Sicherheit) und mit einem Teach-Pendant mit Drei-Stellungen-Zustimmungsschalter verwendet wird, kann "Sicherheitsstopp nur im Automatikmodus" aktiviert werden. Wenn das Sicherheitsstoppsignal des Roboters ausgelöst wird, kann der Roboter auf dem Teach-Pendant in den manuellen Modus geschaltet und dann im manuellen Modus getastet oder in den Ziehemodus versetzt werden, um dem Benutzer die Fehlerbehebung zu erleichtern.
-
-Klicken Sie in der Roboter-Webapp nacheinander auf "Grundeinstellungen", "Sicherheit", "Sicherheitsstopp", suchen Sie auf dieser Seite "Sicherheitsstopp nur im Automatikmodus" und aktivieren Sie es.
-
-.. image:: safety/061.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.1-8 Sicherheitsstopp nur im Automatikmodus aktivieren
-
-Wenn der Roboter den Sicherheitsstoppmodus nicht aktiviert hat (CR-Zertifizierung, funktionale Sicherheit) oder kein Teach-Pendant verwendet wird, kann die Funktion "Sicherheitsstopp nur im Automatikmodus" nicht aktiviert werden. In diesem Fall zeigt die Webapp eine Fehlermeldung an: "Sicherheitsstopp nur im Automatikmodus erfordert den Drei-Stellungen-Zustimmungsschalter am Teach-Pendant". Wenn der Sicherheitsstoppmodus oder das Teach-Pendant deaktiviert wird, wird die Funktion "Sicherheitsstopp nur im Automatikmodus" ebenfalls automatisch deaktiviert.
-
-.. image:: safety/062.png
-   :width: 3in
-   :align: center
-
-.. centered:: Abbildung 7.1-9 Fehler beim Aktivieren des Sicherheitsstopps nur im Automatikmodus
-
-Sicherheitsgeschwindigkeit
----------------------------------
-
-Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Klicken Sie auf das Untermenü "Sicherheitsgeschwindigkeit", um zur Konfigurationsoberfläche zu gelangen und die Sicherheitsgeschwindigkeit einzustellen.
-
-.. note:: TCP-Handgeschwindigkeit unter 250 mm/s.
-
-.. image:: safety/002.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.2-1 Konfiguration der sicheren Handgeschwindigkeit
-
-Sicherheitsgeschwindigkeitsfunktion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Überblick
-+++++++++++++++++++++++++++++
-
-Die Sicherheitsgeschwindigkeitsfunktion des Roboters dient der Mensch-Roboter-Kollaboration oder dynamischen Umgebungen. Sie begrenzt aktiv die Betriebsgeschwindigkeit des Roboters, um kinetische Energie und Aufprallkräfte innerhalb sicherer Schwellenwerte zu halten, wodurch Verletzungen von Personen bei versehentlichem Kontakt verhindert und Geräte sowie Werkstücke wirksam vor Kollisionsschäden geschützt werden.
-
-Ablauf
-+++++++++++++++++++++++++++++
-
-**Schritt 1**: Klicken Sie auf die Schaltfläche "Grundeinstellungen" - "Sicherheit" - "Sicherheitsgeschwindigkeit", um die Parameter für die Sicherheitsgeschwindigkeit einzustellen. Die Konfiguration umfasst hauptsächlich drei Teile: "Funktionsaktivierung", "Geschwindigkeitsbegrenzung" und "Modus nach Überschreitung".
-
-Bei der "Funktionsaktivierung" können drei Optionen ausgewählt werden: "Deaktiviert", "Im manuellen Modus aktiviert" und "In allen Modi aktiviert";
-
-Stellen Sie die Geschwindigkeitsbegrenzung im Feld "Geschwindigkeitsbegrenzung" ein. Wenn die Lineargeschwindigkeit des Roboters diese Grenze erreicht, wird sie gemäß den in "Modus nach Überschreitung" eingestellten Parametern behandelt. "Modus nach Überschreitung" bietet drei Modi: "Stopp mit Alarm", "Automatische Geschwindigkeitsbegrenzung" und "Deaktivieren nach Stopp mit Alarm". Die automatische Geschwindigkeitsbegrenzung ist nur verfügbar, wenn "Im manuellen Modus aktiviert" ausgewählt ist.
-
-Nachdem die erforderlichen Parameter eingestellt wurden, sind keine weiteren Aktionen erforderlich. Die Bewegung des Roboters wird gemäß den eingestellten Parametern behandelt. Die Parametereinstellungen sind in der Abbildung dargestellt.
-
-.. image:: safety/056.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.2-2 Sicherheitsgeschwindigkeits-Parametereinstellung
-
-I/O-Sicherheit
-----------------
-
-Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Klicken Sie auf das Untermenü "I/O-Sicherheit", um zur Konfigurationsoberfläche zu gelangen.
-
-Das HMI ermöglicht die Einstellung des Sicherheitszustands für 16 digitale Eingänge und 16 digitale Ausgänge. Diese können auf "Aktiv" oder "Inaktiv" gesetzt werden. Wenn die Steuerung einen Sicherheitszustand erkennt, werden die 16 digitalen Eingänge und 16 digitalen Ausgänge in den eingestellten Sicherheitszustand versetzt.
+Die Sicherheitskonfigurationsparameter unterstützen den Export von PDF-Berichten. Klicken Sie auf Download, um eine Vorschau des PDF-Berichts anzuzeigen, und er unterstützt auch den Export. Klicken Sie auf die Schaltfläche Speichern, um den PDF-Bericht herunterzuladen.
 
 .. image:: safety/003.png
-   :width: 4in
+   :width: 6in
    :align: center
 
-.. centered:: Abbildung 7.3-1 Konfiguration des I/O-Sicherheitszustands
+.. centered:: Abbildung 7.1-3 PDF-Vorschau des Sicherheitskonfigurationsberichts
 
-Unter dem LA-System:
-    "I/O-Sicherheit" bietet eine DIO-Sicherheitsfunktion. Die Sicherheitsfunktion verwendet zwei DI oder DO. Wenn ein sicheres DI-Signal oder ein Sicherheitszustandsflag ausgelöst wird, wird das DO ausgegeben.
+Verwaltung der Sicherheitskonfigurationsparameter
+------------------------------------------------
+
+Alle roboterbezogenen Sicherheitskonfigurationsparameter werden einheitlich auf der Webseite unter "Grundeinstellungen" -> "Sicherheit" verwaltet. Die Änderung von Sicherheitskonfigurationsparametern erfordert die Eingabe des "Sicherheitskonfigurationskennworts" zur Überprüfung. Erst nach erfolgreicher Überprüfung können Änderungen an der Sicherheitsparameterkonfiguration vorgenommen werden.
 
 .. image:: safety/004.png
    :width: 4in
    :align: center
 
-.. centered:: Abbildung 7.3-2 Konfiguration der I/O-Sicherheitsfunktion
+.. centered:: Abbildung 7.2-1 Überprüfung des Sicherheitskonfigurationskennworts
 
-Not-Halt-Stopp
-----------------
-
-Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Klicken Sie auf das Untermenü "Not-Halt-Stopp", um zur Konfigurationsoberfläche zu gelangen.
-
-Die Not-Halt-Stopp-Typen 0, 1a, 1b, 2 sind einstellbar. Die Stoppzeitbegrenzung und die Stoppdistanzbegrenzung sind einstellbar.
-
-- Bei Not-Halt-Stopp Typ 0 wird die Steuerschrankplatine direkt stromlos geschaltet.
-- Bei Not-Halt-Stopp Typ 1a wird nach einem Verzögerungsstopp die Spannungsversorgung des Roboters unterbrochen.
-- Bei Not-Halt-Stopp Typ 1b wird nach einem Verzögerungsstopp die Spannungsversorgung des Roboters **nicht** unterbrochen, der Roboter wird jedoch deaktiviert (Enable entfernt).
-- Not-Halt-Stopp Typ 2 bedeutet: Bei Betätigung des Not-Halts stoppt der Roboter verzögert und bleibt aktiviert. Nach dem Lösen des Not-Halts kann der Roboter normal weiterlaufen.
+Nach der Änderung der Sicherheitskonfigurationsparameter klicken Sie auf "Übernehmen". Eine zweite Bestätigung der geänderten Sicherheitskonfigurationsparameter ist erforderlich. Klicken Sie auf "Bestätigen", um die Parameter zu übernehmen. Nach erfolgreicher Übernahme der Parameter wird die Sicherheitskonfigurations-Prüfsumme entsprechend aktualisiert.
 
 .. image:: safety/005.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.4-1 Not-Halt-Stopp-Konfiguration
-
-Optionale automatische Aktivierung (Enable) nach Sicherheitsstopp-Wiederherstellung
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Überblick
-+++++++++++++++++++++++++++++
-
-Nach einem Not-Halt-Stopp vom Typ 1b bietet der Roboter zwei Modi zur Auswahl: manuelle Aktivierung und automatische Aktivierung. Bei Auswahl der manuellen Aktivierung muss der Benutzer nach dem Lösen des Not-Halt-Tasters den Robotermodus auf Automatik stellen und manuell die Aktivierungstaste drücken, um den Roboter zu aktivieren. Bei Auswahl der automatischen Aktivierung wird der Roboter nach dem Lösen des Not-Halt-Tasters automatisch aktiviert.
-
-Vorgehen
-+++++++++++++++++++++++++++++++++++
-
-**Schritt 1**: Klicken Sie auf "Initiale Einstellungen" -> "Sicherheit" -> "Not-Halt-Stopp". Wählen Sie den "Stopp-Typ" als "Typ 1b". Stellen Sie die Parameter "Stoppzeitbegrenzung" und "Stoppdistanzbegrenzung" nach Bedarf ein. Die "Aktivierungsstrategie nach Not-Halt-Reset" kann als "Manuelle Aktivierung" oder "Automatische Aktivierung" gewählt werden.
-
-.. image:: safety/046.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.4-2 Einstellung der Aktivierungsstrategie
-
-**Schritt 2**: Bei Auswahl von "Automatische Aktivierung" wird der Roboter nach dem Lösen des Not-Halt-Tasters automatisch aktiviert. Bei Auswahl von "Manuelle Aktivierung" muss der Benutzer nach dem Lösen des Not-Halt-Tasters im Automatikmodus manuell die Aktivierungstaste drücken, um den Roboter zu aktivieren.
-
-.. image:: safety/047.png
    :width: 6in
    :align: center
 
-.. centered:: Abbildung 7.4-3 Manuelle Aktivierung
+.. centered:: Abbildung 7.2-2 Zweite Bestätigung der Sicherheitskonfigurationsparameter
 
-Schutzhalt
-----------------
+Verwaltung des Sicherheitskonfigurationskennworts
+------------------------------------------------
 
-Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Klicken Sie auf das Untermenü "Schutzhalt", um zur Konfigurationsoberfläche zu gelangen.
-
-Schutzhalt-Typen 0, 1, 2. Bei Schutzhalt Typ 0 wird die Steuerschrankplatine direkt stromlos geschaltet. Bei Schutzhalt Typ 1 fordert die Steuerschrankplatine die Steuerung auf, den Roboter kontrolliert anzuhalten; danach meldet die Steuerung der Steuerschrankplatine, dass sie stromlos geschaltet werden kann. Bei Schutzhalt Typ 2 fordert die Steuerschrankplatine die Steuerung auf, den Roboter kontrolliert anzuhalten (ohne sie stromlos zu schalten).
+Das Sicherheitskonfigurationskennwort kann unter "Systemeinstellungen" -> "Wartungsmodus" -> "Sicherheitsparameterkonfiguration" geändert werden. Das Standardkennwort ist 12345678. Zum Ändern des Kennworts ist eine Überprüfung des alten Kennworts erforderlich. Das neue und das alte Kennwort dürfen nicht identisch sein. Die Kennwortlänge beträgt mindestens 1 Zeichen und maximal 8 Zeichen und unterscheidet zwischen Groß- und Kleinbuchstaben sowie Symbolen.
 
 .. image:: safety/006.png
    :width: 4in
    :align: center
 
-.. centered:: Abbildung 7.5-1 Schutzhalt-Konfiguration
+.. centered:: Abbildung 7.3-1 Verwaltung des Sicherheitskonfigurationskennworts
 
-.. important::
-    Das Sicherheitsdaten-Statusflag und die Fehlermeldung der Steuerschrankplatine können über die Webseite im Bereich "Controller-Statusrückmeldung" abgerufen werden. Wenn das Flag auf 1 gesetzt ist, erscheint in der WebAPP-Alarmstatusmeldung ein Hinweis auf eine Anomalie der Sicherheitsdaten. Nach Erhalt eines Fehlers von der Steuerschrankplatine wird die spezifische Fehlermeldung basierend auf dem Fehlercode im WebAPP-Alarmstatus angezeigt.
+Wenn Sie das alte Kennwort vergessen haben, wenden Sie sich bitte an das entsprechende technische Personal von FAIRINO.
+
+Sicherheitskonfigurationsparameter
+--------------------------------------------------------------------------------------------------
+
+Sicherheitsparameter des Roboters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Robotergeschwindigkeit
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "Robotergeschwindigkeit", um zur Konfigurationsoberfläche zu gelangen.
+
+Die Robotergeschwindigkeit wird verwendet, um die maximale Lineargeschwindigkeit, die Linearbeschleunigung und die Gelenkwinkelbeschleunigung des Roboters zu begrenzen.
 
 .. image:: safety/007.png
    :width: 4in
    :align: center
 
-.. centered:: Abbildung 7.5-2 WebAPP-Alarmstatus
+.. centered:: Abbildung 7.4-1 Robotergeschwindigkeit
+ 
+Stopp-Verzögerungsplanung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Interferenzzonen-Konfiguration
---------------------------------------
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "Stopp-Verzögerungsplanung", um zur Konfigurationsoberfläche zu gelangen.
 
-Klicken Sie im Menü "Initiale Einstellungen" -> "Sicherheit" -> "Interferenzzone" auf das Untermenü "Einzeln", um zur Funktionsoberfläche für die Interferenzzonen-Konfiguration zu gelangen.
+- Freier Stopp: Beim Stoppvorgang wird die Winkelgeschwindigkeit jeder Achse gemäß dem eingestellten Stopp-Verzögerungsprozentsatz multipliziert mit der maximalen Gelenkbeschleunigung abgebremst und gestoppt;
+- Synchronisierter Stopp: Beim Stoppvorgang wird die TCP-Posengeschwindigkeit gemäß dem eingestellten Stopp-Verzögerungsprozentsatz multipliziert mit der maximalen Posenbeschleunigung abgebremst und gestoppt;
 
-Zuerst müssen wir die Interferenzart und das Verhalten beim Betreten der Interferenzzone konfigurieren. Die Interferenzart wird in "Achsinterferenz" und "Quaderinterferenz" unterteilt.
-
-.. image:: safety/025.png
-   :width: 3in
-   :align: center
-
-.. centered:: Abbildung 7.6‑1 Interferenzzonen-Arten
-
-Über einen Schieberegler wird gesteuert, ob die Funktion aktiviert ist. Konfigurieren Sie zuerst das Bewegungsverhalten beim Betreten der Interferenzzone: "Bewegung fortsetzen" oder "Stopp". Konfigurieren Sie als nächstes das Verhalten im Ziehemodus beim Betreten der Interferenzzone. Je nach Bedarf kann die Strategie für den Ziehemodus beim Betreten der Zone eingestellt werden: "Ziehen uneingeschränkt", "Impedanzrückführung" oder "Rückkehr in den Handmodus".
-
-.. image:: safety/026.png
-   :width: 3in
-   :align: center
-
-.. centered:: Abbildung 7.6‑2 Interferenzzonen-Konfiguration
-
-Bei Auswahl von "Achsinterferenz" müssen die Parameter für die Achsinterferenz konfiguriert werden. Die Erkennungsmethode kann entweder "Befehlsposition" oder "Rückmeldeposition" sein. Der Interferenzzonenmodus kann entweder "Interferenz innerhalb des Bereichs" oder "Interferenz außerhalb des Bereichs" sein. Stellen Sie als nächstes den Bereich für jedes Gelenk ein und legen Sie fest, ob der Bereich für jedes Gelenk aktiviert (enable) ist. Die Werte können eingegeben oder über das "Aktualisierungssymbol" hinter "Minimalwert" und "Maximalwert" mit der aktuellen Roboterposition gefüllt werden. Klicken Sie abschließend auf "Konfigurieren".
-
-.. image:: safety/027.png
-   :width: 3in
-   :align: center
-
-.. centered:: Abbildung 7.6‑3 Achsinterferenz-Konfiguration
-
-Bei Auswahl von "Quaderinterferenz" müssen die Parameter für die Quaderinterferenz konfiguriert werden. Die Erkennungsmethode kann entweder "Befehlsposition" oder "Rückmeldeposition" sein. Der Interferenzzonenmodus kann entweder "Interferenz innerhalb des Bereichs" oder "Interferenz außerhalb des Bereichs" sein. Das Referenzkoordinatensystem kann entweder "Basiskoordinate" oder "Werkstückkoordinate" sein, je nach tatsächlicher Verwendung. Stellen Sie als nächstes den Bereich ein. Es gibt zwei Methoden zur Bereichseinstellung. Betrachten Sie zuerst die erste Methode, die "Zwei-Punkt-Methode". Dabei wird der Quader durch zwei diagonal gegenüberliegende Eckpunkte definiert. Die Positionen können eingegeben oder durch Anteachen des Roboters aufgezeichnet werden. Klicken Sie abschließend auf "Anwenden".
-
-.. image:: safety/028.png
-   :width: 3in
-   :align: center
-
-.. centered:: Abbildung 7.6‑4 Quaderinterferenz-Konfiguration
-
-Betrachten Sie nun die zweite Methode, "Mittelpunkt + Seitenlänge". Dabei wird der Quader durch seinen Mittelpunkt und seine Seitenlängen definiert. Die Position des Mittelpunkts kann eingegeben oder durch Anteachen des Roboters aufgezeichnet werden. Klicken Sie abschließend auf "Anwenden".
-
-.. image:: safety/029.png
-   :width: 3in
-   :align: center
-
-.. centered:: Abbildung 7.6‑5 Quaderinterferenz-Konfiguration
-
-Sicherheitsrückruffunktion beim Betreten einer Achsinterferenzzone im kraftunterstützten Ziehemodus
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Überblick
-+++++++++++++++++++++++++++++++++
-
-Die Sicherheitsrückruffunktion beim Betreten einer Achsinterferenzzone im kraftunterstützten Ziehemodus kommt zum Tragen, wenn kraftunterstütztes Ziehen und Interferenzzonen gleichzeitig aktiv sind. Wenn der Roboter in eine Interferenzzone eintritt, wechselt er automatisch in den Stromregelungs-Ziehemodus (mit Impedanzrückwirkung). Wenn der Roboter die Interferenzzone wieder verlässt, wechselt er automatisch zurück in den kraftunterstützten Ziehemodus. Dies ermöglicht verschiedene Anwendungsszenarien mit kraftunterstütztem Ziehen.
-
-Vorgehen
-++++++++++++++++++++++++++++++++
-
-Gelenkbegrenzungsring (Joint Limit Ring)
-************************************************
-**Schritt 1**: Melden Sie sich an der Webschnittstelle an und schalten Sie den Schalter "Gelenkbegrenzungsring" ein. Um die Robotergelenke herum erscheinen Gelenkbegrenzungsringe, wie in der folgenden Abbildung gezeigt.
-
-.. image:: safety/030.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑6 Gelenkbegrenzungsringe in der Webschnittstelle
-
-**Schritt 2**: Der weiße Zeiger auf dem Gelenkbegrenzungsring repräsentiert den tatsächlichen Gelenkwinkel. Die Lücke repräsentiert die Position des Software-Endschalters (Soft-Limit) des entsprechenden Gelenks. Die Größe der Lücke im Gelenkbegrenzungsring ändert sich mit der Größe des Soft-Limits. Wenn sich das Gelenk bewegt, bleibt der Gelenkbegrenzungsring relativ zum Gelenk stationär.
-
-Achsinterferenz-Konfiguration
-************************************************
-**Schritt 1**: Konfigurieren und aktivieren Sie die Achsinterferenz. Klicken Sie nacheinander auf "Initiale Einstellungen" -> "Sicherheit" -> "Interferenzzone" -> "Einzeln", um zur Interferenzzonen-Konfigurationsseite zu gelangen. Klicken Sie auf die Karte "Achsinterferenz", um zur Oberfläche zu gelangen, und aktivieren Sie den Schieberegler "Funktion aktivieren".
-
-**Schritt 2**: Sie können die "Bewegungsstrategie" auf "Bewegung fortsetzen" setzen. Wählen Sie die "Ziehstrategie" als "Impedanzrückführung" und stellen Sie die Impedanzrückführparameter ein, wie in der folgenden Abbildung gezeigt. Die Impedanzrückführparameter repräsentieren die Rückstellkraft bei der Impedanzrückführung. Je größer der Wert, desto größer die Rückstellkraft. Es wird empfohlen, den Parameter auf "5" zu setzen.
-
-.. image:: safety/031.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑7 Achsinterferenz-Konfigurationsoberfläche
-
-**Schritt 3**: Stellen Sie den Achsinterferenzbereich ein. Sie können den "Erkennungsmodus" auf "Rückmeldeposition" setzen. Der "Interferenzzonenmodus" kann entweder "Interferenz innerhalb des Bereichs" oder "Interferenz außerhalb des Bereichs" sein. Stellen Sie die Interferenzbereiche für jedes Gelenk ein und wählen Sie "Aktivieren", um den entsprechenden Achsinterferenzbereich einzuschalten, wie in der folgenden Abbildung gezeigt.
-
-.. image:: safety/032.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑8 Interferenzbereich-Konfigurationsoberfläche
-
-**Schritt 4**: Stellen Sie den "Interferenzzonenmodus" auf "Interferenz innerhalb des Bereichs". In der Webschnittstelle ist der freie Bewegungsbereich auf dem Gelenkbegrenzungsring grün dargestellt, der Interferenzbereich gelb. Der Bereich, in dem sich der weiße Zeiger befindet, wird hervorgehoben, wie in der folgenden Abbildung gezeigt.
-
-.. image:: safety/033.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑9 Anzeige des Gelenkbegrenzungsrings bei "Interferenz innerhalb des Bereichs"
-
-**Schritt 5**: Stellen Sie den "Interferenzzonenmodus" auf "Interferenz außerhalb des Bereichs". In der Webschnittstelle ist der freie Bewegungsbereich auf dem Gelenkbegrenzungsring grün dargestellt, der Interferenzbereich gelb. Der Bereich, in dem sich der weiße Zeiger befindet, wird hervorgehoben, wie in der folgenden Abbildung gezeigt.
-
-.. image:: safety/034.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑10 Anzeige des Gelenkbegrenzungsrings bei "Interferenz außerhalb des Bereichs"
-
-Betreten der Achsinterferenzzone im kraftunterstützten Ziehemodus
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-**Schritt 1**: Klicken Sie nacheinander auf "Hilfsanwendungen" -> "Werkzeuganwendungen" -> "Ziehen sperren". Schalten Sie den "Zustandsschalter" der kraftunterstützten Sperrfunktion auf "Aktivieren". Wählen Sie die Interferenzzonen-Option "Aktivieren". Stellen Sie die entsprechenden Koeffizienten ein und wenden Sie sie an, wie in der folgenden Abbildung gezeigt.
-
-.. image:: safety/035.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑11 Konfigurationsoberfläche für kraftunterstütztes Ziehen
-
-**Schritt 2**: Ziehen Sie den Roboter im kraftunterstützten Ziehemodus. Wenn der Gelenkwinkel des Roboters den Interferenzbereich erreicht, wechselt der Robotermodus in den Stromregelungs-Ziehemodus (mit Impedanzrückwirkung), sodass er sich von der Achsinterferenzzone entfernen kann. Nach dem Verlassen des Achsinterferenzbereichs wechselt der Robotermodus zurück in den kraftunterstützten Ziehemodus.
-
-Quaderinterferenz-Konfiguration
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-**Schritt 1**: Richten Sie eine Quaderinterferenzzone ein. Klicken Sie nacheinander auf "Initiale Einstellungen" -> "Sicherheit" -> "Interferenzzone" -> "Einzeln", um zur Interferenzzonen-Konfigurationsseite zu gelangen. Klicken Sie auf die Karte "Quaderinterferenz", um zur Oberfläche zu gelangen, und aktivieren Sie den Schieberegler "Funktion aktivieren".
-
-**Schritt 2**: Sie können die "Bewegungsstrategie" auf "Bewegung fortsetzen" setzen. Wählen Sie die "Ziehstrategie" als "Ziehen uneingeschränkt", wie in der folgenden Abbildung gezeigt.
-
-.. image:: safety/036.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑12 Quaderinterferenz-Konfiguration
-
-**Schritt 3**: Konfigurieren Sie die Parameter der Quaderinterferenzzone. Sie können den "Erkennungsmodus" auf "Rückmeldeposition" setzen. Der "Interferenzzonenmodus" kann entweder "Interferenz innerhalb des Bereichs" oder "Interferenz außerhalb des Bereichs" sein. Stellen Sie die "Referenzkoordinate" auf "Basiskoordinate".
-
-**Schritt 4**: Wählen Sie die Teach-Methode für den Quaderinterferenzbereich als "Zwei-Punkt-Methode". Teachen Sie zwei Roboterpunkte, den minimalen und maximalen Punkt im kartesischen Raum. Nach dem Klicken auf "Anwenden" erscheint ein virtueller Quader in der Webschnittstelle, wie in der folgenden Abbildung gezeigt.
-
-.. image:: safety/037.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑13 Einrichten einer Quaderinterferenzzone mit der "Zwei-Punkt-Methode"
-
-.. image:: safety/038.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑14 Anzeige des virtuellen Quaders in der Webschnittstelle
-
-**Schritt 5**: Wählen Sie die Teach-Methode für den Quaderinterferenzbereich als "Mittelpunkt + Seitenlänge". Teachen Sie einen Roboterpunkt. Stellen Sie die Seitenlängen für X, Y, Z um diesen Punkt herum ein, wie in der folgenden Abbildung gezeigt. Nach dem Klicken auf "Anwenden" erscheint ein virtueller Quader in der Webschnittstelle.
-
-.. image:: safety/039.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑15 Einrichten einer Quaderinterferenzzone mit "Mittelpunkt + Seitenlänge"
-
-**Schritt 6**: Stellen Sie den "Interferenzzonenmodus" auf "Interferenz innerhalb des Bereichs". Wenn sich das Roboterende außerhalb des Quaders befindet, wird der virtuelle Quader in der Webschnittstelle mit 40 % Transparenz gelb angezeigt. Wenn sich das Roboterende innerhalb des Quaders befindet, wird der Quader mit 90 % Transparenz gelb angezeigt und es erscheint die Warnung "Interferenzzone betreten", wie in der folgenden Abbildung gezeigt.
-
-.. image:: safety/040.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑16 Betreten der Quaderinterferenzzone im Modus "Interferenz innerhalb des Bereichs"
-
-**Schritt 7**: Stellen Sie den "Interferenzzonenmodus" auf "Interferenz außerhalb des Bereichs". Wenn sich das Roboterende innerhalb des Quaders befindet, wird der virtuelle Quader in der Webschnittstelle mit 40 % Transparenz grün angezeigt. Wenn sich das Roboterende außerhalb des Quaders befindet, wird der Quader mit 90 % Transparenz grün angezeigt und es erscheint die Warnung "Interferenzzone betreten", wie in der folgenden Abbildung gezeigt.
-
-.. image:: safety/041.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑17 Anzeige des Quaders im Modus "Interferenz außerhalb des Bereichs"
-
-Sicherheitswand-Konfiguration
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-**Schritt 1**: Richten Sie eine Sicherheitswand ein. Klicken Sie nacheinander auf "Initiale Einstellungen" -> "Sicherheit" -> "Sicherheitswand", um zur Sicherheitswand-Konfigurationsoberfläche zu gelangen. Die Webschnittstelle unterstützt die gleichzeitige Einrichtung von bis zu 8 Sicherheitswänden. Wählen Sie eine Sicherheitswand aus und konfigurieren Sie sie. Nach Abschluss der Konfiguration aktivieren Sie die entsprechende Sicherheitswand. In der Webschnittstelle erscheint eine virtuelle Wand mit 40 % Transparenz in Orange, wie in der folgenden Abbildung gezeigt.
-
-.. image:: safety/042.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑18 Sicherheitswand-Konfiguration
-
-.. image:: safety/043.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑19 Anzeige der virtuellen Wand in der Webschnittstelle
-
-**Schritt 2**: Wenn das Roboterende in die Sicherheitswand eintritt, wird die virtuelle Wand mit 90 % Transparenz orange angezeigt und es erscheint die Warnung "Sicherheitswand betreten", wie in der folgenden Abbildung gezeigt.
-
-.. image:: safety/044.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑20 Anzeige der virtuellen Wand beim Betreten durch das Roboterende
-
-Quaderinterferenz-Funktion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Überblick
-+++++++++++++++++++++++++++++++++++++++
-
-Die Quaderinterferenz-Funktion unterstützt die gleichzeitige Definition und Aktivierung mehrerer unabhängiger Quader-Interferenzzonen. Die Position und Größe jeder Interferenzzone im dreidimensionalen Raum können unabhängig voneinander eingestellt werden. Darüber hinaus ist jede Interferenzzone mit einem separaten CO-Auslösesignalausgang ausgestattet, der basierend auf der Echtzeitposition des Roboters ein entsprechendes Triggersignal ausgeben kann.
-
-Vorgehen
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-**Schritt 1**: Aktivieren Sie die Quaderinterferenz-Funktion und führen Sie die Basiskonfiguration durch. Klicken Sie nacheinander auf "Initiale Einstellungen" -> "Sicherheit" -> "Interferenzzone" -> "Quaderinterferenz". Über Schieberegler wird gesteuert, ob jede einzelne Quaderinterferenzzone aktiviert ist, und die Basiskonfiguration durchgeführt.
-
-Die Bewegungsstrategie beim Betreten der Interferenzzone kann als "Bewegung fortsetzen" oder "Stopp" gewählt werden. Bei Auswahl von "Bewegung fortsetzen" wird beim Betreten der Interferenzzone eine Warnung angezeigt, aber die Bewegung wird fortgesetzt. Bei Auswahl von "Stopp" wird beim Betreten der Interferenzzone eine Warnung angezeigt und die Bewegung gestoppt. Die Ziehstrategie beim Betreten der Interferenzzone kann als "Ziehen uneingeschränkt", "Impedanzrückführung" oder "Rückkehr in den Handmodus" gewählt werden.
-
-.. image:: safety/050.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑21 Quader-Aktivierungssteuerung und Basiskonfiguration
-
-**Schritt 2**: Führen Sie die Konfiguration der Quaderinterferenzzonen durch. Für jede Interferenzzonen-ID können unterschiedliche Konfigurationsparameter eingestellt werden. Zu beachten ist:
-
-(1) Die Erkennungsmethode muss je nach tatsächlichem Funktionsbedarf als "Befehlsposition" oder "Rückmeldeposition" gewählt werden.
-
-(2) Wenn der Interferenzzonenmodus auf "Interferenz außerhalb des Bereichs" gesetzt ist, gilt dies nur für die einzelne Interferenzzone.
-
-.. image:: safety/051.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑22 Konfiguration der Quaderinterferenzzone
-
-**Schritt 3**: Führen Sie die Bereichseinstellung der Interferenzzone durch. Die Bereichseinstellung kann die Quaderinterferenzzone entweder mit der "Zwei-Punkt-Methode" oder "Mittelpunkt + Seitenlänge" erzeugen. Die "Zwei-Punkt-Methode" erzeugt den Quader durch Angabe zweier diagonal gegenüberliegender Eckpunkte. "Mittelpunkt + Seitenlänge" erzeugt den Quader durch Angabe des Mittelpunkts und der drei Seitenlängen.
-
-.. image:: safety/052.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑23 Erzeugung einer Interferenzzone mit der "Zwei-Punkt-Methode"
-
-.. image:: safety/053.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑24 Erzeugung einer Interferenzzone mit "Mittelpunkt + Seitenlänge"
-
-**Schritt 4**: Führen Sie die CO-Signal-Einstellung durch. Klicken Sie nacheinander auf "Initiale Einstellungen" -> "Basis" -> "I/O-Einstellungen" -> "DO". Konfigurieren Sie für jeden Quader den entsprechenden CO-Ausgang.
-
-.. image:: safety/054.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑25 CO-Ausgangskonfiguration
-
-**Schritt 5**: Jede Quaderinterferenzzone wird entsprechend der eingestellten ID-Nummer auf der Roboteroberfläche angezeigt. Wenn der Mittelpunkt des Roboterendes in die Interferenzzone eintritt, zeigt die Oberfläche die Warnung "Interferenzzone betreten" an und der entsprechende CO-Ausgang gibt ein Signal aus.
-
-.. image:: safety/055.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.6‑26 Anzeige mehrerer Quaderinterferenzzonen auf der Oberfläche
-
-Reduzierter Modus
--------------------------
-
-Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Klicken Sie auf das Untermenü "Reduzierter Modus", um zur Konfigurationsoberfläche zu gelangen. Wählen Sie "Erste/Zweite Stufe", um die Gelenkgeschwindigkeiten und die TCP-Endgeschwindigkeit zu konfigurieren.
-
-.. image:: safety/045.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.7-1 Reduzierter Modus
-
-Sicherheitswand
----------------
-
-Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Klicken Sie auf das Untermenü "Sicherheitswand-Konfiguration", um zur Konfigurationsoberfläche zu gelangen.
-
-- **Sicherheitswand-Konfiguration**: Klicken Sie auf die Aktivierungsschaltfläche, um die entsprechende Sicherheitswand zu aktivieren. Wenn für die Sicherheitswand kein Sicherheitsbereich konfiguriert ist, wird ein Fehler angezeigt. Klicken Sie auf das Dropdown-Menü, wählen Sie die gewünschte Sicherheitswand aus. Der Sicherheitsabstand wird automatisch übernommen (kann nicht eingestellt werden, Standard ist 0). Klicken Sie dann auf die Schaltfläche "Einstellen". Die Einstellung war erfolgreich.
+Die Stoppverzögerung ist ein Prozentsatz der Beschleunigung.
 
 .. image:: safety/008.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.8-1 Sicherheitswand-Konfiguration
-
-- **Sicherheitswand-Referenzpunktkonfiguration**: Nach Auswahl einer Sicherheitswand können vier Referenzpunkte eingestellt werden. Die ersten drei Punkte sind Ebenen-Referenzpunkte. Sie dienen zur Bestimmung der Ebene der eingestellten Sicherheitswand. Der vierte Punkt ist der Sicherheitsbereichs-Referenzpunkt. Er dient zur Bestimmung des Sicherheitsbereichs der eingestellten Sicherheitswand.
-
-.. important::
-    Wenn die Referenzpunkte erfolgreich eingestellt wurden, leuchtet die Lampe grün. Andernfalls leuchtet sie gelb. Sobald die Referenzpunkte erfolgreich eingestellt wurden, wechselt die Lampe auf grün. Wenn alle vier Referenzpunkte erfolgreich eingestellt wurden, kann der Sicherheitsbereich berechnet werden. Nach erfolgreicher Berechnung kehrt der Status der Sicherheitsbereichsparameterpunkte auf den Standard zurück.
-
-.. image:: safety/009.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.8-2 Einstellung der Sicherheitsbereichs-Referenzpunkte
-
--   Anwendungseffekt: Aktivieren Sie die erfolgreich konfigurierte Sicherheitswand. Ziehen Sie den Roboter. Wenn sich das TCP des Roboterendes innerhalb des eingestellten Sicherheitsbereichs befindet, arbeitet das System normal. Befindet es sich außerhalb des eingestellten Sicherheitsbereichs, wird ein Fehler angezeigt.
-
-.. image:: safety/010.png
    :width: 6in
    :align: center
 
-.. centered:: Abbildung 7.8-3 Effekt nach erfolgreicher Sicherheitsbereichseinstellung
+.. centered:: Abbildung 7.4-2 Robot-Stopp-Verzögerungsplanung
 
-Sicherheits-Hintergrundprogramm
----------------------------------------
+Sicherheitsstopp
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Klicken Sie auf das Untermenü "Sicherheits-Hintergrundprogramm", um zur Konfigurationsoberfläche zu gelangen.
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf "Sicherheitsstopp", um zur Konfigurationsoberfläche zu gelangen, um den Sicherheitsstoppmodus und die Sicherheitsstopp-Strategieparameter einzustellen.
 
-Der Benutzer kann die Einstellungen des Sicherheits-Hintergrundprogramms über die Schaltfläche "Funktion aktivieren" ein- oder ausschalten. Wählen Sie eine "Unerwartete Situation" und ein "Hintergrundprogramm" aus. Klicken Sie auf die Schaltfläche "Einstellen", um die Parameter für die Behandlung unerwarteter Situationen zu konfigurieren.
+Wenn der Auslösemodus des Sicherheitsstopps auf "Zweikanal" eingestellt ist, müssen beide Kanäle gelöscht werden und die Warnung muss manuell auf der Bedienoberfläche gelöscht werden, bevor der Roboter zurückgesetzt werden kann. Darüber hinaus wurde eine Option für den reduzierten Modus in der Strategiekonfiguration hinzugefügt. Wenn der Benutzer diese Strategie auswählt, wird der Roboter in den reduzierten Modus versetzt.
 
-Wenn das Sicherheits-Hintergrundprogramm aktiviert ist und Szenarien für unerwartete Situationen sowie Hintergrundprogramme festgelegt wurden, führt der Roboter das entsprechende Hintergrundprogramm aus, wenn während der Programmausführung eine unerwartete Situation eintritt, die mit den eingestellten übereinstimmt. Dies dient dem Sicherheitsschutz.
+**Schritt 1**: Klicken Sie auf "Grundeinstellungen" -> "Sicherheit" -> "Sicherheitsstopp". Der Auslösemodus kann als "Standard" oder "Zweikanal" ausgewählt werden. Der Unterschied zwischen den beiden besteht darin: Im "Standard"-Modus wird der Fehler auf der Oberfläche nach der Auslösung und Wiederherstellung automatisch gelöscht; im "Zweikanal"-Modus muss der Fehler auf der Oberfläche nach der Auslösung und Wiederherstellung manuell gelöscht werden. "Sicherheitsstopp-Strategie" kann als "Stopp", "Pause", "Reduzierter Modus Stufe 1" und "Reduzierter Modus Stufe 2" ausgewählt werden. Die detaillierten Beschreibungen lauten wie folgt: Wenn "Stopp" ausgewählt ist, stoppt der Roboter die aktuelle Bewegung; wenn "Pause" ausgewählt ist, pausiert der Roboter die aktuelle Bewegung, und nach der Wiederherstellung und Fehlerlöschung wird die Pause fortgesetzt; wenn "Reduzierter Modus Stufe 1" ausgewählt ist, wechselt der Roboter in den reduzierten Modus Stufe 1; wenn "Reduzierter Modus Stufe 2" ausgewählt ist, wechselt der Roboter in den reduzierten Modus Stufe 2.
+
+.. image:: safety/009.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-3 Robot-Stopp-Verzögerungsplanung
+
+**Schritt 2**: Wenn der Auslösemodus auf "Standard" eingestellt ist, kann der Fehler auf der Oberfläche nach der Auslösungswiederherstellung automatisch gelöscht werden. Wenn der Auslösemodus auf "Zweikanal" eingestellt ist, lautet der Vorgang: Nach der Auslösungswiederherstellung klicken Sie manuell auf "Löschen" in der oberen rechten Ecke, um den Roboter zurückzusetzen.
+
+Sicherheitsgeschwindigkeit
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf "Sicherheitsgeschwindigkeit", um zur Konfigurationsoberfläche zu gelangen, um die Sicherheitsgeschwindigkeit einzustellen. Der manuelle TCP-Geschwindigkeitsbereich beträgt 1-1500mm/s.
+
+Die Sicherheitsgeschwindigkeitsfunktion des Roboters wird in kollaborativen oder dynamischen Umgebungen eingesetzt, um die Betriebsgeschwindigkeit des Roboters aktiv zu begrenzen und kinetische Energie und Aufprallkraft innerhalb von Sicherheitsschwellenwerten zu halten, um so Personenschäden bei versehentlichem Kontakt zu verhindern und Geräte und Werkstücke effektiv vor Kollisionsschäden zu schützen.
+
+**Schritt 1**: Klicken Sie auf "Grundeinstellungen" -> "Sicherheit" -> "Sicherheitsgeschwindigkeit", um die Sicherheitsgeschwindigkeitsparameter einzustellen, die hauptsächlich drei Teile umfassen: "Funktionsaktivierung", "Geschwindigkeitsbegrenzung" und "Modus nach Geschwindigkeitsüberschreitung".
+
+Dabei kann Funktionsaktivierung als "Deaktivieren", "Im Handmodus aktivieren" und "In allen Modi aktivieren" ausgewählt werden;
+
+Bei Geschwindigkeitsbegrenzung wird die Geschwindigkeitsbegrenzung eingestellt. Wenn die lineare Geschwindigkeit des Roboters diese Grenze erreicht, wird sie gemäß den in "Modus nach Geschwindigkeitsüberschreitung" eingestellten Parametern verarbeitet. "Modus nach Geschwindigkeitsüberschreitung" kann als "Stopp mit Alarm", "Automatische Geschwindigkeitsbegrenzung" und "Nach Stopp mit Alarm deaktivieren" ausgewählt werden. Die automatische Geschwindigkeitsbegrenzung ist nur im "Handmodus aktivieren" verfügbar.
+
+Nach dem Einstellen der erforderlichen Parameter sind keine weiteren Aktionen erforderlich. Die Bewegung des Roboters wird gemäß den eingestellten Parametern verarbeitet. Die Parametereinstellungen sind in der Abbildung dargestellt.
+
+.. image:: safety/010.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.4-4 Einstellungen der Sicherheitsgeschwindigkeitsparameter
+
+Not-Halt
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf "Not-Halt", um zur Konfigurationsoberfläche zu gelangen.
+
+Die Not-Halt-Typen 0, 1a, 1b, 2 können eingestellt werden, das Stoppzeitlimit kann eingestellt werden und das Stoppdistanzlimit kann eingestellt werden.
+
+Über die Steuerung, die an die Steuerschrankplatine sendet, unterbricht der Not-Halt Typ 0 direkt die Stromversorgung der Steuerschrankplatine;
+
+- Not-Halt Typ 1a: Nach dem Abbremsen wird die Stromversorgung des Roboterkörpers unterbrochen;
+- Not-Halt Typ 1b: Nach dem Abbremsen wird die Stromversorgung des Roboterkörpers nicht unterbrochen, aber der Roboter wird deaktiviert;
+- Not-Halt Typ 2: Wenn der Not-Halt betätigt wird, bremst der Roboter ab und bleibt aktiviert. Nach dem Lösen des Not-Halts sollte der Roboter normal funktionieren.
 
 .. image:: safety/011.png
    :width: 4in
    :align: center
 
-.. centered:: Abbildung 7.9-1 Sicherheits-Hintergrundprogramm
+.. centered:: Abbildung 7.4-5 Not-Halt-Einstellungen
 
-Werkzeugrichtungsbegrenzung (nur unter LA-System)
--------------------------------------------------------
+Schutzstopp
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Klicken Sie auf das Untermenü "Werkzeugrichtungsbegrenzung", um zur Konfigurationsoberfläche zu gelangen.
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "Schutzstopp", um zur Konfigurationsoberfläche zu gelangen.
 
-Die Werkzeugrichtungsbegrenzung ist eine Schutzfunktion, die im kartesischen Raum des Roboter-Werkzeugendes wirkt und den Bewegungsbereich der Werkzeugausrichtung einschränkt. Sie umfasst die Aktivierung der Funktion, die Einstellung der Referenzwerkzeugrichtung und die Einstellung des maximalen Abweichungswinkels. Der maximale Abweichungswinkel definiert den maximal zulässigen Winkel zwischen der Z-Achse des Werkzeug-Koordinatensystems und der Referenzwerkzeugrichtung. Dies kann man sich als kegelförmigen Raum vorstellen.
+Schutzstopp-Typen 0, 1, 2. Schutzstopp Typ 0 unterbricht direkt die Stromversorgung der Steuerschrankplatine. Schutzstopp Typ 1: Die Steuerschrankplatine benachrichtigt zuerst die Steuerung, um den Roboter zu stoppen, dann gibt die Steuerung eine Rückmeldung an die Steuerschrankplatine, um die Stromversorgung zu unterbrechen. Schutzstopp Typ 2: Die Steuerschrankplatine benachrichtigt die Steuerung, um den Roboter zu stoppen.
 
 .. image:: safety/012.png
    :width: 4in
    :align: center
 
-.. centered:: Abbildung 7.10-1 Werkzeugrichtungsbegrenzung
+.. centered:: Abbildung 7.4-6 Schutzstopp-Konfiguration
 
-Robotergrenzwerte (nur unter LA-System)
----------------------------------------------
+Automatische Aktivierung beim Einschalten
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Klicken Sie auf das Untermenü "Robotergrenzwerte", um zur Konfigurationsoberfläche zu gelangen.
-
-Die Robotergrenzwerte umfassen Impuls und Leistung. Der Impulsgrenzwert dient zur Begrenzung des maximalen Impulses des Roboters. Der Leistungsgrenzwert dient zur Begrenzung der vom Roboter verrichteten mechanischen Arbeit.
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "Roboteraktivierung", um zur Konfigurationsoberfläche zu gelangen. Sie können wählen, ob der Roboter beim Einschalten automatisch aktiviert wird oder nicht.
 
 .. image:: safety/013.png
    :width: 4in
    :align: center
 
-.. centered:: Abbildung 7.11-1 Robotergrenzwerte
+.. centered:: Abbildung 7.4-7 Automatische Aktivierung beim Einschalten
 
-Leistungserkennung (nur unter QX-System)
----------------------------------------------
+Werkzeugorientierungsbegrenzung (Nur im LA-System verwendet)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Klicken Sie in der Menüleiste auf "Initiale Einstellungen" -> "Sicherheit". Klicken Sie auf das Untermenü "Leistungserkennung", um zur Konfigurationsoberfläche zu gelangen.
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "Werkzeugorientierungsbegrenzung", um zur Konfigurationsoberfläche zu gelangen.
 
-Diese Funktion wirkt auf den Stromregelkreis, der direkt auf den Roboter einwirkt (nur Befehl servoJT). Sie dient zur Begrenzung der vom Roboter verrichteten Arbeit. Wenn die Erkennung feststellt, dass das Integral aus Robotergeschwindigkeit und -drehmoment den Grenzwert überschreitet, wird ein Leistungsschutz ausgelöst.
+Die Werkzeugorientierungsbegrenzung ist eine Schutzfunktion, die im kartesischen Raum des Werkzeugendes des Roboters wirkt, um den Bewegungsumfang der Endpose des Roboters zu begrenzen. Sie umfasst die Aktivierungseinstellung der Funktion, die Einstellung der Referenzwerkzeugrichtung und die Einstellung des maximalen Abweichungswinkels. Der maximale Abweichungswinkel definiert den maximalen Winkelgrenzwert zwischen der Z-Achse des kartesischen Koordinatensystems des Werkzeugendes und der Referenzwerkzeugrichtung, der normalerweise als konischer Raum verstanden werden kann.
 
 .. image:: safety/014.png
    :width: 4in
    :align: center
 
-.. centered:: Abbildung 7.12-1 Leistungserkennung
+.. centered:: Abbildung 7.4-8 Werkzeugorientierungsbegrenzung
 
-Bewegungskonfiguration
----------------------------------------------
+Roboterbegrenzungen (Nur im LA-System verwendet)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Optimierte T-förmige Geschwindigkeitscharakteristik + Blending-Funktion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "Roboterbegrenzungen", um zur Konfigurationsoberfläche zu gelangen.
 
-Überblick
-++++++++++++++++++++++++++++++
-
-Blending zwischen zwei Bewegungssegmenten vermeidet häufige Start-Stopp-Vorgänge, die durch vollständiges Anhalten entstehen würden, und verbessert so die Bewegungseffizienz des Roboters.
-
-Diese Funktion wirkt hauptsächlich auf Blending zwischen den Befehlen PTP-PTP, LIN-LIN, ARC-ARC, LIN-ARC und ARC-LIN. Blending zwischen anderen Befehlskombinationen ist nicht wirksam.
-
-Vorgehen
-++++++++++++++++++++++++++++++
-
-Da die Vorgehen für die verschiedenen Befehle ähnlich ist, wird in diesem Handbuch das Blending zwischen PTP-PTP als Beispiel zur Erläuterung der Funktionsweise verwendet. Diese Funktion kann auf zwei Arten realisiert werden: Verwendung von Lua-Befehlen oder Verwendung des Bewegungskonfigurationsschalters.
-
-Verwendung von Lua-Befehlen
-*************************************************************
-
-**Schritt 1**: Wählen Sie die Teach-Punkte aus, für die die PTP-Funktion ausgeführt werden soll. In diesem Handbuch werden "A0" bis "A5" als Namen für die Teach-Punkte verwendet.
-
-**Schritt 2**: Klicken Sie auf "Teach-Programm" -> "Programmierung". Wählen Sie den Befehl "Punkt-zu-Punkt" unter "Bewegungsbefehle". Wählen Sie im "Befehlseditor" den Teach-Punkt aus und stellen Sie die Testgeschwindigkeit ein. Wählen Sie als Bewegungsprofil "Beschleunigungs-Glättungsmodus". Stellen Sie den Parameter "Glättungsübergang" für die Punkte ein, an denen eine Glättung erfolgen soll.
-
-.. image:: safety/020.png
-   :width: 6in
-   :align: center
-
-.. centered:: Abbildung 7.13-1 Einstellung des PTP-Blending-Befehls mit Beschleunigungsglättung
-
-**Schritt 3**: Generieren Sie das Lua-Programm und führen Sie es aus. Die Blending-Funktion zwischen PTP-PTP wird realisiert. Bei dieser Methode werden nur die Befehle zwischen `AccSmoothStart()` und `AccSmoothEnd()` mit der optimierten T-förmigen Geschwindigkeit ausgeführt. Alle anderen Befehle verwenden die ursprüngliche T-förmige Geschwindigkeit.
-
-.. image:: safety/021.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.13-2 Typisches Programm für PTP-PTP-Blending mittels Lua-Befehl
-
-Verwendung des Bewegungskonfigurationsschalters
-*******************************************************************
-
-**Schritt 1**: Klicken Sie auf "Initiale Einstellungen" -> "Sicherheit" -> "Bewegungskonfiguration". Schalten Sie den Schalter "Beschleunigungs-Glättungsmodus" ein.
-
-.. image:: safety/022.png
-   :width: 6in
-   :align: center
-
-.. centered:: Abbildung 7.13-3 Konfigurationsschalter für den Beschleunigungs-Glättungsmodus
-
-**Schritt 2**: Wählen Sie die Teach-Punkte aus, für die die PTP-PTP-Funktion ausgeführt werden soll. In diesem Handbuch werden "A0" bis "A5" als Namen für die Teach-Punkte verwendet.
-
-**Schritt 3**: Klicken Sie auf "Teach-Programm" -> "Programmierung". Wählen Sie den Befehl "Punkt-zu-Punkt" unter "Bewegungsbefehle". Wählen Sie im "Befehlseditor" den Teach-Punkt aus und stellen Sie die Testgeschwindigkeit ein. Wählen Sie als Bewegungsprofil "Kein". Stellen Sie den Parameter "Glättungsübergang" für die Punkte ein, an denen eine Glättung erfolgen soll.
-
-.. image:: safety/023.png
-   :width: 6in
-   :align: center
-
-.. centered:: Abbildung 7.13-4 Einstellung des PTP-Blending-Befehls (Standard)
-
-**Schritt 4**: Generieren Sie das Lua-Programm und führen Sie es aus. Die Blending-Funktion zwischen PTP-PTP wird realisiert. Das typische Programm ist identisch mit einem Standard-PTP-Programm. Bei dieser Methode werden **alle** Befehle mit der optimierten T-förmigen Geschwindigkeit ausgeführt.
-
-.. image:: safety/024.png
-   :width: 4in
-   :align: center
-
-.. centered:: Abbildung 7.13-5 Typisches Programm für PTP-PTP-Blending mittels Konfigurationsschalter
-
-FIR-adaptive Parameterfunktion + FIR-Pause-Fortsetzen-Funktion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Überblick
-++++++++++++++++++++++++++++++
-
-Die Funktion zur adaptiven Parametereinstellung des zeitoptimalen Roboter-Modus ermöglicht es, auf die manuelle Konfiguration seiner Parameter zu verzichten. Die Funktion passt die Parameter des zeitoptimalen Modus basierend auf dem aktuellen Betriebszustand des Roboters automatisch an, was die Inbetriebnahme-Effizienz verbessert.
-
-Vorgehen
-++++++++++++++++++++++++++++++
-
-Die grundlegenden Bewegungsbefehle PTP, LIN und ARC des Roboters werden auf ähnliche Weise verwendet. In diesem Beispiel dient der PTP-Bewegungsbefehl im zeitoptimalen Modus als Hauptbeispiel.
-
-**Schritt 1**: Klicken Sie in der Roboter-Websteuerung nacheinander auf "Initiale Einstellungen" -> "Sicherheit" -> "Bewegungskonfiguration", um zur "Bewegungskonfigurations"-Oberfläche zu gelangen.
+Die Roboterbegrenzungen umfassen Impuls und Leistung, wobei die Impulsbegrenzung zur Begrenzung des maximalen Impulses des Roboters verwendet wird und die Leistungsbegrenzung zur Begrenzung der vom Roboter geleisteten mechanischen Arbeit.
 
 .. image:: safety/015.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.4-9 Roboterbegrenzungen
+
+Gelenke
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Weiche Gelenkbegrenzungen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" -> "Gelenke" und klicken Sie auf "Weiche Gelenkbegrenzungen", um zur Oberfläche für weiche Begrenzungen zu gelangen.
+
+Im Bewegungsbereich des Roboters können sich andere Geräte befinden. Die Begrenzungswinkel können eine weiche Begrenzung des Roboters durchführen, um zu verhindern, dass der Roboter über bestimmte Koordinatenwerte hinausfährt und um Kollisionen zu vermeiden. Das Auslösen einer weichen Begrenzung führt zu einem automatischen Stopp des Roboters, ohne Stoppdistanz.
+
+Administratoren können Standardwerte verwenden oder Winkelwerte eingeben. Durch die Eingabe von Winkelwerten können die positiven und negativen Winkel der Robotergelenke separat begrenzt werden. Wenn der eingegebene Wert die in der Tabelle der robotergrundparameter in Abschnitt 2.1-Grundparameter aufgeführten weichen Gelenkbegrenzungswinkel überschreitet, wird der Begrenzungswinkel auf den maximal einstellbaren Wert angepasst. Wenn der Roboter einen Gelenkbefehl-Überschreitungsfehler meldet, muss in den Ziehmodus gewechselt werden, um das Robotergelenk wieder innerhalb des Begrenzungswinkels zu ziehen.
+
+Die Schutzfunktion der weichen Gelenkbegrenzung ist ein aktiver Schutzmechanismus, der den Bewegungszustand der Roboterarmgelenke in Echtzeit überwacht und den Bediener dynamisch daran hindert, beim Zieh-Teach-in den eingestellten weichen Begrenzungsbereich zu überschreiten. Diese Funktion macht weiche Begrenzungen auch im Zieh-Teach-in sinnvoll und erhöht so die Sicherheit der Mensch-Roboter-Kollaboration.
+
+- **Schritt 1**: Melden Sie sich an der Weboberfläche an und klicken Sie nacheinander auf "Grundeinstellungen" -> "Sicherheit" -> "Gelenke" -> "Weiche Gelenkbegrenzungen", um zum Einstellungsmodul für weiche Roboterbegrenzungen zu gelangen.
+- **Schritt 2**: Legen Sie basierend auf dem tatsächlichen Arbeitsbereich des Roboters die weichen Begrenzungen für jedes Gelenk sinnvoll fest. Überprüfen Sie zu diesem Zeitpunkt, ob sich die aktuelle Winkelposition jedes Robotergelenks innerhalb des voreingestellten weichen Begrenzungsbereichs befindet. Wenn ja, klicken Sie auf "Übernehmen", um die voreingestellten weichen Begrenzungen zu senden. Wenn nicht, bewegen Sie jedes Gelenk in den voreingestellten Bereich; andernfalls wird beim Klicken auf "Übernehmen" eine Überschreitungsmeldung angezeigt, wie in der folgenden Abbildung dargestellt. Zu diesem Zeitpunkt können Sie das über das Limit hinausgehende Gelenk in Richtung des weichen Begrenzungsbereichs tippen oder ziehen, um den Fehler zu beheben.
+- **Schritt 3**: Nachdem der weiche Begrenzungsbereich erfolgreich eingestellt wurde, wählen Sie "Aktivieren" für "Schutz der weichen Gelenkbegrenzung", um diese Funktion zu aktivieren, wie in der folgenden Abbildung dargestellt. Im Ziehmodus werden die eingestellten weichen Begrenzungen wirksam, und beim Ziehen in der Nähe der weichen Begrenzungen ist ein Widerstand spürbar.
+- **Schritt 4**: Um die Schutzfunktion der weichen Gelenkbegrenzung zu deaktivieren, klicken Sie auf "Schutz der weichen Gelenkbegrenzung", um sie auszuschalten.
+
+.. image:: safety/016.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.4-10 Weiche Gelenkbegrenzungen
+
+Kollisionsstufe
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" -> "Gelenke" und klicken Sie auf "Kollisionsstufe", um zur Oberfläche der Kollisionsstufe zu gelangen.
+Die Kollisionsstufen sind in Stufen 1 bis 10 unterteilt. Die Stufen 1 bis 3 sind empfindlicher, und der Roboter muss mit der empfohlenen Geschwindigkeit laufen. Sie können auch benutzerdefinierte Prozenteinstellungen wählen, wobei 100 % Stufe 10 entspricht. Wie in der folgenden Abbildung dargestellt:
+
+.. image:: safety/017.png
    :width: 6in
    :align: center
 
-.. centered:: Abbildung 7.13-6 Bewegungskonfigurations-Oberfläche
+.. centered:: Abbildung 7.4-11 Kollisionsstufendiagramm
 
-**Schritt 2**: Klicken Sie in der "Bewegungskonfigurations"-Oberfläche auf den Schalter "Zeitoptimaler Modus", um zur Oberfläche des "Zeitoptimalen Modus" zu gelangen.
+Die Kollisionsstrategien sind "Stopp bei Kollision", "Pause bei Kollision" und "Bewegung fortsetzen". Um eine Druckkraft zwischen Roboter und Objekten nach einer Kollision zu vermeiden, wurden die Strategien "Schwerkraftmomentmodus", "Schwingungsantwortmodus" und "Kollisionsrückprallmodus" hinzugefügt. Bei Auslösung wechseln alle drei Strategien vom Automatik- oder Handmodus in den Ziehmodus und dann zurück in den Handmodus. Der Schwerkraftmomentmodus bewegt sich basierend auf der Größe und Richtung der Kollisionskraft vom Kollisionspunkt weg; der Schwingungsantwortmodus kehrt nach dem Verlassen des Kollisionspunkts zur Kollisionsposition zurück; der Kollisionsrückprallmodus beschleunigt gemäß den eingestellten Parametern vom Kollisionspunkt weg.
 
-.. image:: safety/016.png
-   :width: 3in
-   :align: center
-
-.. centered:: Abbildung 7.13-7 Oberfläche des Zeitoptimalen Modus
-
-.. note:: Im Bereich "Parametereinstellung" der Oberfläche "Zeitoptimaler Modus" kann im Feld "Einstellkoeffizient" ein Wert von -100 bis 100 eingestellt werden. Dies stellt einen Skalierungsfaktor dar, der den Grad der Zeitoptimalität des Bewegungsbefehls steuert. Der Standardwert ist 1.
-
-**Schritt 3**: Bestimmen Sie die Teach-Punkte, für die die PTP-Bewegung ausgeführt werden soll. In diesem Beispiel werden "A0" bis "A5" als Namen für die Teach-Punkte verwendet.
-
-**Schritt 4**: Klicken Sie in der Roboter-Websteuerung nacheinander auf "Teach-Programm" -> "Programmierung", um zur "Bewegungsbefehle"-Oberfläche zu gelangen.
-
-.. image:: safety/017.png
-   :width: 2in
-   :align: center
-
-.. centered:: Abbildung 7.13-8 Bewegungsbefehle-Oberfläche
-
-**Schritt 5**: Klicken Sie in der "Bewegungsbefehle"-Oberfläche auf "Punkt-zu-Punkt", um zur Bearbeitungsoberfläche des "PTP"-Befehls zu gelangen. Wählen Sie im Dropdown-Feld "Punktname" den Teach-Punkt aus, stellen Sie im Feld "Testgeschwindigkeit" den gewünschten Geschwindigkeitsprozentsatz ein, wählen Sie im Feld "An diesem Punkt" "Stopp", wählen Sie im Dropdown-Feld "Versatz" "Nein" und im Feld "Bewegungsprofil" "Kein". Klicken Sie dann auf "Hinzufügen".
+Klicken Sie im Abschnitt "Kollisionsstrategie" auf das Dropdown-Menü und wählen Sie "Kollisionsrückprallmodus". Stellen Sie die Sicherheitszeit auf 1000ms, den Sicherheitsabstand auf 150mm, die Sicherheitsgeschwindigkeit auf 150mm/s und den Sicherheitsfaktor für jedes Gelenk auf 5 ein. Die spezifische Oberfläche ist in der folgenden Abbildung dargestellt.
 
 .. image:: safety/018.png
    :width: 6in
    :align: center
 
-.. centered:: Abbildung 7.13-9 Bearbeitungsoberfläche des PTP-Bewegungsbefehls
+.. centered:: Abbildung 7.4-12 Kollisionsstrategie: Kollisionsrückprallmodus
 
-**Schritt 6**: Klicken Sie in der Bearbeitungsoberfläche des "PTP"-Bewegungsbefehls auf "Anwenden". Das entsprechende LUA-Programm wird automatisch generiert.
+Bedeutung der einzelnen Parameter:
+
+- Sicherheitszeit: Gibt die Dauer im Ziehmodus nach dem Wechsel vom Automatikmodus in den Ziehmodus an, Bereich [1000-2000]ms;
+- Sicherheitsabstand: Gibt die Position an, die der Roboter nach einer Kollision vom Kollisionspunkt entfernt, Bereich [150-200]mm;
+- Sicherheitsgeschwindigkeit: Gibt die maximale TCP-Geschwindigkeit an, mit der sich der Roboter nach einer Kollision vom Kollisionspunkt entfernt. Überschreitung dieses Geschwindigkeitslimits begrenzt die Rückprallkraft, Bereich [50-250]mm/s;
+- Sicherheitsfaktor: Gibt die Abklinggeschwindigkeit der Rückprallkraft an. Je kleiner der Koeffizient, desto schneller das Abklingen und desto schneller die Rückprallgeschwindigkeit; je größer der Koeffizient, desto langsamer das Abklingen. Bereich [1-10], dimensionslos.
+- Bevor der Roboter in den Ziehmodus wechselt, ist eine Drehmomentprüfung erforderlich. Diese Funktion soll verhindern, dass es nach dem Wechsel des Roboters in den Ziehmodus zu abnormalen Phänomenen wie Anheben oder Absinken kommt, die durch falsche Lastparameter oder falsche Installationsmoduseinstellungen des Bedieners verursacht werden. Wenn das Gelenkmoment außerhalb des zulässigen Bereichs liegt, meldet die Steuerung sofort einen Fehler und verhindert, dass der Roboter in den Ziehmodus wechselt.
+
+Schritte zur Aktivierung der Kollisionserkennungsfunktion für lineare Zahnstangenführungen:
+
+- Schritt 1: Stellen Sie sicher, dass sowohl die Führung als auch der Roboter frontmontiert sind. Überprüfen Sie vor der Aktivierung der Kollisionserkennungsfunktion für lineare Zahnstangenführungen, ob die Installationsmethode frontmontiert ist. Stellen Sie konkret zuerst sicher, dass die Führung und der Roboter frontmontiert sind. Klicken Sie dann nacheinander auf "Grundeinstellungen" -> "Basis" -> "Installation", um zur Seite für die freie Installation zu gelangen. Wenn sowohl "Basisrotation" als auch "Basiskippung" 0 sind, ist die Software auf frontmontiert eingestellt; andernfalls müssen sie auf 0 geändert werden. Wenn sie nicht 0 sind, wird auf der Oberfläche ein Fehler angezeigt.
+- Schritt 2: Aktivieren Sie die Kollisionserkennungsfunktion für lineare Zahnstangenführungen und stellen Sie die Parameter ein. Klicken Sie nacheinander auf "Grundeinstellungen" -> "Sicherheit" -> "Gelenke" -> "Kollisionsstufe", um zur Seite für die Kollisionsstufeneinstellung zu gelangen. Nachdem Sie auf den Schieberegler der Funktion "Kollisionserkennung für lineare Zahnstangenführungen" geklickt haben, stellen Sie den Zahnradradius und die Schlittenmasse ein. Der Zahnradradius kann aus der Steigung und dem Untersetzungsverhältnis berechnet werden. Die Schlittenmasse umfasst nicht den Roboter und seine Endlast. Es gibt 11 Führungsstufenoptionen, wobei Stufe 1 am einfachsten eine Kollision auslöst und Stufe 10 am schwierigsten ist. Wenn die Steuerung zum ersten Mal eingeschaltet wird und bevor das Anpassungsprogramm ausgeführt wird, sollte die Kollisionsstufe zuerst auf "Deaktiviert" eingestellt werden.
 
 .. image:: safety/019.png
    :width: 4in
    :align: center
 
-.. centered:: Abbildung 7.13-10 Typisches PTP-Bewegungs-LUA-Programm im zeitoptimalen Modus
+.. centered:: Abbildung 7.4-13 Kollisionserkennungsfunktion für lineare Zahnstangenführungen
 
-.. note::
-   Das typische PTP-Bewegungs-LUA-Programm im zeitoptimalen Modus unterscheidet sich nicht von einem normalen PTP-Bewegungs-LUA-Programm. Der Unterschied liegt darin, dass im Schritt 2 die Funktion "Zeitoptimaler Modus" bereits aktiviert wurde.
+- Schritt 3: Führen Sie das Programm "Rail_Adaptation_Program.lua" aus, um sich an die aktuelle Führung anzupassen. Nach jedem Neustart der Steuerung muss das Programm "Rail_Adaptation_Program.lua" ausgeführt werden (um zu verhindern, dass Änderungen am Robotertyp und andere Faktoren die dynamischen Eigenschaften der Führung beeinflussen). Stellen Sie vor der Ausführung des Programms sicher, dass die Kollisionsstufe der Führung auf "Deaktiviert" eingestellt ist. Führen Sie im Automatikmodus das LUA-Programm mit 100 % der Oberflächengeschwindigkeit aus. Nach einem Durchlauf des Programms ist die Anpassung abgeschlossen und die Ausführung kann gestoppt werden.
 
-   Wenn der Schalter "Zeitoptimaler Modus" aktiviert ist, befinden sich die grundlegenden Bewegungsbefehle PTP, LIN und ARC im zeitoptimalen Modus. Durch Deaktivieren des Schalters "Zeitoptimaler Modus" in dieser Oberfläche kann der Zustand der grundlegenden Bewegungsbefehle PTP, LIN und ARC wiederhergestellt werden.
-   In dieser Oberfläche kann der Schalter "Beschleunigungs-Glättungsmodus" nicht gleichzeitig aktiviert werden.
+.. image:: safety/020.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.4-14 Ausführen von "Rail_Adaptation_Program.lua" zur Anpassung an die aktuelle Führung
+
+- Schritt 4: Legen Sie die Kollisionsstufe der Führung sinnvoll fest und führen Sie Aufgaben aus. Benutzer können die Kollisionsstufe der Führung basierend auf der Motorantriebsleistung und der Aufgabenausführungsgeschwindigkeit sinnvoll festlegen. Wenn die Führung und der Roboter asynchron arbeiten, kann eine Kollision mit dem Roboter oder der Führung einen "8-Achsen-Kollisionsfehler, zurücksetzbar" auslösen. In diesem Fall stoppt die Führung, wie in Abbildung 2-9 dargestellt. Wenn die Führung und der Roboter synchron arbeiten, kann eine Kollision mit dem Roboter einen Alarm auslösen, der die Führung stoppt, während der Roboter gemäß der eingestellten Kollisionsstrategie reagiert.
+
+Reduzierter Modus
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "Reduzierter Modus", um zur Konfigurationsoberfläche zu gelangen. Wählen Sie "Modus Stufe 1/Stufe 2", um die Gelenkgeschwindigkeit und die End-TCP-Geschwindigkeit zu konfigurieren.
+
+.. image:: safety/021.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.4-15 Reduzierter Modus
+
+I/O
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "I/O", um zur Konfigurationsoberfläche zu gelangen.
+
+HMI bietet die Möglichkeit, den Sicherheitszustand für 16 digitale Eingänge und 16 digitale Ausgänge festzulegen, die auf gültig oder ungültig gesetzt werden können. Wenn die Steuerung feststellt, dass sie sich in einem Sicherheitszustand befindet, werden die 16 digitalen Eingänge und die 16 digitalen Ausgänge auf den Sicherheitszustand gesetzt.
+
+.. image:: safety/022.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-16 I/O-Sicherheitszustandskonfiguration
+
+Unter dem LA-System:
+
+"I/O-Sicherheit" bietet DIO-Sicherheitsfunktionen. Die Sicherheitsfunktion ist zweikanaliges DI oder DO. Wenn ein Sicherheits-DI-Signal oder ein Sicherheitszustandsflag ausgelöst wird, wird der DO ausgegeben.
+
+.. image:: safety/023.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-17 I/O-Sicherheitsfunktionskonfiguration
+
+Hardware
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ServoJT-Leistungserkennung (Nur im QX-System verwendet)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "Leistungserkennung", um zur Konfigurationsoberfläche zu gelangen.
+
+Wenn direkt auf den Stromregelkreis des Roboters (nur servoJT) eingewirkt wird, wird er verwendet, um die vom Roboter geleistete Arbeit zu begrenzen. Wenn das Integral der Robotergeschwindigkeit und des Drehmoments den Grenzwert überschreitet, wird der Leistungsschutz aktiviert.
+
+.. image:: safety/024.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.4-18 ServoJT-Leistungserkennung
+
+Ebenen
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sicherheitswand
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "Sicherheitswandkonfiguration", um zur Konfigurationsoberfläche zu gelangen.
+
+- Sicherheitswandkonfiguration: Klicken Sie auf die Schaltfläche Aktivieren, um die entsprechende Sicherheitswand zu aktivieren. Wenn für eine Sicherheitswand kein Sicherheitsbereich konfiguriert wurde, wird ein Fehler angezeigt. Klicken Sie auf die Konfigurationsschaltfläche in der oberen rechten Ecke, wählen Sie die Sicherheitswand aus, die Sie einrichten möchten, der Sicherheitsabstand wird automatisch angezeigt (optional, Standard 0), und klicken Sie dann auf die Schaltfläche "Einstellen", um die Einstellung erfolgreich durchzuführen.
+- Konfiguration der Sicherheitswand-Referenzpunkte: Nach der Auswahl einer Sicherheitswand können vier Referenzpunkte eingestellt werden. Die ersten drei Punkte sind Ebenenreferenzpunkte, die verwendet werden, um die Ebene der eingestellten Sicherheitswand zu bestätigen. Der vierte Punkt ist der Sicherheitsbereichs-Referenzpunkt, der verwendet wird, um den Sicherheitsbereich der eingestellten Sicherheitswand zu bestätigen.
+
+Wenn die Referenzpunkte erfolgreich eingestellt wurden, wird ein grünes Licht angezeigt. Andernfalls wird ein gelbes Licht angezeigt, bis die Referenzpunkte erfolgreich eingestellt sind und grün werden. Wenn alle vier Referenzpunkte erfolgreich eingestellt wurden, kann der Sicherheitsbereich berechnet werden. Nach erfolgreicher Berechnung wird der Status des Sicherheitsbereichsparameterpunkts auf den Standardwert zurückgesetzt.
+
+.. image:: safety/025.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-19 Einstellungen der Sicherheitsbereichs-Referenzpunkte
+
+- Anwendungseffekt: Aktivieren Sie die erfolgreich konfigurierte Sicherheitswand. Ziehen Sie den Roboter. Wenn sich der TCP des Roboterendes innerhalb des eingestellten Sicherheitsbereichs befindet, ist das System normal. Wenn er sich außerhalb des eingestellten Sicherheitsbereichs befindet, wird ein Fehler angezeigt.
+
+.. image:: safety/026.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-20 Effekt nach erfolgreicher Sicherheitsbereichseinstellung
+
+Interferenzzone
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" -> "Interferenzzone" und klicken Sie auf das Untermenü "Einzel", um zur Konfigurationsoberfläche der Interferenzzone zu gelangen.
+
+Wir müssen die Interferenzmethode und den Vorgang beim Betreten der Interferenzzone konfigurieren. Die Interferenzmethoden sind in "Achseninterferenz" und "Quaderinterferenz" unterteilt.
+
+.. image:: safety/027.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.4-21 Interferenzzonenmethoden
+
+Klicken Sie auf das Symbol der Interferenzzone, verwenden Sie den Schalter, um zu steuern, ob sie aktiviert ist, und klicken Sie auf die Konfigurationsschaltfläche in der oberen rechten Ecke für die Parameterkonfiguration.
+
+.. image:: safety/028.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-22 Interferenzzonenkonfiguration
+
+Konfigurieren Sie zunächst die Interferenzzonenbewegung als "Bewegung fortsetzen" oder "Stopp". Stellen Sie als Nächstes die Ziekkonfiguration beim Betreten der Interferenzzone ein. Benutzer können die Strategie nach dem Betreten der Interferenzzone im Ziehmodus entsprechend ihren Bedürfnissen einstellen: keine Zieheinschränkung, Impedanzrückkehr oder Wechsel in den Handmodus.
+
+Bei Auswahl von Achseninterferenz müssen die Achseninterferenzparameter konfiguriert werden. Die Erkennungsmethode kann "Befehlsposition" oder "Rückmeldeposition" sein. Der Interferenzzonenmodus kann "Interferenz innerhalb des Bereichs" oder "Interferenz außerhalb des Bereichs" sein. Als nächstes stellen Sie den Bereich für jedes Gelenk ein und ob der Bereich für jedes Gelenk aktiviert ist. Sie können Werte eingeben oder das "Aktualisierungs"-Symbol nach "Min" und "Max" verwenden, um die aktuelle Roboterposition zu erfassen, und klicken Sie schließlich auf Konfigurieren.
+
+.. image:: safety/029.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-23 Achseninterferenzkonfiguration
+
+Bei Auswahl von Quaderinterferenz müssen die Quaderinterferenzparameter konfiguriert werden. Die Erkennungsmethode kann "Befehlsposition" oder "Rückmeldeposition" sein. Der Interferenzzonenmodus kann "Interferenz innerhalb des Bereichs" oder "Interferenz außerhalb des Bereichs" sein. Das Referenzkoordinatensystem kann "Basenkoordinate" oder "Werkstückkoordinate" sein, ausgewählt je nach tatsächlicher Verwendung. Als nächstes stellen Sie den Bereich ein. Es gibt zwei Methoden für die Bereichseinstellung. Die erste Methode ist die "Zwei-Punkte-Methode", bei der zwei diagonale Eckpunkte des Quaders verwendet werden. Positionen können eingegeben oder durch Roboter-Teach-in aufgezeichnet werden. Klicken Sie schließlich auf Übernehmen.
+
+.. image:: safety/030.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-24 Quaderinterferenzkonfiguration
+
+Die zweite Methode ist die "Mittelpunkt + Seitenlänge"-Methode, bei der der Mittelpunkt des Quaders und die Seitenlänge des Quaders die Interferenzzone bilden. Positionen können eingegeben oder durch Roboter-Teach-in aufgezeichnet werden. Klicken Sie schließlich auf Übernehmen.
+
+.. image:: safety/031.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-25 Quaderinterferenzkonfiguration
+
+Anhang: Greifer-Warteblockierungsbefehl
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Klicken Sie auf "Teach Program" -> "Peripheriebefehle" -> "Greifer", um einen Befehl zum Warten auf den Abschluss der Greiferbewegung hinzuzufügen, der blockieren kann, bis die Greifaktion abgeschlossen ist, um die tatsächliche physische Position des Greifers zu erhalten.
+
+.. image:: safety/032.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.4-26 Greiferbewegungsabschluss-Wartebefehl
+ 
+- Greiferstatus: Bewegung nicht abgeschlossen, Bewegung abgeschlossen mit keinem Objekt erkannt, Bewegung abgeschlossen mit Objekt erkannt;
+- Timeout-Zeit: Einheit ms, -1 bedeutet für immer warten.
+- Timeout-Strategie: Sie können zwischen "Stopp mit Fehler" oder "Weiterlaufen" wählen.
+- Greifertyp: Sie können zwischen Parallelgreifer oder Drehgreifer wählen.
+
+.. note:: 
+   Hinweis: Der Befehl zum Warten auf den Abschluss der Greiferbewegung ist nur für kundenspezifische Protokolle anwendbar; angepasste Geräte unterstützen ihn derzeit nicht.
+
+   Sie können auch direkt GetGripperMotionDone() zur Beurteilung verwenden. Der Eingabeparameter ist der Greifertyp: 0 für Parallelgreifer, 1 für Drehgreifer. Die Rückgabewerte sind Greiferfehler und Greiferstatus. Greiferfehler 0 bedeutet kein Fehler, andere Werte bedeuten, dass ein Fehler vorliegt. Greiferstatus 0 bedeutet Bewegung nicht abgeschlossen, 1 bedeutet Bewegung abgeschlossen mit keinem Objekt erkannt, 2 bedeutet Bewegung abgeschlossen mit Objekt erkannt. Beispielprogramme für das Warten auf den Abschluss der Greiferbewegung und das Abrufen der Greiferposition sind wie folgt:
+
+.. image:: safety/033.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-27 Greiferbewegungs-Beispielprogramm

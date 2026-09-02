@@ -510,9 +510,10 @@ Spiralförmige Suche
     * @param [in] ft Kraft-/Momentenschwellwert für Abbruch [N] oder [Nm]
     * @param [in] max_t_ms Maximale Suchzeit [ms]
     * @param [in] max_vel Maximale Lineargeschwindigkeit [mm/s]
+    * @param  [in] strategy Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment, 0-Fehler; 1-Warnung, Bewegung fortsetzen
     * @return Fehlercode
     */
-    errno_t FT_SpiralSearch(int rcs, float dr, float ft, float max_t_ms, float max_vel);
+    errno_t FT_SpiralSearch(int rcs, float dr, float ft, float max_t_ms, float max_vel, int strategy = 0);
 
 Rotatorisches Einführen
 ++++++++++++++++++++++++
@@ -612,9 +613,10 @@ Lineares Einführen
     * @param [in] lin_a Lineare Suchbeschleunigung [mm/s²], vorübergehend nicht verwendet
     * @param [in] max_dis Maximale Einführdistanz [mm]
     * @param [in] linorn Einführrichtung, 0-negative Richtung, 1-positive Richtung
+    * @param  [in] strategy Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment, 0-Fehler; 1-Warnung, Bewegung fortsetzen
     * @return Fehlercode
     */
-    errno_t FT_LinInsertion(int rcs, float ft, float lin_v, float lin_a, float max_dis, uint8_t linorn);
+    errno_t FT_LinInsertion(int rcs, float ft, float lin_v, float lin_a, float max_dis, uint8_t linorn, int strategy=0);
 
 Codebeispiel für Spiral-Suche, Lineares Einführen etc.
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -726,9 +728,10 @@ Oberflächenlokalisierung
     * @param [in] lin_a Lineare Suchbeschleunigung [mm/s²], vorübergehend nicht verwendet, Standard 0
     * @param [in] max_dis Maximale Suchdistanz [mm]
     * @param [in] ft Kraftschwellwert für Aktionsabbruch [N] (einzelner Wert für die gewählte Achse)
+    * @param [in] strategy Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment, 0-Fehler; 1-Warnung, Bewegung fortsetzen
     * @return Fehlercode
     */
-    errno_t FT_FindSurface(int rcs, uint8_t dir, uint8_t axis, float lin_v, float lin_a, float max_dis, float ft);
+    errno_t FT_FindSurface(int rcs, uint8_t dir, uint8_t axis, float lin_v, float lin_a, float max_dis, float ft, int stragety = 0);
 
 Berechnung der mittleren Ebene starten
 +++++++++++++++++++++++++++++++++++++++

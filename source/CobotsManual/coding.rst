@@ -2270,6 +2270,218 @@ Die Funktion ermöglicht eine einstellbare Geschwindigkeit bei der Lasertracking
 
 .. centered:: Abbildung 9.8-4 LT-Rec-Befehls-Oberfläche
 
+Laserscan-Trajektorienwiedergabe mit überlagerter Pendelbewegung
+****************************************************************************************************************
+
+Übersicht
+""""""""""""""""""""""""""""""""""""""""""""""""
+Die Funktion der Laserscan-Trajektorienwiedergabe mit überlagerter Pendelbewegung bezeichnet die Überlagerung von Dreieckwellen / vertikalen L-förmigen Dreieckwellen / kreisförmigen Wellen im Uhrzeigersinn / kreisförmigen Wellen gegen den Uhrzeigersinn / Sinuswellen / vertikalen L-förmigen Sinuswellen / Vertikalschweiß-Dreieckwellen-Pendelbewegungen während der Wiedergabe der Laserscan-Trajektorie. Sie unterstützt sowohl reguläre Pendelbewegungen als auch punktgenaue Pendelbewegungen und kann an die Bewegung von Erweiterungsachsen angepasst werden, wie in Tabelle 1-1 dargestellt.
+
+.. centered:: Tabelle 9.8-1 Laserscan-Trajektorienwiedergabe mit überlagerten Pendelmodi
+
+.. list-table::
+   :widths: 40 30 30
+   :header-rows: 0
+   :align: center
+
+   * - **Trajektorienwiedergabe**
+     - **Reguläre Pendelbewegung**
+     - **Punktgenaue Pendelbewegung**
+
+   * - Roboter
+     - Ja
+     - Ja
+
+   * - Erweiterungsachse
+     - Nein
+     - Ja
+
+Laserscan-Trajektorienwiedergabe mit überlagerter regulärer Pendelbewegung
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Schritt 1**: Konfigurieren Sie den Linienlasersensor über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 2**: Kalibrieren Sie das Werkzeugkoordinatensystem über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 3**: Kalibrieren Sie das Sensorkoordinatensystem über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 4**: Lernen Sie Bewegungspunkte über WebApp ein. Lernen Sie die Bewegungspunkte für die Laserscan-Trajektorienwiedergabe des Zielwerkstücks ein und schreiben Sie das grundlegende LUA-Programm für die entsprechenden LIN-Bewegungen des Roboters. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 5**: Konfigurieren Sie die Pendelparameter-Nummer über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 6**: Laseraufzeichnungsbefehl. Klicken Sie auf der WebApp-Hauptoberfläche auf "Teach Program" -> "Programmprogrammierung", um den Bereich "Schweißbefehle" aufzurufen.
+
+.. image:: coding/609.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-1 Bereich "Schweißbefehle"
+ 
+**Schritt 7**: Laseraufzeichnung starten. Klicken Sie im Bereich "Schweißbefehle" auf die Schaltfläche "Laseraufzeichnung", um den Konfigurationsbereich für den Befehl "LT-Rec" aufzurufen.
+
+Klicken Sie im Konfigurationsbereich "Befehlstyp" auf die Schaltfläche "Schweißnahtdaten aufzeichnen", wählen Sie die Option "Aufzeichnung starten" aus dem Dropdown-Menü "Funktionsauswahl"; stellen Sie die Verzögerungsaufzeichnungszeit im Eingabefeld "Verzögerungszeit" ein.
+
+Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" auf die Schaltfläche "Hinzufügen". Das Anzeigefeld "Programmvorschau" zeigt das vorab generierte LUA-Programm an. Klicken Sie auf "Übernehmen", um den Vorgang zum Starten der Laseraufzeichnung abzuschließen.
+
+.. image:: coding/610.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-2 Laseraufzeichnung starten
+
+**Schritt 8**: Laseraufzeichnung beenden. Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" im Konfigurationsbereich "Befehlstyp" auf die Schaltfläche "Schweißnahtdaten aufzeichnen", wählen Sie die Option "Aufzeichnung beenden" aus dem Dropdown-Menü "Funktionsauswahl"; stellen Sie die Verzögerungsaufzeichnungszeit im Eingabefeld "Verzögerungszeit" ein.
+
+Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" auf die Schaltfläche "Hinzufügen". Das Anzeigefeld "Programmvorschau" zeigt das vorab generierte LUA-Programm an. Klicken Sie auf "Übernehmen", um den Vorgang zum Beenden der Laseraufzeichnung abzuschließen.
+
+.. image:: coding/611.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-3 Laseraufzeichnung beenden
+
+**Schritt 9**: Zum Schweißpunkt bewegen. Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" im Konfigurationsbereich "Befehlstyp" auf die Schaltfläche "Zum Schweißpunkt bewegen", wählen Sie den Bewegungsmodus "PTP" oder "LIN" aus dem Dropdown-Menü "Bewegungsmodus"; stellen Sie die Befehlsgeschwindigkeit im Eingabefeld "Geschwindigkeit" ein; klicken Sie auf die Schaltfläche "Start" oder "Ende", um den Zielbewegungspunkt auszuwählen.
+
+Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" auf die Schaltfläche "Hinzufügen". Das Anzeigefeld "Programmvorschau" zeigt das vorab generierte LUA-Programm an. Klicken Sie auf "Übernehmen", um den Vorgang abzuschließen.
+
+.. image:: coding/612.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-4 Zum Schweißpunkt bewegen
+
+**Schritt 10**: Lasertrajektorienwiedergabe. Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" im Konfigurationsbereich "Befehlstyp" auf die Schaltfläche "Schweißnahtdaten aufzeichnen", wählen Sie die Option "Trajektorienwiedergabe" aus dem Dropdown-Menü "Funktionsauswahl"; stellen Sie die Verzögerungsaufzeichnungszeit im Eingabefeld "Verzögerungszeit" ein; stellen Sie die Befehlsgeschwindigkeit im Eingabefeld "Geschwindigkeit" ein.
+
+Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" auf die Schaltfläche "Hinzufügen". Das Anzeigefeld "Programmvorschau" zeigt das vorab generierte LUA-Programm an. Klicken Sie auf "Übernehmen", um den Vorgang der Lasertrajektorienwiedergabe abzuschließen.
+
+.. image:: coding/613.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-5 Lasertrajektorienwiedergabe
+
+**Schritt 11**: Reguläre Pendelbewegung überlagern. Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" im Konfigurationsbereich "Befehlstyp" auf die Schaltfläche "Laserverfolgungswiedergabe", wählen Sie die Option "Reguläre Pendelbewegung" aus dem Dropdown-Menü "Pendelbewegung überlagern"; wählen Sie die konfigurierte Pendelparameter-Nummer aus dem Dropdown-Menü "Nummer auswählen" aus Schritt 5.
+
+Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" auf die Schaltfläche "Hinzufügen". Das Anzeigefeld "Programmvorschau" zeigt das vorab generierte LUA-Programm an. Klicken Sie auf "Übernehmen", um den Vorgang zum Überlagern der regulären Pendelbewegung abzuschließen.
+
+.. image:: coding/614.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-6 Reguläre Pendelbewegung überlagern
+
+**Schritt 12**: Schreiben Sie das LUA-Programm für die Laserscan-Trajektorienwiedergabe + reguläre Pendelbewegung. Passen Sie die Reihenfolge der von Schritt 4 bis Schritt 11 generierten LUA-Befehle an und führen Sie das LUA-Programm aus, um die Funktion der Laserscan-Trajektorienwiedergabe mit überlagerter regulärer Pendelbewegung zu implementieren.
+
+.. image:: coding/615.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-7 LUA-Programm für Laserscan-Trajektorienwiedergabe mit überlagerter regulärer Pendelbewegung
+
+Laserscan-Trajektorienwiedergabe mit überlagerter punktgenauer Pendelbewegung
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Schritt 1**: Konfigurieren Sie den Linienlasersensor über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 2**: Konfigurieren Sie die Erweiterungsachse über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 3**: Kalibrieren Sie das Werkzeugkoordinatensystem über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 4**: Kalibrieren Sie das Sensorkoordinatensystem über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 5**: Lernen Sie Bewegungspunkte über WebApp ein. Lernen Sie die Bewegungspunkte für die Laserscan-Trajektorienwiedergabe des Zielwerkstücks ein und schreiben Sie das grundlegende LUA-Programm für die entsprechenden LIN-Bewegungen des Roboters und die asynchrone Bewegung der Erweiterungsachse. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 6**: Konfigurieren Sie die Pendelparameter-Nummer über WebApp. Die detaillierten Bedienschritte dieser Funktion finden Sie in den entsprechenden Kapiteln des Benutzerhandbuchs.
+
+**Schritt 7**: Laseraufzeichnungsbefehl. Klicken Sie auf der WebApp-Hauptoberfläche auf "Teach Program" -> "Programmprogrammierung", um den Bereich "Schweißbefehle" aufzurufen.
+
+.. image:: coding/616.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-8 Bereich "Schweißbefehle"
+
+**Schritt 8**: Laseraufzeichnung starten. Klicken Sie im Bereich "Schweißbefehle" auf die Schaltfläche "Laseraufzeichnung", um den Konfigurationsbereich für den Befehl "LT-Rec" aufzurufen.
+
+Klicken Sie im Konfigurationsbereich "Befehlstyp" auf die Schaltfläche "Schweißnahtdaten aufzeichnen", wählen Sie die Option "Aufzeichnung starten" aus dem Dropdown-Menü "Funktionsauswahl"; stellen Sie die Verzögerungsaufzeichnungszeit im Eingabefeld "Verzögerungszeit" ein.
+
+Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" auf die Schaltfläche "Hinzufügen". Das Anzeigefeld "Programmvorschau" zeigt das vorab generierte LUA-Programm an. Klicken Sie auf "Übernehmen", um den Vorgang zum Starten der Laseraufzeichnung abzuschließen.
+
+.. image:: coding/617.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-9 Laseraufzeichnung starten
+ 
+**Schritt 9**: Laseraufzeichnung beenden. Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" im Konfigurationsbereich "Befehlstyp" auf die Schaltfläche "Schweißnahtdaten aufzeichnen", wählen Sie die Option "Aufzeichnung beenden" aus dem Dropdown-Menü "Funktionsauswahl"; stellen Sie die Verzögerungsaufzeichnungszeit im Eingabefeld "Verzögerungszeit" ein.
+
+Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" auf die Schaltfläche "Hinzufügen". Das Anzeigefeld "Programmvorschau" zeigt das vorab generierte LUA-Programm an. Klicken Sie auf "Übernehmen", um den Vorgang zum Beenden der Laseraufzeichnung abzuschließen.
+
+.. image:: coding/618.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-10 Laseraufzeichnung beenden
+  
+**Schritt 10**: Zum Schweißpunkt bewegen. Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" im Konfigurationsbereich "Befehlstyp" auf die Schaltfläche "Zum Schweißpunkt bewegen", wählen Sie den Bewegungsmodus "PTP" oder "LIN" aus dem Dropdown-Menü "Bewegungsmodus"; stellen Sie die Befehlsgeschwindigkeit im Eingabefeld "Geschwindigkeit" ein; klicken Sie auf die Schaltfläche "Start" oder "Ende", um den Zielbewegungspunkt auszuwählen.
+
+Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" auf die Schaltfläche "Hinzufügen". Das Anzeigefeld "Programmvorschau" zeigt das vorab generierte LUA-Programm an. Klicken Sie auf "Übernehmen", um den Vorgang abzuschließen.
+
+.. image:: coding/619.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-11 Zum Schweißpunkt bewegen
+  
+**Schritt 11**: Lasertrajektorienwiedergabe. Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" im Konfigurationsbereich "Befehlstyp" auf die Schaltfläche "Schweißnahtdaten aufzeichnen", wählen Sie die Option "Trajektorienwiedergabe" aus dem Dropdown-Menü "Funktionsauswahl"; stellen Sie die Verzögerungsaufzeichnungszeit im Eingabefeld "Verzögerungszeit" ein; stellen Sie die Befehlsgeschwindigkeit im Eingabefeld "Geschwindigkeit" ein.
+
+Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" auf die Schaltfläche "Hinzufügen". Das Anzeigefeld "Programmvorschau" zeigt das vorab generierte LUA-Programm an. Klicken Sie auf "Übernehmen", um den Vorgang der Lasertrajektorienwiedergabe abzuschließen.
+
+.. image:: coding/620.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-12 Lasertrajektorienwiedergabe
+  
+**Schritt 12**: Punktgenaue Pendelbewegung überlagern. Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" im Konfigurationsbereich "Befehlstyp" auf die Schaltfläche "Laserverfolgungswiedergabe", wählen Sie die Option "Punktgenaue Pendelbewegung" aus dem Dropdown-Menü "Pendelbewegung überlagern"; wählen Sie die konfigurierte Pendelparameter-Nummer aus dem Dropdown-Menü "Nummer auswählen" aus Schritt 6.
+
+Wählen Sie die Option "Referenzpunkt" aus dem Dropdown-Menü "Pendelreferenz"; wählen Sie den Referenzpunkt aus dem Dropdown-Menü "Referenzpunkt".
+
+Klicken Sie im Konfigurationsbereich für den Befehl "LT-Rec" auf die Schaltfläche "Hinzufügen". Das Anzeigefeld "Programmvorschau" zeigt das vorab generierte LUA-Programm an. Klicken Sie auf "Übernehmen", um den Vorgang zum Überlagern der regulären Pendelbewegung abzuschließen.
+
+.. image:: coding/621.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-13 Pendelreferenz als Referenzpunkt mit überlagerter punktgenauer Pendelbewegung
+
+.. note:: Hinweis: Wenn die Option "Referenzpunkt" im Dropdown-Menü "Pendelreferenz" ausgewählt ist, ist die Vorwärtsrichtung des Roboters die Richtung der Verbindungslinie zwischen dem aktuellen Punkt und dem Referenzpunkt, und der aktuelle Punkt und der Referenzpunkt müssen sich in denselben Werkzeug- und Werkstückkoordinatensystemen befinden.
+
+Wenn die Option "Werkzeugkoordinatensystem" im Dropdown-Menü "Pendelreferenz" ausgewählt ist, ist die Vorwärtsrichtung des Roboters die X-Achsen-Richtung des aktuellen Werkzeugkoordinatensystems.
+
+.. image:: coding/622.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.8-4-14 Pendelreferenz als Werkzeugkoordinatensystem mit überlagerter punktgenauer Pendelbewegung
+ 
+**Schritt 13**: Schreiben Sie das LUA-Programm für die Laserscan-Trajektorienwiedergabe + punktgenaue Pendelbewegung. Passen Sie die Reihenfolge der von Schritt 5 bis Schritt 13 generierten LUA-Befehle an und führen Sie das LUA-Programm aus, um die Funktion der Laserscan-Trajektorienwiedergabe mit überlagerter punktgenauer Pendelbewegung zu implementieren.
+
+.. note:: Hinweis: Im Vergleich zum LUA-Programm enthält das LUA-Programm für die Laserscan-Trajektorienwiedergabe mit überlagerter punktgenauer Pendelbewegung den Befehl MoveLTR() nicht, und der letzte Parameter (Pendelzeit) des standardmäßig generierten Befehls OriginPointWeaveStartt() muss auf einen beliebigen nicht-negativen ganzzahligen Wert größer als 0 geändert werden. Während des Roboterbetriebs wandelt der Controller diesen Parameter automatisch in die tatsächliche Laufzeit der wiedergegebenen Trajektorie um.
+
+.. image:: coding/623.png
+   :width: 6in
+   :align: center
+
+.. centered:: (a) Pendelreferenz als Referenzpunkt
+
+.. image:: coding/624.png
+   :width: 6in
+   :align: center
+
+.. centered:: (b) Pendelreferenz als Werkzeugkoordinatensystem
+
+.. centered:: Abbildung 9.8-4-15 LUA-Programm für Laserscan-Trajektorienwiedergabe mit überlagerter punktgenauer Pendelbewegung   
+
 Schweißdraht-Positionssuchbefehl
 ++++++++++++++++++++++++++++++++
 
@@ -2797,36 +3009,86 @@ Dieser Befehl enthält acht Befehle: FT_Guard (Kollisionserkennung), FT_Control 
 
 .. centered:: Abbildung 9.9-1 F/T-Befehls-Oberfläche
 
-Optimierte Funktion für kraftgeregeltes Dreheinfügen
-****************************************************
+Optimierung des Kraftgeregelten Montageprozesspakets
+*************************************************
 
 Übersicht
-"""""""""
-Die kraftgeregelte Dreheinfügefunktion wird im Allgemeinen für Dreheinfügevorgänge verwendet. Vor der Ausführung der Aktion muss das Roboterende auf eine vollständig ausgerichtete angefahrene Lochposition bewegt werden. Je nach Anwendungsszenario werden die entsprechenden Bewegungsparameter und die Behandlungsstrategie für den Fall, dass keine externe Kraft erkannt wird, festgelegt. Wenn die am Ende erfasste externe Kraft den eingestellten Schwellwert nicht erreicht, kann der Benutzer selbst wählen, ob das gesamte Programm gestoppt (Funktion konfiguriert als "Fehler", rote Fehlermeldung in der Oberfläche) oder die Bewegung fortgesetzt werden soll (Funktion konfiguriert als "Warnung", gelbe Warnmeldung in der Oberfläche).
+""""""""""""""""""""""""""""""""""""
+Die kraftgeregelten Spiral-Einfüge- und Lineareinfügefunktionen werden im Allgemeinen für Montage-Suchloch-Einfügevorgänge verwendet, während die Oberflächenpositionierungsfunktion im Allgemeinen zur Lokalisierung von Oberflächen im kartesischen Raum verwendet wird. Basierend auf dem Anwendungsszenario stellen Sie die entsprechenden Bewegungsparameter und die Strategie zur Behandlung von nicht erkannten äußeren Kräften ein. Wenn die nach Abschluss erkannte äußere Kraft den eingestellten Schwellenwert nicht erreicht, kann der Benutzer wählen, ob das gesamte Programm angehalten werden soll (konfiguriert als "Fehler", mit einer roten Fehlermeldung auf der Oberfläche), oder ob die Bewegung fortgesetzt werden soll (konfiguriert als "Warnung", mit einer gelben Warnmeldung auf der Oberfläche).
 
-Ablauf
-""""""
-**Schritt 1**: Klicken Sie nacheinander auf "Teach-Programm" -> "Programmierung" -> "Kraftregelungssatz" -> "Rot"-Befehl. Stellen Sie je nach tatsächlichem Anwendungsszenario die entsprechenden Bewegungsparameter ein. Die Behandlungsstrategie für den Fall, dass keine externe Kraft erkannt wird, kann auf "Fehler" oder "Warnung" gesetzt werden. Bei Konfiguration als "Fehler" meldet die Oberfläche einen Fehler und stoppt die Ausführung des nachfolgenden Programms, wenn die vom Roboter erfasste externe Kraft immer unter dem eingestellten Schwellwert bleibt und der eingestellte Drehwinkel bereits erreicht wurde. Bei Konfiguration als "Warnung" gibt die Oberfläche eine Warnung aus und fährt mit der Ausführung des nachfolgenden Programms fort, wenn die vom Roboter erfasste externe Kraft immer unter dem eingestellten Schwellwert bleibt und der eingestellte Drehwinkel bereits erreicht wurde.
+Vorgehensweise für die Optimierung der Kraftgeregelten Spiral-Einfügung
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+**Schritt 1**: Klicken Sie nacheinander auf "Teach Program" -> "Programmprogrammierung" -> "Kraftregelungssatz" -> Befehl "Rot". Stellen Sie die entsprechenden Bewegungsparameter basierend auf dem tatsächlichen Anwendungsszenario ein. Die Strategie zur Behandlung von nicht erkannten äußeren Kräften kann auf "Fehler" oder "Warnung" eingestellt werden. Wenn als "Fehler" konfiguriert, wird, wenn der Roboter erkennt, dass die äußere Kraft stets unter dem eingestellten Schwellenwert lag und der eingestellte Drehwinkel erreicht wurde, ein Fehler auf der Oberfläche angezeigt und die Ausführung nachfolgender Programme gestoppt. Wenn als "Warnung" konfiguriert, wird, wenn der Roboter erkennt, dass die äußere Kraft stets unter dem eingestellten Schwellenwert lag und der eingestellte Drehwinkel erreicht wurde, eine Warnung auf der Oberfläche angezeigt und die Ausführung nachfolgender Programme fortgesetzt.
 
 .. image:: coding/531.png
    :width: 3in
    :align: center
 
-.. centered:: Abbildung 9.9-2 Parametereinstellung für kraftgeregeltes Dreheinfügen
+.. centered:: Abbildung 9.9-2 Konfiguration der Parameter für die Kraftgeregelte Rotationseinfügung
 
-**Schritt 2**: Die kraftgeregelte Dreheinfügefunktion muss in Verbindung mit der "FT_Control"-Funktion für die Bewegung verwendet werden. Typische Lua-Programme mit gleichen Bewegungsparametern und der Behandlungsstrategie für den Fall, dass keine externe Kraft erkannt wird, als "Fehler" oder "Warnung" sind in den folgenden Abbildungen dargestellt.
+**Schritt 2**: Die kraftgeregelte Rotationseinfügefunktion muss zusammen mit der Funktion "FT_Control" für die Bewegung verwendet werden. Stellen Sie die gleichen Bewegungsparameter ein. Typische LUA-Programme mit der Strategie zur Behandlung von nicht erkannten äußeren Kräften, die auf "Fehler" oder "Warnung" eingestellt ist, sind in den Abbildungen dargestellt.
 
 .. image:: coding/532.png
    :width: 6in
    :align: center
 
-.. centered:: Abbildung 9.9-3 Typisches Lua-Programm konfiguriert als "Fehler"
+.. centered:: Abbildung 9.9-3 Typisches LUA-Programm Konfiguriert als "Fehler"
 
 .. image:: coding/533.png
    :width: 6in
    :align: center
 
-.. centered:: Abbildung 9.9-4 Typisches Lua-Programm konfiguriert als "Warnung"
+.. centered:: Abbildung 9.9-4 Typisches LUA-Programm Konfiguriert als "Warnung"
+
+Vorgehensweise für die Optimierung der Kraftgeregelten Lineareinfügung
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Schritt 1**: Klicken Sie nacheinander auf "Teach Program" -> "Programmprogrammierung" -> "Kraftregelungssatz" -> Befehl "Lin". Stellen Sie die entsprechenden Bewegungsparameter basierend auf dem tatsächlichen Anwendungsszenario ein. Die Strategie zur Behandlung von nicht erkannten äußeren Kräften kann auf "Fehler" oder "Warnung" eingestellt werden. Wenn als "Fehler" konfiguriert, wird, wenn der Roboter erkennt, dass die äußere Kraft stets unter dem eingestellten Schwellenwert lag und die eingestellte Einfügedistanz erreicht wurde, ein Fehler auf der Oberfläche angezeigt und die Ausführung nachfolgender Programme gestoppt. Wenn als "Warnung" konfiguriert, wird, wenn der Roboter erkennt, dass die äußere Kraft stets unter dem eingestellten Schwellenwert lag und die eingestellte Einfügedistanz erreicht wurde, eine Warnung auf der Oberfläche angezeigt und die Ausführung nachfolgender Programme fortgesetzt. Wie in Abbildung 3-1 dargestellt.
+
+.. image:: coding/603.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 9.9-5 Konfiguration der Parameter für die Kraftgeregelte Lineareinfügung
+
+**Schritt 2**: Die kraftgeregelte Lineareinfügefunktion muss zusammen mit der Funktion "FT_Control" für die Bewegung verwendet werden. Stellen Sie die gleichen Bewegungsparameter ein. Typische LUA-Programme mit der Strategie zur Behandlung von nicht erkannten äußeren Kräften, die auf "Fehler" oder "Warnung" eingestellt ist, sind in Abbildung 3-2 und Abbildung 3-3 dargestellt.
+
+.. image:: coding/604.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.9-6 Typisches LUA-Programm Konfiguriert als "Fehler"
+
+.. image:: coding/605.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.9-6 Typisches LUA-Programm Konfiguriert als "Warnung"
+
+Vorgehensweise für die Optimierung der Kraftgeregelten Oberflächenpositionierung
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Schritt 1**: Klicken Sie nacheinander auf "Teach Program" -> "Programmprogrammierung" -> "Kraftregelungssatz" -> Befehl "FindSurface". Stellen Sie die entsprechenden Bewegungsparameter basierend auf dem tatsächlichen Anwendungsszenario ein. Die Strategie zur Behandlung von nicht erkannten äußeren Kräften kann auf "Fehler" oder "Warnung" eingestellt werden. Wenn als "Fehler" konfiguriert, wird, wenn der Roboter erkennt, dass die äußere Kraft stets unter dem eingestellten Schwellenwert lag und die eingestellte Suchdistanz erreicht wurde, ein Fehler auf der Oberfläche angezeigt und die Ausführung nachfolgender Programme gestoppt. Wenn als "Warnung" konfiguriert, wird, wenn der Roboter erkennt, dass die äußere Kraft stets unter dem eingestellten Schwellenwert lag und die eingestellte Suchdistanz erreicht wurde, eine Warnung auf der Oberfläche angezeigt und die Ausführung nachfolgender Programme fortgesetzt. Wie in Abbildung 4-1 dargestellt.
+
+.. image:: coding/606.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 9.9-7 Konfiguration der Parameter für die Kraftgeregelte Oberflächenpositionierung
+
+**Schritt 2**: Die kraftgeregelte Oberflächenpositionierungsfunktion muss zusammen mit der Funktion "FT_Control" für die Bewegung verwendet werden. Stellen Sie die gleichen Bewegungsparameter ein. Typische LUA-Programme mit der Strategie zur Behandlung von nicht erkannten äußeren Kräften, die auf "Fehler" oder "Warnung" eingestellt ist, sind in Abbildung 4-2 und Abbildung 4-3 dargestellt.
+
+.. image:: coding/607.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.9-8 Typisches LUA-Programm Konfiguriert als "Fehler"
+
+.. image:: coding/608.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.9-9 Typisches LUA-Programm Konfiguriert als "Warnung"
 
 Drehmomentaufzeichnungs-Befehl
 ++++++++++++++++++++++++++++++

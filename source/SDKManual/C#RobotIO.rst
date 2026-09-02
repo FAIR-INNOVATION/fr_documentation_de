@@ -502,6 +502,7 @@ Konfigurierbare CI-Portfunktionen des Steuerkastens einstellen
     22-Stufe 1 Reduzierungsmodus;23-Stufe 2 Reduzierungsmodus;24-Stufe 3 Reduzierungsmodus (Stopp);25-Schweißen fortsetzen;26-Schweißen beenden;
     27-Hilfszug aktivieren;28-Hilfszug deaktivieren;29-Hilfszug aktivieren/deaktivieren;30-Alle Fehler löschen;
     31-Manuell/Auto umschalten (High/Low-Pegel);32-Aktivieren;33-Deaktivieren;34-Aktivieren/Deaktivieren (steigende/fallende Flanke);35-Fixpunkt-Tracking starten/beenden
+    36-Entra in movimento a velocità di sicurezza;37-Blocco trascinamento ad anello di corrente;38-Blocco assistito da sensore di forza
     * @return Fehlercode
     */
     public int SetDIConfig(int[] config)
@@ -522,6 +523,11 @@ Konfigurierbare CI-Portfunktionen des Steuerkastens abrufen
     22-Stufe 1 Reduzierungsmodus;23-Stufe 2 Reduzierungsmodus;24-Stufe 3 Reduzierungsmodus (Stopp);25-Schweißen fortsetzen;26-Schweißen beenden;
     27-Hilfszug aktivieren;28-Hilfszug deaktivieren;29-Hilfszug aktivieren/deaktivieren;30-Alle Fehler löschen;
     31-Manuell/Auto umschalten (High/Low-Pegel);32-Aktivieren;33-Deaktivieren;34-Aktivieren/Deaktivieren (steigende/fallende Flanke);35-Fixpunkt-Tracking starten/beenden
+    36-Sicherheitsgeschwindigkeitsbewegung einleiten;37-Stromregelkreis-Zugverriegelung;38-Kraftsensor-unterstützte Verriegelung
+    201-Externes Not-Halt-Eingangssignal 1-Zweikanal; 202-Externes Not-Halt-Eingangssignal 2-Zweikanal; 203-Reduzierter Modus Stufe 1-Zweikanal;
+    204-Reduzierter Modus Stufe 2-Zweikanal; 205-Reduzierter Modus Stufe 3-Zweikanal; 206-Normaler Stopp-Zweikanal; 207-Sicherheitswand 1-Zweikanal; 208-Sicherheitswand 2-Zweikanal;
+    209-Sicherheitswand 3-Zweikanal; 210-Sicherheitswand 4-Zweikanal; 211-Sicherheitswand 5-Zweikanal; 212-Sicherheitswand 6-Zweikanal; 213-Sicherheitswand 7-Zweikanal;
+    214-Sicherheitswand 8-Zweikanal; 215-Sicherheitsstopp-Zurücksetzung-Zweikanal;
     * @return Fehlercode
     */
     public int GetDIConfig(out int[] config)
@@ -568,9 +574,103 @@ Konfigurierbare CO-Portfunktionen des Steuerkastens abrufen
     39-Roboterfehler-Antriebskommunikationsfehler;40-Roboterfehler-Parameterfehler;41-Roboterfehler-Externe Achse Weichgrenze überschritten;42-Roboterwarnung-Warnung;
     43-Roboterwarnung-Sicherheitstürwarnung;44-Roboterwarnung-Bewegungswarnung;45-Roboterwarnung-Interferenzbereichswarnung;46-Roboterwarnung-Sicherheitswandwarnung;
     47-Aktivierungsstatus;48-Automatisches Anheben bei Unterbrechung;49-Würfel 1 Interferenzwarnung;50-Würfel 2 Interferenzwarnung;51-Würfel 3 Interferenzwarnung;52-Würfel 4 Interferenzwarnung;
+    201-Not-Halt-Ausgangssignal 1-Zweikanal; 202-Not-Halt-Ausgangssignal 2-Zweikanal; 203-Sicherheitsstatusausgang-Zweikanal; 204-Schutzstopp-Statusausgang-Zweikanal; 205-Roboter in Bewegung-Zweikanal;
+	206-Roboter im reduzierten Modus-Zweikanal; 207-Roboter im nicht reduzierten Modus-Zweikanal;
     * @return Fehlercode
     */
     public int GetDOConfig(out int[] config)
+
+Konfiguration der Sicherheits-Zweikanal-CI-Funktion
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Konfiguration der Sicherheits-Zweikanal-CI-Funktion
+    * @param [in] ID Zweikanal-ID; [0-3]
+    * @param [in] config Funktionskonfiguration; 0-keine Konfiguration; 201-Externes Not-Halt-Eingangssignal 1; 202-Externes Not-Halt-Eingangssignal 2; 203-Reduzierter Modus Stufe 1; 204-Reduzierter Modus Stufe 2; 205-Reduzierter Modus Stufe 3;
+                        206-Normaler Stopp; 207-Sicherheitswand 1; 208-Sicherheitswand 2; 209-Sicherheitswand 3; 210-Sicherheitswand 4; 211-Sicherheitswand 5; 212-Sicherheitswand 6; 213-Sicherheitswand 7;
+                        214-Sicherheitswand 8; 215-Sicherheitsstopp-Zurücksetzung;
+    * @return Fehlercode
+    */
+    public int SetSafetyDIConfig(int ID, int config)
+
+Konfiguration der Sicherheits-Zweikanal-CO-Funktion
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Konfiguration der Sicherheits-Zweikanal-CO-Funktion
+    * @param [in] ID Zweikanal-ID; [0-3]
+    * @param [in] config Funktionskonfiguration; 0-keine Konfiguration; 201-Not-Halt-Ausgangssignal 1; 202-Not-Halt-Ausgangssignal 2; 203-Sicherheitsstatusausgang; 204-Schutzstopp-Statusausgang; 205-Roboter in Bewegung;
+                        206-Roboter im reduzierten Modus; 207-Roboter im nicht reduzierten Modus;
+    * @return Fehlercode
+    */
+    public int SetSafetyDOConfig(int ID, int config)
+
+Codebeispiel zur Verifizierung der Sicherheits-Zweikanal-CI/CO-Funktionskonfiguration
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+
+    public void TestSafetyIOConfig()
+    {
+        int rtn = 0;
+
+        rtn = robot.SetSafetyDIConfig(0, 201);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(1, 202);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(2, 203);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(3, 204);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+
+        int[] getDIConfig = new int[8];
+        rtn = robot.GetDIConfig(out getDIConfig);
+        Console.WriteLine($"GetDIConfig rtn is {rtn}, value is {string.Join(" ", getDIConfig)}");
+
+        rtn = robot.SetSafetyDIConfig(0, 0);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(1, 0);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(2, 0);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(3, 0);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+
+        rtn = robot.GetDIConfig(out getDIConfig);
+        Console.WriteLine($"GetDIConfig rtn is {rtn}, value is {string.Join(" ", getDIConfig)}");
+
+        rtn = robot.SetSafetyDOConfig(0, 204);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(1, 205);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(2, 206);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(3, 207);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+
+        int[] getDOConfig = new int[8];
+        rtn = robot.GetDOConfig(out getDOConfig);
+        Console.WriteLine($"GetDOConfig rtn is {rtn}, value is {string.Join(" ", getDOConfig)}");
+
+        rtn = robot.SetSafetyDOConfig(0, 0);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(1, 0);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(2, 0);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(3, 0);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+
+        rtn = robot.GetDOConfig(out getDOConfig);
+        Console.WriteLine($"GetDOConfig rtn is {rtn}, value is {string.Join(" ", getDOConfig)}");
+    }    
 
 Konfigurierbare End-CI-Portfunktionen des Endeffektors einstellen
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

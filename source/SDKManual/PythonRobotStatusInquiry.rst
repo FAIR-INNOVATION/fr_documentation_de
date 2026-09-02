@@ -381,13 +381,14 @@ Inverse Kinematik im kartesischen Raum inklusive Erweiterungsachsenposition
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``GetInverseKinExaxis(type, desc_pos, exaxis, tool, workPiece)``"
+    "Prototyp", "``GetInverseKinExaxis(type, desc_pos, exaxis, tool, workPiece, config = -1)``"
     "Beschreibung", "Inverse Kinematik im kartesischen Raum inklusive Erweiterungsachsenposition"
     "Erforderliche Parameter", "- ``type``: 0 = absolute Pose (Basiskoordinatensystem), 1 = inkrementelle Pose (Basiskoordinatensystem), 2 = inkrementelle Pose (Werkzeugkoordinatensystem)
     - ``desc_pos``: Kartesische Pose [mm, °]
     - ``exaxis``: Position der Erweiterungsachse(n) [mm]
     - ``tool``: Werkzeugnummer
-    - ``workPiece``: Werkstücknummer"
+    - ``workPiece``: Werkstücknummer
+    - ``config -1``: automatische Lösung, 0-7 entsprechen acht Lösungssätzen"
     "Standardparameter", "Keine"
     "Rückgabewert", "- Fehlercode: 0 = Erfolg, sonst Fehlercode
     - ``joint_pos``: Berechnete Gelenkpositionen [°]"

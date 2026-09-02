@@ -13,6 +13,26 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V3.9.9
+     - 2026-09-01
+     - | 1. Aktualisierung der GetGripperMotionDone()-Schnittstelle zum Abrufen des Greiferbewegungsstatus, Aktualisierung der Definition und des Verwendungsbereichs der Greiferstatus-Ausgabeparameter;
+       | 2. Änderung von GetInverseKinExaxis(), der Schnittstelle zur inversen Kinematiklösung unter Einbeziehung von Erweiterungsachsenpositionen, Hinzufügung von Gelenkkonfigurationsparametern mit dem Standardwert -1, der auf die aktuelle Gelenkkonfiguration verweist;
+       | 3. Änderung der kraftgeregelten Schnittstellen FT_SpiralSearch(), FT_LinInsertion() und FT_FindSurface() um Parameter für die Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment;
+       | 4. Änderung von SetDIConfig(), GetDIConfig(), SetDOConfig(), GetDOConfig() CIO des Robotersteuerschranks;
+       | 5. Aktualisierung der Parameterbeschreibungen der Funktionskonfigurationsschnittstellen, Aktualisierung der neu hinzugefügten Funktionsnamen und Funktionscodes; Hinzufügung der GetSafetyParamsCheckSum()-Schnittstelle zum Abrufen der Prüfsumme der Sicherheitskonfigurationsparameter;
+       | 6. Änderung der Codebeispiele für die grundlegende Robotersteuerung, Hinzufügung von Codebeispielen für den Wechsel in den manuellen Hochgeschwindigkeitsmodus;
+       | 7. Hinzufügung der Sicherheitsoperations-Kennwortprüfschnittstelle SafetyOPPasswordCheck();
+       | 8. Hinzufügung der GripperWaitMotionDone()-Schnittstelle zum Warten auf den Greiferbewegungsstatus, unterstützt Timeout- und Strategieeinstellungen (nur für das Endeffektor-Offenprotokoll anwendbar);
+       | 9. Hinzufügung der SetRobottime()-Schnittstelle zur Synchronisation der Systemzeit mit dem Roboter;
+       | 10. Hinzufügung der ServoJ()-Schnittstelle für die Servo-Modus-Bewegung im Gelenkraum, unterstützt die Eingabe mehrerer Punkte auf einmal;
+       | 11. Hinzufügung von Codebeispielen für Laseraufzeichnungswiedergabe + reguläre Pendelbewegung;
+       | 12. Hinzufügung von Codebeispielen für Laseraufzeichnungswiedergabe + asynchrone Erweiterungsachsenbewegung + punktgenaue Pendelbewegung;
+       | 13. Hinzufügung der Spiralensuchschnittstelle FT_SpiralSearch();
+       | 14. Hinzufügung der HiSpeedManualSwitch()-Schnittstelle zum Wechsel in den manuellen Hochgeschwindigkeitsmodus;
+       | 15. Hinzufügung der SetSafetyDIConfig()-Schnittstelle für die Sicherheits-Zweikanal-CI-Funktionskonfiguration;
+       | 16. Hinzufügung der SetSafetyDOConfig()-Schnittstelle für die Sicherheits-Zweikanal-CO-Funktionskonfiguration;
+       | 17. Hinzufügung von Beispielen zur Verifizierung der Sicherheits-Zweikanal-CI/CO-Funktionskonfiguration (Einstellung-Lesen-Löschen).
+
    * - V3.9.8
      - 2026-07-27
      - | 1. Aktualisierung der Roboterstatus-Rückmeldungsstruktur um den aktuellen Ausführungsstatus des LUA-Programms des Roboters: 0 - Programm läuft nicht; 1 - Programm läuft (einschließlich Programm pausiert);

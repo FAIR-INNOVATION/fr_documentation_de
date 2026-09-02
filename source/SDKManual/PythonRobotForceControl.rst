@@ -450,13 +450,14 @@ Spiralförmige Suche
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``FT_SpiralSearch(rcs, ft, dr=0.7, max_t_ms=60000, max_vel=5)``"
+    "Prototyp", "``FT_SpiralSearch(rcs, ft, dr=0.7, max_t_ms=60000, max_vel=5, strategy=0)``"
     "Beschreibung", "Spiralförmige Suche (nach Kontakt)"
     "Erforderliche Parameter", "- ``rcs``: Referenzkoordinatensystem, 0 = Werkzeug, 1 = Basis
     - ``ft``: Kraft-/Momentenschwellwert für Abbruch [N oder Nm] (einzelner Wert)"
     "Standardparameter", "- ``dr``: Radiuszunahme pro Umdrehung [mm], Standard = 0.7
     - ``max_t_ms``: Maximale Suchzeit [ms], Standard = 60000
-    - ``max_vel``: Maximale Lineargeschwindigkeit [mm/s], Standard = 5"
+    - ``max_vel``: Maximale Lineargeschwindigkeit [mm/s], Standard = 5;
+    - ``strategy``：* @param  [in] strategy Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment, 0-Fehler; 1-Warnung, Bewegung fortsetzen;"
     "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
 
 Rotatorisches Einführen
@@ -539,14 +540,15 @@ Lineares Einführen
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``FT_LinInsertion(rcs, ft, disMax, linorn, lin_v=1.0, lin_a=1.0)``"
+    "Prototyp", "``FT_LinInsertion(rcs, ft, disMax, linorn, lin_v=1.0, lin_a=1.0, strategy=0)``"
     "Beschreibung", "Lineares Einführen (mit Kraftsuche)"
     "Erforderliche Parameter", "- ``rcs``: Referenzkoordinatensystem, 0 = Werkzeug, 1 = Basis
     - ``ft``: Kraft-/Momentenschwellwert für Abbruch [N oder Nm] (einzelner Wert)
     - ``disMax``: Maximale Einführdistanz [mm]
     - ``linorn``: Einführrichtung: 0 = negative Richtung, 1 = positive Richtung"
     "Standardparameter", "- ``lin_v``: Lineare Suchgeschwindigkeit [mm/s], Standard = 1.0
-    - ``lin_a``: Lineare Suchbeschleunigung [mm/s²], vorübergehend nicht verwendet, Standard = 1.0"
+    - ``lin_a``: Lineare Suchbeschleunigung [mm/s²], vorübergehend nicht verwendet, Standard = 1.0;
+    - ``strategy``：Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment, 0-Fehler; 1-Warnung, Bewegung fortsetzen;"
     "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
 
 Codebeispiel für Spiral-Suche, Lineares Einführen etc.
@@ -630,7 +632,7 @@ Oberflächenlokalisierung
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``FT_FindSurface(rcs, dir, axis, disMax, ft, lin_v=3.0, lin_a=0.0)``"
+    "Prototyp", "``FT_FindSurface(rcs, dir, axis, disMax, ft, lin_v=3.0, lin_a=0.0, stragety = 0)``"
     "Beschreibung", "Oberflächenlokalisierung (FindSurface)"
     "Erforderliche Parameter", "- ``rcs``: Referenzkoordinatensystem, 0 = Werkzeug, 1 = Basis
     - ``dir``: Bewegungsrichtung, 1 = positive Richtung, 2 = negative Richtung
@@ -638,7 +640,8 @@ Oberflächenlokalisierung
     - ``disMax``: Maximale Suchdistanz [mm]
     - ``ft``: Kraftschwellwert für Aktionsabbruch [N] (einzelner Wert für die gewählte Achse)"
     "Standardparameter", "- ``lin_v``: Lineare Suchgeschwindigkeit [mm/s], Standard = 3.0
-    - ``lin_a``: Lineare Suchbeschleunigung [mm/s²], Standard = 0.0"
+    - ``lin_a``: Lineare Suchbeschleunigung [mm/s²], Standard = 0.0;
+    - ``strategy``：Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment, 0-Fehler; 1-Warnung, Bewegung fortsetzen;"
     "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
 
 Berechnung der mittleren Ebene starten
