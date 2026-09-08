@@ -127,6 +127,21 @@ Roboter-Betriebssystem herunterfahren
     "Standardparameter", "Keine"
     "Rückgabewert", "Fehlercode: 0 = Erfolg, sonst Fehlercode"
 
+Wechsel in den manuellen Hochgeschwindigkeitsmodus
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``HiSpeedManualSwitch(self, state)``"
+    "Beschreibung", "Wechsel in den manuellen Hochgeschwindigkeitsmodus"
+    "Erforderliche Parameter", "
+    - ``state``：0-manuellen Hochgeschwindigkeitsmodus verlassen; 1-manuellen Hochgeschwindigkeitsmodus aktivieren
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"
+
 Logging-Parameter initialisieren
 ++++++++++++++++++++++++++++++++
 .. versionadded:: Python SDK-v2.1.1

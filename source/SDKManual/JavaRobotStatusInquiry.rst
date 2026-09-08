@@ -170,6 +170,85 @@ Systemzeit abrufen
     */
     List<Number> GetSystemClock();
 
+Systemzeit mit dem Roboter synchronisieren
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Ruft die aktuelle Systemzeit des Hosts ab und sendet sie an den Roboter, um die Systemzeit zu synchronisieren (aufgrund von QNX-Systemeinschränkungen ist die Synchronisationsgenauigkeit auf Minutenebene)
+    * @return Fehlercode
+    */
+    public int SetRobottime()
+
+Codebeispiel zum Synchronisieren der Systemzeit mit dem Roboter
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void testSetAndGetRobotTime(Robot robot) 
+    {
+        // 1. Zeit vor dem Setzen abrufen
+        List<Number> resultBefore = robot.GetSystemClock();
+        int retBefore = (int) resultBefore.get(0);
+        
+        if (retBefore == 0) {
+            double t_ms = (double) resultBefore.get(1);
+            System.out.println("system clock : " + t_ms);
+            
+            // Millisekunden-Zeitstempel in DateTime (UTC-Zeit) umwandeln
+            java.time.Instant instant = java.time.Instant.ofEpochMilli((long) t_ms);
+            java.time.LocalDateTime utcTime = java.time.LocalDateTime.ofInstant(instant, java.time.ZoneOffset.UTC);
+            System.out.println("BEFORE UTC Time   : " + 
+                utcTime.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        } else {
+            System.out.println("GetSystemClock failed, ret:" + retBefore);
+        }
+
+        // 2. Roboterzeit setzen
+        int retSet = robot.SetRobotTime();
+        if (retSet != 0) {
+            System.out.println("SetRobotTime failed, ret:" + retSet);
+            return;
+        }
+
+        // 3. Zeit nach dem Setzen abrufen
+        List<Number> resultAfter = robot.GetSystemClock();
+        int retAfter = (int) resultAfter.get(0);
+        
+        if (retAfter == 0) {
+            double t_ms_after = (double) resultAfter.get(1);
+            System.out.println("system clock after: " + t_ms_after);
+            
+            // In UTC-Zeit umwandeln
+            java.time.Instant instantAfter = java.time.Instant.ofEpochMilli((long) t_ms_after);
+            java.time.LocalDateTime robotTimeAfter = java.time.LocalDateTime.ofInstant(instantAfter, java.time.ZoneOffset.UTC);
+
+            // Aktuelle PC-Zeit abrufen (als erwarteter Wert)
+            java.time.LocalDateTime pcTimeBefore = java.time.LocalDateTime.now(java.time.ZoneOffset.UTC);
+
+            // Auf Minutenebene kürzen für den Vergleich (aufgrund von QNX-Systemeinschränkungen ist die Synchronisationsgenauigkeit auf Minutenebene)
+            java.time.LocalDateTime pcMinute = pcTimeBefore.withSecond(0).withNano(0);
+            java.time.LocalDateTime robotMinute = robotTimeAfter.withSecond(0).withNano(0);
+
+            // Konsistenz vergleichen
+            boolean isConsistent = pcMinute.equals(robotMinute);
+            if (isConsistent) {
+                System.out.println("Consistent     | PC time: " + 
+                    pcMinute.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) + 
+                    "  | Robot time: " + 
+                    robotMinute.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            } else {
+                System.out.println("[Inconsistent | PC time: " + 
+                    pcMinute.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) + 
+                    "  | Robot time: " + 
+                    robotMinute.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            }
+        } else {
+            System.out.println("GetSystemClock failed, ret:" + retAfter);
+        }
+    }
+
 Abfragen, ob die Roboterbewegung abgeschlossen ist
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java

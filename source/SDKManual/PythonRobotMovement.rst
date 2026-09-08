@@ -1984,3 +1984,139 @@ Codebeispiel für die Werkstückkoordinatensystem-Punkttransformation
 
     if __name__ == "__main__":
         main()    
+
+Servo-Modus-Bewegung im Gelenkraum (Unterstützt Mehrfacheingabe auf Einmal)    
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+    
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``ServoJMultiPos(self, joint_pos, axisPos, acc=0.0, vel=0.0, cmdT=0.008, filterT=0.0, gain=0.0, id=0, cmdType=0)``"
+    "Beschreibung", "Servo-Modus-Bewegung im Gelenkraum (unterstützt Mehrfacheingabe auf einmal)"
+    "Erforderliche Parameter", "
+    - ``joint_pos``: Ziel-Gelenkpositionssatz (unterstützt bis zu 10 Gruppen), Einheit deg, 2D-Liste, jedes Element enthält 6 Gelenkpositionen
+    - ``axisPos``: Externe Achsenposition, Einheit mm, 4 Elemente
+    - ``acc``: Beschleunigungsprozentsatz, Bereich [0~100], noch nicht verfügbar, Standard 0.0
+    - ``vel``: Geschwindigkeitsprozentsatz, Bereich [0~100], noch nicht verfügbar, Standard 0.0
+    - ``cmdT``: Befehlssendezyklus, Einheit s, empfohlener Bereich [0.001~0.0016], Standard 0.008
+    - ``filterT``: Filterzeit, Einheit s, noch nicht verfügbar, Standard 0.0
+    - ``gain``: Proportionalverstärker der Zielposition, noch nicht verfügbar, Standard 0.0
+    - ``id``: ServoJ-Befehls-ID, Standard 0
+    - ``cmdType``: Befehlssendetyp, 0=XML-RPC, 1=UDP-Durchleitung
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler
+    - ``servoJCmdCount``: ServoJ-Befehlspunktzähler [0-10000] (nur über XML-RPC zurückgegeben)"   
+        
+Codebeispiel für Servo-Modus-Bewegung im Gelenkraum (Mehrfacheingabe)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:     
+
+    from fairino import Robot
+    import time
+
+    def main():
+        # Verbindung zum Roboter-Controller herstellen
+        robot = Robot.RPC('192.168.58.2')
+        time.sleep(0.5)  # Auf Verbindung und Datenempfang warten
+
+        # ========== Gelenk-Trajektoriedatei lesen ==========
+        file_path = "C://Users/lenovo/Desktop/ServoJPath.txt"
+        all_joint_data = []
+
+        try:
+            with open(file_path, 'r') as fin:
+                for line in fin:
+                    parts = line.strip().split()
+                    if len(parts) >= 6:
+                        # Erste Spalte (Indexspalte) überspringen, Spalten 2~7 (Indizes 1~6) nehmen
+                        one_pose = [float(parts[i]) for i in range(1, 7)]
+                        all_joint_data.append(one_pose)
+        except FileNotFoundError:
+            print("Datei ServoJPath.txt kann nicht geöffnet werden")
+            return
+
+        print(f"Insgesamt {len(all_joint_data)} Gelenkpositionssätze gelesen")
+
+        # ========== Hin- und Rückweg erstellen (vorwärts + rückwärts, doppelten Endpunkt entfernen) ==========
+        back_forth_path = all_joint_data.copy()
+        # Vom vorletzten Punkt an in umgekehrter Reihenfolge anhängen (doppelten Endpunkt entfernen)
+        for i in range(len(all_joint_data) - 2, -1, -1):
+            back_forth_path.append(all_joint_data[i])
+
+        print(f"Gesamtpunkte im Hin- und Rückweg: {len(back_forth_path)}")
+
+        epos = [0.0, 0.0, 0.0, 0.0]
+        offset_pos = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+        # Zur Startposition bewegen
+        robot.MoveJ(joint_pos=all_joint_data[0], tool=0, user=0,
+                    vel=100, acc=100, ovl=100, exaxis_pos=epos,
+                    blendT=-1, offset_flag=0, offset_pos=offset_pos)
+
+        time.sleep(1)
+
+        # ========== Hauptschleife ==========
+        while True:
+            # Alle Fehler zurücksetzen
+            robot.ResetAllError()
+
+            # Zur Startposition bewegen
+            robot.MoveJ(joint_pos=all_joint_data[0], tool=0, user=0,
+                        vel=100, acc=100, ovl=100, exaxis_pos=epos,
+                        blendT=-1, offset_flag=0, offset_pos=offset_pos)
+
+            move_count = 0
+            total_points = len(back_forth_path)
+
+            while move_count < total_points - 10:
+                # Echtzeitstatus des Roboters abrufen
+                rtn, pkg = robot.GetRobotRealTimeState()
+
+                # Anzahl der ServoJ-Befehle berechnen, die auf einmal gesendet werden können
+                single_servo_j_count = 50 - pkg.mc_queue_len
+                if single_servo_j_count <= 0:
+                    time.sleep(0.1)
+                    continue
+
+                if single_servo_j_count > 10:
+                    single_servo_j_count = 10
+
+                # Liste der Gelenkpositionen für dieses Mal erstellen (2D-Liste, jedes Element enthält 6 Gelenkwinkel)
+                joint_pos_list = []
+                for j in range(single_servo_j_count):
+                    if move_count < total_points:
+                        joint_pos_list.append(back_forth_path[move_count])
+                        move_count += 1
+                    else:
+                        break
+
+                # ServoJ-Mehrpunktbefehl senden
+                axis_pos = [0.0, 0.0, 0.0, 0.0]
+                # Parameterreihenfolge beachten: joint_pos, axisPos, acc, vel, cmdT, filterT, gain, id, cmdType
+                # acc=100.0 entspricht C++ 100.0, vel=100.0 entspricht C++ 100.0
+                rtn, servo_j_cmd_count = robot.ServoJMultiPos(joint_pos_list, axis_pos,
+                                                            acc=100.0, vel=100.0,
+                                                            cmdT=0.008, filterT=0.008,
+                                                            gain=1.0, id=0, cmdType=0)
+                if rtn != 0:
+                    print(f"ServoJMultiPos-Ausführung fehlgeschlagen, Fehlercode: {rtn}")
+                    break
+
+                # Debug-Informationen ausgeben
+                print(f"Sende {len(joint_pos_list)} Wegpunkte, ServoJ-Befehlszähler: {servo_j_cmd_count}")
+
+            time.sleep(4)
+
+        # Verbindung schließen (normalerweise wird dies nicht erreicht)
+        robot.CloseRPC()
+
+
+    if __name__ == "__main__":
+        main()        

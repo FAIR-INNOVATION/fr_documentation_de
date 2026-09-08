@@ -2121,3 +2121,213 @@ Codebeispiel für Konfiguration und Bewegung der Dreifingrigen Hand am Endeffekt
             time.sleep(1)
 
     main(robot)    
+
+Auf Greiferbewegungsstatus warten
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GripperWaitMotionDone(self, status, timeout, strategy, type)``"
+    "Beschreibung", "Wartet auf den Greiferbewegungsstatus"
+    "Erforderliche Parameter", "
+    - ``status``：0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen ohne Objekterkennung, 2-Bewegung abgeschlossen mit Objekterkennung
+    - ``timeout``：Timeout (ms), -1 für unendliches Warten
+    - ``strategy``：0-mit Fehler stoppen, 1-weiterlaufen
+    - ``type``：0-Parallelgreifer, 1-Drehgreifer
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode, 0-Erfolg; ungleich Null-Fehler"    
+
+Codebeispiel zum Warten auf den Greiferbewegungsstatus    
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:  
+
+    from fairino import Robot
+    import time
+
+
+    def main():
+        # Verbindung zum Roboter-Controller herstellen
+        robot = Robot.RPC('192.168.58.2')
+        time.sleep(0.5)  # Auf Verbindung und Datenempfang warten
+
+        print("========== Test zum Warten auf Greiferbewegungsabschluss ==========")
+
+        # ========== Greifer öffnen ==========
+        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0)
+        print(f"MoveGripper(öffnen) ret={rtn}")
+        time.sleep(4)
+
+        # ========== Greifer schließen ==========
+        rtn = robot.MoveGripper(1, 90, 100, 100, 30000, 0, 0, 0, 0, 0)
+        print(f"MoveGripper(schließen) ret={rtn}")
+
+        # ========== Warten auf Bewegungsabschluss (kein Objekt erkannt, Timeout 30s, mit Fehler stoppen) ==========
+        rtn = robot.GripperWaitMotionDone(1, 30000, 0, 0)
+        print(f"GripperWaitMotionDone(warten auf Abschluss ohne Objekterkennung) ret={rtn}")
+
+        # ========== Greifer öffnen ==========
+        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0)
+        print(f"MoveGripper(öffnen) ret={rtn}")
+
+        print("========== Test abgeschlossen ==========")
+
+        # Verbindung schließen
+        robot.CloseRPC()
+
+
+    if __name__ == "__main__":
+        main()    
+
+Codebeispiel für Laseraufzeichnungswiedergabe + Asynchrone Erweiterungsachsenbewegung + Punktgenaue Pendelbewegung    
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:         
+
+    def test_laser_record_replay_exaxis_with_wave():
+    print("\n========== Laseraufzeichnungswiedergabe + Asynchrone Erweiterungsachsenbewegung + Punktgenaue Pendelbewegung ==========")
+
+    startjointPos = [105.600,-65.393,-93.638,-79.687,79.175,134.046]
+    startdescPose = [42.376,533.597,362.564,-34.957,-0.564,169.063]
+    endjointPos = [105.600,-65.393,-93.638,-79.687,79.175,134.046]
+    enddescPose = [42.376,533.597,362.564,-34.957,-0.564,169.063]
+    offdese = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    # MoveJ zum sicheren Punkt (Erweiterungsachse 0,134.296,0,0)
+    rtn = robot.MoveJ(joint_pos=startjointPos, desc_pos=startdescPose, tool=5, user=0,
+                        vel=100, acc=100, ovl=50, exaxis_pos=[0, 134.296, 0, 0],
+                        blendT=-1, offset_flag=0, offset_pos=offdese)
+    print(f"MoveJ start: {rtn}")
+
+    # Asynchrone Erweiterungsachsenbewegung zum Startpunkt 74.335
+    rtn = robot.ExtAxisMove([0, 74.335, 0, 0], 50, -1)
+    print(f"ExtAxisMove 74.335: {rtn}")
+    time.sleep(3)
+
+    # MoveL zum Startpunkt
+    rtn = robot.MoveL(joint_pos=endjointPos, desc_pos=enddescPose, tool=5, user=0,
+                        vel=100, acc=100, ovl=50, blendR=-1, offset_flag=0,
+                        exaxis_pos=[0, 74.335, 0, 0], search=0,
+                        offset_pos=offdese)
+    print(f"MoveL end: {rtn}")
+
+    # Laseraufzeichnung starten
+    rtn = robot.LaserSensorRecord1(2, 10)
+    print(f"LaserSensorRecord start: {rtn}")
+
+    # Erweiterungsachse bewegt sich während der Aufzeichnung auf 134.296
+    rtn = robot.ExtAxisMove([0, 134.296, 0, 0], 50, -1)
+    print(f"ExtAxisMove 134.296: {rtn}")
+    time.sleep(3)
+
+    # Laseraufzeichnung stoppen
+    rtn = robot.LaserSensorRecord1(0, 10)
+    print(f"LaserSensorRecord stop: {rtn}")
+
+    # Erweiterungsachse kehrt zu 74.335 zurück, MoveL zurück zum Startpunkt
+    rtn = robot.ExtAxisMove([0, 74.335, 0, 0], 50, -1)
+    print(f"ExtAxisMove back: {rtn}")
+
+    # MoveL zum Startpunkt
+    rtn = robot.MoveL(joint_pos=endjointPos, desc_pos=enddescPose, tool=5, user=0,
+                        vel=100, acc=100, ovl=50, blendR=-1, offset_flag=0,
+                        exaxis_pos=[0, 74.335, 0, 0], search=0,
+                        offset_pos=offdese)
+    print(f"MoveL back: {rtn}")
+
+    # PTP-Bewegung zum Start des Laseraufzeichnungspfads
+    rtn = robot.MoveToLaserRecordStart(0, 30)
+    print(f"MoveToLaserRecordStart: {rtn}")
+
+    # Wiedergabe starten
+    rtn = robot.LaserSensorRecord1(3, 10)
+    print(f"LaserSensorRecord replay: {rtn}")
+
+    # Punktgenaue Pendelbewegung starten
+    refPoint = [49.381,533.608,362.556,-34.961,-0.564,169.062]
+    rtn = robot.OriginPointWeaveStart(0, 1, refPoint, 5)
+    print(f"OriginPointWeaveStart: {rtn}")
+
+    # Erweiterungsachse bewegt sich während der Pendelbewegung auf 134.296
+    rtn = robot.ExtAxisMove([0, 134.296, 0, 0], 50, -1)
+    print(f"ExtAxisMove replay: {rtn}")
+
+    # Pendelbewegung beenden
+    rtn = robot.OriginPointWeaveEnd()
+    print(f"OriginPointWeaveEnd: {rtn}")
+
+    # Wiedergabe stoppen
+    rtn = robot.LaserSensorRecord1(0, 10)
+    print(f"LaserSensorRecord stop: {rtn}") 
+
+Codebeispiel für Laseraufzeichnungswiedergabe + Normale Pendelbewegung   
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:   
+
+    def test_laser_reproduce_normal_weave():
+    print("\n========== Laseraufzeichnungswiedergabe + Normale Pendelbewegung ==========")
+
+    startjointPos = [68.930,-70.217,-121.821,-75.522,91.216,137.289]
+    startdescPose = [216.097,304.517,34.164,-3.871,0.792,132.864]
+    endjointPos = [58.092,-78.843,-115.569,-73.420,91.662,126.457]
+    enddescPose = [296.276,307.453,34.803,-3.868,0.783,132.864]
+    offdese = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    time.sleep(1)
+
+    # MoveL zur Startposition (Erweiterungsachse 0,174.957,0,0)
+    rtn = robot.MoveL(joint_pos=startjointPos, desc_pos=startdescPose, tool=5, user=0,
+                        vel=100, acc=100, ovl=100, blendR=-1, offset_flag=0,
+                        exaxis_pos=[0, 174.957, 0, 0], search=0,
+                        offset_pos=offdese)
+    print(f"MoveL start: {rtn}")
+
+    # Laseraufzeichnung starten
+    rtn = robot.LaserSensorRecord1(2, 10)
+    print(f"LaserSensorRecord start: {rtn}")
+
+    # MoveL zur Endposition
+    rtn = robot.MoveL(joint_pos=endjointPos, desc_pos=enddescPose, tool=5, user=0,
+                        vel=100, acc=100, ovl=100, blendR=-1, offset_flag=0,
+                        exaxis_pos=[0, 174.957, 0, 0], search=0,
+                        offset_pos=offdese)
+    print(f"MoveL end: {rtn}")
+
+    # Laseraufzeichnung stoppen
+    rtn = robot.LaserSensorRecord1(0, 10)
+    print(f"LaserSensorRecord stop: {rtn}")
+
+    # MoveL zurück zur Startposition
+    rtn = robot.MoveL(joint_pos=startjointPos, desc_pos=startdescPose, tool=5, user=0,
+                        vel=100, acc=100, ovl=100, blendR=-1, offset_flag=0,
+                        exaxis_pos=[0, 174.957, 0, 0], search=0,
+                        offset_pos=offdese)
+    print(f"MoveL back: {rtn}")
+
+    # LIN-Bewegung zum Start des Laseraufzeichnungspfads
+    rtn = robot.MoveToLaserRecordStart(1, 30)
+    print(f"MoveToLaserRecordStart: {rtn}")
+
+    # Normale Pendelbewegung starten
+    rtn = robot.WeaveStart(0)
+    print(f"WeaveStart: {rtn}")
+
+    # Wiedergabeaufzeichnung starten    rtn = robot.LaserSensorRecord1(3, 10)
+    print(f"LaserSensorRecord replay: {rtn}")
+
+    # Laser-Tracking-Wiedergabebewegung
+    rtn = robot.MoveLTR()
+    print(f"MoveLTR: {rtn}")
+    time.sleep(3)
+
+    # Wiedergabeaufzeichnung stoppen
+    rtn = robot.LaserSensorRecord1(0, 10)
+    print(f"LaserSensorRecord stop: {rtn}")
+
+    # Normale Pendelbewegung beenden
+    rtn = robot.WeaveEnd(0)
+    print(f"WeaveEnd: {rtn}")        

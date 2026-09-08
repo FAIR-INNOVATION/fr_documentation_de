@@ -186,6 +186,79 @@ Systemzeit abrufen
     "Rückgabewert", "- Fehlercode: 0 = Erfolg, sonst Fehlercode
     - ``t_ms``: Systemzeit [ms]"
 
+Systemzeit mit dem Roboter synchronisieren
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SetRobottime(self)``"
+    "Beschreibung", "Ruft die aktuelle Systemzeit des Hosts ab und sendet sie an den Roboter, um die Systemzeit zu synchronisieren (aufgrund von QNX-Systemeinschränkungen ist die Synchronisationsgenauigkeit auf Minutenebene)"
+    "Erforderliche Parameter", "Keine"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "- Fehlercode, 0-Erfolg; ungleich Null-Fehler"
+
+Codebeispiel zum Synchronisieren der Systemzeit mit dem Roboter
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    from datetime import datetime, timedelta
+
+
+    def main():
+        # Verbindung zum Roboter-Controller herstellen
+        robot = Robot.RPC('192.168.58.2')
+        time.sleep(0.5)
+
+        print("========== Set and Get Robot Time Test ==========")
+
+        # Systemzeit vor dem Setzen abrufen
+        ret, t_ms = robot.GetSystemClock()
+        if ret == 0 and t_ms is not None:
+            print(f"system clock : {t_ms}")
+            # Der Roboter speichert UTC+8, zurück zur PC-Zeit konvertieren (8 Stunden subtrahieren)
+            robot_time = datetime.fromtimestamp(t_ms / 1000.0) - timedelta(hours=8)
+            print(f"BEFORE Robot Time: {robot_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        else:
+            print(f"GetSystemClock failed, ret:{ret}")
+
+        # Roboterzeit auf PC-Zeit setzen
+        ret = robot.SetRobottime()
+        print(f"SetRobottime ret: {ret}")
+
+        # Roboterzeit nach dem Setzen abrufen
+        ret, t_ms_after = robot.GetSystemClock()
+        if ret == 0 and t_ms_after is not None:
+            print(f"system clock : {t_ms_after}")
+            # Der Roboter speichert UTC+8, zurück zur PC-Zeit konvertieren (8 Stunden subtrahieren)
+            robot_time = datetime.fromtimestamp(t_ms_after / 1000.0) - timedelta(hours=8)
+
+            # PC-Zeit - Systemlokale Zeit anzeigen
+            pc_time = datetime.now()
+
+            # Beide Zeiten auf Minuten kürzen
+            pc_minute = pc_time.replace(second=0, microsecond=0)
+            robot_minute = robot_time.replace(second=0, microsecond=0)
+
+            # Konsistenz vergleichen
+            is_consistent = (pc_minute == robot_minute)
+            if is_consistent:
+                print(f"Consistent     | PC time: {pc_minute.strftime('%Y-%m-%d %H:%M')}  | Robot time: {robot_minute.strftime('%Y-%m-%d %H:%M')}")
+            else:
+                print(f"Inconsistent | PC time: {pc_minute.strftime('%Y-%m-%d %H:%M')}  | Robot time: {robot_minute.strftime('%Y-%m-%d %H:%M')}")
+        else:
+            print(f"GetSystemClock failed, ret:{ret}")
+
+        # Verbindung schließen
+        robot.CloseRPC()
+
+
+    if __name__ == "__main__":
+        main()
+
 Abfragen, ob die Roboterbewegung abgeschlossen ist
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. csv-table::

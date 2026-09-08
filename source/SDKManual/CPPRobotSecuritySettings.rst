@@ -393,3 +393,70 @@ Codebeispiel zum Festlegen der Gelenksicherheitsgeschwindigkeit des Roboters
         robot.CloseRPC();
         return 0;
     }    
+
+Prüfsumme der Sicherheitskonfigurationsparameter abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:   
+
+    /**
+    * @brief Ruft die Prüfsumme der Sicherheitskonfigurationsparameter ab
+    * @param [out] status Prüfstatus, 0-gültig, 1-wird geprüft, 2-Prüfung fehlgeschlagen
+    * @param [out] checksum Prüfsumme, 8-stellig hexadezimal
+    * @return  Fehlercode
+    */
+    errno_t GetSafetyParamsCheckSum(int& status, uint32_t& checksum);
+    
+Sicherheitsoperations-Kennwortprüfung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:   
+
+    /**
+    * @brief Sicherheitsoperations-Kennwortprüfung
+    * @param [in] status Prüfung, 0-aktiviert, 1-deaktiviert
+    * @param [in] password Kennwort
+    * @return Fehlercode
+    */
+    errno_t SafetyOPPasswordCheck(int status, std::string password);
+        
+Codebeispiel für die Kennwortprüfung der Sicherheitskonfigurationsparameter
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:   
+
+    int TestSafetyParamsCheckSum()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        robot.SetReConnectParam(true, 30000, 500);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        int status = 0;
+        uint32_t checksum = 0;
+        rtn = robot.GetSafetyParamsCheckSum(status, checksum);
+        printf("GetSafetyParamsCheckSum: error=%d, status=%d, hex_code=  0x%x  \n", rtn, status, checksum);
+        robot.Sleep(3000);
+        rtn = robot.SafetyOPPasswordCheck(0, "123");
+        printf("SafetyOPPasswordCheck: error= %d\n", rtn);
+        float level1[6] = { 2.0, 2.0, 2.0, 2.0, 2.0, 2.0 };
+        rtn = robot.SetAnticollision(0, level1, 1);
+        printf("SetAnticollision: error=%d\n", rtn);
+        int safety[6] = { 10, 10, 10, 10, 10, 10 };
+        rtn = robot.SetCollisionStrategy(0, 1000, 150, 0, safety);
+        printf("SetCollisionStrategy rtn is %d\n", rtn);
+        robot.Sleep(1000);
+        rtn = robot.GetSafetyParamsCheckSum(status, checksum);
+        printf("GetSafetyParamsCheckSum(again): error=%d, status=%d, hex_code=  0x%x  \n", rtn, status, checksum);
+        robot.Sleep(2000);
+        robot.CloseRPC();
+        return 0;
+    }

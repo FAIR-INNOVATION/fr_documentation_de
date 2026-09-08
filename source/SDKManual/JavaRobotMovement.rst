@@ -844,6 +844,120 @@ Beispielprogramm für Servo-Modus Bewegung im Gelenkraum (ServoJ)
         }
     }
 
+Servo-Modus-Bewegung im Gelenkraum (Unterstützt Mehrfacheingabe auf Einmal)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Servo-Modus-Bewegung im Gelenkraum (unterstützt Mehrfacheingabe auf einmal)
+    * @param [in] joint_pos Ziel-Gelenkpositionssatz (unterstützt bis zu 10 Gruppen), Einheit deg
+    * @param [in] axisPos Externe Achsenposition, Einheit mm
+    * @param [in] acc Beschleunigungsprozentsatz, Bereich [0~100], noch nicht verfügbar, Standard 0
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100], noch nicht verfügbar, Standard 0
+    * @param [in] cmdT Befehlssendezyklus, Einheit s, empfohlener Bereich [0.001~0.0016]
+    * @param [in] filterT Filterzeit, Einheit s, noch nicht verfügbar, Standard 0
+    * @param [in] gain Proportionalverstärker der Zielposition, noch nicht verfügbar, Standard 0
+    * @param [out] servoJCmdCount ServoJ-Befehlspunktzähler [0-10000]
+    * @param [in] id ServoJ-Befehls-ID, Standard 0
+    * @param [in] comType Befehlssendetyp; 0-xmlrpc; 1-UDP (entspricht Roboterschleuse 20007)
+    * @return Fehlercode
+    */
+    public int ServoJ(List<JointPos> joint_pos, ExaxisPos axisPos, float acc, float vel, float cmdT, float filterT, float gain, ref int servoJCmdCount, int id = 0, int comType = 0)
+
+Codebeispiel für Servo-Modus-Bewegung im Gelenkraum (Unterstützt Mehrfacheingabe auf Einmal)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestServoJPath(Robot robot)
+    {
+        // ServoJ-Pfaddatei lesen, Spalten 2~7 jeder Zeile als 6 Gelenkpositionen nehmen
+        String filePath = "D:\\zUP\\ServoJPath.txt";
+        List<JointPos> allJointData = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath)))
+        {
+            String line;
+            while ((line = reader.readLine()) != null)
+            {
+                String[] cols = line.split("[ \\t]+");
+                if (cols.length < 7)
+                    continue;
+                JointPos pose = new JointPos(0, 0, 0, 0, 0, 0);
+                pose.J1 = Double.parseDouble(cols[1]);
+                pose.J2 = Double.parseDouble(cols[2]);
+                pose.J3 = Double.parseDouble(cols[3]);
+                pose.J4 = Double.parseDouble(cols[4]);
+                pose.J5 = Double.parseDouble(cols[5]);
+                pose.J6 = Double.parseDouble(cols[6]);
+                allJointData.add(pose);
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println("Failed to read file: " + e.getMessage());
+            return;
+        }
+        System.out.println("Total " + allJointData.size() + " joint position sets read");
+        if (allJointData.isEmpty())
+            return;
+
+        // Hin- und Rückweg erstellen: Vorwärtsreihenfolge + Rückwärtsreihenfolge
+        List<JointPos> backForthPath = new ArrayList<>(allJointData);
+        for (int i = allJointData.size() - 2; i >= 0; i--)
+        {
+            backForthPath.add(allJointData.get(i));
+        }
+
+        ExaxisPos epos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+        DescPose offsetPos = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        robot.MoveJ(allJointData.get(0), 0, 0, 100, 100, 100, epos, -1, 0, offsetPos);
+
+        robot.Sleep(1000);
+
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+        while (true)
+        {
+            robot.ResetAllError();
+            robot.MoveJ(allJointData.get(0), 0, 0, 100, 100, 100, epos, -1, 0, offsetPos);
+            int moveCount = 0;
+            while (moveCount < backForthPath.size() - 10)
+            {
+                pkg = robot.GetRobotRealTimeState();
+
+                int singleServoJCount = 50 - pkg.mc_queue_len;
+                if (singleServoJCount <= 0)
+                {
+                    robot.Sleep(100);
+                    continue;
+                }
+                if (singleServoJCount > 10)
+                {
+                    singleServoJCount = 10;
+                }
+
+                List<JointPos> jointPos = new ArrayList<>();
+                for (int j = 0; j < singleServoJCount; j++)
+                {
+                    jointPos.add(backForthPath.get(moveCount));
+                    moveCount++;
+                }
+
+                System.out.println("Sending " + singleServoJCount + " waypoints, moveCount=" + moveCount);
+
+                ExaxisPos axisPos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+                int[] servoJCmdCount = new int[1];
+                int rtn = robot.ServoJ(jointPos, axisPos, 100.0f, 100.0f, 0.008f, 0.008f, 1.0f, servoJCmdCount, 0, 0);
+                if (rtn != 0)
+                {
+                    System.out.println("ServoJ failed: " + rtn);
+                    break;
+                }
+            }
+            robot.Sleep(4000);
+        }
+    }
+
 Start der Gelenkmomentsteuerung
 ++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java

@@ -110,7 +110,7 @@ Die Anmeldeoberfläche ist in der folgenden Abbildung dargestellt:
 Spracheinstellungen
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Das System verfügt derzeit über acht integrierte Sprachen: Chinesisch (vereinfacht), Chinesisch (traditionell), Englisch, Französisch, Koreanisch, Japanisch, Russisch und Italienisch.
+- Das System verfügt derzeit über 11 Sprachen: vereinfachtes Chinesisch, traditionelles Chinesisch, Englisch, Französisch, Koreanisch, Japanisch, Russisch, Italienisch, Deutsch, Portugiesisch und Polnisch.
 
 - Der Name des Sprachpakets muss dem Format `[Sprachcode].json` entsprechen, z.B. `es.json`. Der Sprachcode folgt dem ISO 639-1 Standard.
 
@@ -171,6 +171,16 @@ Spracheinstellungen
      - de
      - Ja
 
+   * - Portugiesisch
+     - Português
+     - pt
+     - Ja
+
+   * - Polnisch
+     - Polski
+     - pl
+     - Ja
+     
 1. Wählen Sie die Sprache oben rechts auf der Anmeldeoberfläche (oder auf der Erstaktivierungsoberfläche) aus.
 
 .. image:: teaching_pendant_software/062.png

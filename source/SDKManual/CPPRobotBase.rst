@@ -122,6 +122,19 @@ Roboter-Betriebssystem herunterfahren
     */
     errno_t ShutDownRobotOS();
 
+Wechsel in den manuellen Hochgeschwindigkeitsmodus
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Wechsel in den manuellen Hochgeschwindigkeitsmodus
+    * @param [in] state 0-manuellen Hochgeschwindigkeitsmodus verlassen; 1-manuellen Hochgeschwindigkeitsmodus aktivieren
+    * @return Fehlercode
+    */
+    errno_t HiSpeedManualSwitch(int state);    
+
 Parameter für die Wiederverbindung mit der Robotersteuerung einstellen
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0

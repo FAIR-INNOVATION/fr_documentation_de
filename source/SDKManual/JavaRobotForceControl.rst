@@ -480,6 +480,58 @@ Rotationseinfügung
     */
     public int FT_RotInsertion(int rcs, double angVelRot, double ft, double max_angle, int orn, double max_angAcc, int rotorn, int strategy);
 
+Spiralsuche
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  Spiralsuche
+    * @param  [in] rcs Referenzkoordinatensystem, 0-Werkzeugkoordinatensystem, 1-Basiskoordinatensystem
+    * @param  [in] dr Radiusvorschub pro Umdrehung
+    * @param  [in] ft Kraft-/Drehmomentschwelle, fx,fy,fz,tx,ty,tz, Bereich [0~100]
+    * @param  [in] max_t_ms Maximale Suchzeit, Einheit ms
+    * @param  [in] max_vel Maximale Lineargeschwindigkeit, Einheit mm/s
+    * @param  [in] strategy Behandlungsstrategie bei nicht erkannter Kraft/Drehmoment, 0-Fehler; 1-Warnung, Bewegung fortsetzen
+    * @return  Fehlercode
+    */
+    public int FT_SpiralSearch(int rcs, double dr, double ft, double max_t_ms, double max_vel, int strategy)
+
+Lineare Einführung
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Lineare Einführung
+    * @param rcs Referenzkoordinatensystem, 0-Werkzeugkoordinatensystem, 1-Basiskoordinatensystem
+    * @param ft Kraft-/Drehmomentschwelle, fx,fy,fz,tx,ty,tz, Bereich [0~100]
+    * @param lin_v Lineargeschwindigkeit, Einheit mm/s
+    * @param lin_a Linearbeschleunigung, Einheit mm/s^2, vorübergehend nicht verwendet
+    * @param max_dis Maximale Einführungsdistanz, Einheit mm
+    * @param linorn Einführungsrichtung, 0-negative Richtung, 1-positive Richtung
+    * @return Fehlercode
+    */
+    public int FT_LinInsertion(int rcs, double ft, double lin_v, double lin_a, double max_dis, int linorn, int strategy)
+
+Oberflächenpositionierung
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Oberflächenpositionierung
+    * @param rcs Referenzkoordinatensystem, 0-Werkzeugkoordinatensystem, 1-Basiskoordinatensystem
+    * @param dir Bewegungsrichtung, 1-positive Richtung, 2-negative Richtung
+    * @param axis Bewegungsachse, 1-x-Achse, 2-y-Achse, 3-z-Achse
+    * @param lin_v Such-Lineargeschwindigkeit, Einheit mm/s
+    * @param lin_a Such-Linearbeschleunigung, Einheit mm/s^2, vorübergehend nicht verwendet, Standard 0
+    * @param max_dis Maximale Suchdistanz, Einheit mm
+    * @param ft Kraft-/Drehmomentschwelle für Bewegungsbeendigung, fx,fy,fz,tx,ty,tz
+    * @return Fehlercode
+    */
+    public int FT_FindSurface(int rcs, int dir, int axis, double lin_v, double lin_a, double max_dis, double ft, int strategy)
+
 Codebeispiel für Rotationseinfügung mit Kraftsensor
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: java

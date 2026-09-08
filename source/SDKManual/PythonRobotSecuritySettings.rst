@@ -307,3 +307,72 @@ SDK-Codebeispiel zum Einstellen der Sicherheitsgeschwindigkeitsparameter
 
     if __name__ == "__main__":
         main()
+
+Prüfsumme der Sicherheitskonfigurationsparameter abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetSafetyParamsCheckSum(self)``"
+    "Beschreibung", "Ruft die Prüfsumme der Sicherheitskonfigurationsparameter ab"
+    "Erforderliche Parameter", "
+    - ``status``: Prüfstatus, 0-gültig, 1-wird geprüft, 2-Prüfung fehlgeschlagen
+    - ``checksum``: Prüfsumme, 8-stellig hexadezimal (zugrunde liegend wird uint32_t zurückgegeben, manuelle Konvertierung erforderlich)
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "- Fehlercode, 0-Erfolg; ungleich Null-Fehler"
+
+Sicherheitsoperations-Kennwortprüfung
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``SafetyOPPasswordCheck(self,status,password)``"
+    "Beschreibung", "Sicherheitsoperations-Kennwortprüfung"
+    "Erforderliche Parameter", "
+    - ``status``: Prüfung, 0-aktiviert, 1-deaktiviert
+    - ``password``: Kennwort
+    "
+    "Standardparameter", "Keine"
+    "Rückgabewert", "- Fehlercode, 0-Erfolg; ungleich Null-Fehler"
+
+Codebeispiel für die Kennwortprüfung der Sicherheitskonfigurationsparameter
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # Verbindung zum Roboter-Controller herstellen
+    robot = Robot.RPC('192.168.58.2')
+
+
+    def test(self):
+        error, status, hex_code = robot.GetSafetyParamsCheckSum()
+        print(f"GetSafetyParamsChecksum: error={error}, status={status}, hex_code={hex_code}")
+        time.sleep(3)
+        error = robot.SafetyOPPasswordCheck(0, "12345678")
+        print(f"SafetyOPPasswordCheck: error={error}")
+
+        if error == 0:
+            error = robot.SetAnticollision(mode=0, level=[2.0, 2.0, 2.0, 2.0, 2.0, 2.0], config=1)
+            print(f"SetAnticollision: error={error}")
+
+            error = robot.SetCollisionStrategy(strategy=0, safeTime=1000, safeDistance=150,
+                                            safetyMargin=[10, 10, 10, 10, 10, 10])
+            print(f"SetCollisionStrategy: error={error}")
+
+        time.sleep(1)
+
+        error, status, hex_code = robot.GetSafetyParamsCheckSum()
+        print(f"GetSafetyParamsChecksum(again): error={error}, status={status}, hex_code={hex_code}")
+
+
+    test(robot)        

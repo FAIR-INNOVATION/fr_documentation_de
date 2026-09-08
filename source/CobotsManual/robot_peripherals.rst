@@ -581,6 +581,33 @@ Anhang 1: Bewegungsregler-Fehler und Behandlungsmethoden
      - 3
      - Greifer-Werkstückabfall-Alarm, zurücksetzbar. Nach dem Löschen des Fehlers bitte den Greifer zurücksetzen und reaktivieren
 
+Anhang: Greifer-Warteblockierungsbefehl
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Klicken Sie auf "Teach Program" -> "Peripheriebefehle" -> "Greifer", um einen Befehl zum Warten auf den Abschluss der Greiferbewegung hinzuzufügen, der blockieren kann, bis die Greifaktion abgeschlossen ist, um die tatsächliche physische Position des Greifers zu erhalten.
+
+.. image:: safety/032.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 8.2-17 Greiferbewegungsabschluss-Wartebefehl
+ 
+- Greiferstatus: Bewegung nicht abgeschlossen, Bewegung abgeschlossen mit keinem Objekt erkannt, Bewegung abgeschlossen mit Objekt erkannt;
+- Timeout-Zeit: Einheit ms, -1 bedeutet für immer warten.
+- Timeout-Strategie: Sie können zwischen "Stopp mit Fehler" oder "Weiterlaufen" wählen.
+- Greifertyp: Sie können zwischen Parallelgreifer oder Drehgreifer wählen.
+
+.. note:: 
+   Hinweis: Der Befehl zum Warten auf den Abschluss der Greiferbewegung ist nur für kundenspezifische Protokolle anwendbar; angepasste Geräte unterstützen ihn derzeit nicht.
+
+   Sie können auch direkt GetGripperMotionDone() zur Beurteilung verwenden. Der Eingabeparameter ist der Greifertyp: 0 für Parallelgreifer, 1 für Drehgreifer. Die Rückgabewerte sind Greiferfehler und Greiferstatus. Greiferfehler 0 bedeutet kein Fehler, andere Werte bedeuten, dass ein Fehler vorliegt. Greiferstatus 0 bedeutet Bewegung nicht abgeschlossen, 1 bedeutet Bewegung abgeschlossen mit keinem Objekt erkannt, 2 bedeutet Bewegung abgeschlossen mit Objekt erkannt. Beispielprogramme für das Warten auf den Abschluss der Greiferbewegung und das Abrufen der Greiferposition sind wie folgt:
+
+.. image:: safety/033.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 8.2-18 Greiferbewegungs-Beispielprogramm
+
 Kraftsensor
 -------------------------
 
