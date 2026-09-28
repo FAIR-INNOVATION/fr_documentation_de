@@ -155,6 +155,39 @@ Für das Drag & Teach wurde eine Funktion zur Sperrung von Freiheitsgraden hinzu
 
 .. centered:: Abbildung 14.5‑1 Konfiguration der Drag & Teach-Sperre
 
+FR3-WML/FR3-WMS/FR20/FR30 Zieh-Sperrfunktion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Überblick
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Diese Funktion passt die Parameter der Stromschleifen-Zieh-Sperrfunktion an die dynamischen Eigenschaften neuer Modelle an, sodass der Endeffektor während des Ziehens stets stabil und unbeweglich auf einem bestimmten Freiheitsgrad bleibt und sich nicht mit der ausgeübten externen Kraft bewegt. Die Stromschleifen-Zieh-Sperrfunktion wird auf die Modelle FR3WMS/FR3-WML/FR20/FR30 erweitert.
+
+Im Ziehmodus wird die Endpose eingeschränkt. Wenn die Richtung der externen Ziehkraft nicht auf dem eingeschränkten Freiheitsgrad liegt, kann das Robotierende normal gezogen werden; andernfalls wird seine Bewegung eingeschränkt.
+
+Zieh-Sperre
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Vor dem Einstellen der Zieh-Sperrfunktion sind die Roboterinstallationsmethode, die Last und die Koordinatensystemeinstellungen zu prüfen, um sicherzustellen, dass der Roboterarm im normalen Ziehmodus ohne externe Kraft keine offensichtlichen Aufwärts- oder Abwärtsverschiebungen zeigt.
+
+Unter der Menüleiste "Hilfsanwendung" -> "Werkzeuganwendung" auf "Zieh-Sperre" klicken, um die Konfigurationsoberfläche der Zieh-Sperrfunktion für den Ziehteaching-Modus aufzurufen. In der Menüleiste "Stromschleifen-Zieh-Sperre" werden bei aktiviertem Ziehteaching-Funktionsschalter und Klick auf Anwenden die Parameter der einzelnen Freiheitsgrade wirksam, wenn der Benutzer den Roboter zieht, und sperren den entsprechenden Freiheitsgrad.
+
+Erläuterung der Konfigurationselemente in der Menüleiste "Stromschleifen-Zieh-Sperre":
+
+(1) Parametereinstellungen der Freiheitsgrade: Wenn die Parameter auf X:10, Y:0, Z:10, RX:10, RY:10, RZ:10 eingestellt sind, kann durch Ziehen des Roboters im Ziehmodus der Roboter darauf beschränkt werden, sich nur in Y-Richtung zu bewegen. Wenn die Roboterpose während des Ziehens unverändert bleiben und nur in X-, Y-, Z-Richtung bewegt werden soll, setzen Sie X, Y, Z auf 0 und RX, RY, RZ auf 10. Je kleiner der Parameter wird, desto geringer ist die Einschränkungskraft auf diesen Freiheitsgrad. Der Maximalwert ist 10, mit der maximalen Einschränkungskraft; der Minimalwert ist 0, ohne Einschränkungskraft.
+
+(2) Ziehteaching-Schalter: Aktiviert die Zieh-Sperrfunktion im Ziehmodus.
+
+.. image:: application/050.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 14.5-1-2 Konfiguration der Ziehteaching-Sperre
+
+Die Parametereinstellungen müssen die folgenden Einschränkungen erfüllen:
+
+(1) Die Parametereinstellungen sind auf den Bereich 0~10 begrenzt. Bei einigen Modellen (wie FR20 und FR30) sind die Parametereinstellungen auf den Bereich 0~5 begrenzt. Wenn ein Wert außerhalb des Bereichs 0~10 eingegeben wird, wird er daher auf den nächstgelegenen Wert 0 oder 10 geändert. Wenn der Parameter beispielsweise auf 15 eingestellt wird, wird er zu 10.
+
 Normale Auslösung des Kollisionsschutzes bei kraftunterstütztem Ziehen
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

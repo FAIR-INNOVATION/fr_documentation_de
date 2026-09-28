@@ -66,7 +66,7 @@ Verwenden Sie die Werkzeugleiste am oberen Rand des Programmbaums, um diesen zu 
 
    Bezeichnung: **Öffnen**
 
-   Funktion: Öffnet eine Benutzerprogrammdatei.
+   Funktion: Benutzerprogrammdateien öffnen und Sortierung nach Buchstaben (A~Z oder Z~A) oder nach der letzten Änderungszeit unterstützen.
 
 .. note::
    .. image:: coding/007.png
@@ -294,6 +294,12 @@ Die Symbole oben rechts werden wie folgt beschrieben:
    Bezeichnung: **Hauptprogrammkonfiguration**
    
    Funktion: Konfigurieren des Hauptprogramms
+
+.. image:: coding/625.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.3-1 Sortierung der Programmnamen
 
 Programmbefehle
 ~~~~~~~~~~~~~~~
@@ -3010,7 +3016,7 @@ Dieser Befehl enthält acht Befehle: FT_Guard (Kollisionserkennung), FT_Control 
 .. centered:: Abbildung 9.9-1 F/T-Befehls-Oberfläche
 
 Optimierung des Kraftgeregelten Montageprozesspakets
-*************************************************
+***********************************************************
 
 Übersicht
 """"""""""""""""""""""""""""""""""""

@@ -13,6 +13,15 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V4.0.0
+     - 2026-09-23
+     - | 1. Die Parameterbeschreibung der Schnittstelle SetWeldMachineCtrlMode() zum Einstellen des Schweißgerät-Steuermodus wurde geändert und die Impuls- und Impulslos-Modi für Panasonic-Schweißgeräte wurden hinzugefügt;
+       | 2. SendTCPFrame() wurde hinzugefügt, um benutzerdefinierte Befehlsframes über TCP8080 zu senden, einschließlich eines Codebeispiels;
+       | 3. TCFToAllJoint() wurde hinzugefügt, um 8 Sätze inverser Lösungen für den Roboter zu erhalten, einschließlich eines Codebeispiels;
+       | 4. SetPhySpeedInstant() wurde hinzugefügt, um die physische Geschwindigkeit in Echtzeit einzustellen, einschließlich eines Codebeispiels;
+       | 5. MtlsLink() wurde hinzugefügt, um den Pfad des TLS-Kommunikationsverschlüsselungszertifikats für das integrierte Befehlprotokoll im SDK festzulegen, einschließlich eines Codebeispiels;
+       | 6. mTLS-Verschlüsselung für die Kommunikation des integrierten Befehlprotokolls (TCP-8080, UDP-20007) im SDK wurde hinzugefügt, einschließlich neuer Konfigurationsparameter für die Verschlüsselungsaktivierung und die Einstellung des Verschlüsselungszertifikatspfads.
+
    * - V3.9.9
      - 2026-09-01
      - | 1. Aktualisierung der GetGripperMotionDone()-Schnittstelle zum Abrufen des Greiferbewegungsstatus, Aktualisierung der Definition und des Verwendungsbereichs der Greiferstatus-Ausgabeparameter;

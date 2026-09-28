@@ -51,6 +51,20 @@ Klicken Sie auf die Schaltfläche "Umbenennen", um den Namen des Koordinatensyst
 
 .. centered:: Abbildung 6.2‑1-2 Umbenennen des Koordinatensystems
 
+Klicken Sie auf die Import-Schaltfläche nach "Werkzeugmodell", um das Dialogfeld zum Importieren des Werkzeugmodells zu öffnen, wählen Sie die gewünschte Werkzeugmodelldatei aus (nur Dateien im Format .stl und .dae werden unterstützt). Nach Bestätigung des Imports wird das Werkzeugmodell am Ende des 3D-Modellroboters angezeigt. Klicken Sie auf die Schaltfläche zum Ein-/Ausschalten des Werkzeugmodells in der Bedienleiste der 3D-Szene, um die Anzeige und das Ausblenden zu steuern.
+
+.. image:: base/108.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 6.2-1-3 Import des Werkzeugmodells
+
+.. image:: base/109.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 6.2-1-3 Laden des Werkzeugmodells
+  
 Klicken Sie auf "Ändern", um das Werkzeugkoordinatensystem dieser Nummer gemäß den Anweisungen neu einzustellen. Die Kalibriermethoden für Werkzeuge sind die Vier-Punkt-Methode und die Sechs-Punkt-Methode. Die Vier-Punkt-Methode kalibriert nur das TCP (Tool Center Point), d. h. die Position des Werkzeugmittelpunkts. Seine Ausrichtung entspricht standardmäßig der des Endeffektors. Die Sechs-Punkt-Methode fügt zwei weitere Punkte hinzu, um auch die Ausrichtung des Werkzeugs zu kalibrieren. Wir verwenden hier die Sechs-Punkt-Methode als Beispiel.
 
 .. image:: base/002.png
@@ -977,6 +991,21 @@ Die konfigurierbaren Funktionen für die Ausgänge sind in der folgenden Tabelle
    * - 47
      - Roboter aktiviert (Enable)
      - Status der Roboteraktivierung.
+   * - 48
+     - JOB-Eingangsport 4
+     - Signal von JOB-Eingangsport 4
+   * - 49
+     - JOB-Eingangsport 5
+     - Signal von JOB-Eingangsport 5
+   * - 50
+     - JOB-Eingangsport 6
+     - Signal von JOB-Eingangsport 6
+   * - 51
+     - JOB-Eingangsport 7
+     - Signal von JOB-Eingangsport 7
+   * - 52
+     - JOB-Eingangsport 8
+     - Signal von JOB-Eingangsport 8  
 
 Konfigurierbare High/Low-Pegel-Ausgänge des Steuerpults
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -460,3 +460,53 @@ Codebeispiel für die Kennwortprüfung der Sicherheitskonfigurationsparameter
         robot.CloseRPC();
         return 0;
     }
+
+TLS-Verschlüsselungszertifikatspfad festlegen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:   
+
+    /**
+    * @brief TLS-Verschlüsselungszertifikatspfad festlegen
+    * @param [in] certPath  Zertifikatspfad; wenn leer, ist der Standard das Zertifikat im Verzeichnis, in dem sich die ausführbare Datei befindet; Zertifikatsnamen: ca.crt; client.crt; client.key
+    * @return Fehlercode
+    */
+    errno_t MtlsLink(std::string certPath = "");
+            
+Codebeispiel zum Festlegen des TLS-Verschlüsselungszertifikatspfads
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:   
+
+    int TestSendModeTcp()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot(true);
+        int rtn = 0;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        rtn = robot.SetCmdRpyCallback(UDPFrameCallBack);
+        robot.MtlsLink("D://TLSCERTS/");
+        robot.SetReConnectParam(true, 300000, 50);
+        rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+
+        std::string mode0 = "/f/bIII52III236III7IIIMode(0)III/b/f";
+        std::string mode1 = "/f/bIII52III236III7IIIMode(1)III/b/f";
+        printf("[SEND] %s\n", mode0.c_str());
+        robot.SendTCPFrame(mode0);
+        robot.Sleep(1000);
+        printf("[SEND] %s\n", mode1.c_str());
+        robot.SendTCPFrame(mode1);
+        robot.Sleep(1000);
+        printf("[SEND] %s\n", mode0.c_str());
+        robot.SendTCPFrame(mode0);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }    

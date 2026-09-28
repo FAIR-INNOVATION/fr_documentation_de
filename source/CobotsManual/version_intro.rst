@@ -1,3 +1,46 @@
+Version V4.0.0
+-----------------
+
+Datum: 2026-09-23
+
+- **Optimierter Geschwindigkeitsreduzierungsmodus**: 
+
+    Beschreibung: Optimierte globale Geschwindigkeit nach dem Verlassen des Reduzierungsmodus.
+
+- **Optimierte Kommunikation im Fernmodus der Hilscher-Karte**: 
+    Pfad: Fernmodus -> Firmware-Aktualisierung.
+
+    Beschreibung: Echtzeitfähigkeit und Stabilität der Kommunikation verbessert.
+
+- **Optimiertes Problem der Lastidentifikation der Stromschleife**: 
+    Pfad: Grundeinstellungen -> Last -> Identifikationsbewegung.
+
+    Beschreibung: Die Lastidentifikation für große Modelle wird ausgeblendet. Die Funktion für kleine Modelle (FR3-FR16 und entsprechende Modelle) funktioniert normal. Die Standardabweichung der Lastidentifikation für kleine Modelle beträgt etwa 30%.
+
+- **Neue Echtzeit-Geschwindigkeitsanpassungsfunktion basierend auf der physischen Geschwindigkeit während des Schweißens**: 
+
+    Beschreibung: Echtzeit-Anpassung der Bewegungsgeschwindigkeit des Roboters.
+
+- **Neue WebApp-Funktion zum Öffnen von Programmdateien und zur Interaktion mit Werkzeugmodellen + Schweiß-JOB-Erweiterungsfunktion**: 
+    Pfad: Teach-Programm -> Kraftsteuerungsbefehl.
+
+    Beschreibung: 1. Dateien der Funktion zum Öffnen von Programmen werden nach A-Z oder Zeit sortiert, um das Suchen zu erleichtern; 2. Werkzeugmodelle werden mit Werkzeugen für das zugehörige Laden verknüpft; 3. CO wird von 3 JOB-Signalfunktionen auf 8 erweitert und unterstützt 256 Prozesse; 4. Die UDP-Kommunikation des Schweißgeräts fügt die Konfiguration der JOB-Prozessnummer hinzu.
+
+- **Neue Anpassung des Zieh-Sperrmodells der Stromschleife**: 
+    Pfad: Hilfsanwendung -> Werkzeuganwendung -> Zieh-Sperre.
+
+    Beschreibung: Erweitert auf vier neue Modelle: FR20, FR30, FR3WML, FR3WMS.
+
+- **Neue Netzwerksicherheitsfunktion**: 
+    Pfad: Grundeinstellungen -> Sicherheit -> Netzwerksicherheit.
+
+    Beschreibung: 1. Beim Zugriff auf webApp über den Browser wechselt das Kommunikationsprotokoll automatisch zu HTTPS; 2. Der Client fügt die Zertifikatfunktion für das Befehlprotokoll hinzu; 3. Beim Softwarestart wird eine Integritätsprüfung hinzugefügt.
+
+- **Neue Exportfunktion für Sicherheitsprotokolle**: 
+    Pfad: Grundeinstellungen -> Sicherheit -> Sicherheitsprotokoll.
+
+    Beschreibung: Neue Funktionen zum Exportieren und Löschen von Sicherheitsprotokollen.
+
 Version V3.9.9
 -----------------
 

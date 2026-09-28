@@ -358,7 +358,7 @@ Schweißmaschinen-Steuerungsmodus einstellen
 
     /**
     * @brief Schweißmaschinen-Steuerungsmodus einstellen
-    * @param [in] mode Schweißmaschinen-Steuerungsmodus; 0-Gleichstrom-Einknopf-Modus; 1-Impuls-Einknopf-Modus; 2-JOB-Modus; 3-Nahsteuerungs-Modus; 4-Separat-Modus; 5-CC/CV-Modus; 6-TIG; 7-CMT
+    * @param [in] mode Schweißgerät-Steuermodus; 0-DC-Synergic-Modus; 1-Impuls-Synergic-Modus; 2-JOB-Modus; 3-Nahsteuerungsmodus; 4-Separater Modus; 5-CC/CV-Modus; 6-TIG; 7-CMT; 8-Panasonic-Impulsmodus, 9-Panasonic-Modus ohne Impuls
     * @param [in] ioType Steuerungstyp; 0-Steuerkasten-IO; 1-Digitales Kommunikationsprotokoll (UDP); 2-Digitales Kommunikationsprotokoll (ModbusTCP)
     * @return Fehlercode
     */

@@ -21,7 +21,7 @@ Die Seite ist in drei Bereiche unterteilt: "Aktionsleiste", "Toolbox-Werkzeuglei
 
 **Aktionsleiste**
 
-1)  **Laden**: Verantwortlich für das erneute Laden des Workspace.
+1)  **Laden**: Zuständig für das erneute Laden des Arbeitsbereichs und unterstützt Sortierung nach Buchstaben (A~Z oder Z~A) oder nach der letzten Änderungszeit;
 2)  **Importieren**: Verantwortlich für den Import von zugehörigen grafischen Programmen.
 3)  **Exportieren**: Verantwortlich für den Export des im gespeicherten Workspace befindlichen grafischen Programms. Die Schaltfläche "Speichern" dient dazu, den fertig bearbeiteten Codeblock als entsprechendes Teach-Programm zu speichern.
 4)  **Speichern**: Verantwortlich für das Speichern der fertig bearbeiteten grafischen Codeblöcke.
@@ -37,6 +37,12 @@ Die Seite ist in drei Bereiche unterteilt: "Aktionsleiste", "Toolbox-Werkzeuglei
 
 **Workspace**: Im Codebearbeitungsbereich können grafische Codeblöcke bearbeitet und angezeigt werden.
 
+.. image:: graphical/151.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 10.1-2 Sortierung der Arbeitsbereichsdateien
+   
 Logische grafische Programmierbefehle
 --------------------------------------------
 Logische grafische Programmierbefehle enthalten logische Befehle wie Schleifen, Zahlen usw.

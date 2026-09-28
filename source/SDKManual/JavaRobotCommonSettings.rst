@@ -1388,3 +1388,135 @@ Codebeispiel für photoelektrische Sensor TCP-Kalibrierung
         robot.CloseRPC();
         robot.Sleep(9999999);
     }
+
+Physische Geschwindigkeit in Echtzeit einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Physische Geschwindigkeit in Echtzeit einstellen
+    * @param [in] speed Wert der physischen Geschwindigkeit, mm/s
+    * @return Fehlercode
+    */
+    public int SetPhySpeedInstant(double speed)
+        
+Codebeispiel zum Einstellen der physischen Geschwindigkeit in Echtzeit
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static class RobotThread implements Runnable {
+        private final Robot robot;
+        private volatile boolean running = true;
+
+        public RobotThread(Robot robot) {
+            this.robot = robot;
+        }
+
+        public void stop() {
+            running = false;
+        }
+
+        @Override
+        public void run() {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+            while (running) {
+                try {
+                    System.out.print("Please input speed value (0~100, q to quit): ");
+                    System.out.flush();
+
+                    String line = reader.readLine();
+
+                    // 1. Ende des Streams (Ctrl+D / Ctrl+Z / Pipe geschlossen)
+                    if (line == null) {
+                        System.out.println("\nInput stream closed, exit speed input thread.");
+                        break;
+                    }
+
+                    // 2. Führende und nachfolgende Leerzeichen entfernen
+                    line = line.trim();
+
+                    // 3. Leere Zeile: überspringen, nichts ausgeben
+                    if (line.isEmpty()) {
+                        continue;
+                    }
+
+                    // 4. Beenden-Befehl
+                    if ("q".equalsIgnoreCase(line)) {
+                        System.out.println("Quit speed input thread.");
+                        break;
+                    }
+
+                    // 5. Zahl analysieren
+                    int speed;
+                    try {
+                        speed = Integer.parseInt(line);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid number: [" + line + "]");
+                        continue;
+                    }
+
+                    // 7. Geschwindigkeit senden
+                    robot.SetPhySpeedInstant(speed);
+                    System.out.println("SetSpeed -> " + speed + "%");
+
+                } catch (IOException e) {
+                    System.out.println("Input error: " + e.getMessage());
+                    break;
+                }
+            }
+        }
+
+        public static int TestSetPhySpeed(Robot robot) {
+            // 1. In den Positionsmodus wechseln (entspricht Python robot.Mode(0))
+            robot.Mode(0);
+
+            // 2. Einschaltfreigabe (entspricht Python robot.RobotEnable(1))
+            robot.RobotEnable(1);
+
+            // 3. Zwei Zielpunkte
+            JointPos j1 = new JointPos(-60.206, -49.449, 79.476, -124.322, -88.416, -45.209);
+            DescPose d1 = new DescPose(-412.929, 510.912, 94.557, -175.850, -1.933, 74.992);
+            JointPos j2 = new JointPos(-141.282, -40.962, 62.359, -110.496, -85.512, -126.379);
+            DescPose d2 = new DescPose(586.847, 510.915, 94.560, -175.851, -1.934, 74.991);
+
+            ExaxisPos ex = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+            DescPose zeroOff = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+            // 4. Eingabe-Thread starten (Daemon-Thread)
+            RobotThread speedInput = new RobotThread(robot);
+            Thread th = new Thread(speedInput, "SpeedInputThread");
+            th.setDaemon(true);
+            th.start();
+
+            // 5. MoveL-Schleife, während der die Geschwindigkeit in Echtzeit eingegeben werden kann
+            try {
+                while (true) {
+                    int rtn = robot.MoveL(j1, d1, 1, 0, 100, 100, 100,
+                            -1, 0, ex, 0, 0, zeroOff, 100, 0, 0, 10);
+                    if (rtn != 0) {
+                        System.out.println("MoveL j1->d1 failed, rtn=" + rtn);
+                        break;
+                    }
+
+                    rtn = robot.MoveL(j2, d2, 1, 0, 100, 100, 100,
+                            -1, 0, ex, 0, 0, zeroOff, 100, 0, 0, 10);
+                    if (rtn != 0) {
+                        System.out.println("MoveL j2->d2 failed, rtn=" + rtn);
+                        break;
+                    }
+
+                    // CPU freigeben, damit die Hauptschleife den Eingabe-Thread nicht aushungert
+                    Thread.sleep(10);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } finally {
+                speedInput.stop();
+            }
+
+            return 0;
+        }
+    }    

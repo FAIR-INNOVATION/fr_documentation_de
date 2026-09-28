@@ -5,18 +5,36 @@ Roboter-Grundlagen
     :maxdepth: 5
 
 Roboter instanziieren
-+++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. csv-table::
+.. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "Prototyp", "``RPC(ip)``"
+    "Prototyp", "``RPC(self, ip, tls_enable, tls_cert_path)``"
     "Beschreibung", "Instanziiert ein Roboterobjekt"
-    "Erforderliche Parameter", "- ``ip``: IP-Adresse des Roboters, Standard-IP ab Werk ist 192.168.58.2"
+    "Erforderliche Parameter", "
+    - ``ip``: IP-Adresse des Roboters; die standardmäßige Werkseinstellung ist `192.168.58.2`
+    - ``tls_enable``: Ob verschlüsselte Kommunikation (mTLS + DTLS) aktiviert werden soll; Standard False
+    - ``tls_cert_path``: Pfad zum Zertifikatsordner; das Verzeichnis muss enthalten: ca.crt / client.crt / client.key; erforderlich, wenn tls_enable=True
+    "
     "Standardparameter", "Keine"
-    "Rückgabewert", "- Erfolg: Gibt ein Roboterobjekt zurück
-    - Fehlschlag: Das erstellte Objekt wird zerstört"
+    "Rückgabewert", "- Erfolg: gibt ein Roboterobjekt zurück
+    - Fehler: das erstellte Objekt wird zerstört"
+
+Codebeispiel zur Instanziierung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+
+    robot = Robot.RPC(
+        '192.168.58.2',
+        tls_enable=True,
+        tls_cert_path=r"E:\certs"
+    )
 
 RPC-Verbindung schließen
 ++++++++++++++++++++++++

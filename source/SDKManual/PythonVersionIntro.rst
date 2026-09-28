@@ -13,6 +13,14 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V4.0.0
+     - 2026-09-23
+     - | 1. Die Schnittstelle Robot() zum Aufbau einer RPC-Verbindung und zur Instanziierung des Roboters wurde geändert und die Konfiguration des TLS-Verschlüsselungsaktivierungsparameters für die Kommunikation des integrierten Befehlprotokolls im SDK wurde hinzugefügt. Vor der Verwendung müssen zunächst Python-Abhängigkeitsbibliotheken installiert werden; die Installationsbefehle lauten: pip install python3-dtls, pip install python-mbedtls;
+       | 2. Die Parameterbeschreibung der Schnittstelle SetWeldMachineCtrlMode() zum Einstellen des Schweißgerät-Steuermodus wurde geändert und die Impuls- und Impulslos-Modi für Panasonic-Schweißgeräte wurden hinzugefügt;
+       | 3. Der Befehl SendTCPFrame() zum Senden benutzerdefinierter Befehlsframes über TCP 8080 wurde hinzugefügt, einschließlich eines Codebeispiels;
+       | 4. Der Befehl TCFToAllJoint() zum Abrufen von 8 Sätzen inverser Lösungen für den Roboter wurde hinzugefügt, einschließlich eines Codebeispiels;
+       | 5. Der Befehl SetPhySpeedInstant() zum Einstellen der physischen Geschwindigkeit in Echtzeit wurde hinzugefügt, einschließlich eines Codebeispiels.
+
    * - V3.9.9
      - 2026-09-01
      - | 1. Aktualisierung der GetGripperMotionDone()-Schnittstelle zum Abrufen des Greiferbewegungsstatus, Aktualisierung der Definition und des Verwendungsbereichs der Greiferstatus-Ausgabeparameter;

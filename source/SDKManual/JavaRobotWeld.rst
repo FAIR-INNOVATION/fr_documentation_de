@@ -326,17 +326,17 @@ Parameter für die Wiederaufnahme nach Schweißunterbrechung abrufen
     */
     List<Number> WeldingGetReWeldAfterBreakOffParam();
 
-Erweiterten DO-Port für Schweißgeräte-Steuermodus einstellen
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: java
+Schweißgerät-Steuermodus einstellen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
     :linenos:
 
     /**
-    * @brief Stellt den erweiterten DO-Port für den Schweißgeräte-Steuermodus ein.
-    * @param [in] DONum DO-Portnummer (0-127).
-    * @return Fehlercode.
+    * @brief Erweiterungs-DO-Port des Schweißgerät-Steuermodus einstellen
+    * @param DONum DO-Port des Schweißgerät-Steuermodus (0-127)
+    * @return Fehlercode
     */
-    int SetWeldMachineCtrlModeExtDoNum(int DONum);
+    public int SetWeldMachineCtrlModeExtDoNum(int DONum)
 
 Schweißgeräte-Steuermodus einstellen
 ++++++++++++++++++++++++++++++++++++++++++

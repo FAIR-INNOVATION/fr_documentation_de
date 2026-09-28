@@ -478,6 +478,36 @@ Bedienungsanleitung für den Fernbedienungsmodus des Roboters
 
 .. note:: Um zwischen verschiedenen Protokollen zu wechseln, müssen Sie zuerst auf die Schaltfläche "Deinstallieren" klicken, bevor Sie ein anderes Protokoll konfigurieren.
 
+Karten-Firmware-Aktualisierung
+----------------------------------------------------------------------------
+
+FRH-PCIeN-EC/EIP/CC/PN-RJ-V10-Karte
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(1) Wählen Sie das zu aktualisierende Firmware-Paket mit dem Namen BoardFirm_xxx.tar.gz aus, klicken Sie auf die Schaltfläche "Aktualisieren" und warten Sie auf die Aktualisierung;
+
+.. image:: remote_mode/056.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 18.3-1 Firmware-Aktualisierungspaket
+
+(2) Starten Sie nach Abschluss der Aktualisierung den Steuerschrank neu;
+
+.. image:: remote_mode/057.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 18.3-2 Aktualisierung Abgeschlossen
+   
+(3) Starten Sie den Steuerschrank neu. Wenn die in der Abbildung gezeigte Warnmeldung erscheint, bedeutet dies, dass diese Firmware-Aktualisierung fehlgeschlagen ist. Löschen Sie die Warnung und führen Sie den Aktualisierungsvorgang erneut aus.
+
+.. image:: remote_mode/058.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 18.3-3 Firmware-Aktualisierung Fehlgeschlagen
+
 Anhang
 -------------------
 

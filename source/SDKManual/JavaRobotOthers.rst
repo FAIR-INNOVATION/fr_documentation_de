@@ -547,3 +547,72 @@ SDK-Codebeispiel zum Einstellen der benutzerdefinierten LED-Farbe des Roboterend
         robot.Sleep(1000);
         robot.SetUserLEDColor(false, false, true);
     }
+
+Senden eines benutzerdefinierten Befehlsframes über TCP8080
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Sendet einen benutzerdefinierten Befehlsframe über TCP 8080 (im mTLS-Modus automatisch über den verschlüsselten Kanal)
+    * @param frame Vollständiger Befehlsframe, z. B. "/f/bIII52III236III7IIIMode(0)III/b/f"
+    * @return Fehlercode
+    */
+    public int SendTCPFrame(String frame)
+                    
+Codebeispiel für das Senden eines benutzerdefinierten Befehlsframes über TCP8080
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Nur TCP-8080-Kanalüberprüfung
+    */
+    public static void TestSendModeTcp(Robot robot)
+    {
+        String program_name = "mtls.lua";
+        String[] loaded_name = {""};
+        int[] state = {0};
+        int[] line = {0};
+
+        System.out.println("========== Überprüfung des TCP-8080-Kanals für den Mode-Befehl ==========");
+        System.out.println(robot.IsEncryptEnabled() ? "[Status] mTLS aktiviert" : "[Status] Klartextmodus (Kontrolle)");
+
+        robot.SetTcpFrameListener(frame ->
+                System.out.println("[TCP-Antwort] " + frame));
+
+        String mode0 = "/f/bIII52III236III7IIIMode(0)III/b/f";
+        String mode1 = "/f/bIII52III236III7IIIMode(1)III/b/f";
+
+        System.out.println("[Senden] " + mode0);
+        robot.SendTCPFrame(mode0);
+        robot.Sleep(1000);
+        System.out.println("[Senden] " + mode1);
+        robot.SendTCPFrame(mode1);
+        robot.Sleep(1000);
+        System.out.println("[Senden] " + mode0);
+        robot.SendTCPFrame(mode0);
+
+        robot.Mode(0);
+        robot.LoadDefaultProgConfig(0, program_name);
+        robot.ProgramLoad(program_name);
+
+        robot.SetSpeedInstant(50);
+
+        robot.ProgramRun();
+        robot.Sleep(5000);
+        robot.PauseMotion();
+        robot.GetProgramState(state);
+        System.out.println("program state:" + state[0]);
+        java.util.List<Integer> lineRtn = robot.GetCurrentLine();
+        System.out.println("current line:" + lineRtn.get(1));
+        robot.GetLoadedProgram(loaded_name);
+        System.out.println("program name:" + loaded_name[0]);
+
+        robot.ResumeMotion();
+        robot.Sleep(2000);
+        robot.PauseMotion();
+        robot.Sleep(2000);
+
+        System.out.println("========== TCP-Überprüfung beendet (Antworten siehe oben) ==========");
+    }    

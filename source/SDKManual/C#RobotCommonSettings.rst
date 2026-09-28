@@ -1338,15 +1338,40 @@ Codebeispiel für Photoelektrische Sensor TCP-Kalibrierung
         Console.WriteLine($"Werkzeug-RPY Ausrichtung: RX={TCP.rpy.rx:F3}, RY={TCP.rpy.ry:F3}, RZ={TCP.rpy.rz:F3}");
     }
 
-Globale Geschwindigkeit sofort einstellen
+Geschwindigkeit in Echtzeit einstellen
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief Stellt die globale Geschwindigkeit sofort ein
-    * @param [in] vel Geschwindigkeitsprozent, Bereich [0~100]
+    * @brief Geschwindigkeit einstellen (Befehlsframe, niedrige Latenz)
+    * @param [in] vel Geschwindigkeitsprozentsatz, Bereich [0~100]
     * @return Fehlercode
     */
     public int SetWeaveOffsetRT(DescPose offset)
+
+Physische Geschwindigkeit in Echtzeit einstellen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Physische Geschwindigkeit in Echtzeit einstellen
+    * @param [in] speed Wert der physischen Geschwindigkeit, mm/s
+    * @return  Fehlercode
+    */
+    public int SetPhySpeedInstant(double speed)    
+
+Codebeispiel zum Einstellen der physischen Geschwindigkeit in Echtzeit
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    void SetPhySpeedInstantInput(double speed)
+    {
+        int rtn = robot.SetPhySpeedInstant(speed);
+        Console.WriteLine($"SetPhySpeedInstant({speed}) : {rtn}");
+    }

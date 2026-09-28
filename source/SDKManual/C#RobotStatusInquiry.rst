@@ -531,6 +531,82 @@ Lösbarkeit der inversen Kinematik prüfen
     */
     int GetInverseKinHasSolution(int posMode, DescPose desc_pos, JointPos joint_pos_ref, ref bool hasResult);
 
+8 Sätze inverser Lösungen für den Roboter abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  8 Sätze inverser Lösungen abrufen
+    * @param [in] tcp_pose Kartesische Pose 
+    * @param [in] tool Werkzeugkoordinatensystem
+    * @param [in] workpiece Werkstückkoordinatensystem
+    * @param [in] exPos Position der Erweiterungsachse
+    * @param [out] jPos Ausgabe von 8 Sätzen Gelenkwinkeln
+    * @return Fehlercode
+    */
+    public int TCFToAllJoint( DescPose tcp_pose, int tool, int workpiece, ExaxisPos exPos , ref JointPos[] jPos)
+
+Codebeispiel zum Abrufen von 8 Sätzen inverser Lösungen für den Roboter
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public int TestTCFToAllJoint()
+    {
+        // Get current TCP pose
+        DescPose curTcp = new DescPose(0, 0, 0, 0, 0, 0);
+        int rtn = robot.GetActualTCPPose(1, ref curTcp);
+        if (rtn != 0)
+        {
+            return rtn;
+        }
+        Console.WriteLine($"Aktuelle TCP-Pose: x={curTcp.tran.x:F3}, y={curTcp.tran.y:F3}, z={curTcp.tran.z:F3}, " +
+                            $"a={curTcp.rpy.rx:F3}, b={curTcp.rpy.ry:F3}, c={curTcp.rpy.rz:F3}");
+
+        // Extension axis position, all zeros here
+        ExaxisPos exPos = new ExaxisPos(0, 0, 0, 0);
+
+        // 8 sets of inverse kinematics results
+        JointPos[] allJoints = new JointPos[8];
+        for (int i = 0; i < 8; i++)
+        {
+            allJoints[i] = new JointPos(0, 0, 0, 0, 0, 0);
+        }
+
+        // Call TCFToAllJoint to get 8 sets of inverse solutions, tool=0, workpiece=0
+        rtn = robot.TCFToAllJoint(curTcp, 0, 0, exPos, ref allJoints);
+        if (rtn != 0)
+        {
+            return rtn;
+        }
+
+        // Verify each solution with forward kinematics
+        for (int i = 0; i < 8; i++)
+        {
+            JointPos joint = allJoints[i];
+
+            Console.WriteLine($"JOINT{i + 1}: " +
+                                $"j1={joint.jPos[0]:F3}, j2={joint.jPos[1]:F3}, j3={joint.jPos[2]:F3}, " +
+                                $"j4={joint.jPos[3]:F3}, j5={joint.jPos[4]:F3}, j6={joint.jPos[5]:F3}");
+
+            // Cartesian pose corresponding to the i-th inverse solution
+            DescPose pos = new DescPose(0, 0, 0, 0, 0, 0);
+            rtn = robot.GetForwardKin(joint, ref pos);
+            if (rtn != 0)
+            {
+                // Failure of one set does not affect the others
+                continue;
+            }
+
+            Console.WriteLine($"POS{i + 1}: " +
+                                $"x={pos.tran.x:F3}, y={pos.tran.y:F3}, z={pos.tran.z:F3}, " +
+                                $"a={pos.rpy.rx:F3}, b={pos.rpy.ry:F3}, c={pos.rpy.rz:F3}");
+        }
+
+        return 0;
+    }
+
 Vorwärtskinematik berechnen
 ++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: csharp

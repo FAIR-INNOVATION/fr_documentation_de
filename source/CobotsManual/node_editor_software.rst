@@ -22,6 +22,12 @@ Die Node-Editor-Programmierung ist eine speziell für Roboter entwickelte Progra
 
 .. centered:: Abbildung 11.1-1 Node-Editor-Programmieroberfläche
 
+.. image:: node_editor_software/136.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 11.1-2 Sortierung des Arbeitsbereichs
+   
 Werkzeugleiste
 ~~~~~~~~~~~~~~
 
@@ -40,7 +46,7 @@ Verwenden Sie die Werkzeugleiste oben links auf der Node-Editor-Programmierseite
 
    Bezeichnung: **Öffnen**
 
-   Funktion: Öffnet eine Benutzerprogrammdatei. Wählen Sie im Popup-Fenster aus, ob Sie eine Datei laden oder löschen möchten.
+   Funktion: Benutzerprogrammdateien öffnen, im Dialogfeld das Laden oder Löschen von Dateien auswählen und Sortierung nach Buchstaben (A~Z oder Z~A) oder nach der letzten Änderungszeit unterstützen
 
 .. note::
    .. image:: coding/010.png

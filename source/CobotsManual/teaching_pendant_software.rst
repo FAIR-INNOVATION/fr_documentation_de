@@ -562,29 +562,29 @@ Im 3D-Virtualitätsbereich der WebApp werden verschiedene virtuelle 3D-Koordinat
 
    Beschreibung: Das externe Achsen-Koordinatensystem ist standardmäßig ausgeblendet und kann manuell zur Anzeige eingeschaltet werden. Der Ablauf ist identisch mit dem des Werkzeugkoordinatensystems.
 
-Virtuelle 3D-Bahn und Import von Werkzeugmodellen
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+3D-virtuelle Trajektorie und Werkzeugmodell
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. note::
+.. note:: 
    .. image:: teaching_pendant_software/020.png
       :width: 0.75in
       :height: 0.75in
       :align: left
 
-   Bezeichnung: **Bahnzeichnung**
+   Name: **Trajektorienzeichnung**
+   
+   Beschreibung: Klicken Sie auf die Schaltfläche, um die Trajektorienzeichnungsfunktion zu öffnen. Während das Teach-Programm ausgeführt wird, zeichnet das 3D-Modell des Roboters den Bewegungspfad des Roboters auf.
 
-   Beschreibung: Klicken Sie auf die Schaltfläche, um die Bahnzeichnungsfunktion zu aktivieren. Beim Ausführen eines Teach-Programms zeichnet das 3D-Roboter-Modell die Bewegungsbahn des Roboters nach.
-
-.. note::
+.. note:: 
    .. image:: teaching_pendant_software/029.png
       :width: 0.75in
       :height: 0.75in
       :align: left
 
-   Bezeichnung: **Werkzeugmodell importieren**
-
-   Beschreibung: Klicken Sie auf die Schaltfläche. Es öffnet sich ein modales Fenster zum Importieren eines Werkzeugmodells. Nach erfolgreichem Upload der Datei wird das Werkzeugmodell am Roboterflansch angezeigt. Derzeit werden die Werkzeugmodellformate STL und DAE unterstützt.
-
+   Name: **Werkzeugmodell**
+   
+   Beschreibung: Klicken Sie auf die Schaltfläche, um das Werkzeugmodell ein-/auszuschalten.
+   
 Bedienleiste für den Roboterarm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -508,6 +508,67 @@ Prüfen, ob die inverse Kinematik eine Lösung hat
     */
     List<Integer> GetInverseKinHasSolution(int posMode, DescPose desc_pos, JointPos joint_pos_ref);
 
+8 Sätze inverser Lösungen für den Roboter abrufen
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+     * @brief  8 Sätze inverser Lösungen abrufen
+     * @param [in] tcp_pose Kartesische Pose
+     * @param [in] tool Werkzeugkoordinatensystem
+     * @param [in] workpiece Werkstückkoordinatensystem
+     * @param [in] exPos Position der Erweiterungsachse
+     * @param [out] jPos Ausgabe von 8 Sätzen Gelenkwinkeln
+     * @return Fehlercode
+     */
+    public int TCFToAllJoint(DescPose tcp_pose, int tool, int workpiece, ExaxisPos exPos, JointPos[] jPos)
+
+Codebeispiel zum Abrufen von 8 Sätzen inverser Lösungen für den Roboter
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestTCFToAllJoint(Robot robot)
+    {
+        DescPose curTcp = new DescPose(0, 0, 0, 0, 0, 0);
+        int rtn = robot.GetActualTCPPose(curTcp);
+        if (rtn != 0)
+        {
+            return rtn;
+        }
+        ExaxisPos exPos = new ExaxisPos(0, 0, 0, 0);
+
+        JointPos[] allJoints = new JointPos[8];
+
+        rtn = robot.TCFToAllJoint(curTcp, 0, 0, exPos, allJoints);
+        if (rtn != 0)
+        {
+            return rtn;
+        }
+
+        for (int i = 0; i < 8; i++)
+        {
+            JointPos joint = allJoints[i];
+
+            System.out.printf("JOINT%d: j1=%.3f, j2=%.3f, j3=%.3f, j4=%.3f, j5=%.3f, j6=%.3f\n",
+                    i + 1, joint.J1, joint.J2, joint.J3, joint.J4, joint.J5, joint.J6);
+
+            DescPose pos = new DescPose(0, 0, 0, 0, 0, 0);
+            rtn = robot.GetForwardKin(joint, pos);
+            if (rtn != 0)
+            {
+                continue;
+            }
+
+            System.out.printf("POS%d: x=%.3f, y=%.3f, z=%.3f, a=%.3f, b=%.3f, c=%.3f\n",
+                    i + 1, pos.tran.x, pos.tran.y, pos.tran.z,
+                    pos.rpy.rx, pos.rpy.ry, pos.rpy.rz);
+        }
+
+        return 0;
+    }
+
 Vorwärtskinematik berechnen
 ++++++++++++++++++++++++++++
 .. code-block:: Java

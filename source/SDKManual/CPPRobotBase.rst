@@ -11,8 +11,9 @@ Roboter instanziieren
 
     /**
     * @brief Konstruktor der Roboter-Schnittstellenklasse
+    * @param [in] _TLSEnable Verschlüsselung für die Kommunikation des integrierten Befehlprotokolls des Roboter-SDK aktivieren; standardmäßig deaktiviert
     */
-    FRRobot();
+    FRRobot(bool _TLSEnable = false);
 
 Kommunikation mit der Steuerung aufbauen
 +++++++++++++++++++++++++++++++++++++++++

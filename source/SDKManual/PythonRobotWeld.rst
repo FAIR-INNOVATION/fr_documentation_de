@@ -367,7 +367,7 @@ Schweißgerät-Steuermodus einstellen
     "Beschreibung", "Schweißmaschinen-Steuerungsmodus einstellen"
     "Erforderliche Parameter", "
     - ``ioType``: Steuerungstyp; 0-Steuerkasten-IO; 1-Digitales Kommunikationsprotokoll (UDP); 2-Digitales Kommunikationsprotokoll (ModbusTCP)
-    - ``mode``: Schweißmaschinen-Steuerungsmodus; 0-Einknopf-Modus"
+    - ``mode``: Schweißgerät-Steuermodus; Schweißgerät-Steuermodus; 0-DC-Synergic-Modus; 1-Impuls-Synergic-Modus; 2-JOB-Modus; 3-Nahsteuerungsmodus; 4-Separater Modus; 5-CC/CV-Modus; 6-TIG; 7-CMT, 8-Panasonic-Impulsmodus, 9-Panasonic-Modus ohne Impuls"
     "Standardparameter", "Keine"
     "Rückgabewert", "Fehlercode Erfolg-0 Fehler-errcode"
 

@@ -2041,6 +2041,17 @@ Wenn keine Schweißprozesskurve verwendet wird (Auswahl der Prozessnummer 0), is
 
 .. centered:: Abbildung 8.6-11 Keine Verwendung einer Schweißprozesskurve
 
+Schweißgerät-JOB-Prozessnummer
+*********************************************************************************************************
+
+Wählen Sie das erweiterte AO-Signal und die Prozessnummer und geben Sie die Wartezeit ein. Wenn die Prozessnummer als nicht negativ 1 konfiguriert ist, wenn der I/O des Schweißgriffs erweitertes DO auswählt und das für das erweiterte DO konfigurierte Signal "Schweißgerät-Lichtbogenstart" ist, wählt der Schweißgerät-Lichtbogenstart den entsprechenden Prozess aus.
+
+.. figure:: robot_peripherals/326.png
+   :align: center
+   :width: 6in
+
+.. centered:: Abbildung 8.6-11-1 Schweißgerät-JOB-Prozessnummer
+
 Einstellung des Verhältnisses zwischen Schweißstrom/Spannung und Analogausgang
 ****************************************************************************************
 
