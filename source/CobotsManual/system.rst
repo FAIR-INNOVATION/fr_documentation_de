@@ -243,7 +243,7 @@ Es gibt sechs Standardfunktionen. Der Administrator hat keine Funktionseinschrä
 
 .. centered:: Tabelle 15.2‑1 Berechtigungsdetails
 
-.. image:: system/007.png
+.. image:: safety/069.png
    :width: 6in
    :align: center
 
@@ -265,11 +265,7 @@ Es gibt sechs Standardfunktionen. Der Administrator hat keine Funktionseinschrä
 
 - **Funktionsberechtigungen festlegen**: Klicken Sie in der Tabellenaktionsspalte auf das Symbol "Einstellen". Sie können die Berechtigungen der aktuellen Funktion festlegen. Klicken Sie nach der Einstellung unten auf die Schaltfläche "Speichern", um die Einstellungen zu bestätigen.
 
-.. image:: system/010.png
-   :width: 6in
-   :align: center
-
-.. image:: system/011.png
+.. image:: safety/070.png
    :width: 6in
    :align: center
 

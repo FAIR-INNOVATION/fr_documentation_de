@@ -387,21 +387,6 @@ Erklärung zu Restrisiken der Cybersicherheit
      - Keine
      - | ① Benutzer müssen das Roboter-Teach-Pendant in einem sicheren Arbeitsbereich aufstellen und unbefugtem Personal den Zutritt zu diesem Bereich verbieten;
 
-Berechtigungsverwaltung
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. centered:: Tabelle 3-1 Berechtigungsdetails
-
-.. image:: safety/069.png
-   :width: 6in
-   :align: center
-
-.. image:: safety/070.png
-   :width: 6in
-   :align: center
-
-.. centered:: Abbildung 7.3-24 Rollenberechtigungen festlegen
-
 Sicherheitskonfigurationsparameter
 --------------------------------------------------------------------------------------------------
 

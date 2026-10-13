@@ -26,7 +26,7 @@ Roboter-Zertifikate:
 .. list-table::
    :widths: 24 4 4 4 4 4 4 4 4 4 24
    :header-rows: 0
-   :class: sheet-center-auto
+   :class: sheet-center
 
    * - **Zertifikat / Modell**
      - **FR3**
@@ -349,11 +349,11 @@ Nullpunkt-Identifikationsmodell
 FAIRINO SimMachine
 -----------------------
 
-    :download:`FAIRINO SimMachine VMware <https://drive.google.com/file/d/1njw9QJBSCGeC9qi-gbv7Q3Dk7zQq6Ksk/view?usp=drive_link>`
+    :download:`FAIRINO SimMachine VMware <https://drive.google.com/file/d/1W4PghC1JL9iliANkH1kvKSqR8Vz13AUZ/view?usp=sharing>`
     
-    :download:`FAIRINO SimMachine Docker <https://drive.google.com/file/d/1H7g1Mtg6tCKrFM3pwe6lSCwEsg-7jK6Q/view?usp=sharing>`
+    :download:`FAIRINO SimMachine Docker <https://drive.google.com/file/d/1gABuEa3zuVqBsw6FyfYmnaIXTvRLHeqZ/view?usp=sharing>`
 
-    :download:`FAIRINO_SimMachine_Software <https://drive.google.com/file/d/1pvgV-07niKYQGbzE6w1U0ACzlsUDXI3G/view?usp=sharing>`
+    :download:`FAIRINO_SimMachine_Software <https://drive.google.com/file/d/1fpwdAMfZ_fstpUPNcpq-RZgy_eyAKcJ0/view?usp=sharing>`
 
 
 CPP SDK
@@ -396,7 +396,7 @@ Kommunikationsbefehlsprotokoll
 
 Roboter-Software-Download
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-QX-V4.0.0-20260923.zip <https://drive.google.com/file/d/1DFAaqT99kViYace3ZlEqHGtWwUlyMODw/view?usp=drive_link>`
+    :download:`FAIRINO-CobotSoftware-QX-V4.0.0.1-20261009.zip <https://drive.google.com/file/d/1MmXItnTRCqeVdtjN_i02fUMhWy3cjKig/view?usp=drive_link>`
     
-    :download:`FAIRINO-CobotSoftware-LA-V4.0.0-20260923.zip <https://drive.google.com/file/d/1yXxgPI0wDhbfu4pOaJlIcqUY8Nl6quxE/view?usp=drive_link>`
+    :download:`FAIRINO-CobotSoftware-LA-V4.0.0.1-20261009.zip <https://drive.google.com/file/d/11F0foktMsKqUqF98DtJv61u0eF-b42_C/view?usp=drive_link>`
     
