@@ -206,7 +206,7 @@ Roboter-Zertifikate:
      - ✅
      - --
      - --
-     - :download:`Download <_static/_doc/Cleaning Robot CLASS3 Certificate(FR3-FR16).pdf>`
+     - :download:`Download <_static/_doc/Cleaning Robot CLASS3 Certificate(FR3-FR16).zip>`
 
 Steuerkasten-Zertifikate:
 
