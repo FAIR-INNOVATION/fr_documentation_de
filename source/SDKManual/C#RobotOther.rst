@@ -697,3 +697,92 @@ Codebeispiel für das Senden eines benutzerdefinierten Befehlsframes über TCP 8
             }
         }
     }    
+
+Datenbackup-Paket-Upload-Upgrade  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Datenbackup-Paket-Upload-Upgrade
+    * @param [in] filePath Pfad der hochzuladenden Datenbackup-Paketdatei; D://zUP/fr_user_data.tar.gz
+    * @return Fehlercode
+    */
+    public int DataPackageUpgrade(string filePath)
+    
+Fortschrittsprozentsatz des Datenbackup-Paket-Upgrades abrufen  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Fortschrittsprozentsatz des Datenbackup-Paket-Upgrades abrufen
+    * @param [out] progress Fortschrittsprozentsatz des Upgrades [0-100], -1: Upgrade fehlgeschlagen
+    * @return Fehlercode
+    */
+    public int GetDataPackageUpgradeProgress(ref int progress)
+    
+Fortschrittsprozentsatz des Upgrades aller Gelenkparameter abrufen  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief Fortschrittsprozentsatz des Upgrades aller Gelenkparameter abrufen
+    * @param [out] progress Fortschrittsprozentsatz des Upgrades [0-100], -1: Upgrade fehlgeschlagen
+    * @return Fehlercode
+    */
+    public int GetJointAllParamUpgradeProgress(ref int progress)
+        
+Codebeispiel für Datenbackup-Paket-Upload-Upgrade und Abfrage des Upgrade-Fortschritts  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    public void TestDataPackageUpgrade()
+    {
+        int rtn = robot.DataPackageUpgrade("D://zUP/upgrade/FR5/fr_user_data.tar.gz");
+        Console.WriteLine($"robot DataPackageUpgrade rtn is {rtn}");
+
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            int ret = robot.GetDataPackageUpgradeProgress(ref upgradeProgress);
+            Console.WriteLine($"robot data package upgrade progress : {upgradeProgress}, rtn : {ret}");
+            if (ret != 0 || upgradeProgress == -1)
+            {
+                break;
+            }
+            Thread.Sleep(200);
+        }
+    }
+            
+Codebeispiel für das Upgrade aller Gelenkparameter und Abfrage des Upgrade-Fortschritts  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+    
+    public void TestJointAllParamUpgrade()
+    {
+        robot.RobotEnable(0);
+        Thread.Sleep(200);
+        int rtn = robot.JointAllParamUpgrade("D://zUP/upgrade/FR5/jointallparameters.db");
+        Console.WriteLine($"robot JointAllParamUpgrade rtn is {rtn}");
+
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            int ret = robot.GetJointAllParamUpgradeProgress(ref upgradeProgress);
+            Console.WriteLine($"robot joint all param upgrade progress : {upgradeProgress}, rtn : {ret}");
+            if (ret != 0 || upgradeProgress == -1)
+            {
+                break;
+            }
+            Thread.Sleep(200);
+        }
+    }    

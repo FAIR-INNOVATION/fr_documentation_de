@@ -69,60 +69,71 @@ Greifer steuern
     int MoveGripper(int index, int pos, int vel, int force, int max_time, int block, int type, double rotNum, int rotVel, int rotTorque);
 
 Greiferbewegungsstatus abrufen
-++++++++++++++++++++++++++++++++++++++++
-.. code-block:: java
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
     :linenos:
 
     /**
-    * @brief Gibt den Bewegungsstatus des Greifers zurück.
-    * @return List[0]: Fehlercode; List[1]: fault 0-kein Fehler, 1-Fehler; List[2]: status 0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen.
+    * @brief  Greiferbewegungsstatus abrufen (ab Version 401 sind das Endeffektorprotokoll und die Definition der Greiferbewegungsstatus-Rückmeldung angepasster Geräte vereinheitlicht)
+    * @param  [out] fault  0-Kein Fehler, sonst-Fehler
+    * @param  [out] staus  0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen, kein Objekt erkannt, 2-Bewegung abgeschlossen, Objekt erkannt, 3-Bewegung abgeschlossen, Objekt heruntergefallen erkannt
+    * @return  Fehlercode
     */
-    List<Integer> GetGripperMotionDone();
-
+    public List<Integer> GetGripperMotionDone()
+    
 Auf Greiferbewegungsstatus warten
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief  Wartet auf den Greiferbewegungsstatus
-    * @param  [in]  status  0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen ohne Objekterkennung, 2-Bewegung abgeschlossen mit Objekterkennung
-    * @param  [in] timeout Timeout (ms), -1 für unendliches Warten
-    * @param  [in] strategy  0-mit Fehler stoppen, 1-weiterlaufen
-    * @param  [in] type  0-Parallelgreifer, 1-Drehgreifer
+    * @brief  Auf Greiferbewegungsstatus warten (ab Version 401 sind das Endeffektorprotokoll und die Definition der Greiferbewegungsstatus-Rückmeldung angepasster Geräte vereinheitlicht)
+    * @param  [in]  staus  0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen, kein Objekt erkannt, 2-Bewegung abgeschlossen, Objekt erkannt, 3-Bewegung abgeschlossen, Objekt heruntergefallen erkannt
+    * @param  [in] timeout Timeout (ms), -1 bedeutet unbegrenzt warten
+    * @param  [in] strategy  0-Stoppen und Fehler melden, 1-Weiterlaufen
+    * @param  [in] type  0-Parallelgreifer, 1-Rotationsgreifer
     * @return  Fehlercode
     */
-    public int GripperWaitMotionDone(int status, int timeout, int strategy, int type)
+    public int GripperWaitMotionDone(int staus, int timeout, int strategy, int type)
 
 Codebeispiel zum Warten auf den Greiferbewegungsstatus
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void TestGripperWaitMotionDone(Robot robot)
+    public void TestGetGripperMotionDone()
     {
         int rtn;
+        int status = 0;
+        int fault = 0;
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
 
         // Greifer öffnen
-        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0);
-        System.out.println("MoveGripper(öffnen) ret=" + rtn);
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
+        rtn = robot.MoveGripper(2, 50, 50, 100, 30000, 0, 0, 0, 0, 0);
+        System.out.println("MoveGripper(Öffnen) ret=" + rtn);
+        robot.Sleep(2000);
+        pkg = robot.GetRobotRealTimeState();
+        System.out.println(" gripper_motiondone " + pkg.gripper_motiondone);
         // Greifer schließen
-        rtn = robot.MoveGripper(1, 90, 100, 100, 30000, 0, 0, 0, 0, 0);
-        System.out.println("MoveGripper(schließen) ret=" + rtn);
+        rtn = robot.MoveGripper(2, 90, 100, 100, 30000, 0, 0, 0, 0, 0);
+        System.out.println("MoveGripper(Schließen) ret=" + rtn);
+        robot.Sleep(2000);
+        pkg = robot.GetRobotRealTimeState();
+        System.out.println(" gripper_motiondone " + pkg.gripper_motiondone);
+        // Auf Bewegungsabschluss ohne Objekterkennung warten, Timeout 5s, stoppen und Fehler melden
+        rtn = robot.GripperWaitMotionDone(2, 5000, 0, 0);
+        System.out.println("GripperWaitMotionDone(auf Abschluss ohne Objekterkennung warten) ret=" + rtn);
 
-        // Warten auf Bewegungsabschluss ohne Objekterkennung, Timeout 30s, mit Fehler stoppen
-        rtn = robot.GripperWaitMotionDone(2, 30000, 0, 0);
-        System.out.println("GripperWaitMotionDone(warten auf Abschluss ohne Objekterkennung) ret=" + rtn);
-
-        // Greifer öffnen
-        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0);
-        System.out.println("MoveGripper(öffnen) ret=" + rtn);
+        while (true)
+        {
+            List<Integer> result = robot.GetGripperMotionDone();
+            fault = result.get(1);
+            status = result.get(2);
+            System.out.println("motion status:" + fault + "," + status);
+            pkg = robot.GetRobotRealTimeState();
+            System.out.println(" error code " + pkg.main_code + "," + pkg.sub_code);
+            robot.Sleep(500);
+        }
     }
 
 Aktivierungsstatus des Greifers abrufen

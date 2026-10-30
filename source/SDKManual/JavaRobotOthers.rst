@@ -345,6 +345,42 @@ Upgrade der vollständigen Gelenkparameter-Konfigurationsdatei
     */
     public int JointAllParamUpgrade(String path)
 
+Fortschrittsprozentsatz des Upgrades aller Gelenkparameter abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Fortschrittsprozentsatz des Upgrades aller Gelenkparameter abrufen
+    * @return List[0]: Fehlercode; List[1]: Fortschrittsprozentsatz des Upgrades [0-100], -1: Upgrade fehlgeschlagen
+    */
+    public List<Integer> GetJointAllParamUpgradeProgress()
+
+Codebeispiel für das Upgrade aller Gelenkparameter und Abfrage des Upgrade-Fortschritts
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestJointAllParamUpgrade(Robot robot)
+    {
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+        int rtn = 0;
+
+        robot.RobotEnable(0);
+        robot.Sleep(200);
+
+        rtn = robot.JointAllParamUpgrade("D://zUP/upgrade/FR3WMS/jointallparameters.db");
+        System.out.println("robot JointAllParamUpgrade rtn is " + rtn);
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            List<Integer> state = robot.GetJointAllParamUpgradeProgress();
+            upgradeProgress = state.get(1);
+            System.out.println("robot joint all param upgrade progress : " + upgradeProgress);
+            robot.Sleep(200);
+        }
+    }    
+
 Codebeispiel für Roboter-Slave-Firmware-Upgrade
 ++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
@@ -615,4 +651,51 @@ Codebeispiel für das Senden eines benutzerdefinierten Befehlsframes über TCP80
         robot.Sleep(2000);
 
         System.out.println("========== TCP-Überprüfung beendet (Antworten siehe oben) ==========");
+    }    
+
+Datenbackup-Paket-Upload-Upgrade
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Datenbackup-Paket-Upload-Upgrade
+    * @param [in] filePath Pfad der hochzuladenden Datenbackup-Paketdatei; D://zUP/fr_user_data.tar.gz
+    * @return Fehlercode
+    */
+    public int DataPackageUpgrade(String filePath)
+
+Fortschrittsprozentsatz des Datenbackup-Paket-Upgrades abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief Fortschrittsprozentsatz des Datenbackup-Paket-Upgrades abrufen
+    * @return List[0]: Fehlercode; List[1]: Fortschrittsprozentsatz des Upgrades [0-100], -1: Upgrade fehlgeschlagen
+    */
+    public List<Integer> GetDataPackageUpgradeProgress()
+
+Codebeispiel für Datenbackup-Paket-Upload-Upgrade und Abfrage des Upgrade-Fortschritts
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestDataPackageUpgrade(Robot robot)
+    {
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+        int rtn = 0;
+        robot.Sleep(200);
+
+        rtn = robot.DataPackageUpgrade("D://zUP/upgrade/FR3WMS/fr_user_data.tar.gz");
+        System.out.println("robot DataPackageUpgrade rtn is " + rtn);
+
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            List<Integer> state = robot.GetDataPackageUpgradeProgress();
+            upgradeProgress = state.get(1);
+            System.out.println("robot data package upgrade progress : " + upgradeProgress);
+            robot.Sleep(200);
+        }
     }    

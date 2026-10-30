@@ -761,3 +761,91 @@ Codebeispiel für das Senden eines benutzerdefinierten Befehlsframes über TCP80
 
     if __name__ == "__main__":
         main()
+
+Datenbackup-Paket-Upload-Upgrade
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``DataPackageUpgrade(self, filePath)``"
+    "Beschreibung", "Datenbackup-Paket-Upload-Upgrade"
+    "Erforderliche Parameter", "
+    - ``filePath``: Pfad der hochzuladenden Datenbackup-Paketdatei; D://zUP/fr_user_data.tar.gz"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0  Fehler- errcode"
+
+Fortschrittsprozentsatz des Datenbackup-Paket-Upgrades abrufen    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetDataPackageUpgradeProgress(self)``"
+    "Beschreibung", "Fortschrittsprozentsatz des Datenbackup-Paket-Upgrades abrufen"
+    "Erforderliche Parameter", "
+    - ``progress``: Fortschrittsprozentsatz des Upgrades [0-100], -1: Upgrade fehlgeschlagen"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0  Fehler- errcode"
+
+Fortschrittsprozentsatz des Upgrades aller Gelenkparameter abrufen    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "Prototyp", "``GetJointAllParamUpgradeProgress(self)``"
+    "Beschreibung", "Fortschrittsprozentsatz des Upgrades aller Gelenkparameter abrufen"
+    "Erforderliche Parameter", "
+    - ``progress``: Fortschrittsprozentsatz des Upgrades [0-100], -1: Upgrade fehlgeschlagen"
+    "Standardparameter", "Keine"
+    "Rückgabewert", "Fehlercode Erfolg-0  Fehler- errcode"
+
+Codebeispiel für Datenbackup-Paket-Upload-Upgrade und Abfrage des Upgrade-Fortschritts
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    def test_data_package_upgrade(robot):
+    """Data package upgrade test"""
+    print("\n========== Data Package Upgrade Test ==========")
+
+    time.sleep(0.2)  # 200ms
+
+    # Data package upgrade
+    rtn = robot.DataPackageUpgrade("D://zUP/upgrade/FR5/fr_user_data.tar.gz")
+    print(f"robot DataPackageUpgrade rtn is {rtn}")
+
+    # Poll upgrade progress until 100%
+    upgradeProgress = 0
+    while upgradeProgress < 100:
+        rtn, upgradeProgress = robot.GetDataPackageUpgradeProgress()
+        print(f"robot data package upgrade progress : {upgradeProgress}")
+        time.sleep(0.2)  # 200ms
+        
+Codebeispiel für das Upgrade aller Gelenkparameter und Abfrage des Upgrade-Fortschritts
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    def test_joint_all_param_upgrade(robot):
+    """Joint all parameters upgrade test"""
+    print("\n========== Joint All Param Upgrade Test ==========")
+
+    # Disable robot before upgrading parameters
+    robot.RobotEnable(0)
+    time.sleep(0.2)  # 200ms
+
+    # Joint all parameters upgrade
+    rtn = robot.JointAllParamUpgrade("D://zUP/upgrade/FR3WMS/jointallparameters.db")
+    print(f"robot JointAllParamUpgrade rtn is {rtn}")
+
+    # Poll upgrade progress until 100%
+    upgradeProgress = 0
+    while upgradeProgress < 100:
+        rtn, upgradeProgress = robot.GetJointAllParamUpgradeProgress()
+        print(f"robot joint all param upgrade progress : {upgradeProgress}")
+        time.sleep(0.2)  # 200ms

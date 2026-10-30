@@ -608,6 +608,60 @@ Klicken Sie auf "Teach Program" -> "Peripheriebefehle" -> "Greifer", um einen Be
 
 .. centered:: Abbildung 8.2-18 Greiferbewegungs-Beispielprogramm
 
+Statusabfrage des am Endeffektor adaptierten Greifers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Überblick
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Dieses Update fügt Funktionen zur Abfrage des Betriebsstatus und der Position des Greifers hinzu. Dadurch können Benutzer den Abschlussstatus der Greiferbewegung in Teach-Programmen abrufen und Position, Geschwindigkeit, Drehmoment und Bewegungsstatus des Greifers über WebApp in Echtzeit überwachen.
+
+Umgebungskonfiguration
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+- Endeffektor-Firmwareversion: FR_END_FV201014_MAIN_U1_T01_20260626
+- Roboter-Softwareversion: V4.0.1 und höher
+
+Beschreibung der Aktualisierung der Greiferbefehle
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Abschlussstatus der Greiferbewegung abrufen
+*********************************************************************************
+
+Öffnen Sie WebApp, gehen Sie zu Teach-Programm -> Programmprogrammierungsoberfläche und öffnen Sie Peripheriebefehl - Greifer. Erzeugen Sie den Befehl „Abschlussstatus der Greiferbewegung abrufen“. Dieser Befehl dient nur zur Abfrage des aktuellen Abschlussstatus der Greiferbewegung.
+
+.. image:: safety/073.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 8.2-19 Abschlussstatus der Greiferbewegung abrufen
+
+Aktuelle Position des Greifers abrufen
+*********************************************************************************
+
+Öffnen Sie WebApp, gehen Sie zu Teach-Programm -> Programmprogrammierungsoberfläche und öffnen Sie Peripheriebefehl - Greifer. Erzeugen Sie den Befehl „Aktuelle Position des Greifers abrufen“. Dieser Befehl dient nur zur Abfrage der aktuellen tatsächlichen Position des Greifers.
+
+.. image:: safety/074.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 8.2-20 Aktuelle Position des Greifers abrufen
+
+Greifer-Datenüberwachung
+*********************************************************************************
+
+Öffnen Sie WebApp, gehen Sie zu Grundeinstellungen -> Peripherie -> Greifer -> Oberfläche und aktivieren Sie die Statusüberwachung. Nach dem Senden von Steuerbefehlen können auf der rechten Gripper-Oberfläche Echtzeit-Rückmeldungsdaten zu Position, Geschwindigkeit und Drehmoment des Greifers sowie der Bewegungsstatus des Greifers abgerufen werden.
+
+Definitionen der Greifer-Bewegungsstatuscodes: 0-In Bewegung; 1-Bewegung abgeschlossen, kein Objekt erkannt; 2-Bewegung abgeschlossen, Objekt erkannt; 3-Werkstück heruntergefallen.
+
+.. image:: safety/075.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 8.2-21 Greifer-Bewegungsstatuscodes
+
+.. note:: Hinweis: Wenn das Werkstück herunterfällt, zeigt die WebApp-Seite einen Alarmhinweis an, und das SDK kann den entsprechenden Fehlercode lesen. Die Fehlerbehandlung muss in der folgenden Reihenfolge durchgeführt werden: Alarm löschen → Greifer zurücksetzen → Greifer erneut aktivieren, danach können weiterhin Bewegungsbefehle gesendet werden.
+
 Kraftsensor
 -------------------------
 

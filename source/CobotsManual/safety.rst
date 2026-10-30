@@ -273,6 +273,9 @@ Klicken Sie in der Roboter-WebApp nacheinander auf "Grundeinstellungen", "Sicher
 - **Steuerung über ModbusRTU**: Wenn der Roboter als ModbusRTU-Slave fungiert, können der DO-Ausgang des Roboters, Programmstart/-stopp, Hand-/Auto-Umschaltung, reduzierter Modus usw. über „Funktionaler Digitaleingang (Spule)“ gesteuert werden. Nach Deaktivierung von „Steuerung über ModbusRTU“ sind die oben genannten Steuerungsfunktionen über „Funktionaler Digitaleingang (Spule)“ alle deaktiviert.
 - **Steuerung über CNDE**: Der CNDE-Eingang des Roboters kann für DO-Ausgang, AO-Ausgang, Laufgeschwindigkeit und andere Steuerungen des Roboters konfiguriert werden. Nach Deaktivierung von „Steuerung über CNDE“ kann der CNDE-Client die oben genannten Funktionen nicht steuern.
 - **IP-Reset-Funktion der Tasterbox**: Die Tasterbox des Roboters V2.0 verfügt über eine IP-Reset-Taste. Wenn die „IP-Reset-Funktion der Tasterbox“ deaktiviert ist, kann die Roboter-IP nicht über die Tasterbox zurückgesetzt werden.
+- **Steuerung über Port 8082**: Der Roboterport 8082 ist der Upload-Port für LUA-Dateien und TPD-Trajektorienaufzeichnungsdateien. Über diesen Port können Inhalt und Name der aktuellen Bewegungs-LUA-Datei geändert werden. Wenn die Konfiguration nicht aktiviert ist, reagiert der Roboter nicht auf Dateiänderungsanforderungen des Clients.
+- **Steuerung über NTP**: Der Steuerkasten der LA-Version verfügt über einen NTP-Zeitsynchronisierungsdienst. Durch Deaktivieren dieser Funktion wird dem Roboter die NTP-Zeitsynchronisierung untersagt.
+- **Steuerung über DHCP**: Wenn deaktiviert, deaktiviert der Roboter den DHCP-Dienst.
 
 Geben Sie das Sicherheitskennwort auf der Sicherheitskonfigurationsseite ein und entsperren Sie es, stellen Sie die zu aktivierenden Kommunikationsports auf „Ein“, klicken Sie auf „Übernehmen“, bestätigen Sie die aktivierten Funktionen im angezeigten Bestätigungsfenster für die Sicherheitskonfiguration und klicken Sie auf die Schaltfläche „Bestätigen“.
 
@@ -287,6 +290,20 @@ Geben Sie das Sicherheitskennwort auf der Sicherheitskonfigurationsseite ein und
    :align: center
 
 .. centered:: Abbildung 7.3-21 Kommunikationsports aktiviert
+
+Konfiguration der Aktivierung des PTP-Zeitsynchronisierungsdienstes des Roboters
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Der PTP-Zeitsynchronisierungsdienst des Roboters kann als deaktiviert, Software-Zeitsynchronisierung oder Hardware-Zeitsynchronisierung konfiguriert werden, und die Netzwerkanschlüsse Eth0 und Eth1 des Roboter-Steuerkastens für den PTP-Zeitsynchronisierungsdienst können festgelegt werden. Die Funktionen "Protokollierung" und "Synchronisierungsgenauigkeitsprüfung" sind noch nicht verfügbar.
+
+.. image:: safety/076.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.3-21-1 Konfiguration des PTP-Zeitsynchronisierungsdienstes des Roboters
+
+Physischer Manipulationsschutz des Roboter-Steuerkastens
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Der Roboter-Steuerkasten verfügt über ein physisches Manipulationsschutzetikett. Benutzer müssen regelmäßig prüfen, ob das Manipulationsschutzetikett am Roboter-Steuerkasten intakt ist.
 
 Integritätsprüfung der Robotersoftware
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -427,6 +444,34 @@ Sicherheitsstopp
 
 Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf "Sicherheitsstopp", um zur Konfigurationsoberfläche zu gelangen, um den Sicherheitsstoppmodus und die Sicherheitsstopp-Strategieparameter einzustellen.
 
+Sicherheitsstoppmodus
+**********************************************************************
+
+Wenn der Sicherheitsstoppmodus als "CR-Zertifizierung" ausgewählt wird, erfüllt dieser Modus hauptsächlich die Sicherheitsanforderungen des nationalen Roboterzertifizierungssystems (CR-Zertifizierung) und eignet sich für nationale Projektabnahmen oder Marktzugangsszenarien. Die CR-Zertifizierung ist eine autoritative Zertifizierung für chinesische Roboterprodukte, die unter der Leitung mehrerer nationaler Ministerien und Kommissionen eingeführt wurde und die Sicherheit und Zuverlässigkeit von Robotern bewertet.
+
+In diesem Modus wird die Sicherheitsstoppfunktion des Systems gemäß den Branchenspezifikationen für nationale kollaborative Roboter konfiguriert und verifiziert. In der Praxis der kollaborativen Roboterbranche werden solche Kern-Sicherheitsfunktionen üblicherweise mit Bezug auf ein höheres funktionales Sicherheitsniveau entworfen und bewertet, um absolute Sicherheit bei der Mensch-Roboter-Kollaboration zu gewährleisten.
+
+.. image:: safety/071.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-2-1 CR-Zertifizierungsmodus
+
+Funktionale Sicherheit (Functional Safety) ist eine international anerkannte Ingenieurmethodik, deren Kernziel darin besteht, sicherzustellen, dass das System bei Auftreten eines Fehlers zuverlässig in einen sicheren Zustand übergehen kann. Für kollaborative Roboter wird die funktionale Sicherheit üblicherweise gemäß ISO 13849-1 (Sicherheitsbezogene Teile von Steuerungssystemen für Maschinensicherheit) & 10218 usw. bewertet, um den Performance Level sicherheitsbezogener Steuerungssysteme zu bestimmen.
+
+Wenn der Modus "Funktionale Sicherheit" ausgewählt wird, folgen die Implementierung und Verifizierung der Sicherheitsstoppfunktion dem internationalen System der funktionalen Sicherheitsnormen. Dieser Modus eignet sich für Produktexporte (z. B. Konformität mit der Maschinenrichtlinie in der EU-CE-Zertifizierung) oder Szenarien, in denen Kunden eine klare internationale Normgrundlage für die intrinsische Sicherheit haben.
+
+.. note:: Hinweis: Nach erfolgreicher Konfiguration des Modus für funktionale Sicherheit muss der Steuerkasten neu gestartet werden, damit die Parameteränderungen des Sicherheitssteuerungssystems wirksam werden.
+
+.. image:: safety/072.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.4-2-2 Modus für funktionale Sicherheit
+
+Auslösemethode
+**********************************************************************
+
 Wenn der Auslösemodus des Sicherheitsstopps auf "Zweikanal" eingestellt ist, müssen beide Kanäle gelöscht werden und die Warnung muss manuell auf der Bedienoberfläche gelöscht werden, bevor der Roboter zurückgesetzt werden kann. Darüber hinaus wurde eine Option für den reduzierten Modus in der Strategiekonfiguration hinzugefügt. Wenn der Benutzer diese Strategie auswählt, wird der Roboter in den reduzierten Modus versetzt.
 
 **Schritt 1**: Klicken Sie auf "Grundeinstellungen" -> "Sicherheit" -> "Sicherheitsstopp". Der Auslösemodus kann als "Standard" oder "Zweikanal" ausgewählt werden. Der Unterschied zwischen den beiden besteht darin: Im "Standard"-Modus wird der Fehler auf der Oberfläche nach der Auslösung und Wiederherstellung automatisch gelöscht; im "Zweikanal"-Modus muss der Fehler auf der Oberfläche nach der Auslösung und Wiederherstellung manuell gelöscht werden. "Sicherheitsstopp-Strategie" kann als "Stopp", "Pause", "Reduzierter Modus Stufe 1" und "Reduzierter Modus Stufe 2" ausgewählt werden. Die detaillierten Beschreibungen lauten wie folgt: Wenn "Stopp" ausgewählt ist, stoppt der Roboter die aktuelle Bewegung; wenn "Pause" ausgewählt ist, pausiert der Roboter die aktuelle Bewegung, und nach der Wiederherstellung und Fehlerlöschung wird die Pause fortgesetzt; wenn "Reduzierter Modus Stufe 1" ausgewählt ist, wechselt der Roboter in den reduzierten Modus Stufe 1; wenn "Reduzierter Modus Stufe 2" ausgewählt ist, wechselt der Roboter in den reduzierten Modus Stufe 2.
@@ -473,6 +518,8 @@ Die Not-Halt-Typen 0, 1a, 1b, 2 können eingestellt werden, das Stoppzeitlimit k
 - Not-Halt Typ 1b: Nach dem Abbremsen wird die Stromversorgung des Roboterkörpers nicht unterbrochen, aber der Roboter wird deaktiviert;
 - Not-Halt Typ 2: Wenn der Not-Halt betätigt wird, bremst der Roboter ab und bleibt aktiviert. Nach dem Lösen des Not-Halts sollte der Roboter normal funktionieren.
 
+.. note:: Hinweis: Der Not-Halt-Stopp wird nur von Weitspannungs-Hardware unterstützt.
+
 .. image:: safety/011.png
    :width: 4in
    :align: center
@@ -484,7 +531,11 @@ Schutzstopp
 
 Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "Schutzstopp", um zur Konfigurationsoberfläche zu gelangen.
 
-Schutzstopp-Typen 0, 1, 2. Schutzstopp Typ 0 unterbricht direkt die Stromversorgung der Steuerschrankplatine. Schutzstopp Typ 1: Die Steuerschrankplatine benachrichtigt zuerst die Steuerung, um den Roboter zu stoppen, dann gibt die Steuerung eine Rückmeldung an die Steuerschrankplatine, um die Stromversorgung zu unterbrechen. Schutzstopp Typ 2: Die Steuerschrankplatine benachrichtigt die Steuerung, um den Roboter zu stoppen.
+Es gibt drei Arten von Schutzstopp: 0, 1 und 2. In jedem Modus wird die Sicherheitsstoppfunktion gemäß dem Sicherheitsstoppsignal des Steuerkastens ausgelöst, und je nach konfiguriertem Sicherheitsstoppniveau wird die entsprechende Cat.0-, Cat.1- oder Cat.2-Stoppfunktion ausgeführt. Beim Schutzstopptyp 0 unterbricht die Steuerkastenplatine direkt die Stromversorgung. Beim Schutzstopptyp 1 benachrichtigt die Steuerkastenplatine zuerst den Controller, den Roboter zu stoppen, und dann meldet der Controller der Steuerkastenplatine zurück, die Stromversorgung zu unterbrechen. Beim Schutzstopptyp 2 benachrichtigt die Steuerkastenplatine den Controller, den Roboter zu stoppen.
+
+- Wenn der Stopptyp 0 ist, wird die Körperstromversorgung unterbrochen, und die Gelenke führen eine sichere Bremse aus;
+- Wenn der Stopptyp 1 ist, wird ein Verzögerungsstopp durchgeführt, die Körperstromversorgung unterbrochen, und die Gelenke führen eine sichere Bremse aus;
+- Wenn der Stopptyp 2 ist, wird ein Verzögerungsstopp durchgeführt, die Körperstromversorgung bleibt erhalten, und die Gelenke führen keine sichere Bremse aus;
 
 .. image:: safety/012.png
    :width: 4in
@@ -645,7 +696,7 @@ ServoJT-Leistungserkennung (Nur im QX-System verwendet)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Sicherheit" und klicken Sie auf das Untermenü "Leistungserkennung", um zur Konfigurationsoberfläche zu gelangen.
 
-Wenn direkt auf den Stromregelkreis des Roboters (nur servoJT) eingewirkt wird, wird er verwendet, um die vom Roboter geleistete Arbeit zu begrenzen. Wenn das Integral der Robotergeschwindigkeit und des Drehmoments den Grenzwert überschreitet, wird der Leistungsschutz aktiviert.
+Wenn es direkt auf die Stromschleife des Roboters wirkt (nur mit dem Befehl servoJT), dient es zur Begrenzung der maximalen Leistung des Roboters. Wenn erkannt wird, dass die Leistung des Roboters den Grenzwert überschreitet, wird der Leistungsschutz ausgeführt.
 
 .. image:: safety/024.png
    :width: 4in
@@ -869,7 +920,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | [Roboterreaktion]:
        | Wenn der Stopptyp 0 ist, wird die Körperstromversorgung unterbrochen, die Gelenke führen eine sichere Bremse aus, und die Positionshaltung wird überwacht
        | Wenn der Stopptyp 1 ist, wird ein Verzögerungsstopp durchgeführt, die Körperstromversorgung unterbrochen, die Gelenke führen eine sichere Bremse aus, und die Positionshaltung wird überwacht	
-     - 202.0512143
+     - 202.051
 
    * - SF02
      - Safeguard Stop-Schutzstopp
@@ -881,7 +932,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Wenn der Stopptyp 0 ist, wird die Körperstromversorgung unterbrochen, die Gelenke führen eine sichere Bremse aus, und die Positionshaltung wird überwacht;
        | Wenn der Stopptyp 1 ist, wird ein Verzögerungsstopp durchgeführt, die Körperstromversorgung unterbrochen, die Gelenke führen eine sichere Bremse aus, und die Positionshaltung wird überwacht;
        | Wenn der Stopptyp 2 ist, wird ein Verzögerungsstopp durchgeführt, die Körperstromversorgung bleibt erhalten, die Gelenke führen keine sichere Bremse aus und bleiben freigegeben, und es werden Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung durchgeführt;	
-     - 191.3170862
+     - 191.317
 
    * - SF03
      - Joint Position Limit-Gelenkpositionsbegrenzung
@@ -890,7 +941,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | [Für jedes Gelenk können Gelenk-Soft-Limits festgelegt werden. Die Sicherheitsplatine erkennt die Gelenkposition in Echtzeit. Bei Überschreitung des Limits wird eine Cat.2-Stoppaktion mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung ausgeführt.
        | [Auslöseereignis]: Das Gelenk bewegt sich außerhalb des Begrenzungspositionsbereichs;
        | [Roboterreaktion]: Fehleralarm - Soft-Limit überschritten, Cat.2-Stoppaktion wird ausgeführt, mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung;
-     - 158.5302637
+     - 158.530
 
    * - SF04
      - Joint Speed Limit-Gelenkgeschwindigkeitsbegrenzung
@@ -899,7 +950,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Für jedes Gelenk kann eine Gelenkgeschwindigkeitsbegrenzung festgelegt werden. Der Sicherheitskreis erkennt anhand der entsprechenden Sicherheitsgeschwindigkeit des Controllers, ob die Echtzeitgeschwindigkeit jedes Robotergelenks das Limit überschreitet. Bei Überschreitung wird ein Cat.1-Stopp mit verriegelter Positionshalteüberwachung oder ein Cat.2-Stopp mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung ausgeführt.
        | [Auslöseereignis]: Die Gelenkgeschwindigkeit überschreitet den eingestellten Wert;
        | [Roboterreaktion]: Fehleralarm - Geschwindigkeit überschritten. Optional Cat.1-Stopp mit verriegelter Positionshalteüberwachung oder standardmäßig Cat.2-Stopp mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung;	
-     - 158.5302637
+     - 158.530
           
    * - SF05
      - Joint Torque Limit-Gelenkmomentbegrenzung
@@ -908,7 +959,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Für jedes Gelenk kann eine Gelenkmomentbegrenzung festgelegt werden. Der Sicherheitskreis erkennt anhand des entsprechenden Sicherheitsmoments des Controllers, ob das Echtzeitmoment jedes Robotergelenks das Limit überschreitet. Bei Überschreitung wird ein Cat.2-Stopp mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung ausgeführt
        | [Auslöseereignis]: Das Gelenkmoment überschreitet den eingestellten Momentwert
        | [Roboterreaktion]: Fehleralarm - Gelenk-x-Moment überschritten, Cat.2-Stopp wird ausgeführt, mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung
-     - 67.48193213
+     - 62.808
      	          
    * - SF06
      - | TCP Pose Limit-TCP-Posenbegrenzung (Sicherheitsebene, Werkzeugrichtung)
@@ -919,7 +970,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Der TCP-Begrenzungsbereich und das entsprechende DI (bis zu 8 konfigurierbar) werden vorab auf der entsprechenden Controllerseite festgelegt. Wenn das DI aktiviert wird, wird das entsprechende Limit aktiviert. Wenn der TCP den Begrenzungsbereich überschreitet, wird ein Cat.2-Stopp mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung ausgeführt
        | [Auslöseereignis]: Die TCP-Pose überschreitet den eingestellten Bereich
        | [Roboterreaktion]: Fehleralarm - Sicherheitsebene/Werkzeugrichtung überschritten, Cat.2-Stoppaktion wird ausgeführt, mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung	
-     - 70.07272665
+     - 70.072
           	          
    * - SF07
      - manual mode, reduced-speed-Manueller Modus, reduzierte Geschwindigkeit
@@ -928,7 +979,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Wenn sich der Controllermodus im manuellen Modus mit reduzierter Geschwindigkeit befindet, wird erkannt, ob die TCP-Geschwindigkeit ≤250mm/s ist. Bei Überschreitung wird eine Cat.0- oder Cat.1-Stoppaktion mit verriegelter Positionshalteüberwachung ausgeführt.
        | [Auslöseereignis]: Die TCP-Geschwindigkeit überschreitet die eingestellte Geschwindigkeit
        | [Roboterreaktion]: Fehleralarm - TCP-Übergeschwindigkeit, Cat.0- oder Cat.1-Stoppaktion wird ausgeführt, mit verriegelter Positionshalteüberwachung.	
-     - 70.07272665
+     - 70.072
              	          
    * - SF08
      - TCP Force Limit-TCP-Kraftbegrenzung
@@ -937,7 +988,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Der Controller kann die TCP-Kraftbegrenzung konfigurieren. Der Sicherheitskreis überwacht die TCP-Kraft des Roboters in Echtzeit. Wenn die TCP-Kraft den Grenzwert überschreitet, wird ein Cat.2-Stopp mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung ausgeführt
        | [Auslöseereignis]: Die TCP-Kraft überschreitet den eingestellten Grenzwert
        | [Roboterreaktion]: Fehleralarm - Kollisionsfehler Gelenk x, Cat.2-Stopp wird ausgeführt, mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung	
-     - 124.720124  
+     - 62.808
              	          
    * - SF09
      - Momentum Limit-Impulsbegrenzung
@@ -946,7 +997,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Der Controller kann die Impulsbegrenzung des Roboters konfigurieren. Der Sicherheitskreis überwacht den Impuls des Roboters in Echtzeit. Wenn der Impuls des Roboters den Grenzwert überschreitet, wird ein Cat.2-Stopp mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung ausgeführt
        | [Auslöseereignis]: Der Impuls überschreitet den eingestellten Impulsgrenzwert
        | [Roboterreaktion]: Fehleralarm - Impuls überschritten, Cat.2-Stopp wird ausgeführt, mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung	
-     - 67.48193213
+     - 62.808
                 	          
    * - SF10
      - Power Limit-Leistungsbegrenzung
@@ -955,7 +1006,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Der Controller kann die Leistungsbegrenzung des Roboters konfigurieren. Der Sicherheitskreis überwacht die Leistung des Roboters in Echtzeit. Wenn die Leistung des Roboters den Grenzwert überschreitet, wird ein Cat.2-Stopp mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung ausgeführt
        | [Auslöseereignis]: Die Leistung überschreitet den eingestellten Leistungsgrenzwert
        | [Roboterreaktion]: Fehleralarm - Leistung überschritten, Cat.2-Stopp wird ausgeführt, mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung
-     - 67.48193213
+     - 62.808
                 	          
    * - SF11
      - System Emergency Stop Output-System-Not-Halt-Ausgang
@@ -966,16 +1017,16 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | [Roboterreaktion]:
        | Not-Halt-Typ 0: System-Not-Halt-Signalausgabe
        | Not-Halt-Typ 1: System-Not-Halt-Signalausgabe	
-     - 191.3170862
+     - 191.317
                    	          
    * - SF12
-     - Robot Moving State Output-Ausgang Roboterdzustand "In Bewegung"
+     - Robot Moving State Output-Ausgang Roboterzustand "In Bewegung"
      - PL d
      - | Monitoring of the Robot Moving State Output-Überwachung des Ausgangs "Roboter in Bewegung"
        | Wenn sich der Roboter im Bewegungszustand befindet, gibt der Controller ein Bewegungssignal DO aus
        | [Auslöseereignis]: Der Roboter befindet sich im Bewegungszustand
        | [Roboterreaktion]: Signalausgabe "Roboter in Bewegung"	
-     - 68.7283255
+     - 68.728
                 	          
    * - SF13
      - Robot Not Stopping State Output-Ausgang Roboterzustand "Nicht gestoppt"
@@ -984,7 +1035,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Wenn sich der Roboter im Zustand "Nicht gestoppt" befindet, gibt der Controller ein Signal DO "Nicht gestoppt" aus
        | [Auslöseereignis]: Der Roboter befindet sich im Zustand "Nicht gestoppt"
        | [Roboterreaktion]: Signalausgabe "Roboter nicht gestoppt"	
-     - 68.7283255
+     - 68.728
 
    * - SF14
      - Reduced Mode State Output-Ausgang Zustand "Reduzierter Modus"
@@ -993,7 +1044,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Wenn sich der Roboter im reduzierten Zustand befindet, gibt der Controller ein reduziertes Signal DO aus
        | [Auslöseereignis]: Der Roboter befindet sich im reduzierten Modus
        | [Roboterreaktion]: Signalausgabe "Reduzierter Modus"	
-     - 68.7283255
+     - 68.728
     
    * - SF15
      - Not Reduced Mode State Output-Ausgang Zustand "Nicht reduzierter Modus"
@@ -1002,7 +1053,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Wenn sich der Roboter im nicht reduzierten Zustand befindet, gibt der Controller ein Signal DO "Nicht reduziert" aus
        | [Auslöseereignis]: Der Roboter befindet sich im nicht reduzierten Modus
        | [Roboterreaktion]: Signalausgabe "Nicht reduzierter Modus"	
-     - 68.7283255
+     - 68.728
     
    * - SF16
      - 3P enabling function-Dreistellungs-Freigabefunktion
@@ -1012,7 +1063,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Wenn die Dreistellungs-Freigabe in Stellung 2 ist, ist der Roboter freigegeben, mit verriegelter Aktivierung des manuellen Modus mit reduzierter Geschwindigkeit und der Erkennung reduzierter manueller Geschwindigkeit
        | [Auslöseereignis]: Im Modus des physischen Teach-Pendants wird die Dreistellungs-Freigabetaste in die mittlere Stellung (Stellung 2) gedrückt
        | [Roboterreaktion]: Gelenke werden freigegeben, sichere Gelenkbremsen werden gelöst, der Roboter geht in den manuellen Modus mit reduzierter Geschwindigkeit über, mit verriegelter Aktivierung des manuellen Modus mit reduzierter Geschwindigkeit und der Erkennung reduzierter manueller Geschwindigkeit	
-     - 68.7283255
+     - 68.728
          
    * - SF17
      - monitored-standstill-Überwachter Stillstand (nach Cat.2-Stopp)
@@ -1021,7 +1072,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Nach Abschluss des Cat.2-Stopps erkennt der Sicherheitskreis Gelenkpositionsänderungen anhand des Roboterbefehls und der tatsächlichen Position. Bei Überschreitung der Abweichung wird ein Cat.0- oder Cat.1-Stopp ausgeführt
        | [Auslöseereignis]: Im Stillstand und ohne Bewegung ändert sich die Roboterposition ungewöhnlich
        | [Roboterreaktion]: Der Bereich der Roboterpositionsänderung überschreitet den eingestellten Wert, eine Cat.0- oder Cat.1-Stoppaktion wird ausgeführt	
-     - 60.05290188
+     - 47.515
             
    * - SF18
      - stopping time limiting-Stoppzeitbegrenzung (nach Cat.2-Stopp)
@@ -1030,7 +1081,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Nach Auslösung des Cat.2-Stoppsignals erkennt der Sicherheitskreis die Stoppzeit anhand der Zeit des Stoppabschlusssignals des Roboters. Bei Überschreitung der Abweichung wird ein Cat.0- oder Cat.1-Stopp ausgeführt
        | [Auslöseereignis]: Wenn der Roboter einen Stopp auslöst
        | [Roboterreaktion]: Wenn der Roboter einen Stopp auslöst und die Stoppzeit die eingestellte Zeit überschreitet, wird eine Cat.0- oder Cat.1-Stoppaktion ausgeführt	
-     - 60.05290188 
+     - 47.515
             
    * - SF19
      - stopping distance limiting-Stoppwegbegrenzung (nach Cat.2-Stopp)
@@ -1039,7 +1090,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Beim Auslösen des Cat.2-Stoppsignals wird die Roboterposition aufgezeichnet. Der Sicherheitskreis ermittelt den Stoppweg durch Subtraktion der aufgezeichneten Position von der Echtzeit-Istposition des Roboters. Bei Überschreitung der Abweichung wird ein Cat.0- oder Cat.1-Stopp ausgeführt
        | [Auslöseereignis]: Wenn der Roboter einen Stopp auslöst
        | [Roboterreaktion]: Wenn der Roboter einen Stopp auslöst und der Stoppweg den eingestellten Stoppweg überschreitet, wird eine Cat.0- oder Cat.1-Stoppaktion ausgeführt	
-     - 60.05290188
+     - 47.515
                   
    * - SF20
      - hold-to-run control-Hold-to-Run-Steuerung
@@ -1051,7 +1102,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | [Roboterreaktion]: Der Roboter geht in den Ziehzustand über
        | [Auslöseereignis]: Der Dreistellungs-Freigabeschalter gelangt in die mittlere Stellung, der Controller ist im manuellen Modus, und die Endtaste wird losgelassen
        | [Roboterreaktion]: Der Roboter geht in einen Cat.2-Stopp mit verriegelter Stillstandserkennung + Stoppweg + Stoppzeit-Erkennung über
-     - 68.7283255
+     - 68.699
                       
    * - SF21
      - start/restart interlock-Start-/Neustartverriegelung
@@ -1060,7 +1111,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Bei Start/Neustart/Moduswechsel wird der Cat.2-Sicherheitsstoppzustand ausgelöst. Nach Ausführung des Stopps kann sich der Controller nicht bewegen, mit verriegelter Stillstandserkennung. Der Stoppzustand muss durch Zurücksetzen des Sicherheitsstopps über DI zurückgesetzt werden, bevor weitere Operationen ausgeführt werden können
        | [Auslöseereignis]: Controller-Start/Neustart/Moduswechsel
        | [Roboterreaktion]: Verriegelung ausgelöst, Eintritt in Cat.2-Sicherheitsstopp	
-     - 191.3170862
+     - 191.317
                       
    * - SF22
      - reset safety-Zurücksetzen des Sicherheitsstoppzustands
@@ -1069,7 +1120,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Im ausgelösten Sicherheitsstoppzustand zuerst Fehler-/Störungsrücksetzung über DI durchführen. Nach erfolgreicher Fehler-/Störungsrücksetzung erneut Stoppzustandsrücksetzung über DI durchführen, danach kann der Roboter den Stoppzustand verlassen
        | [Auslöseereignis]: DI zum Zurücksetzen des Sicherheitsstoppzustands ausgelöst
        | [Roboterreaktion]: Der Roboter verlässt den Sicherheitsstopp	
-     - 191.3170862
+     - 191.317
                          
    * - SF23
      - normal stop-Normaler Stopp
@@ -1078,18 +1129,18 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Während der Roboterbewegung wird über ein DI-Signal ein normaler Stopp ausgelöst. Je nach konfiguriertem Sicherheitsstopptyp wird eine Cat.0- oder Cat.1-Stoppaktion ausgeführt
        | [Auslöseereignis]: Bewegungsstopp ausgelöst
        | [Roboterreaktion]: Der Roboter führt eine Cat.0- oder Cat.1-Stoppaktion mit verriegelter Positionshalteüberwachung aus	
-     - 191.3170862
+     - 191.317
                          
    * - SF24
      - mode activation-Modusaktivierung
-     - PL a
+     - PL d
      - | Mode activation-Modusaktivierung
        | Der Controllermodus kann über den Modusschalter der Softwareoberfläche und den Endtastenschalter in verschiedene Modi wechseln, darunter manuell reduzierte Geschwindigkeit/manuell hohe Geschwindigkeit/automatisch/Ziehen
        | [Auslöseereignis]: Umschalten des Schalters der Softwareoberfläche
        | [Roboterreaktion]: Der Roboter kann zwischen manuell reduzierte Geschwindigkeit/manuell hohe Geschwindigkeit/automatisch umschalten, mit verriegelter Überwachung manuell reduzierte Geschwindigkeit/Überwachung manuell hohe Geschwindigkeit + Zeitüberwachung manuell hohe Geschwindigkeit/Überwachung manuell reduzierte Geschwindigkeit/Gelenkgeschwindigkeitsüberwachung
        | [Auslöseereignis]: Umschalten des Endziehschalters
        | [Roboterreaktion]: Der Roboter kann zwischen manuell reduzierte Geschwindigkeit/Ziehen umschalten, mit verriegelter Überwachung manuell reduzierte Geschwindigkeit/Überwachung der Ziehgeschwindigkeit/Stillstandsüberwachung	
-     - /
+     - 191.317
                              
    * - SF25
      - Position Holding Monitoring-Überwachung der Positionshaltung
@@ -1098,7 +1149,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Wenn der Controller vom freigegebenen Zustand in den nicht freigegebenen Zustand übergeht, wird beim Bremseneingriff die Position aufgezeichnet, und es wird kontinuierlich erkannt, ob die Differenz zwischen der Robotergelenkposition und der aufgezeichneten Position den Grenzschwellenwert überschreitet. Bei Überschreitung des Schwellenwerts wird eine Cat.0-Operation ausgeführt
        | [Auslöseereignis]: Während des Bremseneingriffs überschreitet die Änderung der Robotergelenkposition den Schwellenwert
        | [Roboterreaktion]: Cat.0-Operation wird ausgeführt	
-     - 60.05290188
+     - 47.515
                                 
    * - SF26
      - single-point-of-control-Einzelner Steuerpunkt (lokaler/ferner Steuermodus)
@@ -1107,7 +1158,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Der lokale Modus und der Fernsteuermodus des Controllers schließen sich gegenseitig aus. Der Modus wird manuell auf der Controlleroberfläche umgeschaltet, und es kann nur einer für die Steuerung ausgewählt werden
        | [Auslöseereignis]: Manuelles Umschalten des Steuermodus auf der Controlleroberfläche
        | [Roboterreaktion]: Der Controller kann jeweils nur einen Modus auswählen und blendet den Betrieb der anderen Steuerquelle aus	
-     - /
+     - 10.6
                                    
    * - SF27
      - external control enable-Freigabe externe Steuerquelle
@@ -1116,7 +1167,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Der Controller verfügt über einen Fernsteuermodus. Das Betreten und Verlassen des Fernmodus erfolgt manuell und lokal auf der Controlleroberfläche. In diesem Modus werden andere lokale Steuerfunktionen ausgeblendet
        | [Auslöseereignis]: Umschalten des Fernsteuermodus auf der lokalen Oberfläche
        | [Roboterreaktion]: Der Controller geht in den Fernmodus über und blendet den Betrieb der lokalen Steuerquelle aus	
-     - /
+     - 10.6
                                    
    * - SF28
      - manual mode, high-speed-Manueller Modus, hohe Geschwindigkeit
@@ -1125,7 +1176,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Klicken Sie auf die Umschalttaste für manuell hohe Geschwindigkeit auf der Seite für manuell reduzierte Geschwindigkeit. Der Controller kann vom manuellen Modus mit reduzierter Geschwindigkeit in den manuellen Modus mit hoher Geschwindigkeit wechseln. Der Sicherheitskreis erkennt, ob die TCP-Geschwindigkeit ≤1000mm/s ist. Bei Überschreitung wird eine Cat.0- oder Cat.1-Stoppaktion mit verriegelter Positionshalteüberwachung ausgeführt
        | [Auslöseereignis]: Im Hochgeschwindigkeitsmodus überschreitet die TCP-Geschwindigkeit das eingestellte Limit
        | [Roboterreaktion]: Verzögerungsstopp wird durchgeführt, Fehleralarm - TCP-Übergeschwindigkeit, Cat.0- oder Cat.1-Stoppaktion wird ausgeführt, mit verriegelter Positionshalteüberwachung	
-     - 60.05290188
+     - 47.515
 
    * - SF29
      - manual mode, high-speed time limitation-Manueller Modus, Zeitbegrenzung hohe Geschwindigkeit
@@ -1134,7 +1185,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Wenn sich der Controllermodus im manuellen Hochgeschwindigkeitsmodus befindet und der Dreistellungsschalter die mittlere Position verlässt, erkennt der Sicherheitskreis die Dauer. Bei Überschreitung von 5 min senkt der Steuerkasten die globale manuelle Hochgeschwindigkeitsgeschwindigkeit auf 25% (TCP-Geschwindigkeit 250mm/s), mit verriegelter entsprechender Geschwindigkeitsüberwachung (TCP-Geschwindigkeit ≤250mm/s)
        | [Auslöseereignis]: Im manuellen Hochgeschwindigkeitsmodus wird der 3P-Schalter länger als 5 min losgelassen
        | [Roboterreaktion]: Der Steuerkasten senkt die manuelle Hochgeschwindigkeitsgeschwindigkeit auf 250mm/s, mit verriegelter 250mm/s-Überwachung	
-     - 49.81517752
+     - 68.728
    
    * - SF30
      - hand-guided control-Handgeführte Steuerung
@@ -1143,7 +1194,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Wenn der Dreistellungsschalter in der mittleren Position ist und die Endziehtaste gedrückt wird, geht der Controllermodus in den Ziehmodus über. Der Sicherheitskreis erkennt, ob die TCP-Geschwindigkeit ≤250mm/s ist (konfigurierbare Geschwindigkeitsbegrenzung), jede Gelenkgeschwindigkeit ≤45°/s ist (über SF04 überwacht, konfigurierbare Geschwindigkeitsbegrenzung, konfigurierbar Cat.0/Cat.1), jede Gelenkpositionsbegrenzung (über SF03 überwacht, konfigurierbarer Bereich, Cat.2), TCP-Posenbegrenzung (über SF06 überwacht, konfigurierbarer Bereich, Cat.2). Bei Überschreitung wird eine Cat.0- oder Cat.1-Stoppaktion mit verriegelter Positionshalteüberwachung ausgeführt
        | [Auslöseereignis]: Die TCP-Geschwindigkeit überschreitet die Ziehbegrenzungsgeschwindigkeit (Standard 250mm/s, einstellbar)
        | [Roboterreaktion]: Verzögerungsstopp wird durchgeführt, Fehleralarm - TCP-Übergeschwindigkeit, Cat.0- oder Cat.1-Stoppaktion wird ausgeführt, mit verriegelter Positionshalteüberwachung
-     - 49.81517752 	
+     - 68.699
    
    * - SF31
      - Speed and separation monitoring (SSM)-Geschwindigkeits- und Separierungsüberwachung
@@ -1152,7 +1203,7 @@ Dieses Gerät wird gemäß der EU-Maschinenverordnung (EU) 2023/1230 einer Konfo
        | Wenn sich der Controllermodus im automatischen Modus befindet, erkennt der über das DI des Steuerkastens extern angeschlossene Fotoelektrik-Schalter/Abstandssensor-Schalter die relative Position von Maschine und Personal. Wenn das entsprechende Abstands-DI ein Signal empfängt, führt der Steuerkasten eine Sicherheitsreaktion aus. Je nach entsprechendem Abstand geht er in Reduzierung Stufe 1 (konfigurierbare Geschwindigkeit, Standard 200mm/s), Reduzierung Stufe 2 (konfigurierbare Geschwindigkeit, Standard 100mm/s) oder Reduzierung Stufe 3 (Bewegungsstopp) über. Gleichzeitig geht der Sicherheitskreis in die Geschwindigkeits- und Separierungsüberwachung über. Wenn die Geschwindigkeit nach Eintritt in die Reduzierung die der entsprechenden Reduzierungsstufe entsprechende Geschwindigkeit überschreitet, wird eine Cat.0- oder Cat.1-Stoppaktion mit verriegelter Positionshalteüberwachung ausgeführt
        | [Auslöseereignis]: Die TCP-Geschwindigkeit überschreitet die eingestellte Geschwindigkeit
        | [Roboterreaktion]: Verzögerungsstopp wird durchgeführt, Fehleralarm - TCP-Übergeschwindigkeit, Cat.0- oder Cat.1-Stoppaktion wird ausgeführt, mit verriegelter Positionshalteüberwachung	
-     - 60.05290188
+     - 47.515
 
 .. note:: Hinweis: ***MTTFd**: Mittlere Zeit bis zum gefahrbringenden Ausfall (Einheit: Jahre).
 

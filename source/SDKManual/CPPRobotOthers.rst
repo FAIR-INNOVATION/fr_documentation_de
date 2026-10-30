@@ -407,6 +407,53 @@ Upgrade der vollständigen Gelenkparameter-Konfigurationsdatei
     */
     errno_t JointAllParamUpgrade(std::string path);
 
+Fortschrittsprozentsatz des Upgrades aller Gelenkparameter abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Fortschrittsprozentsatz des Upgrades aller Gelenkparameter abrufen
+    * @param [out] progress Fortschrittsprozentsatz des Upgrades [0-100], -1: Upgrade fehlgeschlagen
+    * @return Fehlercode
+    */
+    errno_t GetJointAllParamUpgradeProgress(int& progress);
+    
+Codebeispiel für das Upgrade aller Gelenkparameter und Abfrage des Upgrade-Fortschritts
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    int TestJointAllParamUpgrade()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        robot.RobotEnable(0);
+        robot.Sleep(200);
+        rtn = robot.JointAllParamUpgrade("D://zUP/upgrade/FR3WMS/jointallparameters.db");
+        printf("robot JointAllParamUpgrade rtn is %d\n", rtn);
+        
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            robot.GetJointAllParamUpgradeProgress(upgradeProgress);
+            printf("robot joint all param upgrade progress : %d\n", upgradeProgress);
+            robot.Sleep(200);
+        }
+        robot.CloseRPC();
+        return 0;
+    }    
+
 Codebeispiel für Roboter-Slave-Firmware-Upgrade
 ++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
@@ -744,5 +791,64 @@ Codebeispiel für das Senden eines benutzerdefinierten Befehlsframes über TCP80
         robot.Sleep(2000);
         robot.CloseRPC();
         robot.Sleep(1000);
+        return 0;
+    }    
+
+Datenbackup-Paket-Upload-Upgrade
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Datenbackup-Paket-Upload-Upgrade
+    * @param [in] filePath Pfad der hochzuladenden Datenbackup-Paketdatei; D://zUP/fr_user_data.tar.gz
+    * @return Fehlercode
+    */
+    errno_t DataPackageUpgrade(std::string filePath);
+    
+Fortschrittsprozentsatz des Datenbackup-Paket-Upgrades abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief Fortschrittsprozentsatz des Datenbackup-Paket-Upgrades abrufen
+    * @param [out] progress Fortschrittsprozentsatz des Upgrades [0-100], -1: Upgrade fehlgeschlagen
+    * @return Fehlercode
+    */
+    errno_t GetDataPackageUpgradeProgress(int& progress);
+        
+Codebeispiel für Datenbackup-Paket-Upload-Upgrade und Abfrage des Upgrade-Fortschritts
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestDataPackageUpgrade()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        robot.Sleep(200);
+        rtn = robot.DataPackageUpgrade("D://zUP/upgrade/FR5/fr_user_data.tar.gz");
+        printf("robot DataPackageUpgrade rtn is %d\n", rtn);
+        
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            robot.GetDataPackageUpgradeProgress(upgradeProgress);
+            printf("robot data package upgrade progress : %d\n", upgradeProgress);
+            robot.Sleep(200);
+        }
+        robot.CloseRPC();
         return 0;
     }    

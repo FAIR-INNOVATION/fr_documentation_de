@@ -72,11 +72,11 @@ Greifer-Bewegungsstatus abrufen
     :widths: 10 30
 
     "Prototyp", "``GetGripperMotionDone()``"
-    "Beschreibung", "Greifer-Bewegungsstatus abrufen"
+    "Beschreibung", "Greiferbewegungsstatus abrufen (ab Version 401 sind das Endeffektorprotokoll und die Definition der Greiferbewegungsstatus-Rückmeldung angepasster Geräte vereinheitlicht)"
     "Erforderliche Parameter", "Keine"
     "Standardparameter", "Keine"
-    "Rückgabewert", "- Fehlercode: 0 = Erfolg, sonst Fehlercode
-    - ``[fault, status]``: fault = 0 = kein Fehler, 1 = Fehler; status = 0 = Bewegung nicht abgeschlossen, 1 = Bewegung abgeschlossen"
+    "Rückgabewert", "- Fehlercode Erfolg-0  Fehler- errcode 
+    - ``[fault,status]``: Greiferbewegungsstatus, fault: 0-Kein Fehler, sonst-Fehler; status: 0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen, kein Objekt erkannt, 2-Bewegung abgeschlossen, Objekt erkannt, 3-Bewegung abgeschlossen, Objekt heruntergefallen erkannt"
 
 Greifer-Aktivierungsstatus abrufen
 +++++++++++++++++++++++++++++++++++
@@ -2132,7 +2132,7 @@ Auf Greiferbewegungsstatus warten
     "Prototyp", "``GripperWaitMotionDone(self, status, timeout, strategy, type)``"
     "Beschreibung", "Wartet auf den Greiferbewegungsstatus"
     "Erforderliche Parameter", "
-    - ``status``：0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen ohne Objekterkennung, 2-Bewegung abgeschlossen mit Objekterkennung
+    - ``status``：0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen ohne Objekterkennung, 2-Bewegung abgeschlossen mit Objekterkennung, 3-Bewegung abgeschlossen, Objekt heruntergefallen erkannt
     - ``timeout``：Timeout (ms), -1 für unendliches Warten
     - ``strategy``：0-mit Fehler stoppen, 1-weiterlaufen
     - ``type``：0-Parallelgreifer, 1-Drehgreifer
@@ -2148,42 +2148,49 @@ Codebeispiel zum Warten auf den Greiferbewegungsstatus
     from fairino import Robot
     import time
 
-
     def main():
-        # Verbindung zum Roboter-Controller herstellen
+        # Establish connection with the robot controller
         robot = Robot.RPC('192.168.58.2')
-        time.sleep(0.5)  # Auf Verbindung und Datenempfang warten
+        time.sleep(0.5)  # Wait for connection and data reception
 
-        print("========== Test zum Warten auf Greiferbewegungsabschluss ==========")
+        print("========== Gripper Motion Done Test ==========")
 
-        # ========== Greifer öffnen ==========
-        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0)
-        print(f"MoveGripper(öffnen) ret={rtn}")
-        time.sleep(4)
+        # Open the gripper
+        rtn = robot.MoveGripper(2, 50, 50, 100, 30000, 0, 0, 0, 0, 0)
+        print(f"MoveGripper(open) ret={rtn}")
+        time.sleep(2)
+        rtn, pkg = robot.GetRobotRealTimeState()
+        print(f"gripper_motiondone {pkg.gripper_motiondone}")
 
-        # ========== Greifer schließen ==========
-        rtn = robot.MoveGripper(1, 90, 100, 100, 30000, 0, 0, 0, 0, 0)
-        print(f"MoveGripper(schließen) ret={rtn}")
+        # Close the gripper
+        rtn = robot.MoveGripper(2, 90, 100, 100, 30000, 0, 0, 0, 0, 0)
+        print(f"MoveGripper(close) ret={rtn}")
+        time.sleep(2)
+        rtn, pkg = robot.GetRobotRealTimeState()
+        print(f"gripper_motiondone {pkg.gripper_motiondone}")
 
-        # ========== Warten auf Bewegungsabschluss (kein Objekt erkannt, Timeout 30s, mit Fehler stoppen) ==========
-        rtn = robot.GripperWaitMotionDone(1, 30000, 0, 0)
-        print(f"GripperWaitMotionDone(warten auf Abschluss ohne Objekterkennung) ret={rtn}")
+        # Wait for motion done, no object detected, timeout 5s, stop with error
+        rtn = robot.GripperWaitMotionDone(2, 5000, 0, 0)
+        print(f"GripperWaitMotionDone(no object detected) ret={rtn}")
 
-        # ========== Greifer öffnen ==========
-        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0)
-        print(f"MoveGripper(öffnen) ret={rtn}")
+        # Loop and query gripper motion status
+        while True:
+            rtn, status = robot.GetGripperMotionDone()
+            print(f"motion status:{status[0]},{status[1]}\n")
 
-        print("========== Test abgeschlossen ==========")
+            rtn, pkg = robot.GetRobotRealTimeState()
+            print(f"error code {pkg.main_code},{pkg.sub_code}")
 
-        # Verbindung schließen
+            time.sleep(0.5)
+
+        # Close connection (never reached due to infinite loop)
         robot.CloseRPC()
 
-
     if __name__ == "__main__":
-        main()    
+        main()  
 
 Codebeispiel für Laseraufzeichnungswiedergabe + Asynchrone Erweiterungsachsenbewegung + Punktgenaue Pendelbewegung    
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: python
     :linenos:         
 

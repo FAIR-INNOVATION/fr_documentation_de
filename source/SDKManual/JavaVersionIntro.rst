@@ -13,6 +13,17 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V4.0.1
+     - 2026-10-27
+     - | 1. Die Kommentare der Schnittstelle GetGripperMotionDone() zum Abrufen des Greiferbewegungsstatus wurden geändert. Ab Version 401 sind das Endeffektorprotokoll und die Definition der Greiferbewegungsstatus-Rückmeldung angepasster Geräte vereinheitlicht, und status fügt 3 = Bewegung abgeschlossen und Objekt heruntergefallen erkannt hinzu;
+       | 2. Die Kommentare der Schnittstelle GripperWaitMotionDone() zum Warten auf den Greiferbewegungsstatus wurden geändert. Ab Version 401 sind das Endeffektorprotokoll und die Definition der Greiferbewegungsstatus-Rückmeldung angepasster Geräte vereinheitlicht, und status fügt 3 = Bewegung abgeschlossen und Objekt heruntergefallen erkannt hinzu;
+       | 3. Die Parameterbeschreibung der Schnittstelle ServoMoveStart() zum Starten der Servobewegung wurde geändert, die Parameter filtertime (Filterzeit) und gain (Array der Positionsregelkreis-Verstärkung) wurden hinzugefügt, zur Verwendung mit den Befehlen ServoJ und ServoCart, und das entsprechende Codebeispiel wurde ergänzt;
+       | 4. Die Schnittstelle DataPackageUpgrade() für das Datenbackup-Paket-Upload-Upgrade und ein Codebeispiel wurden hinzugefügt;
+       | 5. Die Schnittstelle GetDataPackageUpgradeProgress() zum Abrufen des Fortschrittsprozentsatzes des Datenbackup-Paket-Upgrades wurde hinzugefügt;
+       | 6. Die Schnittstelle GetJointAllParamUpgradeProgress() zum Abrufen des Fortschrittsprozentsatzes des Upgrades aller Gelenkparameter wurde hinzugefügt;
+       | 7. Ein Codebeispiel für Datenbackup-Paket-Upload-Upgrade und Abfrage des Upgrade-Fortschritts wurde hinzugefügt;
+       | 8. Ein Codebeispiel für das Upgrade aller Gelenkparameter und Abfrage des Upgrade-Fortschritts wurde hinzugefügt.
+       
    * - V4.0.0
      - 2026-09-23
      - | 1. Die Parameterbeschreibung der Schnittstelle SetWeldMachineCtrlMode() zum Einstellen des Schweißgerät-Steuermodus wurde geändert und die Impuls- und Impulslos-Modi für Panasonic-Schweißgeräte wurden hinzugefügt;

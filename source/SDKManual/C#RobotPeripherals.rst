@@ -68,29 +68,29 @@ Greifer steuern
     */
     int MoveGripper(int index, int pos, int vel, int force, int max_time, byte block, int type, double rotNum, int rotVel, int rotTorque);
 
-Greifer-Bewegungsstatus abrufen
-++++++++++++++++++++++++++++++++
+Greiferbewegungsstatus abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief Greifer-Bewegungsstatus abrufen
-    * @param [out] fault 0-kein Fehler, 1-Fehler
-    * @param [out] status 0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen
-    * @return Fehlercode
+    * @brief  Greiferbewegungsstatus abrufen (ab Version 401 sind das Endeffektorprotokoll und die Definition der Greiferbewegungsstatus-Rückmeldung angepasster Geräte vereinheitlicht)
+    * @param  [out] fault  0-Kein Fehler, sonst-Fehler
+    * @param  [out] staus  0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen, kein Objekt erkannt, 2-Bewegung abgeschlossen, Objekt erkannt, 3-Bewegung abgeschlossen, Objekt heruntergefallen erkannt
+    * @return  Fehlercode
     */
-    int GetGripperMotionDone(ref int fault, ref int status);
+    int GetGripperMotionDone(ref int fault, ref int status); 
 
-Greifer-Aktivierungsstatus abrufen
-+++++++++++++++++++++++++++++++++++
+Greiferaktivierungsstatus abrufen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief Greifer-Aktivierungsstatus abrufen
-    * @param [out] fault 0-kein Fehler, 1-Fehler
-    * @param [out] status Bit0~Bit15 entsprechen Greifernummern 0~15, Bit=0 nicht aktiviert, Bit=1 aktiviert
-    * @return Fehlercode
+    * @brief  Greiferaktivierungsstatus abrufen
+    * @param  [out] fault  0-Kein Fehler, 1-Fehler
+    * @param  [out] status  bit0~bit15 entsprechen den Greifernummern 0~15; bit=0 nicht aktiviert, bit=1 aktiviert
+    * @return  Fehlercode
     */
     int GetGripperActivateStatus(ref int fault, ref int status);
 
@@ -100,46 +100,54 @@ Auf Greiferbewegungsstatus warten
     :linenos:
 
     /**
-    * @brief  Wartet auf den Greiferbewegungsstatus (nur für das Endeffektor-Offenprotokoll definiert; für angepasste Geräte wird die Statusdefinition an jeden Greiferhersteller durchgereicht)
-    * @param  [in] status  0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen ohne Objekterkennung, 2-Bewegung abgeschlossen mit Objekterkennung
-    * @param  [in] timeout Timeout (ms), -1 für unendliches Warten
-    * @param  [in] strategy  0-mit Fehler stoppen, 1-weiterlaufen
-    * @param  [in] type  0-Parallelgreifer, 1-Drehgreifer
+    * @brief  Auf Greiferbewegungsstatus warten (ab Version 401 sind das Endeffektorprotokoll und die Definition der Greiferbewegungsstatus-Rückmeldung angepasster Geräte vereinheitlicht)
+    * @param  [in]  staus  0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen, kein Objekt erkannt, 2-Bewegung abgeschlossen, Objekt erkannt, 3-Bewegung abgeschlossen, Objekt heruntergefallen erkannt
+    * @param  [in] timeout Timeout (ms), -1 bedeutet unbegrenzt warten
+    * @param  [in] strategy  0-Stoppen und Fehler melden, 1-Weiterlaufen
+    * @param  [in] type  0-Parallelgreifer, 1-Rotationsgreifer
     * @return  Fehlercode
     */
-    public int GripperWaitMotionDone(int status, int timeout, int strategy, int type) 
+    public int GripperWaitMotionDone(int staus, int timeout, int strategy, int type) 
     
 Codebeispiel zum Warten auf den Greiferbewegungsstatus
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
-    public void TestGripperWaitMotionDone()
+    public void TestGetGripperMotionDone()
     {
         int rtn;
+        int status = 0;
+        int fault = 0;
         ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
 
-
         // Greifer öffnen
-        rtn = robot.MoveGripper(1, 50, 50, 100, 30000, 0, 0, 0, 0, 0);
-        Console.WriteLine("MoveGripper(öffnen) ret={0}", rtn);
+        rtn = robot.MoveGripper(2, 50, 50, 100, 30000, 0, 0, 0, 0, 0);
+        Console.WriteLine("MoveGripper(Öffnen) ret={0}", rtn);
         Thread.Sleep(2000);
         robot.GetRobotRealTimeState(ref pkg);
         Console.WriteLine(" gripper_motiondone {0})", pkg.gripper_motiondone);
         // Greifer schließen
-        rtn = robot.MoveGripper(1, 90, 100, 100, 30000, 0, 0, 0, 0, 0);
-        Console.WriteLine("MoveGripper(schließen) ret={0}", rtn);
+        rtn = robot.MoveGripper(2, 90, 100, 100, 30000, 0, 0, 0, 0, 0);
+        Console.WriteLine("MoveGripper(Schließen) ret={0}", rtn);
         Thread.Sleep(2000);
         robot.GetRobotRealTimeState(ref pkg);
         Console.WriteLine(" gripper_motiondone {0}", pkg.gripper_motiondone);
-        // Warten auf Bewegungsabschluss ohne Objekterkennung, Timeout 30s, mit Fehler stoppen
-        rtn = robot.GripperWaitMotionDone(2, -1, 0, 0);
-        Console.WriteLine("GripperWaitMotionDone(warten auf Abschluss ohne Objekterkennung) ret={0}", rtn);
+        // Auf Bewegungsabschluss ohne Objekterkennung warten, Timeout 5s, stoppen und Fehler melden
+        rtn = robot.GripperWaitMotionDone(2, 5000, 0, 0);
+        Console.WriteLine("GripperWaitMotionDone(auf Abschluss ohne Objekterkennung warten) ret={0}", rtn);
 
-        // Greifer öffnen
-        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0);
-        Console.WriteLine("MoveGripper(öffnen) ret={0}", rtn);
-    }    
+        while (true)
+        {
+
+            robot.GetGripperMotionDone(ref fault, ref status);
+            Console.WriteLine("motion status:{0},{1}\n", fault, status);
+            robot.GetRobotRealTimeState(ref pkg);
+            Console.WriteLine(" error code {0},{1}", pkg.main_code, pkg.sub_code);
+            Thread.Sleep(500);
+
+        }
+    }
 
 Greiferposition abrufen
 ++++++++++++++++++++++++

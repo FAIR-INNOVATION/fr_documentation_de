@@ -4203,20 +4203,121 @@ Bei Verwendung eines Hintergrundprogramms wird dieses zyklisch von Anfang bis En
 
 Nach einem Stromausfall wird das Hintergrund-Logikprogramm beim nächsten Einschalten automatisch geladen und entsprechend dem eingestellten Status ausgeführt.
 
+Hintergrundbefehlschnittstelle
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Die linke Seite der Oberfläche ist hauptsächlich der Bereich zum Hinzufügen von Programmbefehlen. Klicken Sie auf das Symbol über jedem Schlüsselwort, um die detaillierte Oberfläche zum Hinzufügen von Programmbefehlen auf der rechten Seite aufzurufen.
+
+.. image:: coding/253.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.19-1-1 Hintergrundprogrammoberfläche
+
+Logikbefehlsschnittstelle
+********************************************************************************
+
+Die Verwendung von Logikbefehlen ist mit der von Vordergrundprogrammen identisch, einschließlich Bedingung, Variablen und Drucken.
+
+Steuerbefehlsschnittstelle
+********************************************************************************
+
+Ausführungssteuerbefehle
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Dienen zur Steuerung von Vordergrundprogrammen, einschließlich Ausführungsbefehl, Pausebefehl, Fortsetzungsbefehl und Stoppbefehl;
+
+.. image:: coding/626.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.19-1-2 Hintergrundprogramm-Steuerbefehle
+
+DelayMS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+DelayMS ist ein Verzögerungsbefehl speziell für Hintergrundprogramme; seine Wartezeiteinheit ist Millisekunde.
+
+.. image:: coding/627.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.19-1-3 DelayMS-Befehl
+
+Hintergrund-DIO
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Dieser Befehlsteil dient zur Steuerung der Steuerkasten-IO in Hintergrundprogrammen, einschließlich DO setzen, DI abrufen und DO-Status lesen. Um die zyklische Ausführung von Hintergrundprogrammen zu gewährleisten, wird empfohlen, im Hintergrundprogramm den nicht blockierenden Modus zu verwenden.
+
+.. image:: coding/628.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.19-1-4 Hintergrund-DIO-Befehlsschnittstelle
+
+Hintergrund-AIO
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Dieser Befehlsteil dient zur Steuerung der analogen AO- und AI-Signale in Hintergrundprogrammen, einschließlich AO setzen, AI abrufen und AO-Status lesen. Um die zyklische Ausführung von Hintergrundprogrammen zu gewährleisten, wird empfohlen, im Hintergrundprogramm den nicht blockierenden Modus zu verwenden.
+
+.. image:: coding/629.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.19-1-5 Hintergrund-AIO-Befehlsschnittstelle
+
+Hintergrund-erweiterte IO
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Dieser Befehlsteil dient zur Steuerung erweiterter IO-Signale in Hintergrundprogrammen, einschließlich Setzen oder Lesen von AuxDO, AuxAO, AuxDI und AuxAI. Um die zyklische Ausführung von Hintergrundprogrammen zu gewährleisten, wird empfohlen, im Hintergrundprogramm den nicht blockierenden Modus zu verwenden oder in den Befehlsoptionen Threads anzuwenden.
+
+.. image:: coding/630.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.19-1-6 Hintergrund-erweiterte-IO-Befehlsschnittstelle
+
+Kommunikationsbefehlsschnittstelle
+********************************************************************************
+
+Modbus-Befehle
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Die Verwendung dieses Befehlsteils ist mit der von Vordergrundprogrammen identisch. Basierend auf der Busfunktion des ModbusTCP/RTU-Protokolls können Benutzer über die entsprechenden Befehle Spulen, diskrete Eingänge und Register lesen und schreiben.
+
+.. image:: coding/631.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.19-1-7 Hintergrund-Modbus-Befehlsschnittstelle
+
+Kartenbefehle
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Die Verwendung dieses Befehlsteils ist mit der von Vordergrundprogrammen identisch. Nach dem Aufbau der Kommunikation mit der Karte können über Hintergrund-Kartenbefehle die Slave-DO, AO, DI und AI gesetzt oder abgerufen werden.
+
+.. image:: coding/632.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.19-1-8 Kartenbefehle
+
+Socket-Befehle
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Die Verwendung dieses Befehlsteils ist mit der von Vordergrundprogrammen identisch. In Hintergrundprogrammen können nur Socket-Sende- und Empfangsbefehle verwendet werden. Bitte beachten Sie bei der Verwendung: Socket-Sende- und Empfangsbefehle haben blockierende Eigenschaften: Wenn sie in einem Hintergrundprogramm aufgerufen werden, blockieren sie die Ausführung anderer Befehle im selben Programm und beeinflussen auch den Betrieb von Vordergrundprogrammen auf denselben Socket-Daten. Es wird empfohlen, Socket-Befehle im selben Vordergrund- oder Hintergrundprogramm separat zu verwenden, um andere Befehle nicht zu beeinflussen.
+
+.. image:: coding/633.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.19-1-9 Hintergrund-Socket-Befehle
+
 Speichern von Roboter-Hintergrundprogrammen
 *******************************************
 
 Hintergrundprogramme können nur auf der Hintergrundprogramm-Oberfläche erstellt, bearbeitet und gespeichert werden.
 
 **Schritt 1**: Öffnen Sie die Roboter-Hintergrundprogramm-Oberfläche. Öffnen Sie die Teach-Seite und klicken Sie nacheinander auf "Teach-Programm", "Programmierung". Wählen Sie oben links den Befehl "Hintergrundprogramm", um zur Hintergrundprogramm-Oberfläche zu gelangen.
-
-.. note:: Hintergrundprogramme enthalten nur Logikbefehle, Zuweisungsbefehle, Frontend-Steuerbefehle, I/O-Schnittstellenbefehle und Modbus-Kommunikationsbefehle.
-
-.. image:: coding/253.png
-   :width: 6in
-   :align: center
-
-.. centered:: Abbildung 9.19-1 Hintergrundprogramm-Oberfläche
 
 **Schritt 2**: Öffnen Sie im Handmodus die Hintergrund-Teacher-Programmdatei. Klicken Sie auf "Neu", um eine neue Teacher-Programmdatei zu erstellen, bearbeiten Sie das Programm und klicken Sie auf "Speichern", um die Datei zu speichern.
 
@@ -9237,3 +9338,81 @@ ModbusMasterWriteDO_RTU(), ModbusMasterWriteAO_RTU(), ModbusMasterReadDO_RTU(), 
 FieldBusSlaveWaitAI(), WaitToolAI(), WaitAuxAI(), SPLCSetAO(), SPLCSetToolAO(), SetToolList(), SetWObjList(), SetExToolList(), PostureAdjustOn(), RegisterVar(), SetSysVarValue(), GetSysVarValue(), MultilayerOffsetTrsfToBase(), GetSegWeldDisDir(), DMP()
 LTSearchStart(), PointTableSwitch(), GetSegmentWeldPoint(), LaserRecordPoint(), GetIntersectionThrough3Point(), GetIntersectionThrough4Point(), GetUserVal(), SetUserVal(), MoveToIntersectLineStart(), MoveIntersectLine(), OriginPointWeaveStart()
 MatrixMoveStart(), MatrixMoveEnd(), MatrixSetCountPlus(), MatrixGetCount(), MatrixSetStartCount().   
+
+Einzelschritt-Debugging-Funktion für Lua-Programme
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Hintergrund
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Die bestehende Plattform der FR-Serie verfügt bereits über eine vollständige Lua-Programmausführungsfähigkeit, und die gesamte Kette läuft stabil. Der Ausführungsprozess ist für den Benutzer jedoch eine Blackbox – das Programm läuft bis zum Ende durch, und Probleme in der Mitte können nur über Protokolle oder Versuch und Irrtum behoben werden.
+
+Diese Arbeit fügt die Einzelschritt-Debugging-Fähigkeit hinzu, ohne das bestehende Framework zu ändern, sodass Benutzer die Programmausführung Schritt für Schritt beobachten, den Ausführungsstatus anzeigen und Probleme lokalisieren können.
+
+Einführung in die Einzelschritt-Debugging-Funktion
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Der Einstieg in die Einzelschritt-Debugging-Funktion wird auf der Webseite "Grundeinstellungen" -> "Teach-Programm" -> "Programmprogrammierung" verwaltet. Die Schaltfläche für den Einstieg in die Debugging-Funktion befindet sich hinter dem Namen des geöffneten Programms. Die Einzelschritt-Debugging-Funktion kann nur im manuellen Modus ausgeführt werden, und während des Debuggens ist das Ziehen des Roboters verboten.
+
+.. image:: coding/634.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.41-1 Einstieg in die Einzelschritt-Debugging-Funktion
+
+Nach dem Klicken auf "Einzelschritt-Debugging aktivieren" kann das Debuggen des Lua-Programms gestartet werden. Das Programm hält am Einstiegspunkt an und wartet auf den nächsten Befehl. Die Einzelschritt-Debugging-Funktion bietet drei Befehle:
+
+Einzelschritt-Debugging (step_over): Führt die aktuelle Zeile "als Ganzes" aus und hält dann in der nächsten Zeile an, ohne in die von der aktuellen Zeile aufgerufene Funktion einzusteigen. Wenn innerhalb der aufgerufenen Funktion ein Haltepunkt gesetzt ist oder eine Ausnahme-/Stoppanweisung auftritt, hält das Programm dennoch innerhalb der Funktion an, anstatt direkt zur nächsten Zeile zu springen.
+
+.. image:: coding/635.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.41-2 Einzelschritt-Ausführungsbefehl
+
+- **Fortsetzen**: Setzt die Ausführung des Programms von der aktuellen Position fort und hält erst beim nächsten Haltepunkt, am Programmende oder bei einer Ausnahme an.
+
+.. image:: coding/636.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.41-3 Fortsetzungsbefehl
+
+- **Beenden**: Beendet die Einzelschritt-Debugging-Funktion.
+
+.. image:: coding/637.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.41-4 Beenden-Befehl
+
+Informationsfenster für Einzelschritt-Debugging
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Das Fenster "Einzelschritt-Debugging" dient dazu, den zugrunde liegenden Ausführungsstatus in Echtzeit zurückzumelden, während das Programm Zeile für Zeile ausgeführt wird. Bediener können über dieses Fenster die Ausführungsbahn des Programms, die aktuelle Laufzeitumgebung und die Speicherdaten überwachen und Logikfehler oder Ausnahmen präzise lokalisieren.
+
+- Status: Zeigt die aktuelle Ausführungssituation des Programms an. Einschließlich Leerlauf, Ausführung, Pause und Beendet.
+- Zeilennummer: Zeigt die Nummer der aktuell auszuführenden Codezeile an.
+- Pausengrund: Erklärt, warum das Programm hier anhält. Einschließlich Einstieg, Einzelschritt und Fortsetzen.
+- Stack-Informationen: Zeigt die aktuelle Aufrufstack-Spur des Programms an.
+- Lokale Variablen: Zeigt in Echtzeit alle Variablen im Gültigkeitsbereich der aktuellen Codezeile und ihre aktuellen Werte an. In LUA können nur als local definierte Variablen ihren Namen direkt ausgeben.
+- Stack-Fehlerinformationen: Wenn das Programm aufgrund von Laufzeitfehlern (wie Division durch Null, Nullzeiger-Referenz, Array-Index außerhalb des Bereichs) abstürzt oder unterbrochen wird, zeigt dieser Bereich den spezifischen Fehlercode und die Fehlerbeschreibung an.
+
+.. image:: coding/638.png
+   :width: 3in
+   :align: center
+
+.. centered:: Abbildung 9.41-5 Informationsfenster für Einzelschritt-Debugging
+
+Halbpunktverwaltung
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Halbpunkte gehören zum Programm selbst, nicht zu einer Debugging-Sitzung. Jede Lua-Datei verwaltet ihre eigenen Haltepunktinformationen; Haltepunkte bleiben auch nach dem Aktualisieren oder Neustarten des Geräts erhalten.
+
+Benutzer können in der Frontend-Oberfläche auf die Codezeilennummer klicken, um Haltepunkte zu setzen oder aufzuheben. Mehrere Haltepunkte können gleichzeitig vorhanden sein, Haltepunkte können vor und während des Debuggens gesetzt werden, und Haltepunkte werden während des Debuggens sofort wirksam.
+
+.. image:: coding/639.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 9.41-6 Halbpunktverwaltung

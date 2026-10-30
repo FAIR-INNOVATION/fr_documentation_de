@@ -992,20 +992,29 @@ Die konfigurierbaren Funktionen für die Ausgänge sind in der folgenden Tabelle
      - Roboter aktiviert (Enable)
      - Status der Roboteraktivierung.
    * - 48
+     - Automatisches Anheben bei Drahtbruch
+     - Status des automatischen Anhebens bei Drahtbruch
+   * - 49
      - JOB-Eingangsport 4
      - Signal von JOB-Eingangsport 4
-   * - 49
+   * - 50
      - JOB-Eingangsport 5
      - Signal von JOB-Eingangsport 5
-   * - 50
+   * - 51
      - JOB-Eingangsport 6
      - Signal von JOB-Eingangsport 6
-   * - 51
+   * - 52
      - JOB-Eingangsport 7
      - Signal von JOB-Eingangsport 7
-   * - 52
+   * - 53
      - JOB-Eingangsport 8
-     - Signal von JOB-Eingangsport 8  
+     - Signal von JOB-Eingangsport 8
+   * - 59
+     - Roboter in Position
+     - Gibt ein Statussignal aus, wenn der Roboterservo freigegeben ist und kein Fehler oder Alarm vorliegt
+   * - 200
+     - Belegt
+     - Die Funktion ist belegt
 
 Konfigurierbare High/Low-Pegel-Ausgänge des Steuerpults
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1506,8 +1515,20 @@ Admittanzparameter für freie Ausrichtung
 Bewegungskonfiguration
 ---------------------------------------------
 
+Klicken Sie in der Menüleiste auf "Grundeinstellungen" -> "Basis" und dann auf das Untermenü "Bewegungskonfiguration", um die Konfigurationsoberfläche aufzurufen.
+
+Beschleunigungsglättungsmodus
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Die Funktion "Beschleunigungsglättungsmodus" führt hauptsächlich das Blending zwischen den Befehlen PTP-PTP, LIN-LIN, ARC-ARC, LIN-ARC und ARC-LIN durch; das Blending zwischen anderen Befehlen ist nicht wirksam.
+
+.. image:: base/110.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 6.11-4 Beschleunigungsglättungsmodus
+
 Optimierung der T-förmigen Geschwindigkeitscharakteristik + Glättungsfunktion Blending
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Übersicht
 ++++++++++++++++++++++
@@ -1571,8 +1592,21 @@ Methode mit Bewegungskonfigurationsschalter
 
 .. centered:: Abbildung 7.13-5 Typisches Programm für PTP-PTP-Blending mit Konfigurationsschalter
 
+Zeitoptimaler Modus (automatische Konfiguration)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Der "Zeitoptimale Modus" wird ohne die Notwendigkeit implementiert, seine Parameter zu debuggen und zu konfigurieren. Diese Funktion schließt die Parameterkonfiguration des zeitoptimalen Modus entsprechend dem aktuellen Betriebszustand des Roboters adaptiv ab und verbessert die Debugging-Effizienz.
+
+.. note:: Hinweis: Der zeitoptimale Modus und der Beschleunigungsglättungsmodus schließen sich gegenseitig aus.
+
+.. image:: base/111.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.13-6-1 Zeitoptimaler Modus (automatische Konfiguration)
+
 FIR-Adaptive-Parameterfunktion + FIR-Pause/Fortsetzungsfunktion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Übersicht
 ++++++++++++++++++++++
@@ -1633,3 +1667,134 @@ Die Verwendung der grundlegenden Bewegungsbefehle PTP, LIN und ARC des Roboters 
 
    Wenn der Schalter der Funktion "Zeitoptimaler Modus" aktiviert ist, befinden sich die grundlegenden Bewegungsbefehle PTP, LIN und ARC des Roboters alle im zeitoptimalen Modus. Durch Deaktivieren des Schalters der Funktion "Zeitoptimaler Modus" in dieser Oberfläche werden die grundlegenden Bewegungsbefehle PTP, LIN und ARC in ihren normalen Zustand zurückversetzt.
    Der Schalter der Funktion "Beschleunigungsglättungsmodus" kann in dieser Oberfläche nicht gleichzeitig mit dem zeitoptimalen Modus aktiviert werden.
+
+Servo-Bewegungsfilterzeit und Positionsverstärkung
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Überblick
+++++++++++++++++++++++++++++++++++++
+
+Der Zweck der Funktionen für Servo-Bewegungsfilterzeit und Positionsverstärkung besteht darin, die Glattheit und Genauigkeit der Servo-Bewegungsbahn des Roboters zu verbessern. Beispielsweise kann mit dem Filterzeitparameter eine T-förmige Servo-Bewegungsgeschwindigkeitskurve in eine S-förmige Servo-Bewegungsgeschwindigkeitskurve geglättet werden; mit dem Positionsverstärkungsparameter kann die Reaktionsfähigkeit der Gelenkpositionsrückmeldung auf den Befehl bei der Servobewegung angepasst werden.
+
+Betriebsablauf der globalen Servo-Filterzeitfunktion im kartesischen/gelenkraum
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**Step1**: Bewegungskonfigurationseinstellungen. Klicken Sie auf der WebApp-Hauptoberfläche auf "Grundeinstellungen" -> "Basis" -> "Bewegungskonfiguration", um den Befehlsbereich "Bewegungskonfiguration" aufzurufen.
+
+.. image:: base/112.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-11 Befehlsbereich "Bewegungskonfiguration"
+
+**Step2**: Bewegungsfiltereinstellungen. Klicken Sie im Befehlsbereich "Bewegungskonfiguration" auf das Dropdown-Feld "Bewegungsfilterung", um den Konfigurationsbereich "Parameterkonfiguration" aufzurufen, stellen Sie den Parameter "Filterzeit" ein und klicken Sie auf die Schaltfläche "Anwenden", um die globale Servo-Bewegungsfilterfunktion abzuschließen.
+
+.. note:: Hinweis: Wenn sowohl der globale als auch der befehlsbezogene Filterzeitparameter vorhanden sind, ist die Servo-Bewegungsfilterzeit die Summe der beiden.
+
+.. image:: base/113.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.13-12 Konfigurationsbereich "Bewegungsfilterung"
+
+.. note:: Hinweis: Der Bereich des globalen Servo-Bewegungsfilterzeitparameters beträgt 0~200 ms. Wenn der Standardwert 0 ist, bedeutet dies, dass die globale Servo-Bewegungsfilterfunktion deaktiviert ist.
+
+Betriebsablauf der Servo-Befehlsbewegungsfunktion im kartesischen Raum
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**Step1**: Servo-Bewegungsbefehl. Klicken Sie auf der WebApp-Hauptoberfläche auf "Teach-Programm" -> "Programmprogrammierung", um den Befehlsbereich "Bewegungsbefehl" aufzurufen.
+
+.. image:: base/114.png
+   :width: 2in
+   :align: center
+
+.. centered:: Abbildung 7.13-13 Befehlsbereich "Bewegungsbefehl"
+
+**Step2**: Servobewegung starten. Klicken Sie im Befehlsbereich "Bewegungsbefehl" auf die Schaltfläche "Servobewegung", um den Befehlsbereich "servoMotion" aufzurufen.
+
+Klicken Sie in der Oberfläche "Befehlsbearbeitung" des Befehlsbereichs "servoMotion" auf die Schaltfläche "Servobewegung starten", stellen Sie die Parameter "Filterzeit" und "Positionsverstärkung" ein und klicken Sie auf die Schaltfläche "Hinzufügen". Das vorab generierte LUA-Programm wird im Anzeigefeld "Programmvorschau" angezeigt.
+
+.. image:: base/115.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-14 Servobewegung starten
+
+.. note:: Hinweis: Der Bereich des Parameters "Filterzeit" beträgt 0~200 ms; der Bereich des Parameters "Positionsverstärkung" beträgt -1~100. Wenn der Standardwert -1 ist, bedeutet dies, dass er mit der internen Einstellung der aktuellen Vollparameter-Version übereinstimmt.
+
+**Step3**: Servobewegung im kartesischen Raum. Klicken Sie in der Oberfläche "Befehlsbearbeitung" des Befehlsbereichs "servoMotion" auf die Schaltfläche "Bewegung im kartesischen Raum" und wählen Sie den Bewegungsmodus im Dropdown-Feld "Bewegungsmodus" aus.
+
+Stellen Sie die Parameter "Kartesische Pose", "Skalierungskoeffizient", "Beschleunigung", "Geschwindigkeit", "Befehlszyklus", "Filterzeit" und "Skalierungsverstärkung" ein und klicken Sie auf die Schaltfläche "Hinzufügen". Das vorab generierte LUA-Programm wird im Anzeigefeld "Programmvorschau" angezeigt.
+
+.. image:: base/116.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-15 Bewegung im kartesischen Raum
+
+.. note:: Hinweis: Der Parameter "Filterzeit" in der Abbildung bleibt auf dem Standardwert.
+
+**Step4**: Servobewegung beenden. Klicken Sie in der Oberfläche "Befehlsbearbeitung" des Befehlsbereichs "servoMotion" auf die Schaltfläche "Servobewegung beenden" und klicken Sie auf die Schaltfläche "Hinzufügen". Das vorab generierte LUA-Programm wird im Anzeigefeld "Programmvorschau" angezeigt.
+
+.. image:: base/117.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-16 Servobewegung beenden
+
+**Step5**: LUA-Programm für Servobewegung im kartesischen Raum. Klicken Sie auf die Schaltfläche "Anwenden", um das LUA-Programm automatisch zu generieren.
+
+.. image:: base/118.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.13-17 LUA-Programm für Servobewegung im kartesischen Raum
+
+Betriebsablauf der Servo-Befehlsbewegungsfunktion im Gelenkraum
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**Step1**: Servo-Bewegungsbefehl. Klicken Sie im Befehlsbereich "Bewegungsbefehl" auf die Schaltfläche "Servobewegung", um den Befehlsbereich "servoMotion" aufzurufen.
+
+.. image:: base/119.png
+   :width: 2in
+   :align: center
+
+.. centered:: Abbildung 7.13-18 Befehlsbereich "Bewegungsbefehl"
+
+**Step2**: Servobewegung starten. Klicken Sie im Befehlsbereich "Bewegungsbefehl" auf die Schaltfläche "Servobewegung", um den Befehlsbereich "servoMotion" aufzurufen.
+
+Klicken Sie in der Oberfläche "Befehlsbearbeitung" des Befehlsbereichs "servoMotion" auf die Schaltfläche "Servobewegung starten", stellen Sie die Parameter "Filterzeit" und "Positionsverstärkung" ein und klicken Sie auf die Schaltfläche "Hinzufügen". Das vorab generierte LUA-Programm wird im Anzeigefeld "Programmvorschau" angezeigt.
+
+.. image:: base/120.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-19 Servobewegung starten
+
+.. note:: Hinweis: Der Bereich des Parameters "Filterzeit" beträgt 0~200 ms; der Bereich des Parameters "Positionsverstärkung" beträgt -1~100. Wenn der Standardwert -1 ist, bedeutet dies, dass er mit der internen Einstellung der aktuellen Vollparameter-Version übereinstimmt.
+
+**Step3**: Servobewegung im Gelenkraum. Klicken Sie in der Oberfläche "Befehlsbearbeitung" des Befehlsbereichs "servoMotion" auf die Schaltfläche "Bewegung im Gelenkraum".
+
+Stellen Sie die Parameter "Gelenkposition", "Position der Erweiterungsachse", "Beschleunigung", "Geschwindigkeit" und "Befehlszyklus" ein und klicken Sie auf die Schaltfläche "Hinzufügen". Das vorab generierte LUA-Programm wird im Anzeigefeld "Programmvorschau" angezeigt.
+
+.. image:: base/121.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-20 Bewegung im Gelenkraum
+
+**Step4**: Servobewegung beenden. Klicken Sie in der Oberfläche "Befehlsbearbeitung" des Befehlsbereichs "servoMotion" auf die Schaltfläche "Servobewegung beenden" und klicken Sie auf die Schaltfläche "Hinzufügen". Das vorab generierte LUA-Programm wird im Anzeigefeld "Programmvorschau" angezeigt.
+
+.. image:: base/122.png
+   :width: 6in
+   :align: center
+
+.. centered:: Abbildung 7.13-21 Servobewegung beenden
+
+**Step5**: LUA-Programm für Servobewegung im Gelenkraum. Klicken Sie auf die Schaltfläche "Anwenden", um das LUA-Programm automatisch zu generieren.
+
+.. image:: base/123.png
+   :width: 4in
+   :align: center
+
+.. centered:: Abbildung 7.13-22 LUA-Programm für Servobewegung im Gelenkraum

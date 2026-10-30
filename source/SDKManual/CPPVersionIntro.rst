@@ -13,6 +13,13 @@ Versionshinweise
      - **Datum**
      - **Aktualisierungsbeschreibung**
 
+   * - V4.0.1
+     - 2026-10-27
+     - | 1. Die Parameterbeschreibungen des Befehls GetGripperMotionDone() zum Abrufen des Greiferbewegungsstatus und des Befehls GripperWaitMotionDone() zum Warten auf den Abschluss der Greiferbewegung wurden geändert; der Parameter für den Greiferbewegungsstatus fügt den Status "Bewegung abgeschlossen und Objekt heruntergefallen erkannt" hinzu;
+       | 2. Der Befehl ServoMoveStart() zum Starten der Servobewegung wurde geändert und die Einstellungen für Filterzeit und Verstärkungsparameter wurden hinzugefügt;
+       | 3. Die Befehle DataPackageUpgrade() und GetDataPackageUpgradeProgress() für das Datenbackup-Paket-Upload-Upgrade des Roboters und zum Abrufen des Fortschrittsprozentsatzes des Upgrades wurden hinzugefügt, einschließlich Codebeispielen;
+       | 4. Der Befehl GetJointAllParamUpgradeProgress() zum Abrufen des Fortschrittsprozentsatzes des Upgrades aller Gelenkparameter des Roboters wurde hinzugefügt, einschließlich eines Codebeispiels;
+
    * - V4.0.0
      - 2026-09-23
      - | 1. Die Schnittstelle FRRobot() zur Roboterinstanziierung wurde geändert und die Konfiguration des TLS-Verschlüsselungsaktivierungsparameters für die Kommunikation des integrierten Befehlprotokolls im SDK wurde hinzugefügt;

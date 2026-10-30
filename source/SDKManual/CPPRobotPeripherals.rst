@@ -5,34 +5,38 @@ Roboter-Peripherie
     :maxdepth: 5
 
 Greifer konfigurieren
-+++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
-    /**
-    * @brief Greifer konfigurieren
-    * @param [in] company Greiferhersteller (zur Festlegung)
-    * @param [in] device Gerätenummer, vorübergehend nicht verwendet, Standard 0
-    * @param [in] softvesion Softwareversionsnummer, vorübergehend nicht verwendet, Standard 0
-    * @param [in] bus Position des Geräts am Endeffektor-Bus, vorübergehend nicht verwendet, Standard 0
-    * @return Fehlercode
-    */
-    errno_t SetGripperConfig(int company, int device, int softvesion, int bus);
+	/**
+	 * @brief  Greifer konfigurieren
+	 * @param  [in] company  Greiferhersteller, 1-ROBOTIQ, 2-Huiling, 3-Tianji, 4-Dahuan, 5-Zhixing, 6-Junduo, 7-Meituan, 8-Zengguang
+	 * @param  [in] device  Gerätenummer, ROBOTIQ (0-2F-85; 1-2F-140; 2-Vakuumgreifer; 3-Dreifingergreifer; 4-Hand-E),
+								   Huiling (0-Z-EFG-RNM; 1-Z-EFG-100; 2-Z-EFG-20P; 3-Z-EFG-50), Tianji (0-TEG-110), Dahuan (0-PGI-140),
+								   Zhixing (0-CTPM2F20), Junduo (0-RG, 1-REG), Meituan (0-MT-ACTUATOR), Zengguang (0-RM-GB-11-40-2-ITG)
+	 * @param  [in] softvesion  Softwareversionsnummer, derzeit nicht verwendet, Standard 0
+	 * @param  [in] bus Gerät montiert an der Endeffektor-Busposition, derzeit nicht verwendet, Standard 0
+	 * @return  Fehlercode
+	 */
+	errno_t SetGripperConfig(int company, int device, int softvesion, int bus);
 
 Greiferkonfiguration abrufen
-+++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
-    /**
-    * @brief Greiferkonfiguration abrufen
-    * @param [in] company Greiferhersteller (zur Festlegung)
-    * @param [in] device Gerätenummer, vorübergehend nicht verwendet, Standard 0
-    * @param [in] softvesion Softwareversionsnummer, vorübergehend nicht verwendet, Standard 0
-    * @param [in] bus Position des Geräts am Endeffektor-Bus, vorübergehend nicht verwendet, Standard 0
-    * @return Fehlercode
-    */
-    errno_t GetGripperConfig(int *company, int *device, int *softvesion, int *bus);
+	/**
+	 *@brief  Greiferkonfiguration abrufen
+	 *@param  [out] company  Greiferhersteller, 1-Robotiq, 2-Huiling, 3-Tianji, 4-Dahuan, 5-Zhixing, 6-Junduo, 7-Meituan, 8-Zengguang
+	 *@param  [out] device  Gerätenummer, ROBOTIQ (0-2F-85; 1-2F-140; 2-Vakuumgreifer; 3-Dreifingergreifer; 4-Hand-E),
+								   Huiling (0-Z-EFG-RNM; 1-Z-EFG-100; 2-Z-EFG-20P; 3-Z-EFG-50), Tianji (0-TEG-110), Dahuan (0-PGI-140),
+								   Zhixing (0-CTPM2F20), Junduo (0-RG, 1-REG), Meituan (0-MT-ACTUATOR), Zengguang (0-RM-GB-11-40-2-ITG)
+	 *@param  [out] softvesion  Softwareversionsnummer, derzeit nicht verwendet, Standard 0
+	 *@param  [out] bus Gerät montiert an der Endeffektor-Busposition, derzeit nicht verwendet, Standard 0
+	 *@return  Fehlercode
+	 */
+	errno_t GetGripperConfig(int *company, int *device, int *softvesion, int *bus);
 
 Greifer aktivieren
 ++++++++++++++++++
@@ -76,12 +80,12 @@ Greifer-Bewegungsstatus abrufen
     :linenos:
 
     /**
-     * @brief Greifer-Bewegungsstatus abrufen
-     * @param [out] fault 0-kein Fehler, 1-Fehler
-     * @param [out] status 0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen
-     * @return Fehlercode
-     */
-    errno_t GetGripperMotionDone(uint16_t *fault, uint8_t *status);
+    * @brief Greiferbewegungsstatus abrufen (ab Version 401 sind das Endeffektorprotokoll und die Definition der Greiferbewegungsstatus-Rückmeldung angepasster Geräte vereinheitlicht)
+    * @param [out] fault 0-Kein Fehler, sonst-Fehler
+    * @param [out] status 0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen, kein Objekt erkannt; 2-Bewegung abgeschlossen, Objekt erkannt; 3-Bewegung abgeschlossen, Objekt heruntergefallen erkannt;
+    * @return Fehlercode
+    */
+    errno_t GetGripperMotionDone(int& fault,int& status);
 
 Greifer-Aktivierungsstatus abrufen
 +++++++++++++++++++++++++++++++++++
@@ -345,46 +349,60 @@ Auf Greiferbewegungsstatus warten
     :linenos:
 
     /**
-    * @brief Wartet auf den Greiferbewegungsstatus (nur für das Endeffektor-Offenprotokoll definiert; für angepasste Geräte ist der abgerufene Bewegungsstatus ein Durchgangswert)
-    * @param [in] status 0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen ohne Objekterkennung, 2-Bewegung abgeschlossen mit Objekterkennung
-    * @param [in] timeout Timeout (ms), -1 für unendliches Warten
-    * @param [in] strategy 0-mit Fehler stoppen, 1-weiterlaufen
-    * @param [in] type 0-Parallelgreifer, 1-Drehgreifer
+    * @brief Auf Greiferbewegungsstatus warten (ab Version 401 sind das Endeffektorprotokoll und die Definition der Greiferbewegungsstatus-Rückmeldung angepasster Geräte vereinheitlicht)
+    * @param [in] staus 0-Bewegung nicht abgeschlossen, 1-Bewegung abgeschlossen, kein Objekt erkannt; 2-Bewegung abgeschlossen, Objekt erkannt; 3-Bewegung abgeschlossen, Objekt heruntergefallen erkannt
+    * @param [in] timeout Timeout (ms), -1 bedeutet unbegrenzt warten
+    * @param [in] strategy 0-Stoppen und Fehler melden, 1-Weiterlaufen
+    * @param [in] type 0-Parallelgreifer, 1-Rotationsgreifer
     * @return Fehlercode
     */
-    errno_t GripperWaitMotionDone(int status, int timeout, int strategy, int type);
+    errno_t GripperWaitMotionDone(int staus, int timeout, int strategy, int type);
     
 Codebeispiel zum Warten auf den Greiferbewegungsstatus
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
-    int TestGripperWaitMotionDone()
+    int TestGetGripperMotionDone()
     {
-    ROBOT_STATE_PKG pkg = {};
-    FRRobot robot;
-    robot.LoggerInit();
-    robot.SetLoggerLevel(1);
-    robot.SetReConnectParam(true, 30000, 500);
-    int rtn = robot.RPC("192.168.58.2");
-    if (rtn != 0)
-    {
-        return -1;
-    }
-    for (int i = 0; i < 10; i++)
-    {
-        rtn = robot.MoveGripper(1, 0, 10, 100, 30000, 0, 0, 0, 0, 0);
-        printf("MoveGripper(Open) ret=%d\n", rtn);
-        rtn = robot.GripperWaitMotionDone(1, 10000, 0, 0);
-        printf("GripperWaitMotionDone(Wait for motion completed without object detection) ret=%d\n", rtn);
-        rtn = robot.MoveGripper(1, 90, 10, 100, 30000, 0, 0, 0, 0, 0);
-        printf("MoveGripper(Close) ret=%d\n", rtn);
-        rtn = robot.GripperWaitMotionDone(1, 10000, 0, 0);
-        printf("GripperWaitMotionDone(Wait for motion completed without object detection) ret=%d\n", rtn);
-    }
-    robot.Sleep(1000);
-    robot.CloseRPC();
-    robot.Sleep(1000);
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        robot.SetReConnectParam(true, 30000, 500);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        uint8_t status = 0;
+        uint16_t fault = 0;
+        // Gripper open
+        rtn = robot.MoveGripper(2, 50, 50, 100, 30000, 0, 0, 0, 0, 0);
+        printf("MoveGripper(open) ret=%d\n", rtn);
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        robot.GetRobotRealTimeState(&pkg);
+        printf(" gripper_motiondone %d)\n", pkg.gripper_motiondone);
+        // Gripper close
+        rtn = robot.MoveGripper(2, 90, 100, 100, 30000, 0, 0, 0, 0, 0);
+        printf("MoveGripper(close) ret=%d\n", rtn);
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        robot.GetRobotRealTimeState(&pkg);
+        printf(" gripper_motiondone %d)\n", pkg.gripper_motiondone);
+        // Wait for motion completion without object detection, timeout 5s, stop and report error
+        rtn = robot.GripperWaitMotionDone(2, 5000, 0, 0);
+        printf("GripperWaitMotionDone(wait for completion, no object detected) ret=%d\n", rtn);
+        while (true)
+        {
+            robot.GetGripperMotionDone(&fault, &status);
+            printf("motion status:%d,%d\n", fault, status);
+            robot.GetRobotRealTimeState(&pkg);
+            printf(" error code %d,%d\n", pkg.main_code, pkg.sub_code);
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
     }
 
 Förderband starten/stoppen
