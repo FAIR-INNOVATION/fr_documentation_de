@@ -124,18 +124,6 @@ Roboter-Zertifikate:
      - ✅
      - :download:`Download <_static/_doc/CE-MD certification.zip>`
 
-   * - **CE-MR-Zertifikat**
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - :download:`Herunterladen <_static/_doc/CE-MR Certificate.pdf>`
-
    * - **Funktionales-Sicherheits-Zertifikat**
      - ✅
      - ✅
