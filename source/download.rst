@@ -110,7 +110,7 @@ Roboter-Zertifikate:
      - ✅
      - ✅
      - ✅
-     - :download:`Download <_static/_doc/CE-EMC certification.pdf>`
+     - :download:`Download <_static/_doc/CE-EMC Test Certification.pdf>`
 
    * - **CE-MD-Zertifikat**
      - ✅
@@ -134,7 +134,7 @@ Roboter-Zertifikate:
      - ✅
      - ✅
      - ✅
-     - :download:`Download <_static/_doc/Functional safety certification.zip>`
+     - :download:`Download <_static/_doc/Functional safety certification.pdf>`
 
    * - **KCs-Zertifikat**
      - ✅
